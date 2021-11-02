@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 Ducn vpkoo
+=======
+OK con ga
+>>>>>>> Ducnv
