@@ -181,7 +181,9 @@ public class FormItems extends javax.swing.JPanel {
 
     private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton3ActionPerformed
         // TODO add your handling code here:
-        MainForm main = new MainForm();
+//        this.d
+        this.setVisible(false);
+        MainForm main =  new MainForm();
         main.showForm(new FormImportItem());
     }//GEN-LAST:event_myButton3ActionPerformed
 

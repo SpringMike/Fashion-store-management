@@ -170,6 +170,11 @@ public class FormProducts extends javax.swing.JPanel {
 
         myButton6.setText("Thêm Loại");
         myButton6.setRadius(20);
+        myButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -271,6 +276,10 @@ public class FormProducts extends javax.swing.JPanel {
     private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_myButton1ActionPerformed
+
+    private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myButton6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

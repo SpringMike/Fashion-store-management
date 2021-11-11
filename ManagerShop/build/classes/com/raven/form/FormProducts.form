@@ -378,6 +378,9 @@
             <Property name="text" type="java.lang.String" value="Th&#xea;m Lo&#x1ea1;i"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton6ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
