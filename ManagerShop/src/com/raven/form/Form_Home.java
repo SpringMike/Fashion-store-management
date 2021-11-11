@@ -82,6 +82,7 @@ public class Form_Home extends javax.swing.JPanel {
         obj.showMessage(message);
     }
 
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

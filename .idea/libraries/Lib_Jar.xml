@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Lib_Jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Lib_Jar/filters-2.0.235.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib_Jar/swingx-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib_Jar/miglayout-4.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib_Jar/swing-worker-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib_Jar/TimingFramework-0.55.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
