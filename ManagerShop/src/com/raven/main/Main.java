@@ -94,7 +94,6 @@ public class Main extends javax.swing.JFrame {
                     main.showForm(new FormMyProfile());
                 } else {
                     main.showForm(new FormProperties());
-
                 }
             }
         });
