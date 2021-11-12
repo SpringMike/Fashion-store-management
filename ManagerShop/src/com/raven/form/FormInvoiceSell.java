@@ -28,6 +28,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dateChooser1 = new com.raven.datechooser.DateChooser();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -41,6 +42,8 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         table2 = new com.raven.swing.table.Table();
         textField1 = new com.raven.suportSwing.TextField();
         myButton9 = new com.raven.suportSwing.MyButton();
+
+        dateChooser1.setTextRefernce(textField1);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -222,6 +225,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.raven.datechooser.DateChooser dateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

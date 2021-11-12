@@ -29,7 +29,7 @@ public class FormReturnProduct extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        dateChooser1 = new com.raven.datechooser.DateChooser();
+        dateChooser2 = new com.raven.datechooser.DateChooser();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtSearchReturnProduct = new com.raven.suportSwing.TextField();
@@ -42,7 +42,7 @@ public class FormReturnProduct extends javax.swing.JPanel {
         textField1 = new com.raven.suportSwing.TextField();
         myButton9 = new com.raven.suportSwing.MyButton();
 
-        dateChooser1.setTextRefernce(textField1);
+        dateChooser2.setTextRefernce(textField1);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -165,7 +165,7 @@ public class FormReturnProduct extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton btnSearch1;
     private com.raven.suportSwing.MyButton btnSearch2;
     private com.raven.suportSwing.MyButton btnSearch3;
-    private com.raven.datechooser.DateChooser dateChooser1;
+    private com.raven.datechooser.DateChooser dateChooser2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
