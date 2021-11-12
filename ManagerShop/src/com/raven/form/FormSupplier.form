@@ -54,8 +54,8 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="textField2" pref="387" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                  <Component id="myButton2" min="-2" pref="64" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="474" max="-2" attributes="0"/>
+                  <Component id="myButton2" min="-2" pref="79" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="459" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -204,7 +204,6 @@
         </Property>
       </Properties>
       <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Chi ti&#x1ebf;t nh&#xe0; cung c&#x1ea5;p"/>
         <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
       </AccessibilityProperties>
 
@@ -216,12 +215,12 @@
               <Component id="textField4" alignment="0" max="32767" attributes="0"/>
               <Component id="textField5" alignment="0" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="myButton3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="myButton4" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="myButton5" min="-2" max="-2" attributes="0"/>
+                  <Component id="myButton3" min="-2" pref="79" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="myButton4" min="-2" pref="75" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                  <Component id="myButton5" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="myButton6" min="-2" pref="75" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
@@ -264,9 +263,6 @@
             <Property name="label" type="java.lang.String" value="X&#xf3;a form"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="X&#xf3;a form"/>
-          </AccessibilityProperties>
         </Component>
         <Component class="com.raven.suportSwing.MyButton" name="myButton4">
           <Properties>
