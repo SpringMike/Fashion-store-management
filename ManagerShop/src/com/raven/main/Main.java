@@ -29,6 +29,7 @@ import com.raven.swing.icon.IconFontSwing;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -45,6 +46,10 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         init();
+    }
+
+    public void panel() {
+        bg.removeAll();
     }
 
     private void init() {
