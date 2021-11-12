@@ -7,7 +7,8 @@ import com.raven.event.EventShowPopupMenu;
 import com.raven.form.FormCustomer;
 import com.raven.form.FormImportItem;
 import com.raven.form.FormImportProducts;
-import com.raven.form.FormInvoice;
+import com.raven.form.FormInvoiceImportProducts;
+import com.raven.form.FormInvoiceSell;
 import com.raven.form.FormItems;
 import com.raven.form.FormListEmpolyee;
 import com.raven.form.FormMyProfile;
@@ -73,8 +74,10 @@ public class Main extends javax.swing.JFrame {
                         main.showForm(new FormSell());
                     } else if (subMenuIndex == 2) {
                         main.showForm(new FormReturnProduct());
+                    } else if (subMenuIndex == 3) {
+                        main.showForm(new FormInvoiceSell());
                     } else {
-                        main.showForm(new FormInvoice());
+                        main.showForm(new FormInvoiceImportProducts());
                     }
                 } else if (menuIndex == 3) {
                     if (subMenuIndex == 0) {
@@ -94,7 +97,6 @@ public class Main extends javax.swing.JFrame {
                     main.showForm(new FormMyProfile());
                 } else {
                     main.showForm(new FormProperties());
-
                 }
             }
         });
