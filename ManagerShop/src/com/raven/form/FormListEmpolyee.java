@@ -39,17 +39,19 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         myButton8 = new com.raven.suportSwing.MyButton();
         textField1 = new com.raven.suportSwing.TextField();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+
         table1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã nhân viên", "Tên nhân viên", "Chức vụ", "Giới tính", "Ngày sinh", "Địa chỉ", "Số điện thoại", "Lương"
+                "Mã nhân viên", "Tên nhân viên", "Chức vụ", "Giới tính", "Ngày sinh", "Địa chỉ", "Số điện thoại", "Email", "Lương"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -64,6 +66,8 @@ public class FormListEmpolyee extends javax.swing.JPanel {
             table1.getColumnModel().getColumn(2).setPreferredWidth(30);
             table1.getColumnModel().getColumn(3).setPreferredWidth(30);
         }
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Nhân Viên");

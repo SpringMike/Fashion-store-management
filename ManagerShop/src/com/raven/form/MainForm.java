@@ -20,6 +20,7 @@ public class MainForm extends javax.swing.JPanel {
         revalidate();
     }
 
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
