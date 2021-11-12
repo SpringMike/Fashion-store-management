@@ -44,6 +44,7 @@ CREATE TABLE [User]
 	address NVARCHAR(255),
 	salary MONEY,
 	role BIT,
+	[status] bit,
 )
 GO
 
@@ -107,6 +108,7 @@ CREATE TABLE detailsProduct
 	price MONEY,
 	sku VARCHAR(255),
 	quatity INT,
+	[status] bit,
 	FOREIGN KEY(idSize) REFERENCES dbo.Size(idSize),
 	FOREIGN KEY(idColor) REFERENCES dbo.Color(idColor),
 	FOREIGN KEY(idMaterial) REFERENCES dbo.Material(idMaterial)
@@ -146,6 +148,7 @@ CREATE TABLE Products
 	idList INT NOT NULL,
 	nameProduct NVARCHAR(255) NOT NULL,
 	description NVARCHAR(255),
+	[status] bit,
 	FOREIGN KEY (idSupplier) REFERENCES dbo.Supplier(idSupplier),
 	FOREIGN KEY (idList) REFERENCES dbo.List(idList)
 )
@@ -160,12 +163,6 @@ CREATE TABLE ImageProducts
 )
 GO
 
-select * from Products
-select * from Customer
-
-alter table [User]  add email varchar(255)
-
-alter table products add [status] bit
 
 
 
