@@ -66,14 +66,14 @@ public class Table extends JTable {
         });
     }
 
-    @Override
-    public TableCellEditor getCellEditor(int row, int col) {
-        if (col == 4) {
-            return new TableCellAction();
-        } else {
-            return super.getCellEditor(row, col);
-        }
-    }
+//    @Override
+//    public TableCellEditor getCellEditor(int row, int col) {
+//        if (col == 4) {
+//            return new TableCellAction();
+//        } else {
+//            return super.getCellEditor(row, col);
+//        }
+//    }
 
     public void addRow(Object[] row) {
         DefaultTableModel mod = (DefaultTableModel) getModel();
