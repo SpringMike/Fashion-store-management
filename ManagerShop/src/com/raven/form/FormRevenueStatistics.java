@@ -29,29 +29,12 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table1 = new com.raven.suportSwing.Table();
         combobox1 = new com.raven.suportSwing.Combobox();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableColumn1 = new com.raven.suportSwing.TableColumn();
 
         setBackground(new java.awt.Color(255, 255, 255));
-
-        table1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Tháng", "Sản Phẩm Bán", "Tổng Giá Bán", "Tổng Giá Vốn", "Tổng Giá Đã Giảm", "Doanh Thu"
-            }
-        ));
-        jScrollPane1.setViewportView(table1);
-        if (table1.getColumnModel().getColumnCount() > 0) {
-            table1.getColumnModel().getColumn(0).setPreferredWidth(30);
-            table1.getColumnModel().getColumn(1).setPreferredWidth(40);
-        }
 
         combobox1.setToolTipText("");
         combobox1.setLabeText("Năm");
@@ -63,6 +46,19 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel1.setText("Thống Kê Doanh Thu");
+
+        tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Tháng ", "Sản phẩm bán", "Tổng giá bán", "Tổng Giá Vốn", "Tổng giá đã giảm", "Doanh Thu"
+            }
+        ));
+        jScrollPane1.setViewportView(tableColumn1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -76,7 +72,7 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
                         .addContainerGap(697, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane1))))
         );
         layout.setVerticalGroup(
@@ -102,6 +98,6 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
     private com.raven.suportSwing.Combobox combobox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private com.raven.suportSwing.Table table1;
+    private com.raven.suportSwing.TableColumn tableColumn1;
     // End of variables declaration//GEN-END:variables
 }

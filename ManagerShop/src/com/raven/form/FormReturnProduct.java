@@ -34,13 +34,13 @@ public class FormReturnProduct extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         txtSearchReturnProduct = new com.raven.suportSwing.TextField();
         btnSearch = new com.raven.suportSwing.MyButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblReturnProduct = new com.raven.swing.table.Table();
         btnSearch1 = new com.raven.suportSwing.MyButton();
         btnSearch2 = new com.raven.suportSwing.MyButton();
         btnSearch3 = new com.raven.suportSwing.MyButton();
         textField1 = new com.raven.suportSwing.TextField();
         myButton9 = new com.raven.suportSwing.MyButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableColumn1 = new com.raven.suportSwing.TableColumn();
 
         dateChooser2.setTextRefernce(textField1);
 
@@ -53,24 +53,6 @@ public class FormReturnProduct extends javax.swing.JPanel {
 
         btnSearch.setText("Tìm kiếm");
         btnSearch.setRadius(20);
-
-        tblReturnProduct.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã trả hàng", "Mã thanh toán", "Thời gian", "Khách hàng", "Tổng tiền hoàn trả", "Ghi chú"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tblReturnProduct);
 
         btnSearch1.setText("Xoá");
         btnSearch1.setRadius(20);
@@ -90,6 +72,19 @@ public class FormReturnProduct extends javax.swing.JPanel {
                 myButton9ActionPerformed(evt);
             }
         });
+
+        tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Mã Trả hàng", "Mã thanh toán", "Thời gian", "Khách hàng", "Tổng tiền hoàn trả", "Ghi Chú"
+            }
+        ));
+        jScrollPane1.setViewportView(tableColumn1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,8 +110,9 @@ public class FormReturnProduct extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(myButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1))))
+                        .addGap(54, 54, 54)
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,9 +130,9 @@ public class FormReturnProduct extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(myButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(myButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -170,7 +166,7 @@ public class FormReturnProduct extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private com.raven.suportSwing.MyButton myButton9;
-    private com.raven.swing.table.Table tblReturnProduct;
+    private com.raven.suportSwing.TableColumn tableColumn1;
     private com.raven.suportSwing.TextField textField1;
     private com.raven.suportSwing.TextField txtSearchReturnProduct;
     // End of variables declaration//GEN-END:variables
