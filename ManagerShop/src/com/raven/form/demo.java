@@ -27,6 +27,7 @@ public class demo extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+<<<<<<< HEAD
         students = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableColumn1 = new com.raven.suportSwing.TableColumn();
@@ -35,6 +36,12 @@ public class demo extends javax.swing.JPanel {
         students.setLayout(new javax.swing.BoxLayout(students, javax.swing.BoxLayout.LINE_AXIS));
 
         tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
+=======
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableColumn2 = new com.raven.suportSwing.TableColumn();
+
+        tableColumn2.setModel(new javax.swing.table.DefaultTableModel(
+>>>>>>> master
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -42,16 +49,24 @@ public class demo extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
+<<<<<<< HEAD
                 "ID", "Title 2", "Title 3", "Title 4"
             }
         ));
         jScrollPane2.setViewportView(tableColumn1);
+=======
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tableColumn2);
+>>>>>>> master
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+<<<<<<< HEAD
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(students, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -59,22 +74,38 @@ public class demo extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 854, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(152, 152, 152))
+=======
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(554, Short.MAX_VALUE))
+>>>>>>> master
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+<<<<<<< HEAD
                 .addGap(0, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(students, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 313, Short.MAX_VALUE))
+=======
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 188, Short.MAX_VALUE))
+>>>>>>> master
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+<<<<<<< HEAD
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel students;
     private com.raven.suportSwing.TableColumn tableColumn1;
+=======
+    private javax.swing.JScrollPane jScrollPane1;
+    private com.raven.suportSwing.TableColumn tableColumn2;
+>>>>>>> master
     // End of variables declaration//GEN-END:variables
 }

@@ -31,7 +31,6 @@ import javax.swing.plaf.basic.ComboPopup;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
-import com.raven.suportSwing.ScrollBarCustom;
 
 public class Combobox<E> extends JComboBox<E> {
 
