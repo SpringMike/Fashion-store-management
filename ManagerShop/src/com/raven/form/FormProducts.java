@@ -36,7 +36,7 @@ public class FormProducts extends javax.swing.JPanel {
         myButton2 = new com.raven.suportSwing.MyButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table1 = new com.raven.swing.table.Table();
+        tableColumn1 = new com.raven.suportSwing.TableColumn();
         jPanel3 = new javax.swing.JPanel();
         textField1 = new com.raven.suportSwing.TextField();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -92,25 +92,32 @@ public class FormProducts extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        table1.setModel(new javax.swing.table.DefaultTableModel(
+        tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID Sản Phẩm", "Tên Sản Phẩm", "Loại Sản Phẩm", "Mô Tả", "Trạng Thái"
+                "ID Sản phẩm", "Tên Sản Phẩm", "Loại Sản Phẩm", "Mô Tả", "Trạng Thái"
             }
         ));
-        jScrollPane1.setViewportView(table1);
+        jScrollPane1.setViewportView(tableColumn1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 717, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -262,7 +269,7 @@ public class FormProducts extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton myButton5;
     private com.raven.suportSwing.RadioButtonCustom radioButtonCustom1;
     private com.raven.suportSwing.RadioButtonCustom radioButtonCustom2;
-    private com.raven.swing.table.Table table1;
+    private com.raven.suportSwing.TableColumn tableColumn1;
     private com.raven.suportSwing.TextField textField1;
     private com.raven.suportSwing.TextField textField2;
     // End of variables declaration//GEN-END:variables
