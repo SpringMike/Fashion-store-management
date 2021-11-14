@@ -29,6 +29,7 @@ public class FormImportEmployee extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dateChooser1 = new com.raven.datechooser.DateChooser();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -51,6 +52,8 @@ public class FormImportEmployee extends javax.swing.JPanel {
         radioButtonCustom6 = new com.raven.suportSwing.RadioButtonCustom();
         textField7 = new com.raven.suportSwing.TextField();
         passwordField1 = new com.raven.suportSwing.PasswordField();
+
+        dateChooser1.setTextRefernce(textField5);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel1.setText("Thêm Nhân Viên");
@@ -229,6 +232,7 @@ public class FormImportEmployee extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.raven.datechooser.DateChooser dateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
