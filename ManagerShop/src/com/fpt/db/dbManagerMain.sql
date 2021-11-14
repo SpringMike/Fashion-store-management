@@ -163,6 +163,8 @@ CREATE TABLE ImageProducts
 )
 GO
 
+select * from Products
+
 
 
 
