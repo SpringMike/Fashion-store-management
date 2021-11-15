@@ -6,7 +6,9 @@
 package com.fpt.utils;
 
 import java.awt.Component;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -17,8 +19,8 @@ public class MsgBox {
     public static void alert(Component parent, String message) {
         JOptionPane.showMessageDialog(parent, message, "Hệ thống quản lý đào tạo", JOptionPane.INFORMATION_MESSAGE);
     }
-    
-        public static void warring(Component parent, String message) {
+
+    public static void warring(Component parent, String message) {
         JOptionPane.showMessageDialog(parent, message, "Hệ thống quản lý đào tạo", JOptionPane.ERROR_MESSAGE);
     }
 
@@ -30,4 +32,9 @@ public class MsgBox {
     public static String prompt(Component parent, String message) {
         return JOptionPane.showInputDialog(parent, message, "Hệ thống quản lý đào tạo", JOptionPane.INFORMATION_MESSAGE);
     }
+
+    public static void labelAlert(JLabel lbl, JTextField txtField, String message) {
+        lbl.setText(message);
+    }
+
 }
