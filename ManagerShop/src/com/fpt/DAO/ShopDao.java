@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author ducit
  */
-public abstract class EduSysDAO<Entity, Key> {
+public abstract class ShopDao<Entity, Key> {
 
     abstract public void insert(Entity e);
 

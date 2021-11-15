@@ -10,48 +10,52 @@ package com.fpt.entity;
  * @author minht
  */
 public class Account {
-    private String idAcount,idUser,username,password;
+     private int idAcount;
+    private int idUser;
+    private String UserName;
+    private String PassWord;
 
     public Account() {
     }
+    
 
-    public Account(String idAcount, String idUser, String username, String password) {
+    public Account(int idAcount, String UserName, String PassWord) {
         this.idAcount = idAcount;
-        this.idUser = idUser;
-        this.username = username;
-        this.password = password;
+        this.UserName = UserName;
+        this.PassWord = PassWord;
     }
 
-    public String getIdAcount() {
-        return idAcount;
-    }
-
-    public void setIdAcount(String idAcount) {
-        this.idAcount = idAcount;
-    }
-
-    public String getIdUser() {
+    public int getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(String idUser) {
+    public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
 
-    public String getUsername() {
-        return username;
+    
+    public int getIdAcount() {
+        return idAcount;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setIdAcount(int idAcount) {
+        this.idAcount = idAcount;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUserName() {
+        return UserName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
+    }
+
+    public String getPassWord() {
+        return PassWord;
+    }
+
+    public void setPassWord(String PassWord) {
+        this.PassWord = PassWord;
     }
     
 }

@@ -22,7 +22,6 @@ public class jdbcHelper {
     static String pass = "123";
     static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     static String url = "jdbc:sqlserver://localhost;databaseName=dbManagerShop";
-
     static {
         try {
             Class.forName(driver);
@@ -48,13 +47,8 @@ public class jdbcHelper {
     }
 
     public static ResultSet query(String sql, Object... args) throws Exception {
-       try {
-            PreparedStatement pstmt = getStmt(sql, args);      
-                return pstmt.executeQuery();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException(ex);
-        }
+        PreparedStatement stmt = jdbcHelper.getStmt(sql, args);
+        return stmt.executeQuery();
     }
 
     public static Object value(String sql, Object... args) {
@@ -66,6 +60,7 @@ public class jdbcHelper {
             rs.getStatement().getConnection().close();
             return null;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -79,6 +74,7 @@ public class jdbcHelper {
                 stmt.getConnection().close();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

@@ -11,6 +11,7 @@ import com.fpt.entity.Account;
 import com.fpt.utils.MsgBox;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.border.LineBorder;
 
 /**
@@ -26,33 +27,32 @@ public class Login extends javax.swing.JPanel {
         initComponents();
         lbAlertPassword.setText("");
         lbAlertUsername.setText("");
+        txtUser.grabFocus();
     }
     AccountDao dao = new AccountDao();
     public void backLogin(){
         txtUser.grabFocus();
     }
     public void login() {
-        txtUser.grabFocus();
+       
         String userName = txtUser.getText();
         String passWord = new String(txtPassWord.getPassword());
         try {
-            Account account = dao.findByUsername(userName);
+            Account account = dao.selectById(userName);
             /*
             userName là tên đăng nhập
             account findByUsername(userName)
              */
-            if (account == null) {    //nếu manv đúng
-                lbAlertUsername.setText("Sai tên đăng nhập!");
-                txtUser.grabFocus();
+            if (account == null ) {    //nếu user sai
+                lbAlertUsername.setText("Sai tên đăng nhập!");      
             } else {
-               String passwordSystem = account.getPassword();
+               String passwordSystem = account.getPassWord();
                 if (passWord.equals(passwordSystem)) {  //nếu mật khẩu đúng
                     MsgBox.alert(this, "Đăng nhập thành công!");
                     new Main().setVisible(true);
                     this.setVisible(false);
                 } else {
                     lbAlertPassword.setText("Sai mật khẩu!");
-                    txtPassWord.grabFocus();
                 }
             }
         } catch (Exception e) {
