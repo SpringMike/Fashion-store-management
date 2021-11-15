@@ -1,9 +1,12 @@
 package com.fpt.Validate;
 
+import com.fpt.DAO.UserDAO;
+import com.fpt.entity.User;
 import com.fpt.utils.MsgBox;
 import java.awt.Color;
 import java.awt.Component;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JLabel;
@@ -141,6 +144,30 @@ public class Validate {
             field.setBorder(new LineBorder(Color.GREEN));
         }
         return flag;
+    }
+    
+    public static boolean duplicateCheckEmailUser(JLabel lbl, JTextField txtString, String email, String mess){
+        UserDAO dao = new UserDAO();
+        List<User> list = dao.selectAll();
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).getEmail().trim().equals(email)){
+                MsgBox.labelAlert(lbl, txtString, mess);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static boolean duplicateCheckPhoneUser(JLabel lbl, JTextField txtString, String phone, String mess){
+        UserDAO dao = new UserDAO();
+        List<User> list = dao.selectAll();
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).getPhoneNumber().trim().equals(phone)){
+                MsgBox.labelAlert(lbl, txtString, mess);
+                return true;
+            }
+        }
+        return false;
     }
 
 //    public static void checkPoin(String text, String text0, StringBuilder sb, String số_tiền_không_hợp_lệ) {

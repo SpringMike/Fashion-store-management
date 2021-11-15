@@ -18,7 +18,9 @@ import java.sql.ResultSet;
  */
 public class AccountDAO extends ShopDAO<Account, Integer> {
 
-    private String INSERT_SQL_ACCOUNT = "INSERT dbo.Account(idUser, username, password) VALUES(?,?,?)";
+    private String INSERT_SQL_ACCOUNT = "INSERT INTO dbo.Account\n"
+            + "(idUser,Username,password)\n"
+            + "VALUES((SELECT TOP 1 idUser FROM dbo.[USER] ORDER BY idUser DESC), ?, ?)";
     private String UPDATE_SQL = "";
     private String DELETE_SQL = "";
     private String SELECT_ALL_SQL = "SELECT * FROM dbo.Account";
@@ -26,7 +28,7 @@ public class AccountDAO extends ShopDAO<Account, Integer> {
 
     @Override
     public void insert(Account e) {
-        jdbcHelper.update(INSERT_SQL_ACCOUNT, e.getIdUser(), e.getUserName(), e.getPassWord());
+        jdbcHelper.update(INSERT_SQL_ACCOUNT, e.getUserName(), e.getPassWord());
     }
 
     @Override

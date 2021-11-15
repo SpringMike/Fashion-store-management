@@ -17,7 +17,7 @@ import java.sql.ResultSet;
  */
 public class UserDAO extends ShopDAO<User, String> {
 
-    private String INSERT_SQL_USER = "INSERT dbo.[User](name, birthday, gender, phoneNumber, address, salary, role, status) VALUES(?,?,?,?,?,?,?,?)";
+    private String INSERT_SQL_USER = "INSERT dbo.[User](name, birthday, gender, phoneNumber, address, salary, email, role, status) VALUES(?,?,?,?,?,?,?,?)";
     private String UPDATE_SQL = "";
     private String DELETE_SQL = "";
     private String SELECT_ALL_SQL = "SELECT * FROM dbo.[User]";
@@ -26,7 +26,7 @@ public class UserDAO extends ShopDAO<User, String> {
     @Override
     public void insert(User e) {
         jdbcHelper.update(INSERT_SQL_USER, e.getFullname(), e.getDateOfBirth(), e.isGender(), e.getPhoneNumber(), e.getAdress(),
-                e.getSalary(), e.isRole(), e.isStatus());
+                e.getSalary(), e.getEmail(), e.isRole(), e.isStatus());
     }
 
     @Override
@@ -63,6 +63,7 @@ public class UserDAO extends ShopDAO<User, String> {
                 e.setPhoneNumber(rs.getString("phoneNumber"));
                 e.setAdress(rs.getString("address"));
                 e.setSalary(rs.getDouble("salary"));
+                e.setEmail(rs.getString("email"));
                 e.setRole(rs.getBoolean("role"));
                 e.setStatus(rs.getBoolean("status"));
                 listE.add(e);
