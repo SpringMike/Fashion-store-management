@@ -5,11 +5,20 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.UserDAO;
+import com.fpt.entity.User;
+import com.fpt.utils.MsgBox;
+import com.raven.JFrame.FormImportEmpolyeeJFrame;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ducit
  */
 public class FormListEmpolyee extends javax.swing.JPanel {
+
+    UserDAO user = new UserDAO();
 
     /**
      * Creates new form FormProducts
@@ -17,7 +26,45 @@ public class FormListEmpolyee extends javax.swing.JPanel {
     public FormListEmpolyee() {
         initComponents();
         setOpaque(false);
+        fillTable();
+    }
 
+    public void fillTable() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        List<User> list = user.selectAll();
+        for (User u : list) {
+            model.addRow(new Object[]{
+                u.getIdUser(), u.getFullname(), u.isRole() ? "Nhân Viên " : "Quản lý", u.isGender() ? "Nam" : "Nữ",
+                u.getDateOfBirth(), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
+            });
+        }
+    }
+
+    public void fillSearch() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        String keyString = txtSearch.getText();
+        List<User> list = user.selectByKey(keyString);
+        if (list.isEmpty()) {
+            lblSearch.setText("Không có nhân viên " + keyString);
+            return;
+        }
+        for (User u : list) {
+            model.addRow(new Object[]{
+                u.getIdUser(), u.getFullname(), u.isRole() ? "Nhân Viên " : "Quản lý", u.isGender() ? "Nam" : "Nữ",
+                u.getDateOfBirth(), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
+            });
+        }
+        lblSearch.setText("");
+    }
+
+    public void delete() {
+        int index = tableShow.getSelectedRow();
+        int idUser = (int) tableShow.getValueAt(index, 0);
+        user.delete(idUser);
+        fillTable();
+        MsgBox.alert(this, "Xoá OK");
     }
 
     /**
@@ -35,9 +82,10 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         myButton6 = new com.raven.suportSwing.MyButton();
         myButton7 = new com.raven.suportSwing.MyButton();
         myButton8 = new com.raven.suportSwing.MyButton();
-        textField1 = new com.raven.suportSwing.TextField();
+        txtSearch = new com.raven.suportSwing.TextField();
+        lblSearch = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableColumn1 = new com.raven.suportSwing.TableColumn();
+        tableShow = new com.raven.suportSwing.TableColumn();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -78,7 +126,20 @@ public class FormListEmpolyee extends javax.swing.JPanel {
             }
         });
 
-        textField1.setLabelText("Tìm theo tên or mã");
+        txtSearch.setLabelText("Tìm theo tên or mã");
+        txtSearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSearchFocusGained(evt);
+            }
+        });
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
+
+        lblSearch.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lblSearch.setForeground(new java.awt.Color(255, 51, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -88,16 +149,21 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addGap(31, 31, 31)
-                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
-                .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,30 +175,40 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                     .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
+        tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Mã Nhân Viên", "Tên Nhân Viên", "Chức Vụ", "Giới Tính", "Ngày Sinh", "Địa Chỉ", "Số Điện thoại", "Email", "Lương"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, true, false, true
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tableColumn1);
+        jScrollPane1.setViewportView(tableShow);
+        if (tableShow.getColumnModel().getColumnCount() > 0) {
+            tableShow.getColumnModel().getColumn(0).setResizable(false);
+            tableShow.getColumnModel().getColumn(1).setResizable(false);
+            tableShow.getColumnModel().getColumn(2).setResizable(false);
+            tableShow.getColumnModel().getColumn(3).setResizable(false);
+            tableShow.getColumnModel().getColumn(4).setResizable(false);
+            tableShow.getColumnModel().getColumn(5).setResizable(false);
+            tableShow.getColumnModel().getColumn(6).setResizable(false);
+            tableShow.getColumnModel().getColumn(7).setResizable(false);
+            tableShow.getColumnModel().getColumn(8).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -145,17 +221,19 @@ public class FormListEmpolyee extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton5ActionPerformed
         // TODO add your handling code here:
+        fillSearch();
     }//GEN-LAST:event_myButton5ActionPerformed
 
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
         // TODO add your handling code here:
+        new FormImportEmpolyeeJFrame().setVisible(true);
     }//GEN-LAST:event_myButton6ActionPerformed
 
     private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed
@@ -164,18 +242,30 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     private void myButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton8ActionPerformed
         // TODO add your handling code here:
+        delete();
     }//GEN-LAST:event_myButton8ActionPerformed
+
+    private void txtSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchFocusGained
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+        fillSearch();
+
+    }//GEN-LAST:event_txtSearchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblSearch;
     private com.raven.suportSwing.MyButton myButton5;
     private com.raven.suportSwing.MyButton myButton6;
     private com.raven.suportSwing.MyButton myButton7;
     private com.raven.suportSwing.MyButton myButton8;
-    private com.raven.suportSwing.TableColumn tableColumn1;
-    private com.raven.suportSwing.TextField textField1;
+    private com.raven.suportSwing.TableColumn tableShow;
+    private com.raven.suportSwing.TextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,8 +9,12 @@ package com.fpt.entity;
  *
  * @author minht
  */
+
+
 public class Account {
-     private int idAcount;
+
+    private int idAcount;
+
     private int idUser;
     private String UserName;
     private String PassWord;
@@ -57,5 +61,4 @@ public class Account {
     public void setPassWord(String PassWord) {
         this.PassWord = PassWord;
     }
-    
 }

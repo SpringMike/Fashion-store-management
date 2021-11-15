@@ -5,6 +5,7 @@ import com.raven.component.Menu;
 import com.raven.event.EventMenuSelected;
 import com.raven.event.EventShowPopupMenu;
 import com.raven.form.FormCustomer;
+import com.raven.form.FormImportEmployee;
 import com.raven.form.FormImportProducts;
 import com.raven.form.FormInvoiceImportProducts;
 import com.raven.form.FormInvoiceSell;
@@ -29,6 +30,8 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -91,6 +94,8 @@ public class Main extends javax.swing.JFrame {
                     if (subMenuIndex == 0) {
                         main.showForm(new FormListEmpolyee());
                     } else if(subMenuIndex == 1){
+                        main.showForm(new FormImportEmployee());
+                    } else {
                         main.showForm(new FormSalary());
                     }
                 } else if (menuIndex == 5) {
@@ -167,7 +172,7 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        bg.setBackground(new java.awt.Color(245, 245, 245));
+        bg.setBackground(new java.awt.Color(255, 255, 255));
         bg.setOpaque(true);
 
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);

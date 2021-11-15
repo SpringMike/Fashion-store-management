@@ -8,7 +8,6 @@ package com.fpt.DAO;
 import com.fpt.entity.Account;
 import com.fpt.helper.jdbcHelper;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
  *
  * @author minht
  */
-public class AccountDao extends ShopDao<Account, Integer> {
+public class AccountDao extends ShopDAO<Account, Integer >{
 
     private String INSERT_SQL_ACCOUNT = "INSERT INTO dbo.Account\n"
             + "(idUser,Username,password)\n"
@@ -76,9 +75,9 @@ public class AccountDao extends ShopDao<Account, Integer> {
         }
     }
 
-    public Account selectById(String user) {
+    public Account selectById(String k) {
         String sql = "SELECT * FROM dbo.Account where username = ?";
-        List<Account> list = this.selectBySql(sql, user);
+        List<Account> list = this.selectBySql(sql, k);
         if (list.isEmpty()) {
             return null;
         } else {
