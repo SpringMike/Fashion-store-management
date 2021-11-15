@@ -250,3 +250,5 @@ VALUES
 	    N'', -- username - nvarchar(255)
 	    N''  -- password - nvarchar(255)
 	    )
+
+		SELECT * FROM dbo.Customer
