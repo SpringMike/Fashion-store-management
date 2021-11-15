@@ -215,3 +215,38 @@ SELECT * FROM dbo.Account JOIN dbo.[User] ON [User].idUser = Account.idUser
 UPDATE dbo.[User]
 SET email = 'ducit2509@gmail.com'
 WHERE idUser = 1
+
+INSERT INTO dbo.[User]
+(
+    name,
+    birthday,
+    gender,
+    phoneNumber,
+    address,
+    salary,
+    role,
+    status,
+    email
+)
+VALUES
+(   N'',  -- name - nvarchar(255)
+    NULL, -- birthday - date
+    NULL, -- gender - bit
+    NULL, -- phoneNumber - varchar(15)
+    NULL, -- address - nvarchar(255)
+    NULL, -- salary - money
+    NULL, -- role - bit
+    NULL, -- status - bit
+    NULL  -- email - varchar(255)
+    )
+	INSERT INTO dbo.Account
+	(
+	    idUser,
+	    username,
+	    password
+	)
+	VALUES
+	(   0,   -- idUser - int
+	    N'', -- username - nvarchar(255)
+	    N''  -- password - nvarchar(255)
+	    )
