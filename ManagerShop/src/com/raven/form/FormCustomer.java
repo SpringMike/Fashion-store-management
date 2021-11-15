@@ -26,6 +26,8 @@ public class FormCustomer extends javax.swing.JPanel {
     public FormCustomer() {
         initComponents();
         rdioMale.setSelected(true);
+        btnXoa.setEnabled(false);
+        btnCapNhap.setEnabled(false);
         fillTable();
         setOpaque(false);
     }
@@ -65,6 +67,7 @@ public class FormCustomer extends javax.swing.JPanel {
     }
 
     public void clearForm() {
+        tableCustomer.clearSelection();
         txtName.setText("");
         txtAddress.setText("");
         txtPhoneNumber.setText("");
@@ -74,11 +77,12 @@ public class FormCustomer extends javax.swing.JPanel {
         lblName.setText("");
         lblAdress.setText("");
         lblPhoneNumber.setText("");
+        btnCapNhap.setEnabled(false);
+        btnXoa.setEnabled(false);
     }
 
     public void insert() {
         Customer c = getForm();
-
         try {
             cDao.insert(c);
             fillTable();
@@ -89,9 +93,24 @@ public class FormCustomer extends javax.swing.JPanel {
         }
     }
 
+    public void delete() {
+        int row = tableCustomer.getSelectedRow();
+        int ma = (int) tableCustomer.getValueAt(row, 0);
+        try {
+            cDao.delete(ma);
+            fillTable();
+            clearForm();
+            JOptionPane.showMessageDialog(this, "Xoa thanh cong");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void edit() {
         int row = tableCustomer.getSelectedRow();
         btnThem.setEnabled(false);
+        btnXoa.setEnabled(true);
+        btnCapNhap.setEnabled(true);
         int ma = (int) tableCustomer.getValueAt(row, 0);
         Customer c = cDao.selectById(ma);
         setForm(c);
@@ -255,6 +274,11 @@ public class FormCustomer extends javax.swing.JPanel {
 
         btnXoa.setText("Xóa");
         btnXoa.setRadius(20);
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Giới tính");
 
@@ -389,7 +413,7 @@ public class FormCustomer extends javax.swing.JPanel {
             return;
         } else if (!labelValidate.checkEmpty(lblAdress, txtAddress, "Không được để trống địa chỉ")) {
             return;
-        } else if (!labelValidate.checkEmpty( lblPhoneNumber, txtPhoneNumber, "Không được để trống SDT")) {
+        } else if (!labelValidate.checkEmpty(lblPhoneNumber, txtPhoneNumber, "Không được để trống SDT")) {
             return;
         } else {
             insert();
@@ -401,6 +425,11 @@ public class FormCustomer extends javax.swing.JPanel {
         // TODO add your handling code here:
         edit();
     }//GEN-LAST:event_tableCustomerMouseClicked
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        delete();
+    }//GEN-LAST:event_btnXoaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

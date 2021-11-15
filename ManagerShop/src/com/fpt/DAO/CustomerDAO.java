@@ -21,6 +21,7 @@ public class CustomerDAO extends ShopDAO<Customer, Integer> {
     String INSERT_SQL = "INSERT INTO Customer (name, phoneNumber, gender, address) VALUES (?, ?, ?, ?)";
     String SELECT_ALL_SQL = "SELECT * FROM Customer";
     String SELECT_BY_ID_SQL = "SELECT * FROM Customer WHERE idCustomer=?";
+    String DELETE_SQL = "DELETE FROM Customer WHERE idCustomer=?";
 
     @Override
     public void insert(Customer e) {
@@ -34,7 +35,7 @@ public class CustomerDAO extends ShopDAO<Customer, Integer> {
 
     @Override
     public void delete(Integer k) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbcHelper.update(DELETE_SQL, k);
     }
 
     @Override
