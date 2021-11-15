@@ -5,6 +5,11 @@
  */
 package com.raven.form;
 
+import com.raven.component.Header;
+import com.raven.component.Menu;
+import com.raven.event.EventMenuSelected;
+import com.raven.main.Main;
+
 /**
  *
  * @author ducit
@@ -156,6 +161,8 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        new FormImportEmployee().setVisible(true);
     }//GEN-LAST:event_myButton6ActionPerformed
 
     private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed

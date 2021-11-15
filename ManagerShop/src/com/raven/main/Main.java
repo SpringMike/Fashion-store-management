@@ -5,6 +5,7 @@ import com.raven.component.Menu;
 import com.raven.event.EventMenuSelected;
 import com.raven.event.EventShowPopupMenu;
 import com.raven.form.FormCustomer;
+import com.raven.form.FormImportEmployee;
 import com.raven.form.FormImportProducts;
 import com.raven.form.FormInvoiceImportProducts;
 import com.raven.form.FormInvoiceSell;
@@ -47,10 +48,6 @@ public class Main extends javax.swing.JFrame {
         init();
     }
 
-    public void panel() {
-        bg.removeAll();
-    }
-
     private void init() {
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
@@ -91,7 +88,8 @@ public class Main extends javax.swing.JFrame {
                     }
                 } else if (menuIndex == 4) {
                     if (subMenuIndex == 0) {
-                        main.showForm(new FormListEmpolyee());
+//                        main.showForm(new FormListEmpolyee());
+                        main.showForm(new FormImportEmployee());
                     } else {
                         main.showForm(new FormSalary());
                     }

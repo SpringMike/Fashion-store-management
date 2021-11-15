@@ -5,9 +5,15 @@
     <Component class="com.raven.datechooser.DateChooser" name="dateChooser1">
       <Properties>
         <Property name="textRefernce" type="javax.swing.JTextField" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="textField5"/>
+          <ComponentRef name="txtBirth"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="GroupGender">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="GroupStatus">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="GroupRole">
     </Component>
   </NonVisualComponents>
   <AuxValues>
@@ -25,10 +31,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="9" max="32767" attributes="0"/>
-          </Group>
+          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -45,68 +48,64 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
+                  <EmptySpace min="61" pref="61" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="rdoWorking" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                              <Component id="rdoLeave" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="txtPhone" alignment="1" pref="206" max="32767" attributes="0"/>
+                      <Component id="txtSalary" alignment="1" pref="206" max="32767" attributes="0"/>
+                      <Component id="txtEmail" alignment="1" pref="206" max="32767" attributes="0"/>
+                      <Component id="txtUsername" alignment="1" pref="206" max="32767" attributes="0"/>
+                      <Component id="txtName" pref="206" max="32767" attributes="0"/>
+                      <Component id="lblName" max="32767" attributes="0"/>
+                      <Component id="lblPhone" alignment="1" max="32767" attributes="0"/>
+                      <Component id="lblSalary" alignment="1" max="32767" attributes="0"/>
+                      <Component id="lblEmail" alignment="1" max="32767" attributes="0"/>
+                      <Component id="lblUser" alignment="1" max="32767" attributes="0"/>
+                  </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="radioButtonCustom5" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                                      <Component id="radioButtonCustom6" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                      <Component id="textField1" min="-2" pref="206" max="-2" attributes="0"/>
-                                      <Component id="textField3" min="-2" pref="206" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="textField4" alignment="0" min="-2" pref="206" max="-2" attributes="0"/>
-                                  <Component id="textField7" alignment="0" min="-2" pref="206" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane1" min="-2" pref="312" max="-2" attributes="0"/>
-                                      <Component id="jLabel2" min="-2" pref="69" max="-2" attributes="0"/>
-                                      <Component id="passwordField1" alignment="0" min="-2" pref="260" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="radioButtonCustom1" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                                          <Component id="radioButtonCustom2" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="rdoEmpolyee" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                                  <Component id="rdoManage" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="radioButtonCustom4" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                                          <Component id="radioButtonCustom3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="378" max="-2" attributes="0"/>
-                          <Component id="textField5" min="-2" pref="206" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="txtBirth" max="32767" attributes="0"/>
+                              <Component id="jLabel2" min="-2" pref="69" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="rdoMale" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                                  <Component id="rdoFeMale" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
+                                  <Component id="myButton1" min="-2" pref="71" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="myButton2" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jScrollPane1" alignment="0" pref="312" max="32767" attributes="0"/>
+                              <Component id="lblPass" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtPassWord" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblBirth" alignment="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="39" max="32767" attributes="0"/>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
-                      <Component id="textField2" min="-2" pref="206" max="-2" attributes="0"/>
-                      <EmptySpace pref="453" max="32767" attributes="0"/>
-                  </Group>
+                  <EmptySpace pref="48" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -114,65 +113,92 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="lblBirth" min="-2" pref="14" max="-2" attributes="0"/>
+                      <Component id="lblName" min="-2" pref="14" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="txtBirth" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="textField1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="textField3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="textField5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           <Component id="jLabel2" min="-2" pref="19" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane1" min="-2" pref="124" max="-2" attributes="0"/>
                       </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="lblPhone" min="-2" pref="14" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="txtPhone" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="lblSalary" min="-2" pref="14" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="txtSalary" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="textField4" min="-2" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="radioButtonCustom1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="radioButtonCustom2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdoMale" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdoFeMale" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                          <Component id="lblEmail" min="-2" pref="14" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="txtEmail" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace pref="41" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="textField7" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="passwordField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace pref="21" max="32767" attributes="0"/>
+                          <Component id="lblPass" min="-2" pref="14" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="txtPassWord" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="lblUser" min="-2" pref="14" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="txtUsername" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="radioButtonCustom4" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="radioButtonCustom3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdoEmpolyee" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdoManage" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="radioButtonCustom5" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="radioButtonCustom6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdoWorking" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdoLeave" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="125" max="-2" attributes="0"/>
-                      <Component id="textField2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="494" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="myButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="myButton2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -204,24 +230,24 @@
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Times New Roman" size="14" style="1"/>
+                  <Font name="Times New Roman" size="24" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m Nh&#xe2;n Vi&#xea;n"/>
               </Properties>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="com.raven.suportSwing.TextField" name="textField1">
+        <Component class="com.raven.suportSwing.TextField" name="txtPhone">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="&#x110;i&#x1ec7;n tho&#x1ea1;i"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.TextField" name="textField2">
+        <Component class="com.raven.suportSwing.TextField" name="txtName">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="T&#xea;n"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.TextField" name="textField4">
+        <Component class="com.raven.suportSwing.TextField" name="txtEmail">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="Email"/>
           </Properties>
@@ -233,7 +259,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextArea1">
+            <Component class="javax.swing.JTextArea" name="txtAdress">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
@@ -246,7 +272,7 @@
             <Property name="text" type="java.lang.String" value="&#x110;&#x1ecb;a ch&#x1ec9;"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.TextField" name="textField3">
+        <Component class="com.raven.suportSwing.TextField" name="txtSalary">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="L&#x1b0;&#x1a1;ng"/>
           </Properties>
@@ -256,23 +282,37 @@
             <Property name="text" type="java.lang.String" value="Gi&#x1edb;i t&#xed;nh"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.RadioButtonCustom" name="radioButtonCustom1">
+        <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdoMale">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="GroupGender"/>
+            </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Nam"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.RadioButtonCustom" name="radioButtonCustom2">
+        <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdoFeMale">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="GroupGender"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="N&#x1eef;"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.RadioButtonCustom" name="radioButtonCustom3">
+        <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdoManage">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="GroupRole"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd;"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.RadioButtonCustom" name="radioButtonCustom4">
+        <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdoEmpolyee">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="GroupRole"/>
+            </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Nh&#xe2;n Vi&#xea;n"/>
           </Properties>
         </Component>
@@ -281,7 +321,7 @@
             <Property name="text" type="java.lang.String" value="Ch&#x1ee9;c v&#x1ee5;"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.TextField" name="textField5">
+        <Component class="com.raven.suportSwing.TextField" name="txtBirth">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="Ng&#xe0;y sinh"/>
           </Properties>
@@ -291,24 +331,119 @@
             <Property name="text" type="java.lang.String" value="T&#xec;nh tr&#x1ea1;ng"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.RadioButtonCustom" name="radioButtonCustom5">
+        <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdoWorking">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="GroupStatus"/>
+            </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="&#x110;ang l&#xe0;m vi&#x1ec7;c"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.RadioButtonCustom" name="radioButtonCustom6">
+        <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdoLeave">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="GroupStatus"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Ngh&#x1ec9; l&#xe0;m"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.TextField" name="textField7">
+        <Component class="com.raven.suportSwing.TextField" name="txtUsername">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="Username"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.PasswordField" name="passwordField1">
+        <Component class="com.raven.suportSwing.PasswordField" name="txtPassWord">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="Password"/>
+          </Properties>
+        </Component>
+        <Component class="com.raven.suportSwing.MyButton" name="myButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Th&#xea;m "/>
+            <Property name="radius" type="int" value="10"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="com.raven.suportSwing.MyButton" name="myButton2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
+            <Property name="radius" type="int" value="10"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton2ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblBirth">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="3"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="ff" type="rgb"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblName">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="3"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="ff" type="rgb"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPhone">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="3"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="ff" type="rgb"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSalary">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="3"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="ff" type="rgb"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblEmail">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="3"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="ff" type="rgb"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblUser">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="3"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="ff" type="rgb"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPass">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="3"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="ff" type="rgb"/>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>
