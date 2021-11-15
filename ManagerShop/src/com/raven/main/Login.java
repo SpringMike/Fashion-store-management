@@ -5,7 +5,13 @@
  */
 package com.raven.main;
 
+import com.fpt.DAO.AccountDao;
+import com.fpt.Validate.Validate;
+import com.fpt.entity.Account;
+import com.fpt.utils.MsgBox;
+import java.awt.Color;
 import java.awt.event.ActionListener;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -18,10 +24,41 @@ public class Login extends javax.swing.JPanel {
      */
     public Login() {
         initComponents();
+        lbAlertPassword.setText("");
+        lbAlertUsername.setText("");
     }
-
+    AccountDao dao = new AccountDao();
+    public void backLogin(){
+        txtUser.grabFocus();
+    }
     public void login() {
         txtUser.grabFocus();
+        String userName = txtUser.getText();
+        String passWord = new String(txtPassWord.getPassword());
+        try {
+            Account account = dao.findByUsername(userName);
+            /*
+            userName là tên đăng nhập
+            account findByUsername(userName)
+             */
+            if (account == null) {    //nếu manv đúng
+                lbAlertUsername.setText("Sai tên đăng nhập!");
+                txtUser.grabFocus();
+            } else {
+               String passwordSystem = account.getPassword();
+                if (passWord.equals(passwordSystem)) {  //nếu mật khẩu đúng
+                    MsgBox.alert(this, "Đăng nhập thành công!");
+                    new Main().setVisible(true);
+                    this.setVisible(false);
+                } else {
+                    lbAlertPassword.setText("Sai mật khẩu!");
+                    txtPassWord.grabFocus();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
     }
 
     public void addEventRegister(ActionListener event) {
@@ -39,9 +76,11 @@ public class Login extends javax.swing.JPanel {
 
         jLabel2 = new javax.swing.JLabel();
         txtUser = new com.raven.suportSwing.TextField();
-        myButton1 = new com.raven.suportSwing.MyButton();
-        passwordField2 = new com.raven.suportSwing.PasswordField();
+        btnLogin = new com.raven.suportSwing.MyButton();
+        txtPassWord = new com.raven.suportSwing.PasswordField();
         btnFogot = new com.raven.suportSwing.MyButton();
+        lbAlertUsername = new javax.swing.JLabel();
+        lbAlertPassword = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -51,18 +90,28 @@ public class Login extends javax.swing.JPanel {
         jLabel2.setText("Login");
 
         txtUser.setLabelText("Usename");
-
-        myButton1.setText("Login");
-        myButton1.setBorderColor(new java.awt.Color(51, 153, 255));
-        myButton1.setColorClick(new java.awt.Color(255, 102, 204));
-        myButton1.setColorOver(new java.awt.Color(51, 153, 255));
-        myButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton1ActionPerformed(evt);
+        txtUser.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtUserFocusGained(evt);
             }
         });
 
-        passwordField2.setLabelText("Password");
+        btnLogin.setText("Login");
+        btnLogin.setBorderColor(new java.awt.Color(51, 153, 255));
+        btnLogin.setColorClick(new java.awt.Color(255, 102, 204));
+        btnLogin.setColorOver(new java.awt.Color(51, 153, 255));
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+
+        txtPassWord.setLabelText("Password");
+        txtPassWord.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPassWordFocusGained(evt);
+            }
+        });
 
         btnFogot.setText("Fogot Password");
         btnFogot.setBorderColor(new java.awt.Color(51, 153, 255));
@@ -71,6 +120,14 @@ public class Login extends javax.swing.JPanel {
         btnFogot.setContentAreaFilled(true);
         btnFogot.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
+        lbAlertUsername.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
+        lbAlertUsername.setForeground(new java.awt.Color(255, 51, 0));
+        lbAlertUsername.setText("jLabel1");
+
+        lbAlertPassword.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
+        lbAlertPassword.setForeground(new java.awt.Color(255, 51, 0));
+        lbAlertPassword.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -78,11 +135,13 @@ public class Login extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(passwordField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(myButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbAlertUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtPassWord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
-                    .addComponent(btnFogot, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnFogot, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbAlertPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(60, 60, 60))
         );
         layout.setVerticalGroup(
@@ -92,28 +151,52 @@ public class Login extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addGap(51, 51, 51)
                 .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(passwordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbAlertUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtPassWord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbAlertPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55)
                 .addComponent(btnFogot, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        new Main().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_myButton1ActionPerformed
+        txtUser.setBackground(Color.white);
+        txtPassWord.setBackground(Color.white);
+        if(Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống Username!")== false && Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!")==false){
+            return;
+        }else if(Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống password!")==false){
+            return;
+        }else if(Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!")==false){
+            return;
+        }else{
+            login();
+        }
+        
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void txtUserFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUserFocusGained
+        lbAlertUsername.setText("");
+    }//GEN-LAST:event_txtUserFocusGained
+
+    private void txtPassWordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPassWordFocusGained
+        lbAlertPassword.setText("");
+    }//GEN-LAST:event_txtPassWordFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnFogot;
+    private com.raven.suportSwing.MyButton btnLogin;
     private javax.swing.JLabel jLabel2;
-    private com.raven.suportSwing.MyButton myButton1;
-    private com.raven.suportSwing.PasswordField passwordField2;
+    private javax.swing.JLabel lbAlertPassword;
+    private javax.swing.JLabel lbAlertUsername;
+    private com.raven.suportSwing.PasswordField txtPassWord;
     private com.raven.suportSwing.TextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

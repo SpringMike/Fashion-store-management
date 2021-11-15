@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -47,8 +48,13 @@ public class jdbcHelper {
     }
 
     public static ResultSet query(String sql, Object... args) throws Exception {
-        PreparedStatement stmt = jdbcHelper.getStmt(sql, args);
-        return stmt.executeQuery();
+       try {
+            PreparedStatement pstmt = getStmt(sql, args);      
+                return pstmt.executeQuery();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
     }
 
     public static Object value(String sql, Object... args) {

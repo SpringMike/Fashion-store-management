@@ -100,6 +100,11 @@ public class FogotPassword extends javax.swing.JPanel {
         btnBackLogin.setColorClick(new java.awt.Color(102, 255, 0));
         btnBackLogin.setColorOver(new java.awt.Color(51, 153, 255));
         btnBackLogin.setContentAreaFilled(true);
+        btnBackLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackLoginActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -158,6 +163,10 @@ public class FogotPassword extends javax.swing.JPanel {
     private void passwordField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordField3ActionPerformed
+
+    private void btnBackLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackLoginActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBackLoginActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

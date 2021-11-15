@@ -162,6 +162,8 @@ CREATE TABLE ImageProducts
 	FOREIGN KEY(idPrDeltails) REFERENCES dbo.detailsProduct(idPrDeltails)
 )
 GO
+select * from dbo.[User]
+SELECT * FROM dbo.Account WHERE username like 
 
 
 

@@ -39,7 +39,7 @@ public class Login_main extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 slide.show(0);
-                login.login();
+                login.backLogin();
             }
         });
     }
