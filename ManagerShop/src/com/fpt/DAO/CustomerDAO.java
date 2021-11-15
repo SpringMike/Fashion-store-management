@@ -21,6 +21,8 @@ public class CustomerDAO extends ShopDAO<Customer, Integer> {
     String INSERT_SQL = "INSERT INTO Customer (name, phoneNumber, gender, address) VALUES (?, ?, ?, ?)";
     String SELECT_ALL_SQL = "SELECT * FROM Customer";
     String SELECT_BY_ID_SQL = "SELECT * FROM Customer WHERE idCustomer=?";
+    String DELETE_SQL = "DELETE FROM Customer WHERE idCustomer=?";
+    String UPDATE_SQL = "UPDATE Customer SET name=?, phoneNumber=?, gender=?, address=? WHERE idCustomer=?";
 
     @Override
     public void insert(Customer e) {
@@ -29,12 +31,12 @@ public class CustomerDAO extends ShopDAO<Customer, Integer> {
 
     @Override
     public void update(Customer e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbcHelper.update(UPDATE_SQL, e.getName(), e.getPhoneNumber(), e.getGender(), e.getAddress(), e.getId());
     }
 
     @Override
     public void delete(Integer k) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbcHelper.update(DELETE_SQL, k);
     }
 
     @Override
@@ -70,6 +72,11 @@ public class CustomerDAO extends ShopDAO<Customer, Integer> {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public List<Customer> selectByKeyWord(String keyword) {
+        String sql = "SELECT * from Customer where name LIKE ?";
+        return selectBySql(sql, "%" + keyword + "%");
     }
 
 }

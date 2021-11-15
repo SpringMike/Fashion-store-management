@@ -164,7 +164,7 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        bg.setBackground(new java.awt.Color(245, 245, 245));
+        bg.setBackground(new java.awt.Color(255, 255, 255));
         bg.setOpaque(true);
 
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);

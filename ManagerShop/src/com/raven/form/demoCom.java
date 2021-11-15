@@ -61,11 +61,10 @@ public class demoCom extends javax.swing.JFrame {
             }
             String sql2 = "INSERT INTO dbo.Account\n"
                     + "(idUser,Username,password)\n"
-                    + "VALUES(?, ?,?)";
+                    + "VALUES((SELECT TOP 1 idUser FROM dbo.[USER] ORDER BY idUser DESC), ?, ?)";
             try (PreparedStatement stmt = con.prepareStatement(sql2)) {
-                stmt.setInt(1, dm.getIdUser());
-                stmt.setString(2, dm.getUsername());
-                stmt.setString(3, dm.getPaswword());
+                stmt.setString(1, dm.getUsername());
+                stmt.setString(2, dm.getPaswword());
                 stmt.executeUpdate();
             }
         } catch (Exception e) {
@@ -210,7 +209,6 @@ public class demoCom extends javax.swing.JFrame {
         dm.setAddress(txtAddress.getText());
         dm.setUsername(txtUsername.getText());
         dm.setPaswword(txtPassword.getText());
-        dm.setIdUser(WIDTH);
         save(dm);
         JOptionPane.showMessageDialog(this, "OK");
     }//GEN-LAST:event_jButton1ActionPerformed
