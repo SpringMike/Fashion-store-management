@@ -20,7 +20,7 @@ public class UserDAO extends ShopDAO<User, String> {
     private String INSERT_SQL_USER = "INSERT dbo.[User](name, birthday, gender, phoneNumber, address, salary, email, role, status) VALUES(?,?,?,?,?,?,?,?, ?)";
     private String UPDATE_SQL = "";
     private String DELETE_SQL = "";
-    private String SELECT_ALL_SQL = "SELECT * FROM dbo.[User]";
+    private String SELECT_ALL_SQL = "SELECT * FROM dbo.[User] where status = 1";
     private String SELECT_BY_ID = "";
 
     @Override
@@ -36,7 +36,12 @@ public class UserDAO extends ShopDAO<User, String> {
 
     @Override
     public void delete(String k) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "UPDATE dbo.[User] SET status = 0 WHERE idUser = ?";
+        jdbcHelper.update(sql, k);
+    }
+     public void delete(int k) {
+        String sql = "UPDATE dbo.[User] SET status = 0 WHERE idUser = ?";
+        jdbcHelper.update(sql, k);
     }
 
     @Override
@@ -73,5 +78,10 @@ public class UserDAO extends ShopDAO<User, String> {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<User> selectByKey(String k) {
+        String sql = "SELECT * FROM dbo.[USER] WHERE name LIKE ?";
+        return selectBySql(sql, "%" + k + "%");
     }
 }

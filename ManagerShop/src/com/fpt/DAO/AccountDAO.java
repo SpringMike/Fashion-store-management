@@ -76,4 +76,14 @@ public class AccountDAO extends ShopDAO<Account, Integer> {
         }
     }
 
+    public Account selectById(String k) {
+        String sql = "SELECT * FROM dbo.Account where username = ?";
+        List<Account> list = this.selectBySql(sql, k);
+        if (list.isEmpty()) {
+            return null;
+        } else {
+            return list.get(0);
+        }
+    }
+
 }

@@ -88,8 +88,8 @@ public class Main extends javax.swing.JFrame {
                     }
                 } else if (menuIndex == 4) {
                     if (subMenuIndex == 0) {
-//                        main.showForm(new FormListEmpolyee());
-                        main.showForm(new FormImportEmployee());
+                        main.showForm(new FormListEmpolyee());
+//                        main.showForm(new FormImportEmployee());
                     } else {
                         main.showForm(new FormSalary());
                     }

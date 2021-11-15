@@ -5,6 +5,9 @@
  */
 package com.raven.main;
 
+import com.fpt.DAO.AccountDAO;
+import com.fpt.entity.Account;
+import com.fpt.utils.MsgBox;
 import java.awt.event.ActionListener;
 
 /**
@@ -13,6 +16,8 @@ import java.awt.event.ActionListener;
  */
 public class Login extends javax.swing.JPanel {
 
+    AccountDAO aDao = new AccountDAO();
+
     /**
      * Creates new form Login
      */
@@ -20,12 +25,22 @@ public class Login extends javax.swing.JPanel {
         initComponents();
     }
 
-    public void login() {
-        txtUser.grabFocus();
-    }
-
     public void addEventRegister(ActionListener event) {
         btnFogot.addActionListener(event);
+    }
+
+    public void login() {
+        String userName = txtUser.getText();
+        String password = new String(txtPassword.getPassword());
+        Account ac = aDao.selectById(userName);
+        if (ac == null || !password.equals(ac.getPassWord())) {
+            MsgBox.alert(this, "Sai ten dang nhap or mk");
+        } else {
+            MsgBox.alert(this, "Dang nhap thanh Cong");
+            new Main().setVisible(true);
+            this.setVisible(false);
+        }
+
     }
 
     /**
@@ -40,7 +55,7 @@ public class Login extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         txtUser = new com.raven.suportSwing.TextField();
         myButton1 = new com.raven.suportSwing.MyButton();
-        passwordField2 = new com.raven.suportSwing.PasswordField();
+        txtPassword = new com.raven.suportSwing.PasswordField();
         btnFogot = new com.raven.suportSwing.MyButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -62,7 +77,7 @@ public class Login extends javax.swing.JPanel {
             }
         });
 
-        passwordField2.setLabelText("Password");
+        txtPassword.setLabelText("Password");
 
         btnFogot.setText("Fogot Password");
         btnFogot.setBorderColor(new java.awt.Color(51, 153, 255));
@@ -83,7 +98,7 @@ public class Login extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(passwordField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(myButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
@@ -98,7 +113,7 @@ public class Login extends javax.swing.JPanel {
                 .addGap(51, 51, 51)
                 .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
-                .addComponent(passwordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55)
@@ -107,10 +122,10 @@ public class Login extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
         // TODO add your handling code here:
-        new Main().setVisible(true);
-        this.setVisible(false);
+        login();
     }//GEN-LAST:event_myButton1ActionPerformed
 
     private void btnFogotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFogotActionPerformed
@@ -122,7 +137,7 @@ public class Login extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton btnFogot;
     private javax.swing.JLabel jLabel2;
     private com.raven.suportSwing.MyButton myButton1;
-    private com.raven.suportSwing.PasswordField passwordField2;
+    private com.raven.suportSwing.PasswordField txtPassword;
     private com.raven.suportSwing.TextField txtUser;
     // End of variables declaration//GEN-END:variables
 }
