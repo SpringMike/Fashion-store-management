@@ -52,9 +52,9 @@
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" pref="129" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="textField2" max="32767" attributes="0"/>
+                  <Component id="lblTimkiem" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                  <Component id="myButton2" min="-2" pref="64" max="-2" attributes="0"/>
+                  <Component id="btnTim" min="-2" pref="64" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="474" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -71,9 +71,9 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="myButton2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnTim" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="textField2" alignment="1" max="32767" attributes="0"/>
+                              <Component id="lblTimkiem" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
                       </Group>
@@ -92,12 +92,12 @@
             <Property name="text" type="java.lang.String" value="Kh&#xe1;ch h&#xe0;ng"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.TextField" name="textField2">
+        <Component class="com.raven.suportSwing.TextField" name="lblTimkiem">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="T&#xec;m theo t&#xea;n or m&#xe3;"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.MyButton" name="myButton2">
+        <Component class="com.raven.suportSwing.MyButton" name="btnTim">
           <Properties>
             <Property name="text" type="java.lang.String" value="T&#xec;m"/>
             <Property name="radius" type="int" value="20"/>
@@ -147,7 +147,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="com.raven.suportSwing.TableColumn" name="tableColumn1">
+            <Component class="com.raven.suportSwing.TableColumn" name="tableCustomer">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="5" rowCount="4">
@@ -162,6 +162,9 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tableCustomerMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -189,53 +192,65 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="textField1" alignment="0" max="32767" attributes="0"/>
-              <Component id="textField4" alignment="0" max="32767" attributes="0"/>
-              <Component id="textField5" alignment="0" max="32767" attributes="0"/>
+              <Component id="txtName" alignment="0" max="32767" attributes="0"/>
+              <Component id="txtAddress" alignment="0" max="32767" attributes="0"/>
+              <Component id="txtPhoneNumber" alignment="0" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="myButton3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnClear" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="myButton4" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnThem" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="myButton5" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnCapNhap" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="myButton6" min="-2" pref="75" max="-2" attributes="0"/>
+                          <Component id="btnXoa" min="-2" pref="75" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="radioButtonCustom2" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdioMale" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                          <Component id="radioButtonCustom1" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdioFemale" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="21" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="10" max="32767" attributes="0"/>
               </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="lblName" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+              <Component id="lblAdress" alignment="0" max="32767" attributes="0"/>
+              <Component id="lblPhoneNumber" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="textField1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="textField4" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="textField5" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="txtName" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                  <Component id="lblName" min="-2" pref="13" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="txtAddress" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                  <Component id="lblAdress" min="-2" pref="13" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="txtPhoneNumber" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="lblPhoneNumber" min="-2" pref="13" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="radioButtonCustom2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="radioButtonCustom1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rdioMale" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rdioFemale" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="myButton3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="myButton4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="myButton5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="myButton6" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnClear" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnThem" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnCapNhap" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnXoa" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -243,49 +258,55 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="com.raven.suportSwing.TextField" name="textField1">
+        <Component class="com.raven.suportSwing.TextField" name="txtName">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="H&#x1ecd; t&#xea;n"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textField1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNameActionPerformed"/>
           </Events>
         </Component>
-        <Component class="com.raven.suportSwing.MyButton" name="myButton3">
+        <Component class="com.raven.suportSwing.MyButton" name="btnClear">
           <Properties>
             <Property name="label" type="java.lang.String" value="X&#xf3;a form"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="com.raven.suportSwing.MyButton" name="myButton4">
+        <Component class="com.raven.suportSwing.MyButton" name="btnThem">
           <Properties>
             <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="com.raven.suportSwing.MyButton" name="myButton5">
+        <Component class="com.raven.suportSwing.MyButton" name="btnCapNhap">
           <Properties>
             <Property name="text" type="java.lang.String" value="C&#x1ead;p Nh&#x1ead;t"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.TextField" name="textField4">
+        <Component class="com.raven.suportSwing.TextField" name="txtAddress">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="&#x110;&#x1ecb;a ch&#x1ec9;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textField4ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtAddressActionPerformed"/>
           </Events>
         </Component>
-        <Component class="com.raven.suportSwing.TextField" name="textField5">
+        <Component class="com.raven.suportSwing.TextField" name="txtPhoneNumber">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="S&#x110;T"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textField5ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPhoneNumberActionPerformed"/>
           </Events>
         </Component>
-        <Component class="com.raven.suportSwing.MyButton" name="myButton6">
+        <Component class="com.raven.suportSwing.MyButton" name="btnXoa">
           <Properties>
             <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
             <Property name="radius" type="int" value="20"/>
@@ -296,21 +317,42 @@
             <Property name="text" type="java.lang.String" value="Gi&#x1edb;i t&#xed;nh"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.RadioButtonCustom" name="radioButtonCustom2">
+        <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioMale">
           <Properties>
             <Property name="text" type="java.lang.String" value="Nam"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioButtonCustom2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioMaleActionPerformed"/>
           </Events>
         </Component>
-        <Component class="com.raven.suportSwing.RadioButtonCustom" name="radioButtonCustom1">
+        <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioFemale">
           <Properties>
             <Property name="text" type="java.lang.String" value="N&#x1eef;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioButtonCustom1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioFemaleActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblName">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="ff" type="rgb"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblAdress">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="e1" type="rgb"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPhoneNumber">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="e1" type="rgb"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

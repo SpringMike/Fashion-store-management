@@ -90,7 +90,7 @@ public class Validate {
         return true;
     }
 
-    public static boolean checkNumber(Component component, String lbl, JTextField field, String mess) {
+    public static boolean checkNumber(Component component, JLabel lbl, JTextField field, String mess) {
         boolean check = true;
         if (!checkEmpty(component, field, lbl + " chưa nhập!!!")) {
             return false;
