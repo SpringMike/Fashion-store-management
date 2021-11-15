@@ -164,18 +164,7 @@ CREATE TABLE ImageProducts
 GO
 
 select * from Products
-<<<<<<< HEAD
 s
-=======
-
-
-
-
-
-
-
-
->>>>>>> Vudd
 
 
 SELECT * FROM dbo.Account
