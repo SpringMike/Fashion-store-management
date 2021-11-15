@@ -11,13 +11,14 @@ package com.raven.form;
  */
 public class FormListEmpolyee extends javax.swing.JPanel {
 
+
+
     /**
      * Creates new form FormProducts
      */
     public FormListEmpolyee() {
         initComponents();
         setOpaque(false);
-
     }
 
     /**
@@ -156,6 +157,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_myButton6ActionPerformed
 
     private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed
