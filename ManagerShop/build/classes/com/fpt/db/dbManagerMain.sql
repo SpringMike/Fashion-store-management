@@ -163,6 +163,10 @@ CREATE TABLE ImageProducts
 )
 GO
 
+select * from Products
+<<<<<<< HEAD
+s
+=======
 
 
 
@@ -171,5 +175,91 @@ GO
 
 
 
+>>>>>>> Vudd
 
 
+SELECT * FROM dbo.Account
+SELECT * FROM dbo.[User]
+
+INSERT INTO dbo.[User]
+(
+    name,
+    birthday,
+    gender,
+    phoneNumber,
+    address,
+    salary,
+    role,
+    status,
+    email
+)
+VALUES
+(   N'Nguyễn Văn Đức',  -- name - nvarchar(255)
+    '2002-09-25', -- birthday - date
+    1, -- gender - bit
+    '0332429178', -- phoneNumber - varchar(15)
+    N'Hà Nội', -- address - nvarchar(255)
+    9000000, -- salary - money
+    0, -- role - bit
+    0, -- status - bit
+    'ducnvph14435@gmail.com'  -- email - varchar(255)
+    )
+
+	INSERT INTO dbo.Account
+	(
+	    idUser,
+	    username,
+	    password
+	)
+	VALUES
+	(   1,   -- idUser - int
+	    N'ducnv2509', -- username - nvarchar(255)
+	    N'nguyenvanduc'  -- password - nvarchar(255)
+	    )
+
+		UPDATE dbo.Account
+		SET  password = ?
+		FROM dbo.Account JOIN dbo.[User]
+		ON [User].idUser = Account.idUser
+		WHERE username = ?
+SELECT * FROM dbo.Account JOIN dbo.[User] ON [User].idUser = Account.idUser
+UPDATE dbo.[User]
+SET email = 'ducit2509@gmail.com'
+WHERE idUser = 1
+
+INSERT INTO dbo.[User]
+(
+    name,
+    birthday,
+    gender,
+    phoneNumber,
+    address,
+    salary,
+    role,
+    status,
+    email
+)
+VALUES
+(   N'',  -- name - nvarchar(255)
+    NULL, -- birthday - date
+    NULL, -- gender - bit
+    NULL, -- phoneNumber - varchar(15)
+    NULL, -- address - nvarchar(255)
+    NULL, -- salary - money
+    NULL, -- role - bit
+    NULL, -- status - bit
+    NULL  -- email - varchar(255)
+    )
+	INSERT INTO dbo.Account
+	(
+	    idUser,
+	    username,
+	    password
+	)
+	VALUES
+	(   0,   -- idUser - int
+	    N'', -- username - nvarchar(255)
+	    N''  -- password - nvarchar(255)
+	    )
+
+		SELECT * FROM dbo.Customer

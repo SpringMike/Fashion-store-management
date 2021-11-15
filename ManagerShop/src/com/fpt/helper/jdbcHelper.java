@@ -60,6 +60,7 @@ public class jdbcHelper {
             rs.getStatement().getConnection().close();
             return null;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -73,6 +74,7 @@ public class jdbcHelper {
                 stmt.getConnection().close();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
