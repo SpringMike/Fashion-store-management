@@ -36,5 +36,4 @@ public class MsgBox {
     public static void labelAlert(JLabel lbl, JTextField txtField, String message) {
         lbl.setText(message);
     }
-
 }

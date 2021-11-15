@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.ImageIcon;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -31,6 +32,8 @@ public class demoCom extends javax.swing.JFrame {
         con = ketnoi("dbDemoInsert");
         if (con != null) {
             System.out.println("OK");
+            LocalDate today = LocalDate.now();
+            System.out.println(today);
         }
     }
 
