@@ -344,12 +344,9 @@ public class FormImportItem extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton myButton6;
     private com.raven.suportSwing.MyButton myButton7;
     private com.raven.suportSwing.MyButton myButton8;
-<<<<<<< HEAD
-    private com.raven.swing.table.Table table1;
-=======
+
     private com.raven.suportSwing.ScrollBar scrollBar1;
     private com.raven.suportSwing.TableColumn tableColumn1;
->>>>>>> master
     private com.raven.suportSwing.TextField textField1;
     // End of variables declaration//GEN-END:variables
 }

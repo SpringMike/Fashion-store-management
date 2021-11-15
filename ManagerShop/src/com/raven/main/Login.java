@@ -70,6 +70,11 @@ public class Login extends javax.swing.JPanel {
         btnFogot.setColorOver(new java.awt.Color(51, 153, 255));
         btnFogot.setContentAreaFilled(true);
         btnFogot.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnFogot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFogotActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -107,6 +112,10 @@ public class Login extends javax.swing.JPanel {
         new Main().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_myButton1ActionPerformed
+
+    private void btnFogotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFogotActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFogotActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
