@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author truon
  */
-public class EmployeeDAO extends EduSysDAO<Employee, Integer>{
+public class EmployeeDAO extends ShopDAO<Employee, Integer>{
 
     String DELETE_SQL = "DELETE FROM User WHERE idUser = ?";
     String SELECT_ALL_SQL = "SELECT * FROM User";
