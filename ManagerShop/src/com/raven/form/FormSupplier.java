@@ -107,6 +107,16 @@ public class FormSupplier extends javax.swing.JPanel {
         }
     }
 
+    public void delete() {
+        int index = tableShow.getSelectedRow();
+        if (MsgBox.confirm(this, "Bạn có muốn xóa không?")) {
+            int idSupplier = (int) tableShow.getValueAt(index, 0);
+            sDao.delete(idSupplier);
+            fillTable();
+        }
+        MsgBox.alert(this, "Xoá OK");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -283,6 +293,11 @@ public class FormSupplier extends javax.swing.JPanel {
 
         btnDelete.setText("Xóa");
         btnDelete.setRadius(20);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         lblnameSupplier.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         lblnameSupplier.setForeground(new java.awt.Color(255, 51, 0));
@@ -402,6 +417,10 @@ public class FormSupplier extends javax.swing.JPanel {
         // TODO add your handling code here:
         lblPhoneNumber.setText("");
     }//GEN-LAST:event_txtPhoneNumberFocusGained
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        delete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
