@@ -10,6 +10,7 @@ import com.fpt.Validate.Validate;
 import com.fpt.Validate.labelValidate;
 import com.fpt.entity.Customer;
 import com.fpt.entity.User;
+import com.fpt.utils.MsgBox;
 import com.raven.dialog.Message;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -56,7 +57,7 @@ public class FormCustomer extends javax.swing.JPanel {
         }
         for (Customer c : list) {
             model.addRow(new Object[]{
-               c.getId(), c.getName(), c.getAddress(), c.getPhoneNumber(), c.getGender() ? "Nam" : "Nu"
+                c.getId(), c.getName(), c.getAddress(), c.getPhoneNumber(), c.getGender() ? "Nam" : "Nu"
             });
         }
         lblTimKiem.setText("");
@@ -128,13 +129,15 @@ public class FormCustomer extends javax.swing.JPanel {
     public void delete() {
         int row = tableCustomer.getSelectedRow();
         int ma = (int) tableCustomer.getValueAt(row, 0);
-        try {
-            cDao.delete(ma);
-            fillTable();
-            clearForm();
-            JOptionPane.showMessageDialog(this, "Xoa thanh cong");
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (MsgBox.confirm(this, "Bạn có muốn xóa không?")) {
+            try {
+                cDao.delete(ma);
+                fillTable();
+                clearForm();
+                JOptionPane.showMessageDialog(this, "Xoa thanh cong");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
