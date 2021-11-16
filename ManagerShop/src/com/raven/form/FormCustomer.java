@@ -12,6 +12,7 @@ import com.fpt.entity.Customer;
 import com.fpt.entity.User;
 import com.fpt.utils.MsgBox;
 import com.raven.dialog.Message;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -150,7 +151,10 @@ public class FormCustomer extends javax.swing.JPanel {
         Customer c = cDao.selectById(ma);
         setForm(c);
     }
-
+    
+    public void addEvenFillTable(ActionListener evt){
+        fillTable();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

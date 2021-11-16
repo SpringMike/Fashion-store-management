@@ -9,6 +9,9 @@ import com.fpt.DAO.UserDAO;
 import com.fpt.entity.User;
 import com.fpt.utils.MsgBox;
 import com.raven.JFrame.FormImportEmpolyeeJFrame;
+import com.raven.swing.table.Action;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class FormListEmpolyee extends javax.swing.JPanel {
 
     UserDAO user = new UserDAO();
-
+    FormImportEmpolyeeJFrame formImportEmpolyeeJFrame = new FormImportEmpolyeeJFrame();
     /**
      * Creates new form FormProducts
      */
@@ -27,6 +30,15 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         fillTable();
+        
+        formImportEmpolyeeJFrame.addEvenFillTable(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                formImportEmpolyeeJFrame.insert();
+                fillTable();
+                
+            }
+        });
     }
 
   
@@ -69,7 +81,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         fillTable();
         MsgBox.alert(this, "Xoá OK");
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -241,7 +253,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
         // TODO add your handling code here:
-        new FormImportEmpolyeeJFrame().setVisible(true);
+        formImportEmpolyeeJFrame.setVisible(true);
     }//GEN-LAST:event_myButton6ActionPerformed
 
     private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed

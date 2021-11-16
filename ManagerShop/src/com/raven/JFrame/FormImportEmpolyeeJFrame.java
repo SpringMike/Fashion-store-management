@@ -15,6 +15,7 @@ import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import com.raven.form.FormListEmpolyee;
 import com.raven.form.MainForm;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -25,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
  * @author ducit
  */
 public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form FormImportEmpolyeeJFrame
      */
@@ -64,7 +65,11 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
     }
 
     public boolean checkEmail(String acc) {
+        if(emDao.selectAll().isEmpty()){
+            return true;
+        }
         for (int i = 0; i < emDao.selectAll().size(); i++) {
+            
             if (emDao.selectAll().get(i).getEmail().trim().equals(acc.trim())) {
                 return true;
             }
@@ -117,6 +122,7 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
                 daoA.insert(a);
                 new MainForm().showForm(new FormListEmpolyee());
                 MsgBox.alert(this, "Thêm mới thành công..^^..");
+                this.dispose();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -157,7 +163,10 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         rdoMale.setSelected(true);
         rdoWorking.setSelected(true);
     }
-
+    
+    public void addEvenFillTable(ActionListener evt){
+        myButton1.addActionListener(evt);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -547,8 +556,8 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPassWordFocusGained
 
     private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
-        // TODO add your handling code here:
-        this.insert();
+        
+//        this.insert();
     }//GEN-LAST:event_myButton1ActionPerformed
 
     private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton2ActionPerformed
