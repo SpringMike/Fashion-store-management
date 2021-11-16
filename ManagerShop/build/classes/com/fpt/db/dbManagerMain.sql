@@ -41,6 +41,7 @@ CREATE TABLE [User]
 	birthday DATE,
 	gender BIT,
 	phoneNumber VARCHAR(15),
+	email varchar(255),
 	address NVARCHAR(255),
 	salary MONEY,
 	role BIT,
