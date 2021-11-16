@@ -35,7 +35,13 @@ public class Validate {
         }
         return true;
     }
-    
+    public static boolean checkEmpty(JLabel lbl, JTextField txtString, String mess) {
+        if (txtString.getText().isEmpty()) {
+            MsgBox.labelAlert(lbl, txtString, mess);
+            return false;
+        } 
+        return true;
+    }
         public static boolean checkLength(Component component, JTextField txtString, String mess, int numberLength) {
         if (txtString.getText().length() < numberLength || txtString.getText().length() > numberLength) {
             MsgBox.warring(component, mess);

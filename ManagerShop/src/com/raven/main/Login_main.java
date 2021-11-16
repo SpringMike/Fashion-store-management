@@ -39,9 +39,19 @@ public class Login_main extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 slide.show(0);
-                login.login();
+                login.backLogin();
             }
         });
+        login.addEventLogin(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                login.clickLogin();
+                dispose();
+            }
+        });
+    }
+    public void dispose(){
+        this.setVisible(false);
     }
 
     /**

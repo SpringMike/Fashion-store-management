@@ -33,7 +33,7 @@ CREATE TABLE Material
 	valueMaterial VARCHAR(5) NOT NULL,
 )
 GO
-
+drop table [User]
 CREATE TABLE [User]
 (
 	idUser INT IDENTITY(1,1) PRIMARY KEY,
@@ -41,6 +41,7 @@ CREATE TABLE [User]
 	birthday DATE,
 	gender BIT,
 	phoneNumber VARCHAR(15),
+	email varchar(255),
 	address NVARCHAR(255),
 	salary MONEY,
 	role BIT,
@@ -162,6 +163,8 @@ CREATE TABLE ImageProducts
 	FOREIGN KEY(idPrDeltails) REFERENCES dbo.detailsProduct(idPrDeltails)
 )
 GO
+select * from dbo.[User]
+SELECT * FROM dbo.Account WHERE username like 
 
 select * from Products
 s
