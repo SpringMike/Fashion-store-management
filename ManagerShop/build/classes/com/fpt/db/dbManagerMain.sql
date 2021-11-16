@@ -33,7 +33,7 @@ CREATE TABLE Material
 	valueMaterial VARCHAR(5) NOT NULL,
 )
 GO
-
+drop table [User]
 CREATE TABLE [User]
 (
 	idUser INT IDENTITY(1,1) PRIMARY KEY,
