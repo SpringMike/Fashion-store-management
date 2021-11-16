@@ -307,3 +307,14 @@ VALUES
 			    1, -- status - bit
 			    'duc@gmail.com'  -- email - varchar(255)
 			    )
+INSERT INTO dbo.Supplier
+(
+    nameMaterial,
+    phoneNumber,
+    address
+)
+VALUES
+(   N'Nhà May Hải Dương', -- nameMaterial - nvarchar(255)
+    '0332429178',  -- phoneNumber - varchar(15)
+    N'Hải Dương' -- address - nvarchar(255)
+    )

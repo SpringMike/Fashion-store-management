@@ -81,7 +81,7 @@ public class UserDAO extends ShopDAO<User, String> {
     }
 
     public List<User> selectByKey(String k) {
-        String sql = "SELECT * FROM dbo.[USER] WHERE name LIKE ?";
+        String sql = "SELECT * FROM dbo.[USER] WHERE name LIKE ? and status = 1";
         return selectBySql(sql, "%" + k + "%");
     }
 }
