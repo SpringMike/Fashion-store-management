@@ -29,16 +29,19 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         fillTable();
     }
 
+  
+
     public void fillTable() {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         List<User> list = user.selectAll();
         for (User u : list) {
             model.addRow(new Object[]{
-                u.getIdUser(), u.getFullname(), u.isRole() ? "Nhân Viên " : "Quản lý", u.isGender() ? "Nam" : "Nữ",
+                u.getIdUser(), u.getFullname(), u.isRole() ? "Quản lý" : "Nhân viên", u.isGender() ? "Nam" : "Nữ",
                 u.getDateOfBirth(), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
             });
         }
+        System.out.println("Hello");
     }
 
     public void fillSearch() {
@@ -52,7 +55,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         }
         for (User u : list) {
             model.addRow(new Object[]{
-                u.getIdUser(), u.getFullname(), u.isRole() ? "Nhân Viên " : "Quản lý", u.isGender() ? "Nam" : "Nữ",
+                u.getIdUser(), u.getFullname(), u.isRole() ? "Quản lý" : "Nhân viên", u.isGender() ? "Nam" : "Nữ",
                 u.getDateOfBirth(), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
             });
         }
@@ -135,6 +138,11 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchActionPerformed(evt);
+            }
+        });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
             }
         });
 
@@ -254,6 +262,12 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         fillSearch();
 
     }//GEN-LAST:event_txtSearchActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        fillSearch();
+
+    }//GEN-LAST:event_txtSearchKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -98,7 +98,7 @@ public class FormImportItem extends javax.swing.JPanel {
                 .addComponent(myButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(161, 161, 161)
                 .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 263, Short.MAX_VALUE)
                 .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -125,19 +125,9 @@ public class FormImportItem extends javax.swing.JPanel {
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))
         );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        table1.setModel(new javax.swing.table.DefaultTableModel(
-=======
         jScrollPane1.setVerticalScrollBar(scrollBar1);
 
         tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
->>>>>>> master
-=======
-        jScrollPane1.setVerticalScrollBar(scrollBar1);
-
-        tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
->>>>>>> Vudd
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -350,10 +340,6 @@ public class FormImportItem extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton myButton6;
     private com.raven.suportSwing.MyButton myButton7;
     private com.raven.suportSwing.MyButton myButton8;
-<<<<<<< HEAD
-
-=======
->>>>>>> Vudd
     private com.raven.suportSwing.ScrollBar scrollBar1;
     private com.raven.suportSwing.TableColumn tableColumn1;
     private com.raven.suportSwing.TextField textField1;
