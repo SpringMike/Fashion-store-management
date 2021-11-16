@@ -40,7 +40,6 @@ public class Login extends javax.swing.JPanel {
             new Main().setVisible(true);
             this.setVisible(false);
         }
-
     }
 
     /**
