@@ -9,6 +9,7 @@ import com.fpt.DAO.CustomerDAO;
 import com.fpt.Validate.Validate;
 import com.fpt.Validate.labelValidate;
 import com.fpt.entity.Customer;
+import com.fpt.entity.User;
 import com.raven.dialog.Message;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -43,18 +44,20 @@ public class FormCustomer extends javax.swing.JPanel {
             model.addRow(row);
         }
     }
+
     public void fillTableWhenFind() {
         DefaultTableModel model = (DefaultTableModel) tableCustomer.getModel();
         model.setRowCount(0);
-        String keyword = txtTimkiem.getText();
-        List<Customer> list = cDao.selectByKeyWord(keyword);
-        if(list.size() == 0){
-            lblTimKiem.setText("Không có dữ liệu khách hàng nào được tìm thấy");
+        String keyString = txtTimkiem.getText();
+        List<Customer> list = cDao.selectByKeyWord(keyString);
+        if (list.isEmpty()) {
+            lblTimKiem.setText("Không có khách hàng " + keyString);
             return;
         }
         for (Customer c : list) {
-            Object[] row = {c.getId(), c.getName(), c.getAddress(), c.getPhoneNumber(), c.getGender() ? "Nam" : "Nu"};
-            model.addRow(row);
+            model.addRow(new Object[]{
+               c.getId(), c.getName(), c.getAddress(), c.getPhoneNumber(), c.getGender() ? "Nam" : "Nu"
+            });
         }
         lblTimKiem.setText("");
     }
@@ -187,6 +190,21 @@ public class FormCustomer extends javax.swing.JPanel {
         jLabel2.setText("Khách hàng");
 
         txtTimkiem.setLabelText("Tìm theo tên khách hàng");
+        txtTimkiem.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtTimkiemFocusGained(evt);
+            }
+        });
+        txtTimkiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTimkiemActionPerformed(evt);
+            }
+        });
+        txtTimkiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimkiemKeyReleased(evt);
+            }
+        });
 
         btnTim.setText("Tìm");
         btnTim.setRadius(20);
@@ -505,6 +523,21 @@ public class FormCustomer extends javax.swing.JPanel {
         // TODO add your handling code here:
         edit();
     }//GEN-LAST:event_tableCustomerMouseClicked
+
+    private void txtTimkiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimkiemActionPerformed
+        // TODO add your handling code here:
+        fillTableWhenFind();
+    }//GEN-LAST:event_txtTimkiemActionPerformed
+
+    private void txtTimkiemFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimkiemFocusGained
+        // TODO add your handling code here:
+        fillTableWhenFind();
+    }//GEN-LAST:event_txtTimkiemFocusGained
+
+    private void txtTimkiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimkiemKeyReleased
+        // TODO add your handling code here:
+        fillTableWhenFind();
+    }//GEN-LAST:event_txtTimkiemKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

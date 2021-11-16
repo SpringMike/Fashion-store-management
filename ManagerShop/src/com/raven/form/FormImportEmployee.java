@@ -133,7 +133,6 @@ public class FormImportEmployee extends javax.swing.JPanel {
         e.setEmail(txtEmail.getText());
         e.setStatus(rdoWorking.isSelected());
         e.setSalary(Double.parseDouble(txtSalary.getText()));
-
         return e;
     }
 
@@ -567,4 +566,5 @@ public class FormImportEmployee extends javax.swing.JPanel {
     private com.raven.suportSwing.TextField txtSalary;
     private com.raven.suportSwing.TextField txtUsername;
     // End of variables declaration//GEN-END:variables
+
 }

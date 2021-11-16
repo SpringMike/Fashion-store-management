@@ -43,6 +43,7 @@ public class FormSupplier extends javax.swing.JPanel {
             });
         }
     }
+    
 
     public void setForm(Supplier s) {
         txtAddress.setText(s.getAddress());

@@ -105,6 +105,11 @@
           <Properties>
             <Property name="labelText" type="java.lang.String" value="T&#xec;m theo t&#xea;n kh&#xe1;ch h&#xe0;ng"/>
           </Properties>
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtTimkiemFocusGained"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtTimkiemActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTimkiemKeyReleased"/>
+          </Events>
         </Component>
         <Component class="com.raven.suportSwing.MyButton" name="btnTim">
           <Properties>

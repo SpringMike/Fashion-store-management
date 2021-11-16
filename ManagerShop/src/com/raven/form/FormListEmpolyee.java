@@ -29,6 +29,8 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         fillTable();
     }
 
+  
+
     public void fillTable() {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
@@ -39,6 +41,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                 u.getDateOfBirth(), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
             });
         }
+        System.out.println("Hello");
     }
 
     public void fillSearch() {
