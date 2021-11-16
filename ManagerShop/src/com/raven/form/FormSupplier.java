@@ -27,6 +27,8 @@ public class FormSupplier extends javax.swing.JPanel {
     public FormSupplier() {
         initComponents();
         setOpaque(false);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
         fillTable();
     }
 
@@ -40,6 +42,7 @@ public class FormSupplier extends javax.swing.JPanel {
             });
         }
     }
+    
 
     public void setForm(Supplier s) {
         txtAddress.setText(s.getAddress());
@@ -62,6 +65,10 @@ public class FormSupplier extends javax.swing.JPanel {
         lblAddress.setText("");
         lblPhoneNumber.setText("");
         lblnameSupplier.setText("");
+        btnAdd.setEnabled(true);
+        btnUpdate.setEnabled(true);
+        tableShow.clearSelection();
+        btnDelete.setEnabled(true);
     }
 
     public void edit() {
@@ -107,6 +114,7 @@ public class FormSupplier extends javax.swing.JPanel {
         }
     }
 
+
     public void delete() {
         int index = tableShow.getSelectedRow();
         if (MsgBox.confirm(this, "Bạn có muốn xóa không?")) {
@@ -115,6 +123,27 @@ public class FormSupplier extends javax.swing.JPanel {
             fillTable();
         }
         MsgBox.alert(this, "Xoá OK");
+    }
+    public void insert() {
+        Supplier s = getForm();
+        try {
+            if (labelValidate.checkEmpty(lblnameSupplier, txtnameSupplier, "Không để trống tên Nhà Cung cấp") == false) {
+                return;
+            } else if (labelValidate.checkEmpty(lblAddress, txtAddress, "không để trống địa chỉ") == false) {
+                return;
+            } else if (labelValidate.checkEmpty(lblPhoneNumber, txtPhoneNumber, "không để trống số điện thoại") == false) {
+                return;
+            } else if (labelValidate.checkNumber(lblPhoneNumber, txtPhoneNumber, "Số điện thoại không hợp lệ") == false) {
+                return;
+            } else {
+                sDao.insert(s);
+                fillTable();
+                clearForm();
+                MsgBox.alert(this, "Thêm mới thành công");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -238,6 +267,11 @@ public class FormSupplier extends javax.swing.JPanel {
 
         myButton3.setLabel("Xóa form");
         myButton3.setRadius(20);
+        myButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton3ActionPerformed(evt);
+            }
+        });
 
         btnAdd.setText("Thêm");
         btnAdd.setRadius(20);
@@ -391,6 +425,7 @@ public class FormSupplier extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
+        insert();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -421,6 +456,9 @@ public class FormSupplier extends javax.swing.JPanel {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         delete();
     }//GEN-LAST:event_btnDeleteActionPerformed
+    private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton3ActionPerformed
+        clearForm();
+    }//GEN-LAST:event_myButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
