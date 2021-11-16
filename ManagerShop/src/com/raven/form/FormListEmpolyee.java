@@ -35,7 +35,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         List<User> list = user.selectAll();
         for (User u : list) {
             model.addRow(new Object[]{
-                u.getIdUser(), u.getFullname(), u.isRole() ? "Nhân Viên " : "Quản lý", u.isGender() ? "Nam" : "Nữ",
+                u.getIdUser(), u.getFullname(), u.isRole() ? "Quản lý" : "Nhân viên", u.isGender() ? "Nam" : "Nữ",
                 u.getDateOfBirth(), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
             });
         }

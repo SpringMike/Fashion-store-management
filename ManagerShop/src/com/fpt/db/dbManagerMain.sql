@@ -252,3 +252,58 @@ VALUES
 	    )
 
 		SELECT * FROM dbo.Customer
+
+		SELECT * FROM dbo.[User]
+		SELECT * FROM Account
+
+		INSERT INTO dbo.[User]
+		(
+		    name,
+		    birthday,
+		    gender,
+		    phoneNumber,
+		    address,
+		    salary,
+		    role,
+		    status,
+		    email
+		)
+		VALUES
+		(   N'',  -- name - nvarchar(255)
+		    NULL, -- birthday - date
+		    NULL, -- gender - bit
+		    NULL, -- phoneNumber - varchar(15)
+		    NULL, -- address - nvarchar(255)
+		    NULL, -- salary - money
+		    NULL, -- role - bit
+		    NULL, -- status - bit
+		    NULL  -- email - varchar(255)
+		    )
+
+			SELECT * FROM dbo.Customer
+
+			UPDATE dbo.[User] SET status = 0 WHERE idUser = 9
+
+			INSERT INTO dbo.[User]
+			(
+			    name,
+			    birthday,
+			    gender,
+			    phoneNumber,
+			    address,
+			    salary,
+			    role,
+			    status,
+			    email
+			)
+			VALUES
+			(   N'Truong',  -- name - nvarchar(255)
+			    '2002-09-09', -- birthday - date
+			    1, -- gender - bit
+			    '01231231231', -- phoneNumber - varchar(15)
+			    'Ha Noi', -- address - nvarchar(255)
+			    190091, -- salary - money
+			    1, -- role - bit
+			    1, -- status - bit
+			    'duc@gmail.com'  -- email - varchar(255)
+			    )
