@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  * @author ducit
  */
 public class FormListEmpolyee extends javax.swing.JPanel {
-
+    
     UserDAO user = new UserDAO();
 
     /**
@@ -28,7 +28,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         setOpaque(false);
         fillTable();
     }
-
+    
     public void fillTable() {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
@@ -40,7 +40,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
             });
         }
     }
-
+    
     public void fillSearch() {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
@@ -58,12 +58,14 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         }
         lblSearch.setText("");
     }
-
+    
     public void delete() {
         int index = tableShow.getSelectedRow();
-        int idUser = (int) tableShow.getValueAt(index, 0);
-        user.delete(idUser);
-        fillTable();
+        if (MsgBox.confirm(this, "Bạn có muốn xóa không?")) {
+            int idUser = (int) tableShow.getValueAt(index, 0);
+            user.delete(idUser);
+            fillTable();
+        }
         MsgBox.alert(this, "Xoá OK");
     }
 
