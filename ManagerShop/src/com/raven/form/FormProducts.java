@@ -5,6 +5,13 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.CategoryDAO;
+import com.fpt.Validate.labelValidate;
+import com.fpt.entity.Category;
+import com.fpt.utils.MsgBox;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author ducit
@@ -21,6 +28,42 @@ public class FormProducts extends javax.swing.JPanel {
         btnDelete.setVisible(false);
         btnAddList.setVisible(false);
         btnUpdateList.setVisible(false);
+        fillComboboxCategory();
+    }
+    CategoryDAO cDAO = new CategoryDAO();
+
+    public void fillComboboxCategory() {
+        DefaultComboBoxModel defaultComboBoxModel = (DefaultComboBoxModel) combobox1.getModel();
+        defaultComboBoxModel.removeAllElements();
+        try {
+            List<Category> list = cDAO.selectAll();
+            for (Category c : list) {
+                defaultComboBoxModel.addElement(c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // hien len ten cua category len txt khi chon o combobox
+    public void showCategory() {
+        Category c = (Category) combobox1.getSelectedItem();
+        txtImportList.setText(c.getName());
+    }
+
+    public void updateCategory() {
+        Category c = (Category) combobox1.getSelectedItem();
+        c.setName(txtImportList.getText());
+        try {
+            if (txtImportList.getText().trim().equalsIgnoreCase("")) {
+                MsgBox.alert(this, "Tên category không đc để trống");
+                return;
+            }
+            cDAO.update(c);
+            MsgBox.alert(this, "Sửa đổi thành công");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -172,6 +215,11 @@ public class FormProducts extends javax.swing.JPanel {
         myButton5.setRadius(20);
 
         combobox1.setLabeText("Loại Sản Phẩm");
+        combobox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combobox1ActionPerformed(evt);
+            }
+        });
 
         myButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/Create.png"))); // NOI18N
         myButton6.setRadius(20);
@@ -217,10 +265,8 @@ public class FormProducts extends javax.swing.JPanel {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(textField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(combobox1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                            .addComponent(txtImportList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                         .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,7 +288,8 @@ public class FormProducts extends javax.swing.JPanel {
                                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnUpdateList, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtImportList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -253,7 +300,7 @@ public class FormProducts extends javax.swing.JPanel {
                     .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtImportList, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtImportList, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -261,7 +308,7 @@ public class FormProducts extends javax.swing.JPanel {
                     .addComponent(btnUpdateList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -343,8 +390,12 @@ public class FormProducts extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddListActionPerformed
 
     private void btnUpdateListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateListActionPerformed
-        // TODO add your handling code here:
+        updateCategory();
     }//GEN-LAST:event_btnUpdateListActionPerformed
+
+    private void combobox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox1ActionPerformed
+        showCategory();
+    }//GEN-LAST:event_combobox1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
