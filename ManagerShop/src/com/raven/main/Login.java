@@ -33,6 +33,19 @@ public class Login extends javax.swing.JPanel {
     public void backLogin(){
         txtUser.grabFocus();
     }
+    public void clickLogin(){
+        txtUser.setBackground(Color.white);
+        txtPassWord.setBackground(Color.white);
+        if(Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống Username!")== false && Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!")==false){
+            return;
+        }else if(Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống password!")==false){
+            return;
+        }else if(Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!")==false){
+            return;
+        }else{
+            login();
+        }
+    }
     public void login() {
        
         String userName = txtUser.getText();
@@ -63,6 +76,9 @@ public class Login extends javax.swing.JPanel {
 
     public void addEventRegister(ActionListener event) {
         btnFogot.addActionListener(event);
+    }
+    public void addEventLogin(ActionListener event) {
+        btnLogin.addActionListener(event);
     }
 
     /**
@@ -120,11 +136,11 @@ public class Login extends javax.swing.JPanel {
         btnFogot.setContentAreaFilled(true);
         btnFogot.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
-        lbAlertUsername.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
+        lbAlertUsername.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         lbAlertUsername.setForeground(new java.awt.Color(255, 51, 0));
         lbAlertUsername.setText("jLabel1");
 
-        lbAlertPassword.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
+        lbAlertPassword.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         lbAlertPassword.setForeground(new java.awt.Color(255, 51, 0));
         lbAlertPassword.setText("jLabel1");
 
@@ -167,18 +183,6 @@ public class Login extends javax.swing.JPanel {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        txtUser.setBackground(Color.white);
-        txtPassWord.setBackground(Color.white);
-        if(Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống Username!")== false && Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!")==false){
-            return;
-        }else if(Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống password!")==false){
-            return;
-        }else if(Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!")==false){
-            return;
-        }else{
-            login();
-        }
-        
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void txtUserFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUserFocusGained
