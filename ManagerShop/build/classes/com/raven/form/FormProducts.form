@@ -189,6 +189,11 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
                       <Component id="textField1" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="combobox1" min="-2" pref="250" max="-2" attributes="0"/>
+                          <EmptySpace pref="19" max="32767" attributes="0"/>
+                          <Component id="myButton6" min="-2" pref="22" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
@@ -205,10 +210,17 @@
                                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="myButton5" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="combobox1" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="btnAddList" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="btnDelete" min="-2" pref="65" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="btnUpdateList" min="-2" pref="65" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
+                      <Component id="txtImportList" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -218,10 +230,21 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="combobox1" min="-2" pref="44" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="combobox1" min="-2" pref="44" max="-2" attributes="0"/>
+                      <Component id="myButton6" min="-2" pref="26" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="txtImportList" min="-2" pref="51" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnAddList" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnDelete" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnUpdateList" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="textField1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jScrollPane2" min="-2" pref="116" max="-2" attributes="0"/>
@@ -238,7 +261,7 @@
                       <Component id="myButton4" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="myButton5" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="82" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -304,12 +327,18 @@
             <Property name="text" type="java.lang.String" value="T&#x1ea1;o M&#x1edb;i"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton3ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="com.raven.suportSwing.MyButton" name="myButton4">
           <Properties>
             <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton4ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="com.raven.suportSwing.MyButton" name="myButton5">
           <Properties>
@@ -321,6 +350,52 @@
           <Properties>
             <Property name="labeText" type="java.lang.String" value="Lo&#x1ea1;i S&#x1ea3;n Ph&#x1ea9;m"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combobox1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="com.raven.suportSwing.MyButton" name="myButton6">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/com/raven/icon/Create.png"/>
+            </Property>
+            <Property name="radius" type="int" value="20"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton6ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="com.raven.suportSwing.TextField" name="txtImportList">
+          <Properties>
+            <Property name="labelText" type="java.lang.String" value="T&#xea;n Danh M&#x1ee5;c"/>
+          </Properties>
+        </Component>
+        <Component class="com.raven.suportSwing.MyButton" name="btnDelete">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Xo&#xe1;"/>
+            <Property name="radius" type="int" value="20"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="com.raven.suportSwing.MyButton" name="btnAddList">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
+            <Property name="radius" type="int" value="20"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddListActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="com.raven.suportSwing.MyButton" name="btnUpdateList">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
+            <Property name="radius" type="int" value="20"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateListActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

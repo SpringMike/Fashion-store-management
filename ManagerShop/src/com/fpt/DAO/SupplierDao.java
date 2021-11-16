@@ -5,6 +5,7 @@
  */
 package com.fpt.DAO;
 
+import com.fpt.entity.Customer;
 import com.fpt.entity.Supplier;
 import com.fpt.helper.jdbcHelper;
 import java.util.ArrayList;
@@ -73,4 +74,8 @@ public class SupplierDao extends ShopDAO<Supplier, Integer> {
         return list;
     }
 
+    public List<Supplier> selectByKeyWord(String key) {
+        String sql = "Select * from Supplier where nameMaterial like ?";
+        return selectBySql(sql, "%" + key + "%");
+    }
 }
