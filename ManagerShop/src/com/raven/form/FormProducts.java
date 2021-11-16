@@ -18,7 +18,9 @@ import javax.swing.DefaultComboBoxModel;
  * @author ducit
  */
 public class FormProducts extends javax.swing.JPanel {
+
     List<Category> list;
+
     /**
      * Creates new form FormProducts
      */
@@ -31,14 +33,15 @@ public class FormProducts extends javax.swing.JPanel {
         btnUpdateList.setVisible(false);
         fillComboboxCategory();
         lblCategory.setVisible(false);
+        list = cDAO.selectAll();
     }
     CategoryDAO cDAO = new CategoryDAO();
 
     public void fillComboboxCategory() {
-        DefaultComboBoxModel defaultComboBoxModel = (DefaultComboBoxModel) combobox1.getModel();
+        DefaultComboBoxModel defaultComboBoxModel = (DefaultComboBoxModel) cbbCategory.getModel();
         defaultComboBoxModel.removeAllElements();
         try {
-            list = cDAO.selectAll();
+            
             for (Category c : list) {
                 defaultComboBoxModel.addElement(c);
             }
@@ -49,12 +52,12 @@ public class FormProducts extends javax.swing.JPanel {
 
     // hien len ten cua category len txt khi chon o combobox
     public void showCategory() {
-        Category c = (Category) combobox1.getSelectedItem();
+        Category c = (Category) cbbCategory.getSelectedItem();
         txtImportList.setText(c.getName());
     }
 
     public void updateCategory() {
-        Category c = (Category) combobox1.getSelectedItem();
+        Category c = (Category) cbbCategory.getSelectedItem();
         c.setName(txtImportList.getText());
         try {
             if (!Validate.checkEmpty(lblCategory, txtImportList, "Không được để trống tên danh mục!")) {
@@ -62,7 +65,7 @@ public class FormProducts extends javax.swing.JPanel {
             }
             cDAO.update(c);
             MsgBox.alert(this, "Sửa đổi thành công");
-            
+            fillComboboxCategory();          
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,25 +78,23 @@ public class FormProducts extends javax.swing.JPanel {
                 lblCategory.setVisible(true);
                 return;
             }
-            list = cDAO.selectAll();
             for (Category c : list) {
-                if(txtImportList.getText().equalsIgnoreCase(c.getName())){
-                lblCategory.setVisible(true);
-                lblCategory.setText("Tên danh mục đã có mời nhập lại!");
-                txtImportList.setText("");
-                return;
+                if (txtImportList.getText().equalsIgnoreCase(c.getName())) {
+                    lblCategory.setVisible(true);
+                    lblCategory.setText("Tên danh mục đã có mời nhập lại!");
+                    txtImportList.setText("");
+                    return;
                 }
             }
-            
+
             cDAO.insert(categoryName);
             lblCategory.setVisible(false);
             txtImportList.setVisible(false);
             btnDelete.setVisible(false);
             btnAddList.setVisible(false);
             btnUpdateList.setVisible(false);
-            MsgBox.alert(this, "Thêm đổi thành công");
-            
-
+            MsgBox.alert(this, "Thêm thành công");
+            fillComboboxCategory();
         } catch (Exception e) {
         }
     }
@@ -126,7 +127,7 @@ public class FormProducts extends javax.swing.JPanel {
         myButton3 = new com.raven.suportSwing.MyButton();
         myButton4 = new com.raven.suportSwing.MyButton();
         myButton5 = new com.raven.suportSwing.MyButton();
-        combobox1 = new com.raven.suportSwing.Combobox();
+        cbbCategory = new com.raven.suportSwing.Combobox();
         myButton6 = new com.raven.suportSwing.MyButton();
         txtImportList = new com.raven.suportSwing.TextField();
         btnDelete = new com.raven.suportSwing.MyButton();
@@ -247,10 +248,10 @@ public class FormProducts extends javax.swing.JPanel {
         myButton5.setText("Cập Nhật");
         myButton5.setRadius(20);
 
-        combobox1.setLabeText("Loại Sản Phẩm");
-        combobox1.addActionListener(new java.awt.event.ActionListener() {
+        cbbCategory.setLabeText("Loại Sản Phẩm");
+        cbbCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combobox1ActionPerformed(evt);
+                cbbCategoryActionPerformed(evt);
             }
         });
 
@@ -312,7 +313,7 @@ public class FormProducts extends javax.swing.JPanel {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(textField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                         .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtImportList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -346,7 +347,7 @@ public class FormProducts extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtImportList, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -417,7 +418,7 @@ public class FormProducts extends javax.swing.JPanel {
             btnDelete.setVisible(false);
             btnAddList.setVisible(false);
             btnUpdateList.setVisible(false);
-
+            lblCategory.setVisible(false);
         } else {
             txtImportList.setVisible(true);
             btnDelete.setVisible(true);
@@ -436,17 +437,16 @@ public class FormProducts extends javax.swing.JPanel {
 
     private void btnAddListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddListActionPerformed
         insertCategory();
-        fillComboboxCategory();
     }//GEN-LAST:event_btnAddListActionPerformed
 
     private void btnUpdateListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateListActionPerformed
         updateCategory();
-        fillComboboxCategory();
+
     }//GEN-LAST:event_btnUpdateListActionPerformed
 
-    private void combobox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox1ActionPerformed
+    private void cbbCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbCategoryActionPerformed
         showCategory();
-    }//GEN-LAST:event_combobox1ActionPerformed
+    }//GEN-LAST:event_cbbCategoryActionPerformed
 
     private void txtImportListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImportListActionPerformed
         // TODO add your handling code here:
@@ -462,7 +462,7 @@ public class FormProducts extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton btnDelete;
     private com.raven.suportSwing.MyButton btnUpdateList;
     private javax.swing.ButtonGroup buttonGroup1;
-    private com.raven.suportSwing.Combobox combobox1;
+    private com.raven.suportSwing.Combobox cbbCategory;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

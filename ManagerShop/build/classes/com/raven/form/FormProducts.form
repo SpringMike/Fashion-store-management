@@ -190,7 +190,7 @@
                       <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
                       <Component id="textField1" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="combobox1" min="-2" pref="250" max="-2" attributes="0"/>
+                          <Component id="cbbCategory" min="-2" pref="250" max="-2" attributes="0"/>
                           <EmptySpace pref="19" max="32767" attributes="0"/>
                           <Component id="myButton6" min="-2" pref="22" max="-2" attributes="0"/>
                       </Group>
@@ -234,7 +234,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="combobox1" min="-2" pref="44" max="-2" attributes="0"/>
+                      <Component id="cbbCategory" min="-2" pref="44" max="-2" attributes="0"/>
                       <Component id="myButton6" min="-2" pref="26" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -345,12 +345,12 @@
             <Property name="radius" type="int" value="20"/>
           </Properties>
         </Component>
-        <Component class="com.raven.suportSwing.Combobox" name="combobox1">
+        <Component class="com.raven.suportSwing.Combobox" name="cbbCategory">
           <Properties>
             <Property name="labeText" type="java.lang.String" value="Lo&#x1ea1;i S&#x1ea3;n Ph&#x1ea9;m"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combobox1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbbCategoryActionPerformed"/>
           </Events>
         </Component>
         <Component class="com.raven.suportSwing.MyButton" name="myButton6">
