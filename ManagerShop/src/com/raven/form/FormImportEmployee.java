@@ -5,7 +5,7 @@
  */
 package com.raven.form;
 
-import com.fpt.DAO.AccountDAO;
+import com.fpt.DAO.AccountDao;
 import com.fpt.DAO.EmpolyeeDao;
 import com.fpt.DAO.UserDAO;
 import com.fpt.Validate.Validate;
@@ -36,7 +36,7 @@ public class FormImportEmployee extends javax.swing.JPanel {
     }
 
     UserDAO daoE = new UserDAO();
-    AccountDAO daoA = new AccountDAO();
+    AccountDao daoA = new AccountDao();
 
     public boolean checkDate() {
         LocalDate today = LocalDate.now();

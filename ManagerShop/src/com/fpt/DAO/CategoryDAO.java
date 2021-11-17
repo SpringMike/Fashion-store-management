@@ -17,15 +17,22 @@ import java.util.List;
  */
 public class CategoryDAO extends ShopDAO<Category, Integer> {
 
+    String INSERT_SQL = "INSERT INTO dbo.List(nameList) VALUES (?)";
+
     @Override
     public void insert(Category e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbcHelper.update(INSERT_SQL, e.getName());
+
+    }
+
+    public void insert(String categoryName) {
+        jdbcHelper.update(INSERT_SQL, categoryName);
     }
 
     @Override
     public void update(Category e) {
         String sql = "UPDATE dbo.List SET nameList = ? WHERE idList = ?";
-        jdbcHelper.update(sql, e.getName(),e.getId());
+        jdbcHelper.update(sql, e.getName(), e.getId());
     }
 
     @Override
