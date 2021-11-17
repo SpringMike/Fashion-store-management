@@ -68,6 +68,7 @@ public class FormProducts extends javax.swing.JPanel {
             btnDelete.setVisible(false);
             btnAddList.setVisible(false);
             btnUpdateList.setVisible(false);
+            btnDelete.setVisible(false);
             MsgBox.alert(this, "Sửa đổi thành công");
             fillComboboxCategory();
         } catch (Exception e) {
@@ -109,6 +110,23 @@ public class FormProducts extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void delete() {
+        if (MsgBox.confirm(this, "Bạn có muốn xóa danh mục này không?")) {
+            Category idList = (Category) cbbCategory.getSelectedItem();
+            cDAO.delete(idList.getId());
+            txtImportList.setText("");
+            lblCategory.setVisible(false);
+            txtImportList.setVisible(false);
+            btnDelete.setVisible(false);
+            btnAddList.setVisible(false);
+            btnUpdateList.setVisible(false);
+            MsgBox.alert(this, "Xoá OK");
+            fillComboboxCategory();
+
+        }
+
     }
 
     /**
@@ -253,9 +271,19 @@ public class FormProducts extends javax.swing.JPanel {
 
         myButton3.setText("Tạo Mới");
         myButton3.setRadius(20);
+        myButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton3ActionPerformed(evt);
+            }
+        });
 
         myButton4.setText("Thêm");
         myButton4.setRadius(20);
+        myButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton4ActionPerformed(evt);
+            }
+        });
 
         myButton5.setText("Cập Nhật");
         myButton5.setRadius(20);
@@ -448,8 +476,8 @@ public class FormProducts extends javax.swing.JPanel {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        txtImportList.setVisible(false);
-        btnDelete.setVisible(false);
+        delete();
+//        fillComboboxCategory();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddListActionPerformed
@@ -477,6 +505,14 @@ public class FormProducts extends javax.swing.JPanel {
         // TODO add your handling code here:
         showCategory();
     }//GEN-LAST:event_cbbCategoryItemStateChanged
+
+    private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myButton3ActionPerformed
+
+    private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -37,7 +37,8 @@ public class CategoryDAO extends ShopDAO<Category, Integer> {
 
     @Override
     public void delete(Integer k) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "DELETE FROM List WHERE idList = ?";
+        jdbcHelper.update(sql, k);
     }
 
     @Override

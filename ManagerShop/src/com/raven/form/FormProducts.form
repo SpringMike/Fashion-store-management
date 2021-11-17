@@ -332,12 +332,18 @@
             <Property name="text" type="java.lang.String" value="T&#x1ea1;o M&#x1edb;i"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton3ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="com.raven.suportSwing.MyButton" name="myButton4">
           <Properties>
             <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton4ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="com.raven.suportSwing.MyButton" name="myButton5">
           <Properties>
