@@ -75,7 +75,9 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         btnEditMaterial = new com.raven.suportSwing.MyButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
+        setResizable(false);
 
         jPanel5.setBackground(java.awt.Color.white);
 
