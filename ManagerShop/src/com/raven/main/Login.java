@@ -30,24 +30,27 @@ public class Login extends javax.swing.JPanel {
         txtUser.grabFocus();
     }
     AccountDao dao = new AccountDao();
-    public void backLogin(){
+
+    public void backLogin() {
         txtUser.grabFocus();
     }
-    public void clickLogin(){
+
+    public void clickLogin() {
         txtUser.setBackground(Color.white);
         txtPassWord.setBackground(Color.white);
-        if(Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống Username!")== false && Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!")==false){
+        if (Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống Username!") == false && Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!") == false) {
             return;
-        }else if(Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống password!")==false){
+        } else if (Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống password!") == false) {
             return;
-        }else if(Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!")==false){
+        } else if (Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!") == false) {
             return;
-        }else{
+        } else {
             login();
         }
     }
+
     public void login() {
-       
+
         String userName = txtUser.getText();
         String passWord = new String(txtPassWord.getPassword());
         try {
@@ -56,10 +59,10 @@ public class Login extends javax.swing.JPanel {
             userName là tên đăng nhập
             account findByUsername(userName)
              */
-            if (account == null ) {    //nếu user sai
-                lbAlertUsername.setText("Sai tên đăng nhập!");      
+            if (account == null) {    //nếu user sai
+                lbAlertUsername.setText("Sai tên đăng nhập!");
             } else {
-               String passwordSystem = account.getPassWord();
+                String passwordSystem = account.getPassWord();
                 if (passWord.equals(passwordSystem)) {  //nếu mật khẩu đúng
                     MsgBox.alert(this, "Đăng nhập thành công!");
                     new Main().setVisible(true);
@@ -72,16 +75,15 @@ public class Login extends javax.swing.JPanel {
             e.printStackTrace();
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
         }
-<<<<<<< HEAD
-=======
+
     }
 
     public void addEventRegister(ActionListener event) {
         btnFogot.addActionListener(event);
     }
+
     public void addEventLogin(ActionListener event) {
         btnLogin.addActionListener(event);
->>>>>>> Tunm
     }
 
     /**

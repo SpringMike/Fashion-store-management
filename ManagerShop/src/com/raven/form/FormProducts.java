@@ -19,41 +19,40 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class FormProducts extends javax.swing.JPanel {
 
-    List<Category> list;
-
+//    List<Category> list 
     /**
      * Creates new form FormProducts
      */
     public FormProducts() {
         initComponents();
         setOpaque(false);
+        fillComboboxCategory();
         txtImportList.setVisible(false);
         btnDelete.setVisible(false);
         btnAddList.setVisible(false);
         btnUpdateList.setVisible(false);
-        fillComboboxCategory();
         lblCategory.setVisible(false);
-        list = cDAO.selectAll();
+//        list = cDAO.selectAll();
     }
     CategoryDAO cDAO = new CategoryDAO();
 
     public void fillComboboxCategory() {
-        DefaultComboBoxModel defaultComboBoxModel = (DefaultComboBoxModel) cbbCategory.getModel();
-        defaultComboBoxModel.removeAllElements();
-        try {
-            
-            for (Category c : list) {
-                defaultComboBoxModel.addElement(c);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbbCategory.getModel();
+        cbbCategory.removeAllItems();
+        List<Category> list = cDAO.selectAll();
+        for (Category c : list) {
+            cbModel.addElement(c);
         }
     }
 
     // hien len ten cua category len txt khi chon o combobox
     public void showCategory() {
         Category c = (Category) cbbCategory.getSelectedItem();
-        txtImportList.setText(c.getName());
+        if (!txtImportList.isVisible()) {
+            return;
+        } else {
+            txtImportList.setText(c.getName());
+        }
     }
 
     public void updateCategory() {
@@ -65,14 +64,21 @@ public class FormProducts extends javax.swing.JPanel {
             }
             cDAO.update(c);
             MsgBox.alert(this, "Sửa đổi thành công");
-            fillComboboxCategory();          
+            fillComboboxCategory();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public Category getForm() {
+        Category c = new Category();
+        c.setName(txtImportList.getText());
+        return c;
+    }
+
     public void insertCategory() {
-        String categoryName = txtImportList.getText();
+        Category cInsert = getForm();
+        List<Category> list = cDAO.selectAll();
         try {
             if (!Validate.checkEmpty(lblCategory, txtImportList, "Không được để trống tên danh mục!")) {
                 lblCategory.setVisible(true);
@@ -87,7 +93,7 @@ public class FormProducts extends javax.swing.JPanel {
                 }
             }
 
-            cDAO.insert(categoryName);
+            cDAO.insert(cInsert);
             lblCategory.setVisible(false);
             txtImportList.setVisible(false);
             btnDelete.setVisible(false);
@@ -96,6 +102,7 @@ public class FormProducts extends javax.swing.JPanel {
             MsgBox.alert(this, "Thêm thành công");
             fillComboboxCategory();
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -249,6 +256,11 @@ public class FormProducts extends javax.swing.JPanel {
         myButton5.setRadius(20);
 
         cbbCategory.setLabeText("Loại Sản Phẩm");
+        cbbCategory.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbCategoryItemStateChanged(evt);
+            }
+        });
         cbbCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbCategoryActionPerformed(evt);
@@ -424,7 +436,7 @@ public class FormProducts extends javax.swing.JPanel {
             btnDelete.setVisible(true);
             btnAddList.setVisible(true);
             btnUpdateList.setVisible(true);
-
+            showCategory();
         }
 
     }//GEN-LAST:event_myButton6ActionPerformed
@@ -445,7 +457,7 @@ public class FormProducts extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdateListActionPerformed
 
     private void cbbCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbCategoryActionPerformed
-        showCategory();
+//        showCategoryText();
     }//GEN-LAST:event_cbbCategoryActionPerformed
 
     private void txtImportListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImportListActionPerformed
@@ -455,6 +467,11 @@ public class FormProducts extends javax.swing.JPanel {
     private void txtImportListFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImportListFocusGained
         lblCategory.setText("");
     }//GEN-LAST:event_txtImportListFocusGained
+
+    private void cbbCategoryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbCategoryItemStateChanged
+        // TODO add your handling code here:
+        showCategory();
+    }//GEN-LAST:event_cbbCategoryItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
