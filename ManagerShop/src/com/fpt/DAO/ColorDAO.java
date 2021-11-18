@@ -25,7 +25,7 @@ public class ColorDAO extends ShopDAO<Color, Integer>{
 
     @Override
     public void update(Color e) {
-        String sql = "update Color set valueColor ? where idColor = ?";
+        String sql = "update dbo.Color set valueColor = ? where idColor = ?";
         jdbcHelper.update(sql, e.getValueColor(), e.getIdColor());
     }
 

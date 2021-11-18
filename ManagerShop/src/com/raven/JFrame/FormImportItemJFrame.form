@@ -516,6 +516,9 @@
                 </Property>
                 <Property name="radius" type="int" value="20"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditColorActionPerformed"/>
+              </Events>
             </Component>
             <Component class="com.raven.suportSwing.Combobox" name="cboColor">
               <Properties>

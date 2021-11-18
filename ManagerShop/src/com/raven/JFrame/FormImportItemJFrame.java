@@ -72,7 +72,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
     public void showSize() {
         Size s = (Size) cbbSize.getSelectedItem();
-        if (!txtSizeAdd.isVisible()) {
+        if (s == null) {
             return;
         } else {
             txtSizeAdd.setText(s.getValueSize());
@@ -81,7 +81,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     
     public void showColor() {
         Color c = (Color) cboColor.getSelectedItem();
-        if (!txtColorAdd.isVisible()) {
+        if (c == null) {
             return;
         } else {
             txtColorAdd.setText(c.getValueColor());
@@ -146,6 +146,22 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         txtColorAdd.setVisible(false);
         MsgBox.alert(this, "Thêm Thành công");
         fillComboboxColor();
+    }
+    
+    public void updateColor(){
+        Color c = (Color) cboColor.getSelectedItem();
+        c.setValueColor(txtColorAdd.getText());
+        try {
+            if(!Validate.checkEmpty(lblColor, txtColorAdd, "Chưa nhập màu!")){
+                return;
+            }else{
+                cDao.update(c);
+                MsgBox.alert(this, "Sửa đổi thành công!!");
+                fillComboboxColor();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -361,6 +377,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         btnEditColor.setMinimumSize(new java.awt.Dimension(59, 23));
         btnEditColor.setPreferredSize(new java.awt.Dimension(59, 23));
         btnEditColor.setRadius(20);
+        btnEditColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditColorActionPerformed(evt);
+            }
+        });
 
         cboColor.setLabeText("Màu sắc");
         cboColor.addActionListener(new java.awt.event.ActionListener() {
@@ -634,6 +655,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             btnColorAdd.setVisible(true);
             txtColorAdd.setVisible(true);
             btnEditColor.setVisible(true);
+            showColor();
         }
     }//GEN-LAST:event_myButton10ActionPerformed
 
@@ -689,6 +711,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         insertColor();
     }//GEN-LAST:event_btnColorAddActionPerformed
+
+    private void btnEditColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditColorActionPerformed
+        // TODO add your handling code here:
+        updateColor();
+    }//GEN-LAST:event_btnEditColorActionPerformed
 
     /**
      * @param args the command line arguments
