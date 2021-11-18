@@ -68,6 +68,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
     Size getFormSize() {
         Size s = new Size();
+        s.setIdSize(cbbSize.getSelectedIndex() + 1);
         s.setValueSize(txtSizeAdd.getText());
         return s;
     }
@@ -94,6 +95,26 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         txtSizeAdd.setVisible(false);
         MsgBox.alert(this, "Thêm Thành công");
         fillComboboxSize();
+    }
+
+    public void updateSize() {
+        try {
+//            if (!Validate.checkEmpty(lblSizeAdd, txtSizeAdd, "Không bỏ trống size")) {
+//                lblSizeAdd.setVisible(true);
+//                return;
+//            }
+            Size s = getFormSize();
+            sDao.update(s);
+            MsgBox.alert(this, "update Thành công");
+            lblSizeAdd.setVisible(false);
+            btnAddSize.setVisible(false);
+            btnEditSize.setVisible(false);
+            txtSizeAdd.setVisible(false);
+            fillComboboxSize();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -350,6 +371,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         btnEditSize.setMinimumSize(new java.awt.Dimension(59, 23));
         btnEditSize.setPreferredSize(new java.awt.Dimension(59, 23));
         btnEditSize.setRadius(20);
+        btnEditSize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditSizeActionPerformed(evt);
+            }
+        });
 
         myButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/Create.png"))); // NOI18N
         myButton11.setRadius(20);
@@ -619,6 +645,12 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     private void cbbSizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbbSizeMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_cbbSizeMouseClicked
+
+    private void btnEditSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditSizeActionPerformed
+        // TODO add your handling code here:
+        updateSize();
+//        fillComboboxSize();
+    }//GEN-LAST:event_btnEditSizeActionPerformed
 
     /**
      * @param args the command line arguments

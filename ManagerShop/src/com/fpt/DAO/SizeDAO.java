@@ -25,7 +25,7 @@ public class SizeDAO extends ShopDAO<Size, Integer> {
 
     @Override
     public void update(Size e) {
-        String sql = "update Size set valueSize ? where idSize = ?";
+        String sql = "UPDATE size SET valueSize = ? WHERE idSize = ?";
         jdbcHelper.update(sql, e.getValueSize(), e.getIdSize());
     }
 
