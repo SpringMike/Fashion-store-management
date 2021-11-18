@@ -10,6 +10,7 @@ package com.fpt.entity;
  * @author ducit
  */
 public class Material {
+
     private int idMaterial;
     private String valueMaterial;
 
@@ -28,5 +29,10 @@ public class Material {
     public void setValueMaterial(String valueMaterial) {
         this.valueMaterial = valueMaterial;
     }
-    
+
+    @Override
+    public String toString() {
+        return valueMaterial;
+    }
+
 }

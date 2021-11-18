@@ -504,6 +504,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         });
 
         cbbMaterial.setLabeText("Chất liệu");
+        cbbMaterial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbMaterialActionPerformed(evt);
+            }
+        });
 
         btnEditSize.setText("Sửa");
         btnEditSize.setMaximumSize(new java.awt.Dimension(59, 23));
@@ -773,6 +778,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             txtMaterialAdd.setVisible(true);
             btnAddMaterial.setVisible(true);
             btnEditMaterial.setVisible(true);
+            showMaterial();
         }
     }//GEN-LAST:event_myButton11ActionPerformed
 
@@ -812,12 +818,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbbSizeMouseClicked
 
-
-    private void btnEditSizeActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    private void btnEditSizeActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         updateSize();
 //        fillComboboxSize();
-    }                                           
+    }
     private void btnColorAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColorAddActionPerformed
         // TODO add your handling code here:
         insertColor();
@@ -832,6 +837,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         insertMaterial();
     }//GEN-LAST:event_btnAddMaterialActionPerformed
+
+    private void cbbMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbMaterialActionPerformed
+        // TODO add your handling code here:
+        showMaterial();
+    }//GEN-LAST:event_cbbMaterialActionPerformed
 
     /**
      * @param args the command line arguments

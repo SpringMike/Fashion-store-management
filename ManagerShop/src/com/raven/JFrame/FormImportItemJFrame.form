@@ -571,6 +571,9 @@
               <Properties>
                 <Property name="labeText" type="java.lang.String" value="Ch&#x1ea5;t li&#x1ec7;u"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbbMaterialActionPerformed"/>
+              </Events>
             </Component>
             <Component class="com.raven.suportSwing.MyButton" name="btnEditSize">
               <Properties>
