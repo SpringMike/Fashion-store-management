@@ -65,7 +65,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         m.setName(txtMaterial.getText());
         List<Material> list = materialDAO.selectAll();
         try {
-            if (!Validate.checkEmpty(lblMaterial, txtMaterial, "Không được để trống tên danh mục!")) {
+            if (!Validate.checkEmpty(lblMaterial, txtMaterial, "Không được để trống tên chất liệu!")) {
                 lblMaterial.setVisible(true);
                 return;
             }
