@@ -1,8 +1,2 @@
-﻿SELECT * FROM dbo.[User]
-INSERT INTO dbo.List
-(
-    nameList
-)
-VALUES
-(N'Quần' -- nameList - nvarchar(255)
-    )
+﻿ALTER TABLE dbo.Material ALTER COLUMN valueMaterial NVARCHAR(50) NOT NULL
+ALTER TABLE dbo.Color ALTER COLUMN valueColor NVARCHAR(50) NOT NULL

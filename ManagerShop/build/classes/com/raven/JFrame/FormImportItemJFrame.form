@@ -288,18 +288,14 @@
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Component id="combobox2" min="-2" pref="46" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="combobox1" min="-2" pref="46" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="textField1" min="-2" pref="46" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <Component id="combobox2" min="-2" pref="46" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="combobox1" min="-2" pref="46" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="textField1" min="-2" pref="46" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
+              <Component id="jPanel6" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -390,9 +386,8 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtSizeAdd" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="combobox4" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
@@ -407,9 +402,9 @@
                               <Component id="myButton10" min="-2" pref="22" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="combobox3" min="-2" pref="192" max="-2" attributes="0"/>
+                              <Component id="cbbSize" min="-2" pref="192" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="myButton9" min="-2" pref="22" max="-2" attributes="0"/>
+                              <Component id="btn" min="-2" pref="22" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -425,9 +420,13 @@
                               <Component id="myButton11" min="-2" pref="22" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnSizeAdd" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnAddSize" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnEditSize" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="lblSizeAdd" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtSizeAdd" alignment="0" pref="192" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="19" max="32767" attributes="0"/>
@@ -439,17 +438,19 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="myButton9" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="combobox3" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="cbbSize" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="txtSizeAdd" min="-2" pref="33" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="txtSizeAdd" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblSizeAdd" min="-2" pref="12" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnSizeAdd" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="btnAddSize" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="btnEditSize" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="myButton10" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="combobox4" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
@@ -482,7 +483,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="com.raven.suportSwing.MyButton" name="myButton9">
+            <Component class="com.raven.suportSwing.MyButton" name="btn">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/com/raven/icon/Create.png"/>
@@ -490,7 +491,7 @@
                 <Property name="radius" type="int" value="20"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton9ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActionPerformed"/>
               </Events>
             </Component>
             <Component class="com.raven.suportSwing.TextField" name="txtColorAdd">
@@ -521,11 +522,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combobox4ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.raven.suportSwing.MyButton" name="btnSizeAdd">
+            <Component class="com.raven.suportSwing.MyButton" name="btnAddSize">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
                 <Property name="radius" type="int" value="20"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddSizeActionPerformed"/>
+              </Events>
             </Component>
             <Component class="com.raven.suportSwing.TextField" name="txtMaterialAdd">
               <Properties>
@@ -535,12 +539,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtMaterialAddActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.raven.suportSwing.Combobox" name="combobox3">
+            <Component class="com.raven.suportSwing.Combobox" name="cbbSize">
               <Properties>
                 <Property name="labeText" type="java.lang.String" value="Size"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combobox3ActionPerformed"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cbbSizeMouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbbSizeActionPerformed"/>
               </Events>
             </Component>
             <Component class="com.raven.suportSwing.Combobox" name="combobox5">
@@ -618,6 +623,16 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
                 <Property name="radius" type="int" value="20"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblSizeAdd">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="11" style="2"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="ff" type="rgb"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>
