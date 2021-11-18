@@ -7,34 +7,39 @@ package com.fpt.entity;
 
 /**
  *
- * @author minht
+ * @author Đặng Đình Vũ
  */
 public class Color {
-    private int id;
-    private String name;
+
+    private int idColor;
+    private String valueColor;
+
+    public Color(int idColor, String valueColor) {
+        this.idColor = idColor;
+        this.valueColor = valueColor;
+    }
 
     public Color() {
     }
 
-    public Color(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public int getIdColor() {
+        return idColor;
     }
 
-    public int getId() {
-        return id;
+    public void setIdColor(int idColor) {
+        this.idColor = idColor;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getValueColor() {
+        return valueColor;
     }
 
-    public String getName() {
-        return name;
+    public void setValueColor(String valueColor) {
+        this.valueColor = valueColor;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public String toString(){
+        return valueColor;
     }
-
 }

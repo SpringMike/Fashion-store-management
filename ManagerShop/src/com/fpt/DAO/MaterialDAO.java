@@ -1,63 +1,66 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.fpt.DAO;
 
 import com.fpt.entity.Material;
 import com.fpt.helper.jdbcHelper;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.*;
 
 /**
  *
- * @author Administrator
+ * @author ducit
  */
-public class MaterialDAO extends ShopDAO<Material, Integer> {
+public class MaterialDAO extends ShopDAO<Material, String> {
 
     @Override
     public void insert(Material e) {
-        String sql = "INSERT INTO dbo.Material(valueMaterial) VALUES (?)";
-        jdbcHelper.update(sql, e.getName());
+        String sql = "insert into material values(?)";
+        jdbcHelper.update(sql, e.getValueMaterial());
     }
 
     @Override
     public void update(Material e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "update material set valueMaterial = ? where idMaterial = ?";
+        jdbcHelper.update(sql, e.getValueMaterial(), e.getIdMaterial());
     }
 
     @Override
-    public void delete(Integer k) {
+    public void delete(String k) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<Material> selectAll() {
-        String sql = "select * from Material";
+        String sql = "select * from material";
         return selectBySql(sql);
     }
 
     @Override
-    public Material selectById(Integer k) {
+    public Material selectById(String k) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected List<Material> selectBySql(String sql, Object... args) {
-       List<Material> list = new ArrayList<>();
+        List<Material> list = new ArrayList<>();
         try {
             ResultSet rs = jdbcHelper.query(sql, args);
             while (rs.next()) {
                 Material m = new Material();
-                m.setId(rs.getInt("idMaterial"));
-                m.setName(rs.getString("valueMaterial"));
+                m.setIdMaterial(rs.getInt("idMaterial"));
+                m.setValueMaterial(rs.getString("valueMaterial"));
                 list.add(m);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
+
     }
 
 }

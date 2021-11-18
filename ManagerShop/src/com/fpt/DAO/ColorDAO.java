@@ -6,27 +6,27 @@
 package com.fpt.DAO;
 
 import com.fpt.entity.Color;
-import com.fpt.entity.Material;
 import com.fpt.helper.jdbcHelper;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.ResultSet;
 
 /**
  *
- * @author minht
+ * @author Đặng Đình Vũ
  */
 public class ColorDAO extends ShopDAO<Color, Integer>{
 
     @Override
     public void insert(Color e) {
-        String sql = "INSERT INTO dbo.Color(valueColor)VALUES (?)";
-        jdbcHelper.update(sql, e.getName());
+        String sql = "INSERT dbo.Color( valueColor) values(?)";
+        jdbcHelper.update(sql, e.getValueColor());
     }
 
     @Override
     public void update(Color e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "update dbo.Color set valueColor = ? where idColor = ?";
+        jdbcHelper.update(sql, e.getValueColor(), e.getIdColor());
     }
 
     @Override
@@ -36,13 +36,18 @@ public class ColorDAO extends ShopDAO<Color, Integer>{
 
     @Override
     public List<Color> selectAll() {
-        String sql = "select * from dbo.Color";
+        String sql = "SELECT * FROM dbo.Color";
         return selectBySql(sql);
     }
 
     @Override
     public Color selectById(Integer k) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT * FROM dbo.Color where idColor = ?";
+        List<Color> list = selectBySql(sql, k);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
     }
 
     @Override
@@ -51,10 +56,10 @@ public class ColorDAO extends ShopDAO<Color, Integer>{
         try {
             ResultSet rs = jdbcHelper.query(sql, args);
             while (rs.next()) {
-                Color cl = new Color();
-                cl.setId(rs.getInt("idColor"));
-                cl.setName(rs.getString("valueColor"));
-                list.add(cl);
+                Color c = new Color();
+                c.setIdColor(rs.getInt("idColor"));
+                c.setValueColor(rs.getString("valueColor"));
+                list.add(c);
             }
         } catch (Exception e) {
             e.printStackTrace();

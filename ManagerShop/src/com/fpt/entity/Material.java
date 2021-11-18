@@ -1,46 +1,38 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.fpt.entity;
 
 /**
  *
- * @author Administrator
+ * @author ducit
  */
 public class Material {
-    private int id;
-    private String name;
 
-    public Material() {
+    private int idMaterial;
+    private String valueMaterial;
+
+    public int getIdMaterial() {
+        return idMaterial;
     }
 
-    public Material(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public void setIdMaterial(int idMaterial) {
+        this.idMaterial = idMaterial;
     }
 
-    public int getId() {
-        return id;
+    public String getValueMaterial() {
+        return valueMaterial;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setValueMaterial(String valueMaterial) {
+        this.valueMaterial = valueMaterial;
     }
 
     @Override
     public String toString() {
-        return this.name;
+        return valueMaterial;
     }
-    
-    
-    
+
 }

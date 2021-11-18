@@ -7,12 +7,12 @@ package com.raven.JFrame;
 
 import com.fpt.DAO.ColorDAO;
 import com.fpt.DAO.MaterialDAO;
+import com.fpt.DAO.SizeDAO;
 import com.fpt.Validate.Validate;
-import com.fpt.entity.Category;
 import com.fpt.entity.Color;
 import com.fpt.entity.Material;
+import com.fpt.entity.Size;
 import com.fpt.utils.MsgBox;
-import com.raven.suportSwing.Combobox;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 
@@ -30,126 +30,225 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        statusForm();
+        fillComboboxSize();
+        fillComboboxColor();
+        fillComboboxMaterial();
+    }
+
+    public void statusForm() {
         btnAddMaterial.setVisible(false);
         btnColorAdd.setVisible(false);
         btnEditColor.setVisible(false);
         btnEditMaterial.setVisible(false);
         btnEditSize.setVisible(false);
-        btnSizeAdd.setVisible(false);
+        btnAddSize.setVisible(false);
         txtColorAdd.setVisible(false);
-        txtMaterial.setVisible(false);
+        txtMaterialAdd.setVisible(false);
         txtSizeAdd.setVisible(false);
-        lblMaterial.setVisible(false);
-        lblColor.setVisible(false);
-        lblSize.setVisible(false);
-        fillComboboxMaterial();
-        fillComboboxColor();
     }
-    MaterialDAO materialDAO = new MaterialDAO();
-    ColorDAO colorDao = new ColorDAO();
-    List<Material> listMaterial = materialDAO.selectAll();
-    List<Color> listColor = colorDao.selectAll();
-    
-    public void fillComboboxColor() {
-        List<Color> listColor = colorDao.selectAll();
-        DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbbColor.getModel();
-        cbbColor.removeAllItems();
-        listColor.forEach(m -> {
-            cbModel.addElement(m.getName());
-        });
-    }
-
-    public void showColor() {
-        Color m = (Color) cbbColor.getSelectedItem();
-        if (!txtColorAdd.isVisible()) {
-            return;
-        } else {
-            txtColorAdd.setText(m.getName());
-        }
-    }
-
-    public void insertColor() {
-        Color cl = new Color();
-        cl.setName(txtColorAdd.getText());
-        try {
-            if (!Validate.checkEmpty(lblColor, txtColorAdd, "Không được để trống tên màu!")) {
-                lblMaterial.setVisible(true);
-                return;
-            }
-            for (Color color : listColor) {
-                if (txtMaterial.getText().equalsIgnoreCase(color.getName())) {
-                    lblColor.setVisible(true);
-                    lblColor.setText("Tên màu đã có mời nhập lại!");
-                    txtColorAdd.setText("");
-                    return;
-                }
-            }
-
-            colorDao.insert(cl);
-            lblColor.setVisible(false);
-            txtColorAdd.setVisible(false);
-            btnColorAdd.setVisible(false);
-            btnEditColor.setVisible(false);
-            MsgBox.alert(this, "Thêm thành công");
-            fillComboboxColor();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void fillComboboxMaterial() {
-        List<Material> listMaterial = materialDAO.selectAll();
-        DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbbMaterial.getModel();
-        cbbMaterial.removeAllItems();
-        listMaterial.forEach(m -> {
-            cbModel.addElement(m);
-        });
-    }
-
-    public void showMaterial() {
-        Material m = (Material) cbbMaterial.getSelectedItem();
-        if (!txtMaterial.isVisible()) {
-            return;
-        } else {
-            txtMaterial.setText(m.getName());
-        }
-    }
-
-    public void insertMatrial() {
-        Material m = new Material();
-        m.setName(txtMaterial.getText());
-        try {
-            if (!Validate.checkEmpty(lblMaterial, txtMaterial, "Không được để trống tên chất liệu!")) {
-                lblMaterial.setVisible(true);
-                return;
-            }
-            for (Material material : listMaterial) {
-                if (txtMaterial.getText().equalsIgnoreCase(material.getName())) {
-                    lblMaterial.setVisible(true);
-                    lblMaterial.setText("Tên chất liệu đã có mời nhập lại!");
-                    txtMaterial.setText("");
-                    return;
-                }
-            }
-
-            materialDAO.insert(m);
-            lblMaterial.setVisible(false);
-            txtMaterial.setVisible(false);
-            btnAddMaterial.setVisible(false);
-            btnEditMaterial.setVisible(false);
-            MsgBox.alert(this, "Thêm thành công");
-            fillComboboxMaterial();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-        
-    
+    SizeDAO sDao = new SizeDAO();
+    ColorDAO cDao = new ColorDAO();
+    MaterialDAO mDao = new MaterialDAO();
 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
+    public void fillComboboxSize() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cbbSize.getModel();
+        cbbSize.removeAllItems();
+        List<Size> list = sDao.selectAll();
+        for (Size s : list) {
+            model.addElement(s);
+        }
+    }
+
+    public void fillComboboxColor() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboColor.getModel();
+        cboColor.removeAllItems();
+        List<Color> list = cDao.selectAll();
+        for (Color c : list) {
+            model.addElement(c);
+        }
+    }
+
+    public void fillComboboxMaterial() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cbbMaterial.getModel();
+        cbbMaterial.removeAllItems();
+        List<Material> list = mDao.selectAll();
+        for (Material c : list) {
+            model.addElement(c);
+        }
+    }
+
+    public void showSize() {
+        Size s = (Size) cbbSize.getSelectedItem();
+        if (s == null) {
+            return;
+        } else {
+            txtSizeAdd.setText(s.getValueSize());
+        }
+    }
+
+    public void showColor() {
+        Color c = (Color) cboColor.getSelectedItem();
+        if (c == null) {
+            return;
+        } else {
+            txtColorAdd.setText(c.getValueColor());
+        }
+    }
+
+    public void showMaterial() {
+        Material m = (Material) cbbMaterial.getSelectedItem();
+        if (m == null) {
+            return;
+        } else {
+            txtMaterialAdd.setText(m.getValueMaterial());
+        }
+    }
+
+    Size getFormSize() {
+        Size s = new Size();
+        s.setIdSize(cbbSize.getSelectedIndex() + 1);
+        s.setValueSize(txtSizeAdd.getText());
+        return s;
+    }
+
+    Color getFormColor() {
+        Color c = new Color();
+        c.setValueColor(txtColorAdd.getText());
+        return c;
+    }
+
+    Material getFormMaterial() {
+        Material m = new Material();
+        m.setValueMaterial(txtMaterialAdd.getText());
+        return m;
+    }
+
+    public void insertSize() {
+        Size s = getFormSize();
+        List<Size> list = sDao.selectAll();
+        if (!Validate.checkEmpty(lblSizeAdd, txtSizeAdd, "Không bỏ trống size")) {
+            lblSizeAdd.setVisible(true);
+            return;
+        }
+        for (Size size : list) {
+            if (txtSizeAdd.getText().equalsIgnoreCase(size.getValueSize())) {
+                lblSizeAdd.setVisible(true);
+                lblSizeAdd.setText("Size đã có !!!");
+                txtSizeAdd.setText("");
+                return;
+            }
+        }
+        sDao.insert(s);
+        lblSizeAdd.setVisible(false);
+        btnAddSize.setVisible(false);
+        btnEditSize.setVisible(false);
+        txtSizeAdd.setVisible(false);
+        MsgBox.alert(this, "Thêm Thành công");
+        fillComboboxSize();
+    }
+
+    public void updateSize() {
+        Size c = (Size) cbbSize.getSelectedItem();
+        c.setValueSize(txtSizeAdd.getText());
+        try {
+            if (!Validate.checkEmpty(lblSizeAdd, txtSizeAdd, "Chưa nhập Size!")) {
+                return;
+            } else {
+                sDao.update(c);
+                MsgBox.alert(this, "Sửa đổi thành công!!");
+                fillComboboxColor();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertColor() {
+        Color c = getFormColor();
+        List<Color> list = cDao.selectAll();
+        if (!Validate.checkEmpty(lblColor, txtColorAdd, "Không bỏ trống color")) {
+            lblColor.setVisible(true);
+            return;
+        }
+        for (Color color : list) {
+            if (txtColorAdd.getText().equalsIgnoreCase(color.getValueColor())) {
+                lblColor.setVisible(true);
+                lblColor.setText("Color đã có !!!");
+                txtColorAdd.setText("");
+                return;
+            }
+        }
+        cDao.insert(c);
+        lblColor.setVisible(false);
+        btnColorAdd.setVisible(false);
+        btnEditColor.setVisible(false);
+        txtColorAdd.setVisible(false);
+        MsgBox.alert(this, "Thêm Thành công");
+        fillComboboxColor();
+    }
+
+    public void updateColor() {
+        Color c = (Color) cboColor.getSelectedItem();
+        c.setValueColor(txtColorAdd.getText());
+        try {
+            if (!Validate.checkEmpty(lblColor, txtColorAdd, "Chưa nhập màu!")) {
+                return;
+            } else {
+                cDao.update(c);
+                MsgBox.alert(this, "Sửa đổi thành công!!");
+                fillComboboxColor();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertMaterial() {
+        Material c = getFormMaterial();
+        List<Material> list = mDao.selectAll();
+        if (!Validate.checkEmpty(lblMaterialAdd, txtMaterialAdd, "Không bỏ trống chất liệu")) {
+            lblMaterialAdd.setVisible(true);
+            return;
+        }
+        for (Material color : list) {
+            if (txtColorAdd.getText().equalsIgnoreCase(color.getValueMaterial())) {
+                lblMaterialAdd.setVisible(true);
+                lblMaterialAdd.setText("Chất liệu đã có !!!");
+                txtMaterialAdd.setText("");
+                return;
+            }
+        }
+        mDao.insert(c);
+        lblMaterialAdd.setVisible(false);
+        btnAddMaterial.setVisible(false);
+        btnEditMaterial.setVisible(false);
+        txtMaterialAdd.setVisible(false);
+        MsgBox.alert(this, "Thêm Thành công");
+        fillComboboxMaterial();
+    }
+
+    public void updateMaterial() {
+        Material c = (Material) cbbMaterial.getSelectedItem();
+        c.setValueMaterial(txtMaterialAdd.getText());
+        try {
+            if (!Validate.checkEmpty(lblMaterialAdd, txtMaterialAdd, "Chưa nhập chất liệu!")) {
+                return;
+            } else {
+                mDao.update(c);
+                MsgBox.alert(this, "Sửa đổi thành công!!");
+                fillComboboxMaterial();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -174,24 +273,25 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         textField1 = new com.raven.suportSwing.TextField();
         myButton2 = new com.raven.suportSwing.MyButton();
         jPanel6 = new javax.swing.JPanel();
-        btnSize = new com.raven.suportSwing.MyButton();
+        btn = new com.raven.suportSwing.MyButton();
         txtColorAdd = new com.raven.suportSwing.TextField();
         btnEditColor = new com.raven.suportSwing.MyButton();
-        cbbColor = new com.raven.suportSwing.Combobox();
-        btnSizeAdd = new com.raven.suportSwing.MyButton();
-        txtMaterial = new com.raven.suportSwing.TextField();
+        cboColor = new com.raven.suportSwing.Combobox();
+        btnAddSize = new com.raven.suportSwing.MyButton();
+        txtMaterialAdd = new com.raven.suportSwing.TextField();
         cbbSize = new com.raven.suportSwing.Combobox();
         cbbMaterial = new com.raven.suportSwing.Combobox();
         btnEditSize = new com.raven.suportSwing.MyButton();
-        btnMaterial = new com.raven.suportSwing.MyButton();
+        myButton11 = new com.raven.suportSwing.MyButton();
         txtSizeAdd = new com.raven.suportSwing.TextField();
         btnEditMaterial = new com.raven.suportSwing.MyButton();
-        btnColor = new com.raven.suportSwing.MyButton();
+        myButton10 = new com.raven.suportSwing.MyButton();
         btnColorAdd = new com.raven.suportSwing.MyButton();
         btnAddMaterial = new com.raven.suportSwing.MyButton();
-        lblMaterial = new javax.swing.JLabel();
-        lblSize = new javax.swing.JLabel();
+        lblSizeAdd = new javax.swing.JLabel();
         lblColor = new javax.swing.JLabel();
+        lblMaterialAdd = new javax.swing.JLabel();
+        btnSizeAdd1 = new com.raven.suportSwing.MyButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -217,15 +317,18 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(myButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(myButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                        .addComponent(myButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(myButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(myButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(myButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                                .addComponent(myButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(myButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,7 +362,9 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(java.awt.Color.white);
@@ -288,13 +393,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(scrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(102, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(java.awt.Color.white);
@@ -345,45 +448,55 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnSize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/Create.png"))); // NOI18N
-        btnSize.setRadius(20);
-        btnSize.addActionListener(new java.awt.event.ActionListener() {
+        btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/Create.png"))); // NOI18N
+        btn.setRadius(20);
+        btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSizeActionPerformed(evt);
+                btnActionPerformed(evt);
             }
         });
 
         txtColorAdd.setLabelText("Màu Thêm");
-        txtColorAdd.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtColorAddFocusGained(evt);
-            }
-        });
 
         btnEditColor.setText("Sửa");
         btnEditColor.setMaximumSize(new java.awt.Dimension(59, 23));
         btnEditColor.setMinimumSize(new java.awt.Dimension(59, 23));
         btnEditColor.setPreferredSize(new java.awt.Dimension(59, 23));
         btnEditColor.setRadius(20);
-
-        cbbColor.setLabeText("Màu sắc");
-        cbbColor.addActionListener(new java.awt.event.ActionListener() {
+        btnEditColor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbbColorActionPerformed(evt);
+                btnEditColorActionPerformed(evt);
             }
         });
 
-        btnSizeAdd.setText("Thêm");
-        btnSizeAdd.setRadius(20);
+        cboColor.setLabeText("Màu sắc");
+        cboColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboColorActionPerformed(evt);
+            }
+        });
 
-        txtMaterial.setLabelText("Chất liệu Thêm");
-        txtMaterial.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtMaterialFocusGained(evt);
+        btnAddSize.setText("Thêm");
+        btnAddSize.setRadius(20);
+        btnAddSize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddSizeActionPerformed(evt);
+            }
+        });
+
+        txtMaterialAdd.setLabelText("Chất liệu Thêm");
+        txtMaterialAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMaterialAddActionPerformed(evt);
             }
         });
 
         cbbSize.setLabeText("Size");
+        cbbSize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbbSizeMouseClicked(evt);
+            }
+        });
         cbbSize.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbSizeActionPerformed(evt);
@@ -403,11 +516,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         btnEditSize.setPreferredSize(new java.awt.Dimension(59, 23));
         btnEditSize.setRadius(20);
 
-        btnMaterial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/Create.png"))); // NOI18N
-        btnMaterial.setRadius(20);
-        btnMaterial.addActionListener(new java.awt.event.ActionListener() {
+        myButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/Create.png"))); // NOI18N
+        myButton11.setRadius(20);
+        myButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMaterialActionPerformed(evt);
+                myButton11ActionPerformed(evt);
             }
         });
 
@@ -424,11 +537,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             }
         });
 
-        btnColor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/Create.png"))); // NOI18N
-        btnColor.setRadius(20);
-        btnColor.addActionListener(new java.awt.event.ActionListener() {
+        myButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/Create.png"))); // NOI18N
+        myButton10.setRadius(20);
+        myButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnColorActionPerformed(evt);
+                myButton10ActionPerformed(evt);
             }
         });
 
@@ -448,14 +561,15 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             }
         });
 
-        lblMaterial.setForeground(new java.awt.Color(225, 0, 0));
-        lblMaterial.setText("jLabel3");
+        lblSizeAdd.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lblSizeAdd.setForeground(new java.awt.Color(255, 0, 0));
 
-        lblSize.setForeground(new java.awt.Color(225, 0, 0));
-        lblSize.setText("jLabel3");
+        lblColor.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lblColor.setForeground(new java.awt.Color(255, 0, 0));
 
-        lblColor.setForeground(new java.awt.Color(225, 0, 0));
-        lblColor.setText("jLabel3");
+        lblMaterialAdd.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lblMaterialAdd.setForeground(new java.awt.Color(255, 51, 0));
+        lblMaterialAdd.setText("jLabel3");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -464,42 +578,45 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblSize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblColor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(btnAddMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnEditMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(btnColorAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEditColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtSizeAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblColor, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbbColor, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cboColor, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtColorAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnColor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(myButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(cbbSize, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSize, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btn, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(btnAddMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnEditMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(btnAddSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnEditSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(lblSizeAdd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtSizeAdd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(btnColorAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnEditColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblMaterialAdd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cbbMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(btnSizeAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEditSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 23, Short.MAX_VALUE))
-                    .addComponent(lblMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(txtMaterialAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(myButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -507,43 +624,47 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(8, 8, 8)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSize, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbbSize, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtSizeAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblSize)
+                .addComponent(lblSizeAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSizeAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddSize, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnColor, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbbColor, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(myButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtColorAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblColor)
+                .addComponent(lblColor, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnColorAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbbMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(btnMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(myButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblMaterial)
+                .addComponent(txtMaterialAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(lblMaterialAdd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAddMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnEditMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
+
+        btnSizeAdd1.setText("Thêm");
+        btnSizeAdd1.setRadius(20);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -556,11 +677,13 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
                     .addComponent(combobox2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnSizeAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40))))
         );
@@ -569,20 +692,23 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(btnSizeAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(combobox2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(combobox2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -597,74 +723,73 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 31, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSizeActionPerformed
+    private void btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActionPerformed
         // TODO add your handling code here:
         if (txtSizeAdd.isVisible()) {
             txtSizeAdd.setVisible(false);
-            btnSizeAdd.setVisible(false);
+            btnAddSize.setVisible(false);
             btnEditSize.setVisible(false);
-            lblSize.setVisible(false);
         } else {
             txtSizeAdd.setVisible(true);
-            btnSizeAdd.setVisible(true);
+            btnAddSize.setVisible(true);
             btnEditSize.setVisible(true);
-            
+            showSize();
         }
 
-    }//GEN-LAST:event_btnSizeActionPerformed
+    }//GEN-LAST:event_btnActionPerformed
 
-    private void btnColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColorActionPerformed
+    private void myButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton10ActionPerformed
         // TODO add your handling code here:
         if (txtColorAdd.isVisible()) {
             btnColorAdd.setVisible(false);
             txtColorAdd.setVisible(false);
             btnEditColor.setVisible(false);
-            lblColor.setVisible(false);
         } else {
             btnColorAdd.setVisible(true);
             txtColorAdd.setVisible(true);
             btnEditColor.setVisible(true);
-            
+            showColor();
         }
-    }//GEN-LAST:event_btnColorActionPerformed
+    }//GEN-LAST:event_myButton10ActionPerformed
 
-    private void btnMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaterialActionPerformed
+    private void myButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton11ActionPerformed
         // TODO add your handling code here:
-        if (txtMaterial.isVisible()) {
-            txtMaterial.setVisible(false);
+        if (txtMaterialAdd.isVisible()) {
+            txtMaterialAdd.setVisible(false);
             btnAddMaterial.setVisible(false);
             btnEditMaterial.setVisible(false);
-            lblMaterial.setVisible(false);
         } else {
-            txtMaterial.setVisible(true);
+            txtMaterialAdd.setVisible(true);
             btnAddMaterial.setVisible(true);
             btnEditMaterial.setVisible(true);
             showMaterial();
         }
-    }//GEN-LAST:event_btnMaterialActionPerformed
+    }//GEN-LAST:event_myButton11ActionPerformed
 
-    private void cbbColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbColorActionPerformed
+    private void cboColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboColorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbbColorActionPerformed
+        showColor();
+    }//GEN-LAST:event_cboColorActionPerformed
+
+    private void txtMaterialAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaterialAddActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaterialAddActionPerformed
 
     private void textField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textField1ActionPerformed
         // TODO add your handling code here:
@@ -672,6 +797,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
     private void btnEditMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMaterialActionPerformed
         // TODO add your handling code here:
+        updateMaterial();
     }//GEN-LAST:event_btnEditMaterialActionPerformed
 
     private void combobox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox1ActionPerformed
@@ -679,28 +805,43 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_combobox1ActionPerformed
 
     private void cbbSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSizeActionPerformed
-        showColor();
+        // TODO add your handling code here:
+        showSize();
     }//GEN-LAST:event_cbbSizeActionPerformed
 
+    private void btnAddSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSizeActionPerformed
+        // TODO add your handling code here:
+        insertSize();
+    }//GEN-LAST:event_btnAddSizeActionPerformed
+
+    private void cbbSizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbbSizeMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbSizeMouseClicked
+
+    private void btnEditSizeActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+        updateSize();
+//        fillComboboxSize();
+    }
+    private void btnColorAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColorAddActionPerformed
+        // TODO add your handling code here:
+        insertColor();
+    }//GEN-LAST:event_btnColorAddActionPerformed
+
+    private void btnEditColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditColorActionPerformed
+        // TODO add your handling code here:
+        updateColor();
+    }//GEN-LAST:event_btnEditColorActionPerformed
+
     private void btnAddMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMaterialActionPerformed
-        insertMatrial();
+        // TODO add your handling code here:
+        insertMaterial();
     }//GEN-LAST:event_btnAddMaterialActionPerformed
 
     private void cbbMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbMaterialActionPerformed
+        // TODO add your handling code here:
         showMaterial();
     }//GEN-LAST:event_cbbMaterialActionPerformed
-
-    private void txtMaterialFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMaterialFocusGained
-        lblMaterial.setVisible(false);
-    }//GEN-LAST:event_txtMaterialFocusGained
-
-    private void btnColorAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColorAddActionPerformed
-       insertColor();
-    }//GEN-LAST:event_btnColorAddActionPerformed
-
-    private void txtColorAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtColorAddFocusGained
-        lblColor.setVisible(false);
-    }//GEN-LAST:event_txtColorAddFocusGained
 
     /**
      * @param args the command line arguments
@@ -738,18 +879,17 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.raven.suportSwing.MyButton btn;
     private com.raven.suportSwing.MyButton btnAddMaterial;
-    private com.raven.suportSwing.MyButton btnColor;
+    private com.raven.suportSwing.MyButton btnAddSize;
     private com.raven.suportSwing.MyButton btnColorAdd;
     private com.raven.suportSwing.MyButton btnEditColor;
     private com.raven.suportSwing.MyButton btnEditMaterial;
     private com.raven.suportSwing.MyButton btnEditSize;
-    private com.raven.suportSwing.MyButton btnMaterial;
-    private com.raven.suportSwing.MyButton btnSize;
-    private com.raven.suportSwing.MyButton btnSizeAdd;
-    private com.raven.suportSwing.Combobox cbbColor;
+    private com.raven.suportSwing.MyButton btnSizeAdd1;
     private com.raven.suportSwing.Combobox cbbMaterial;
     private com.raven.suportSwing.Combobox cbbSize;
+    private com.raven.suportSwing.Combobox cboColor;
     private com.raven.suportSwing.Combobox combobox1;
     private com.raven.suportSwing.Combobox combobox2;
     private javax.swing.JLabel jLabel1;
@@ -762,9 +902,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblColor;
-    private javax.swing.JLabel lblMaterial;
-    private javax.swing.JLabel lblSize;
+    private javax.swing.JLabel lblMaterialAdd;
+    private javax.swing.JLabel lblSizeAdd;
     private com.raven.suportSwing.MyButton myButton1;
+    private com.raven.suportSwing.MyButton myButton10;
+    private com.raven.suportSwing.MyButton myButton11;
     private com.raven.suportSwing.MyButton myButton2;
     private com.raven.suportSwing.MyButton myButton3;
     private com.raven.suportSwing.MyButton myButton4;
@@ -774,7 +916,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     private com.raven.suportSwing.TableColumn tableColumn1;
     private com.raven.suportSwing.TextField textField1;
     private com.raven.suportSwing.TextField txtColorAdd;
-    private com.raven.suportSwing.TextField txtMaterial;
+    private com.raven.suportSwing.TextField txtMaterialAdd;
     private com.raven.suportSwing.TextField txtSizeAdd;
     // End of variables declaration//GEN-END:variables
 }
