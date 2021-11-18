@@ -7,10 +7,6 @@ package com.fpt.DAO;
 
 import java.util.List;
 
-/**
- *
- * @author ducit
- */
 
 public abstract class ShopDAO<Entity, Key> {
 
