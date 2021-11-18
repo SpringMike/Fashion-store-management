@@ -36,7 +36,6 @@ public class FormListEmpolyee extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                 formImportEmpolyeeJFrame.insert();
                 fillTable();
-                
             }
         });
     }

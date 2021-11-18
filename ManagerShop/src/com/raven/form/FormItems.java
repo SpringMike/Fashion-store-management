@@ -6,6 +6,13 @@
 package com.raven.form;
 
 import com.raven.JFrame.FormImportItemJFrame;
+import com.raven.component.Menu;
+import com.raven.event.EventMenuSelected;
+import com.raven.event.EventShowPopupMenu;
+import com.raven.main.Main;
+import com.raven.swing.MenuItem;
+import com.raven.swing.PopupMenu;
+import java.awt.Component;
 import javax.swing.JOptionPane;
 
 /**
@@ -187,10 +194,13 @@ public class FormItems extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_myButton2ActionPerformed
 
+
     private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton3ActionPerformed
         // TODO add your handling code here:
-//        this.d
+//        this.setVisible(false);
+//        new MainForm().setVisible(true);
         new FormImportItemJFrame().setVisible(true);
+
     }//GEN-LAST:event_myButton3ActionPerformed
 
     private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton4ActionPerformed

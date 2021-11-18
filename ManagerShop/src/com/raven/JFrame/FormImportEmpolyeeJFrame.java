@@ -216,6 +216,7 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         dateChooser1.setTextRefernce(txtBirth);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

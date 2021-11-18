@@ -19,7 +19,6 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class FormProducts extends javax.swing.JPanel {
 
-//    List<Category> list 
     /**
      * Creates new form FormProducts
      */
@@ -32,7 +31,6 @@ public class FormProducts extends javax.swing.JPanel {
         btnAddList.setVisible(false);
         btnUpdateList.setVisible(false);
         lblCategory.setVisible(false);
-//        list = cDAO.selectAll();
     }
     CategoryDAO cDAO = new CategoryDAO();
 
@@ -90,6 +88,7 @@ public class FormProducts extends javax.swing.JPanel {
                 lblCategory.setVisible(true);
                 return;
             }
+            list = cDAO.selectAll();
             for (Category c : list) {
                 if (txtImportList.getText().equalsIgnoreCase(c.getName())) {
                     lblCategory.setVisible(true);
@@ -482,11 +481,12 @@ public class FormProducts extends javax.swing.JPanel {
 
     private void btnAddListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddListActionPerformed
         insertCategory();
+        fillComboboxCategory();
     }//GEN-LAST:event_btnAddListActionPerformed
 
     private void btnUpdateListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateListActionPerformed
         updateCategory();
-
+        fillComboboxCategory();
     }//GEN-LAST:event_btnUpdateListActionPerformed
 
     private void cbbCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbCategoryActionPerformed
