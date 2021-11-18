@@ -19,12 +19,6 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class FormProducts extends javax.swing.JPanel {
 
-<<<<<<< HEAD
-//    List<Category> list 
-=======
-    List<Category> list ;
-
->>>>>>> Tunm
     /**
      * Creates new form FormProducts
      */
@@ -37,33 +31,15 @@ public class FormProducts extends javax.swing.JPanel {
         btnAddList.setVisible(false);
         btnUpdateList.setVisible(false);
         lblCategory.setVisible(false);
-<<<<<<< HEAD
-//        list = cDAO.selectAll();
-=======
-        
->>>>>>> Tunm
     }
     CategoryDAO cDAO = new CategoryDAO();
 
     public void fillComboboxCategory() {
-<<<<<<< HEAD
         DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbbCategory.getModel();
         cbbCategory.removeAllItems();
         List<Category> list = cDAO.selectAll();
         for (Category c : list) {
             cbModel.addElement(c);
-=======
-        DefaultComboBoxModel defaultComboBoxModel = (DefaultComboBoxModel) cbbCategory.getModel();
-        defaultComboBoxModel.removeAllElements();
-        
-        try {
-            list = cDAO.selectAll();
-            for (Category c : list) {
-                defaultComboBoxModel.addElement(c);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
->>>>>>> Tunm
         }
     }
 
