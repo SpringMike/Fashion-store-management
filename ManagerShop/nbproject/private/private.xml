@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/entity/Account.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/helper/jdbcHelper.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormProducts.java</file>
@@ -50,6 +51,13 @@
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/EmployeeDAO.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/SupplierDao.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/ShopDAO.java</file>
+=======
+            <file>file:/C:/Users/minht/Desktop/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormListEmpolyee.java</file>
+            <file>file:/C:/Users/minht/Desktop/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormImportEmpolyeeJFrame.java</file>
+            <file>file:/C:/Users/minht/Desktop/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Main.java</file>
+            <file>file:/C:/Users/minht/Desktop/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Login.java</file>
+            <file>file:/C:/Users/minht/Desktop/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Login_main.java</file>
+>>>>>>> Tunm
         </group>
     </open-files>
 </project-private>
