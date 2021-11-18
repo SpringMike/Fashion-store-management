@@ -5,8 +5,10 @@
  */
 package com.raven.JFrame;
 
+import com.fpt.DAO.ColorDAO;
 import com.fpt.DAO.SizeDAO;
 import com.fpt.Validate.Validate;
+import com.fpt.entity.Color;
 import com.fpt.entity.Size;
 import com.fpt.utils.MsgBox;
 import java.util.List;
@@ -28,6 +30,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         statusForm();
         fillComboboxSize();
+        fillComboboxColor();
     }
 
     public void statusForm() {
@@ -42,6 +45,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         txtSizeAdd.setVisible(false);
     }
     SizeDAO sDao = new SizeDAO();
+    ColorDAO cDao = new ColorDAO();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,12 +61,30 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         }
     }
 
+    public void fillComboboxColor() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboColor.getModel();
+        cboColor.removeAllItems();
+        List<Color> list = cDao.selectAll();
+        for (Color c : list) {
+            model.addElement(c);
+        }
+    }
+
     public void showSize() {
         Size s = (Size) cbbSize.getSelectedItem();
-        if (!txtSizeAdd.isVisible()) {
+        if (s == null) {
             return;
         } else {
             txtSizeAdd.setText(s.getValueSize());
+        }
+    }
+
+    public void showColor() {
+        Color c = (Color) cboColor.getSelectedItem();
+        if (c == null) {
+            return;
+        } else {
+            txtColorAdd.setText(c.getValueColor());
         }
     }
 
@@ -71,6 +93,12 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         s.setIdSize(cbbSize.getSelectedIndex() + 1);
         s.setValueSize(txtSizeAdd.getText());
         return s;
+    }
+
+    Color getFormColor() {
+        Color c = new Color();
+        c.setValueColor(txtColorAdd.getText());
+        return c;
     }
 
     public void insertSize() {
@@ -99,12 +127,13 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
     public void updateSize() {
         try {
-//            if (!Validate.checkEmpty(lblSizeAdd, txtSizeAdd, "Không bỏ trống size")) {
-//                lblSizeAdd.setVisible(true);
-//                return;
-//            }
-            Size s = getFormSize();
-            sDao.update(s);
+            Size c = (Size) cbbSize.getSelectedItem();
+            c.setValueSize(txtSizeAdd.getText());
+            if (!Validate.checkEmpty(lblSizeAdd, txtSizeAdd, "Không bỏ trống size")) {
+                lblSizeAdd.setVisible(true);
+                return;
+            }
+            sDao.update(c);
             MsgBox.alert(this, "update Thành công");
             lblSizeAdd.setVisible(false);
             btnAddSize.setVisible(false);
@@ -115,6 +144,46 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
+    }
+
+    public void insertColor() {
+        Color c = getFormColor();
+        List<Color> list = cDao.selectAll();
+        if (!Validate.checkEmpty(lblColor, txtColorAdd, "Không bỏ trống color")) {
+            lblColor.setVisible(true);
+            return;
+        }
+        for (Color color : list) {
+            if (txtColorAdd.getText().equalsIgnoreCase(color.getValueColor())) {
+                lblColor.setVisible(true);
+                lblColor.setText("Color đã có !!!");
+                txtColorAdd.setText("");
+                return;
+            }
+        }
+        cDao.insert(c);
+        lblColor.setVisible(false);
+        btnColorAdd.setVisible(false);
+        btnEditColor.setVisible(false);
+        txtColorAdd.setVisible(false);
+        MsgBox.alert(this, "Thêm Thành công");
+        fillComboboxColor();
+    }
+
+    public void updateColor() {
+        Color c = (Color) cboColor.getSelectedItem();
+        c.setValueColor(txtColorAdd.getText());
+        try {
+            if (!Validate.checkEmpty(lblColor, txtColorAdd, "Chưa nhập màu!")) {
+                return;
+            } else {
+                cDao.update(c);
+                MsgBox.alert(this, "Sửa đổi thành công!!");
+                fillComboboxColor();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -144,7 +213,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         btn = new com.raven.suportSwing.MyButton();
         txtColorAdd = new com.raven.suportSwing.TextField();
         btnEditColor = new com.raven.suportSwing.MyButton();
-        combobox4 = new com.raven.suportSwing.Combobox();
+        cboColor = new com.raven.suportSwing.Combobox();
         btnAddSize = new com.raven.suportSwing.MyButton();
         txtMaterialAdd = new com.raven.suportSwing.TextField();
         cbbSize = new com.raven.suportSwing.Combobox();
@@ -157,6 +226,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         btnColorAdd = new com.raven.suportSwing.MyButton();
         btnAddMaterial = new com.raven.suportSwing.MyButton();
         lblSizeAdd = new javax.swing.JLabel();
+        lblColor = new javax.swing.JLabel();
         btnSizeAdd1 = new com.raven.suportSwing.MyButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -205,7 +275,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
                 .addComponent(myButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(161, 161, 161)
                 .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 352, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -329,11 +399,16 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         btnEditColor.setMinimumSize(new java.awt.Dimension(59, 23));
         btnEditColor.setPreferredSize(new java.awt.Dimension(59, 23));
         btnEditColor.setRadius(20);
-
-        combobox4.setLabeText("Màu sắc");
-        combobox4.addActionListener(new java.awt.event.ActionListener() {
+        btnEditColor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combobox4ActionPerformed(evt);
+                btnEditColorActionPerformed(evt);
+            }
+        });
+
+        cboColor.setLabeText("Màu sắc");
+        cboColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboColorActionPerformed(evt);
             }
         });
 
@@ -408,12 +483,20 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
         btnColorAdd.setText("Thêm");
         btnColorAdd.setRadius(20);
+        btnColorAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnColorAddActionPerformed(evt);
+            }
+        });
 
         btnAddMaterial.setText("Thêm");
         btnAddMaterial.setRadius(20);
 
         lblSizeAdd.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         lblSizeAdd.setForeground(new java.awt.Color(255, 0, 0));
+
+        lblColor.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lblColor.setForeground(new java.awt.Color(255, 0, 0));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -422,14 +505,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblColor, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(combobox4, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtColorAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(btnColorAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEditColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cboColor, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtColorAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(myButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -452,8 +532,12 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
                         .addComponent(btnEditSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(lblSizeAdd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtSizeAdd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                        .addComponent(txtSizeAdd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(btnColorAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEditColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -473,14 +557,16 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(myButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(combobox4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtColorAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtColorAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblColor, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnColorAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(combobox5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -562,8 +648,8 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -596,6 +682,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             btnColorAdd.setVisible(true);
             txtColorAdd.setVisible(true);
             btnEditColor.setVisible(true);
+            showColor();
         }
     }//GEN-LAST:event_myButton10ActionPerformed
 
@@ -612,9 +699,10 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_myButton11ActionPerformed
 
-    private void combobox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox4ActionPerformed
+    private void cboColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboColorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_combobox4ActionPerformed
+        showColor();
+    }//GEN-LAST:event_cboColorActionPerformed
 
     private void txtMaterialAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaterialAddActionPerformed
         // TODO add your handling code here:
@@ -646,11 +734,21 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbbSizeMouseClicked
 
+
     private void btnEditSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditSizeActionPerformed
         // TODO add your handling code here:
         updateSize();
 //        fillComboboxSize();
     }//GEN-LAST:event_btnEditSizeActionPerformed
+    private void btnColorAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColorAddActionPerformed
+        // TODO add your handling code here:
+        insertColor();
+    }//GEN-LAST:event_btnColorAddActionPerformed
+
+    private void btnEditColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditColorActionPerformed
+        // TODO add your handling code here:
+        updateColor();
+    }//GEN-LAST:event_btnEditColorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -697,9 +795,9 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     private com.raven.suportSwing.MyButton btnEditSize;
     private com.raven.suportSwing.MyButton btnSizeAdd1;
     private com.raven.suportSwing.Combobox cbbSize;
+    private com.raven.suportSwing.Combobox cboColor;
     private com.raven.suportSwing.Combobox combobox1;
     private com.raven.suportSwing.Combobox combobox2;
-    private com.raven.suportSwing.Combobox combobox4;
     private com.raven.suportSwing.Combobox combobox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -710,6 +808,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblSizeAdd;
     private com.raven.suportSwing.MyButton myButton1;
     private com.raven.suportSwing.MyButton myButton10;

@@ -44,8 +44,8 @@
           <Group type="102" attributes="0">
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jPanel2" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
           </Group>
           <Component id="jPanel5" alignment="1" max="32767" attributes="0"/>
@@ -91,7 +91,7 @@
                   <Component id="myButton3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="161" max="-2" attributes="0"/>
                   <Component id="myButton6" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="352" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="myButton4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="myButton5" min="-2" max="-2" attributes="0"/>
@@ -385,18 +385,14 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblColor" min="-2" pref="192" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="combobox4" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
+                                  <Component id="cboColor" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
                                   <Component id="txtColorAdd" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="btnColorAdd" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="btnEditColor" min="-2" max="-2" attributes="0"/>
-                                  </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="myButton10" min="-2" pref="22" max="-2" attributes="0"/>
@@ -428,8 +424,13 @@
                               <Component id="lblSizeAdd" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtSizeAdd" alignment="0" pref="192" max="32767" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="btnColorAdd" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnEditColor" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="19" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -453,16 +454,18 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="myButton10" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="combobox4" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="cboColor" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtColorAdd" min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="txtColorAdd" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblColor" min="-2" pref="12" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnEditColor" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnColorAdd" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="combobox5" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
@@ -513,13 +516,16 @@
                 </Property>
                 <Property name="radius" type="int" value="20"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditColorActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="com.raven.suportSwing.Combobox" name="combobox4">
+            <Component class="com.raven.suportSwing.Combobox" name="cboColor">
               <Properties>
                 <Property name="labeText" type="java.lang.String" value="M&#xe0;u s&#x1eaf;c"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combobox4ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboColorActionPerformed"/>
               </Events>
             </Component>
             <Component class="com.raven.suportSwing.MyButton" name="btnAddSize">
@@ -618,6 +624,9 @@
                 <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
                 <Property name="radius" type="int" value="20"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnColorAddActionPerformed"/>
+              </Events>
             </Component>
             <Component class="com.raven.suportSwing.MyButton" name="btnAddMaterial">
               <Properties>
@@ -626,6 +635,16 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSizeAdd">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="11" style="2"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="ff" type="rgb"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblColor">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="11" style="2"/>
