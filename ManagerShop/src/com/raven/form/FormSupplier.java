@@ -27,6 +27,9 @@ public class FormSupplier extends javax.swing.JPanel {
     public FormSupplier() {
         initComponents();
         setOpaque(false);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+
         fillTable();
     }
 
@@ -62,6 +65,10 @@ public class FormSupplier extends javax.swing.JPanel {
         lblAddress.setText("");
         lblPhoneNumber.setText("");
         lblnameSupplier.setText("");
+        btnAdd.setEnabled(true);
+        btnUpdate.setEnabled(true);
+        tableShow.clearSelection();
+        btnDelete.setEnabled(true);
     }
 
     public void edit() {
@@ -107,6 +114,45 @@ public class FormSupplier extends javax.swing.JPanel {
         }
     }
 
+    public void insert() {
+        Supplier s = getForm();
+        try {
+            if (labelValidate.checkEmpty(lblnameSupplier, txtnameSupplier, "Không để trống tên Nhà Cung cấp") == false) {
+                return;
+            } else if (labelValidate.checkEmpty(lblAddress, txtAddress, "không để trống địa chỉ") == false) {
+                return;
+            } else if (labelValidate.checkEmpty(lblPhoneNumber, txtPhoneNumber, "không để trống số điện thoại") == false) {
+                return;
+            } else if (labelValidate.checkNumber(lblPhoneNumber, txtPhoneNumber, "Số điện thoại không hợp lệ") == false) {
+                return;
+            } else {
+                sDao.insert(s);
+                fillTable();
+                clearForm();
+                MsgBox.alert(this, "Thêm mới thành công");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void searchSupplier() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        String keyWord = txtSearch.getText();
+        List<Supplier> list = sDao.selectByKeyWord(keyWord);
+        if (list.isEmpty()) {
+            lblSearch.setText("Không có nhà cung cấp " + keyWord);
+            return;
+        }
+        for (Supplier s : list) {
+            model.addRow(new Object[]{
+                s.getIdSupplier(), s.getNameMaterial(), s.getAddress(), s.getPhoneNumber()
+            });
+        }
+        lblSearch.setText("");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -120,6 +166,7 @@ public class FormSupplier extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         txtSearch = new com.raven.suportSwing.TextField();
         myButton2 = new com.raven.suportSwing.MyButton();
+        lblSearch = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
@@ -141,9 +188,22 @@ public class FormSupplier extends javax.swing.JPanel {
         jLabel2.setText("Nhà cung cấp");
 
         txtSearch.setLabelText("Tìm theo tên or mã");
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
+        });
 
         myButton2.setText("Tìm");
         myButton2.setRadius(20);
+        myButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton2ActionPerformed(evt);
+            }
+        });
+
+        lblSearch.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lblSearch.setForeground(new java.awt.Color(255, 51, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -153,16 +213,21 @@ public class FormSupplier extends javax.swing.JPanel {
                 .addGap(29, 29, 29)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
-                .addGap(31, 31, 31)
-                .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(459, 459, 459))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                        .addGap(31, 31, 31)
+                        .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(459, 459, 459))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -171,7 +236,8 @@ public class FormSupplier extends javax.swing.JPanel {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(9, 9, 9)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -219,7 +285,7 @@ public class FormSupplier extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -228,6 +294,11 @@ public class FormSupplier extends javax.swing.JPanel {
 
         myButton3.setLabel("Xóa form");
         myButton3.setRadius(20);
+        myButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton3ActionPerformed(evt);
+            }
+        });
 
         btnAdd.setText("Thêm");
         btnAdd.setRadius(20);
@@ -376,6 +447,7 @@ public class FormSupplier extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
+        insert();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -403,6 +475,19 @@ public class FormSupplier extends javax.swing.JPanel {
         lblPhoneNumber.setText("");
     }//GEN-LAST:event_txtPhoneNumberFocusGained
 
+    private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton3ActionPerformed
+        clearForm();
+    }//GEN-LAST:event_myButton3ActionPerformed
+
+    private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myButton2ActionPerformed
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        // TODO add your handling code here:
+        searchSupplier();
+    }//GEN-LAST:event_txtSearchKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnAdd;
@@ -415,6 +500,7 @@ public class FormSupplier extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblPhoneNumber;
+    private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblnameSupplier;
     private com.raven.suportSwing.MyButton myButton2;
     private com.raven.suportSwing.MyButton myButton3;

@@ -29,7 +29,9 @@ import com.raven.swing.icon.IconFontSwing;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -49,6 +51,8 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void init() {
+        setLocationRelativeTo(null);    //cho ra giữa màn hình
+        setExtendedState(JFrame.MAXIMIZED_BOTH);//cho toàn màn hình 
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
         menu = new Menu();
@@ -77,22 +81,21 @@ public class Main extends javax.swing.JFrame {
                         main.showForm(new FormReturnProduct());
                     } else if (subMenuIndex == 3) {
                         main.showForm(new FormInvoiceSell());
-                    } else {
+                    } else if(subMenuIndex == 4){
                         main.showForm(new FormInvoiceImportProducts());
                     }
                 } else if (menuIndex == 3) {
                     if (subMenuIndex == 0) {
                         main.showForm(new FormRevenueStatistics());
-                    } else {
+                    } else if(subMenuIndex == 1){
                         main.showForm(new FormSalesStatistics());
                     }
                 } else if (menuIndex == 4) {
                     if (subMenuIndex == 0) {
                         main.showForm(new FormListEmpolyee());
-//                        main.showForm(new FormImportEmployee());
-                    } else {
+                    } else if(subMenuIndex == 1){
                         main.showForm(new FormSalary());
-                    }
+                    } 
                 } else if (menuIndex == 5) {
                     main.showForm(new FormCustomer());
                 } else if (menuIndex == 6) {

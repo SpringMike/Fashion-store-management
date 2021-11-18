@@ -1,0 +1,18 @@
+diff a/ManagerShop/src/com/raven/form/FormSupplier.java b/ManagerShop/src/com/raven/form/FormSupplier.java	(rejected hunks)
+@@ -107,6 +107,16 @@
+         }
+     }
+ 
++    public void delete() {
++        int index = tableShow.getSelectedRow();
++        if (MsgBox.confirm(this, "Bạn có muốn xóa không?")) {
++            int idSupplier = (int) tableShow.getValueAt(index, 0);
++            sDao.delete(idSupplier);
++            fillTable();
++        }
++        MsgBox.alert(this, "Xoá OK");
++    }
++
+     /**
+      * This method is called from within the constructor to initialize the form.
+      * WARNING: Do NOT modify this code. The content of this method is always

@@ -6,17 +6,16 @@
 package com.fpt.DAO;
 
 import com.fpt.entity.Account;
-import com.fpt.entity.User;
 import com.fpt.helper.jdbcHelper;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.ResultSet;
 
 /**
  *
- * @author Đặng Đình Vũ
+ * @author minht
  */
-public class AccountDAO extends ShopDAO<Account, Integer> {
+public class AccountDao extends ShopDAO<Account, Integer >{
 
     private String INSERT_SQL_ACCOUNT = "INSERT INTO dbo.Account\n"
             + "(idUser,Username,password)\n"
@@ -85,5 +84,4 @@ public class AccountDAO extends ShopDAO<Account, Integer> {
             return list.get(0);
         }
     }
-
 }

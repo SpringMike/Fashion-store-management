@@ -24,11 +24,13 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="txtPassword" max="32767" attributes="0"/>
-                  <Component id="myButton1" max="32767" attributes="0"/>
+                  <Component id="lbAlertUsername" max="32767" attributes="0"/>
+                  <Component id="txtPassWord" max="32767" attributes="0"/>
+                  <Component id="btnLogin" max="32767" attributes="0"/>
                   <Component id="txtUser" max="32767" attributes="0"/>
                   <Component id="jLabel2" pref="266" max="32767" attributes="0"/>
                   <Component id="btnFogot" alignment="0" max="32767" attributes="0"/>
+                  <Component id="lbAlertPassword" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
           </Group>
@@ -41,13 +43,17 @@
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
               <Component id="txtUser" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-              <Component id="txtPassword" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-              <Component id="myButton1" min="-2" pref="36" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lbAlertUsername" min="-2" pref="23" max="-2" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <Component id="txtPassWord" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lbAlertPassword" min="-2" pref="23" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="btnLogin" min="-2" pref="36" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
               <Component id="btnFogot" min="-2" pref="36" max="-2" attributes="0"/>
-              <EmptySpace pref="56" max="32767" attributes="0"/>
+              <EmptySpace pref="49" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -69,8 +75,11 @@
       <Properties>
         <Property name="labelText" type="java.lang.String" value="Usename"/>
       </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtUserFocusGained"/>
+      </Events>
     </Component>
-    <Component class="com.raven.suportSwing.MyButton" name="myButton1">
+    <Component class="com.raven.suportSwing.MyButton" name="btnLogin">
       <Properties>
         <Property name="text" type="java.lang.String" value="Login"/>
         <Property name="borderColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -84,13 +93,16 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLoginActionPerformed"/>
       </Events>
     </Component>
-    <Component class="com.raven.suportSwing.PasswordField" name="txtPassword">
+    <Component class="com.raven.suportSwing.PasswordField" name="txtPassWord">
       <Properties>
         <Property name="labelText" type="java.lang.String" value="Password"/>
       </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtPassWordFocusGained"/>
+      </Events>
     </Component>
     <Component class="com.raven.suportSwing.MyButton" name="btnFogot">
       <Properties>
@@ -109,9 +121,28 @@
           <Font name="Tahoma" size="11" style="1"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFogotActionPerformed"/>
-      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbAlertUsername">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="11" style="2"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="33" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbAlertPassword">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="11" style="2"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="33" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

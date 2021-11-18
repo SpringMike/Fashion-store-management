@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -21,7 +22,6 @@ public class jdbcHelper {
     static String pass = "123";
     static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     static String url = "jdbc:sqlserver://localhost;databaseName=dbManagerShop";
-
     static {
         try {
             Class.forName(driver);
