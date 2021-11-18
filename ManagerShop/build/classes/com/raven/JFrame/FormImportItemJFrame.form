@@ -35,20 +35,25 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="31" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                      <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="jPanel5" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -63,22 +68,17 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="myButton4" alignment="0" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="myButton4" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="myButton1" alignment="0" pref="91" max="32767" attributes="0"/>
-                                  <Component id="myButton3" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="myButton6" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <Component id="myButton5" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="myButton1" alignment="0" pref="91" max="32767" attributes="0"/>
+                          <Component id="myButton3" alignment="0" max="32767" attributes="0"/>
+                          <Component id="myButton6" alignment="0" max="32767" attributes="0"/>
                       </Group>
+                      <Component id="myButton5" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -91,7 +91,7 @@
                   <Component id="myButton3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="161" max="-2" attributes="0"/>
                   <Component id="myButton6" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="352" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="myButton4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="myButton5" min="-2" max="-2" attributes="0"/>
@@ -152,10 +152,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel2" pref="37" max="32767" attributes="0"/>
-              </Group>
+              <Component id="jLabel2" alignment="0" pref="37" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -189,11 +186,14 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jScrollPane1" alignment="0" pref="292" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                   <Component id="scrollBar1" min="-2" pref="149" max="-2" attributes="0"/>
-                  <EmptySpace pref="102" max="32767" attributes="0"/>
+                  <EmptySpace pref="55" max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -255,13 +255,11 @@
                       <Component id="textField1" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="29" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jPanel6" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jPanel4" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="btnSizeAdd1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="myButton2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
@@ -274,16 +272,8 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="myButton2" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                          <Component id="btnSizeAdd1" min="-2" pref="23" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="myButton2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
@@ -390,40 +380,40 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                              <Component id="btnAddMaterial" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="btnEditMaterial" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="lblMaterial" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="lblSize" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblColor" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                      <Component id="btnAddMaterial" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="btnEditMaterial" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="btnColorAdd" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="btnEditColor" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                                   <Component id="txtSizeAdd" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="combobox4" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
+                                          <Component id="cbbColor" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
                                           <Component id="txtColorAdd" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="btnColorAdd" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="btnEditColor" min="-2" max="-2" attributes="0"/>
-                                          </Group>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="myButton10" min="-2" pref="22" max="-2" attributes="0"/>
+                                      <Component id="btnColor" min="-2" pref="22" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="combobox3" min="-2" pref="192" max="-2" attributes="0"/>
+                                      <Component id="cbbSize" min="-2" pref="192" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="myButton9" min="-2" pref="22" max="-2" attributes="0"/>
+                                      <Component id="btnSize" min="-2" pref="22" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="cbcMaterial" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
+                                          <Component id="cbbMaterial" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
                                           <Component id="txtMaterial" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -435,8 +425,9 @@
                                       <Component id="btnEditSize" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="0" pref="71" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="23" max="32767" attributes="0"/>
                           </Group>
+                          <Component id="lblMaterial" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -447,11 +438,13 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="myButton9" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="combobox3" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnSize" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="cbbSize" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtSizeAdd" min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="txtSizeAdd" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblSize" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnSizeAdd" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
@@ -459,11 +452,13 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="myButton10" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="combobox4" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="btnColor" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="cbbColor" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtColorAdd" min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="txtColorAdd" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblColor" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnEditColor" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -471,7 +466,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cbcMaterial" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="cbbMaterial" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                               <Component id="btnMaterial" min="-2" pref="26" max="-2" attributes="0"/>
@@ -480,17 +475,18 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtMaterial" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblMaterial" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnAddMaterial" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="btnEditMaterial" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblMaterial" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="com.raven.suportSwing.MyButton" name="myButton9">
+            <Component class="com.raven.suportSwing.MyButton" name="btnSize">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/com/raven/icon/Create.png"/>
@@ -498,13 +494,16 @@
                 <Property name="radius" type="int" value="20"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton9ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSizeActionPerformed"/>
               </Events>
             </Component>
             <Component class="com.raven.suportSwing.TextField" name="txtColorAdd">
               <Properties>
                 <Property name="labelText" type="java.lang.String" value="M&#xe0;u Th&#xea;m"/>
               </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtColorAddFocusGained"/>
+              </Events>
             </Component>
             <Component class="com.raven.suportSwing.MyButton" name="btnEditColor">
               <Properties>
@@ -521,12 +520,12 @@
                 <Property name="radius" type="int" value="20"/>
               </Properties>
             </Component>
-            <Component class="com.raven.suportSwing.Combobox" name="combobox4">
+            <Component class="com.raven.suportSwing.Combobox" name="cbbColor">
               <Properties>
                 <Property name="labeText" type="java.lang.String" value="M&#xe0;u s&#x1eaf;c"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combobox4ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbbColorActionPerformed"/>
               </Events>
             </Component>
             <Component class="com.raven.suportSwing.MyButton" name="btnSizeAdd">
@@ -543,20 +542,20 @@
                 <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtMaterialFocusGained"/>
               </Events>
             </Component>
-            <Component class="com.raven.suportSwing.Combobox" name="combobox3">
+            <Component class="com.raven.suportSwing.Combobox" name="cbbSize">
               <Properties>
                 <Property name="labeText" type="java.lang.String" value="Size"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combobox3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbbSizeActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.raven.suportSwing.Combobox" name="cbcMaterial">
+            <Component class="com.raven.suportSwing.Combobox" name="cbbMaterial">
               <Properties>
                 <Property name="labeText" type="java.lang.String" value="Ch&#x1ea5;t li&#x1ec7;u"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbcMaterialActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbbMaterialActionPerformed"/>
               </Events>
             </Component>
             <Component class="com.raven.suportSwing.MyButton" name="btnEditSize">
@@ -608,7 +607,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditMaterialActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.raven.suportSwing.MyButton" name="myButton10">
+            <Component class="com.raven.suportSwing.MyButton" name="btnColor">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/com/raven/icon/Create.png"/>
@@ -616,7 +615,7 @@
                 <Property name="radius" type="int" value="20"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton10ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnColorActionPerformed"/>
               </Events>
             </Component>
             <Component class="com.raven.suportSwing.MyButton" name="btnColorAdd">
@@ -624,6 +623,9 @@
                 <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
                 <Property name="radius" type="int" value="20"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnColorAddActionPerformed"/>
+              </Events>
             </Component>
             <Component class="com.raven.suportSwing.MyButton" name="btnAddMaterial">
               <Properties>
@@ -642,14 +644,24 @@
                 <Property name="text" type="java.lang.String" value="jLabel3"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JLabel" name="lblSize">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="e1" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="jLabel3"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblColor">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="e1" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="jLabel3"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
-        <Component class="com.raven.suportSwing.MyButton" name="btnSizeAdd1">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
-            <Property name="radius" type="int" value="20"/>
-          </Properties>
-        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

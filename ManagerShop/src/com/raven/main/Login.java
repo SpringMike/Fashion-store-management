@@ -35,21 +35,21 @@ public class Login extends javax.swing.JPanel {
         txtUser.grabFocus();
     }
 
-    public void clickLogin() {
-        txtUser.setBackground(Color.white);
-        txtPassWord.setBackground(Color.white);
-        if (Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống Username!") == false && Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!") == false) {
-            return;
-        } else if (Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống password!") == false) {
-            return;
-        } else if (Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!") == false) {
-            return;
-        } else {
-            login();
-        }
-    }
+//    public void clickLogin() {
+//        txtUser.setBackground(Color.white);
+//        txtPassWord.setBackground(Color.white);
+//        if (Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống Username!") == false && Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!") == false) {
+//            return;
+//        } else if (Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống password!") == false) {
+//            return;
+//        } else if (Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!") == false) {
+//            return;
+//        } else {
+//            login();
+//        }
+//    }
 
-    public void login() {
+    public boolean  login() {
 
         String userName = txtUser.getText();
         String passWord = new String(txtPassWord.getPassword());
@@ -61,22 +61,26 @@ public class Login extends javax.swing.JPanel {
              */
             if (account == null) {    //nếu user sai
                 lbAlertUsername.setText("Sai tên đăng nhập!");
+                return false;
             } else {
                 String passwordSystem = account.getPassWord();
                 if (passWord.equals(passwordSystem)) {  //nếu mật khẩu đúng
                     MsgBox.alert(this, "Đăng nhập thành công!");
                     new Main().setVisible(true);
                     this.setVisible(false);
+                   return true;
                 } else {
                     lbAlertPassword.setText("Sai mật khẩu!");
+                    return false;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+            return false;
         }
 
-    }
+        }
 
     public void addEventRegister(ActionListener event) {
         btnFogot.addActionListener(event);
@@ -187,7 +191,13 @@ public class Login extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        if (Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống Username!") == false && Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!") == false) {
+            return;
+        } else if (Validate.checkEmpty(lbAlertUsername, txtUser, "Không được để trống password!") == false) {
+            return;
+        } else if (Validate.checkEmpty(lbAlertPassword, txtPassWord, "Không được để trống password!") == false) {
+            return;
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void txtUserFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUserFocusGained
