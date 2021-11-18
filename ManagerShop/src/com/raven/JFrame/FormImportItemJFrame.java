@@ -217,7 +217,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             return;
         }
         for (Material color : list) {
-            if (txtColorAdd.getText().equalsIgnoreCase(color.getValueMaterial())) {
+            if (txtMaterialAdd.getText().equalsIgnoreCase(color.getValueMaterial())) {
                 lblMaterialAdd.setVisible(true);
                 lblMaterialAdd.setText("Chất liệu đã có !!!");
                 txtMaterialAdd.setText("");
