@@ -125,25 +125,20 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         fillComboboxSize();
     }
 
-    public void updateSize() {
+   public void updateSize() {
+        Size c = (Size) cbbSize.getSelectedItem();
+        c.setValueSize(txtSizeAdd.getText());
         try {
-            Size c = (Size) cbbSize.getSelectedItem();
-            c.setValueSize(txtSizeAdd.getText());
-            if (!Validate.checkEmpty(lblSizeAdd, txtSizeAdd, "Không bỏ trống size")) {
-                lblSizeAdd.setVisible(true);
+            if (!Validate.checkEmpty(lblSizeAdd, txtSizeAdd, "Chưa nhập Size!")) {
                 return;
+            } else {
+                sDao.update(c);
+                MsgBox.alert(this, "Sửa đổi thành công!!");
+                fillComboboxColor();
             }
-            sDao.update(c);
-            MsgBox.alert(this, "update Thành công");
-            lblSizeAdd.setVisible(false);
-            btnAddSize.setVisible(false);
-            btnEditSize.setVisible(false);
-            txtSizeAdd.setVisible(false);
-            fillComboboxSize();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void insertColor() {
