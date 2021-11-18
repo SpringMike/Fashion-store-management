@@ -164,6 +164,21 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         }
     }
     
+    public void updateSize(){
+        Size c = (Size) cbbSize.getSelectedItem();
+        c.setValueSize(txtSizeAdd.getText());
+        try {
+            if(!Validate.checkEmpty(lblSizeAdd, txtSizeAdd, "Chưa nhập màu!")){
+                return;
+            }else{
+                sDao.update(c);
+                MsgBox.alert(this, "Sửa đổi thành công!!");
+                fillComboboxSize();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -424,6 +439,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         btnEditSize.setMinimumSize(new java.awt.Dimension(59, 23));
         btnEditSize.setPreferredSize(new java.awt.Dimension(59, 23));
         btnEditSize.setRadius(20);
+        btnEditSize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditSizeActionPerformed(evt);
+            }
+        });
 
         myButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/Create.png"))); // NOI18N
         myButton11.setRadius(20);
@@ -716,6 +736,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         updateColor();
     }//GEN-LAST:event_btnEditColorActionPerformed
+
+    private void btnEditSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditSizeActionPerformed
+        // TODO add your handling code here:
+        updateSize();
+    }//GEN-LAST:event_btnEditSizeActionPerformed
 
     /**
      * @param args the command line arguments
