@@ -37,7 +37,7 @@ public class CategoryDAO extends ShopDAO<Category, Integer> {
 
     @Override
     public void delete(Integer k) {
-        String sql = "DELETE FROM List WHERE idList = ?";
+        String sql = "UPDATE dbo.List SET status = 0 WHERE idList = ?";
         jdbcHelper.update(sql, k);
     }
 
@@ -61,6 +61,7 @@ public class CategoryDAO extends ShopDAO<Category, Integer> {
                 Category c = new Category();
                 c.setId(rs.getInt("idList"));
                 c.setName(rs.getString("nameList"));
+//                c.setStatus(rs.getBoolean("status"));
                 list.add(c);
             }
         } catch (Exception e) {

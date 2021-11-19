@@ -52,7 +52,7 @@ public class Main extends javax.swing.JFrame {
 
     private void init() {
         setLocationRelativeTo(null);    //cho ra giữa màn hình
-        setExtendedState(JFrame.MAXIMIZED_BOTH);//cho toàn màn hình 
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);//cho toàn màn hình 
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
         menu = new Menu();

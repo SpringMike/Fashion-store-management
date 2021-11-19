@@ -8,6 +8,7 @@ package com.fpt.utils;
 import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -35,5 +36,9 @@ public class MsgBox {
 
     public static void labelAlert(JLabel lbl, JTextField txtField, String message) {
         lbl.setText(message);
+    }
+    
+    public static void labelAlertTextArea(JLabel lbl, JTextArea txtString, String mess) {
+        lbl.setText(mess);
     }
 }

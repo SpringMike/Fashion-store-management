@@ -8,6 +8,7 @@ package com.raven.form;
 import com.fpt.DAO.UserDAO;
 import com.fpt.entity.User;
 import com.fpt.utils.MsgBox;
+import com.fpt.utils.XDate;
 import com.raven.JFrame.FormImportEmpolyeeJFrame;
 import com.raven.swing.table.Action;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
     
     UserDAO user = new UserDAO();
     FormImportEmpolyeeJFrame formImportEmpolyeeJFrame = new FormImportEmpolyeeJFrame();
+
     /**
      * Creates new form FormProducts
      */
@@ -30,7 +32,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         fillTable();
-        
+
         formImportEmpolyeeJFrame.addEvenFillTable(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,7 +49,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         for (User u : list) {
             model.addRow(new Object[]{
                 u.getIdUser(), u.getFullname(), u.isRole() ? "Quản lý" : "Nhân viên", u.isGender() ? "Nam" : "Nữ",
-                u.getDateOfBirth(), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
+                XDate.toString(u.getDateOfBirth(), "dd-MM-yyyy"), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
             });
         }
         System.out.println("Hello");
@@ -65,7 +67,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         for (User u : list) {
             model.addRow(new Object[]{
                 u.getIdUser(), u.getFullname(), u.isRole() ? "Quản lý" : "Nhân viên", u.isGender() ? "Nam" : "Nữ",
-                u.getDateOfBirth(), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
+                XDate.toString(u.getDateOfBirth(), "dd-MM-yyyy"), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
             });
         }
         lblSearch.setText("");
@@ -80,7 +82,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         }
         MsgBox.alert(this, "Xoá OK");
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,7 +96,6 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         myButton5 = new com.raven.suportSwing.MyButton();
         myButton6 = new com.raven.suportSwing.MyButton();
-        myButton7 = new com.raven.suportSwing.MyButton();
         myButton8 = new com.raven.suportSwing.MyButton();
         txtSearch = new com.raven.suportSwing.TextField();
         lblSearch = new javax.swing.JLabel();
@@ -121,14 +122,6 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         myButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 myButton6ActionPerformed(evt);
-            }
-        });
-
-        myButton7.setText("Sửa Thông Tin");
-        myButton7.setRadius(20);
-        myButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton7ActionPerformed(evt);
             }
         });
 
@@ -176,10 +169,8 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                         .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
+                        .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(129, 129, 129))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -192,7 +183,6 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                     .addComponent(jLabel2)
                     .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -214,6 +204,11 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tableShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableShowMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tableShow);
@@ -255,10 +250,6 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         formImportEmpolyeeJFrame.setVisible(true);
     }//GEN-LAST:event_myButton6ActionPerformed
 
-    private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_myButton7ActionPerformed
-
     private void myButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton8ActionPerformed
         // TODO add your handling code here:
         delete();
@@ -280,6 +271,21 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     }//GEN-LAST:event_txtSearchKeyReleased
 
+    private void tableShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowMouseClicked
+        // TODO add your handling code here:
+        int index = tableShow.getSelectedRow();
+        int idUser = (int) tableShow.getValueAt(index, 0);
+        String fullname = tableShow.getValueAt(index, 1).toString();
+        String role = tableShow.getValueAt(index, 2).toString();
+        String gender = tableShow.getValueAt(index, 3).toString();
+        String birth = tableShow.getValueAt(index, 4).toString();
+        String address = tableShow.getValueAt(index, 5).toString();
+        String phone = tableShow.getValueAt(index, 6).toString();
+        String email = tableShow.getValueAt(index, 7).toString();
+        String salary = tableShow.getValueAt(index, 8).toString();
+        new FormImportEmpolyeeJFrame(fullname, role, gender, birth, address, phone, email, salary, idUser).setVisible(true);
+    }//GEN-LAST:event_tableShowMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
@@ -288,7 +294,6 @@ public class FormListEmpolyee extends javax.swing.JPanel {
     private javax.swing.JLabel lblSearch;
     private com.raven.suportSwing.MyButton myButton5;
     private com.raven.suportSwing.MyButton myButton6;
-    private com.raven.suportSwing.MyButton myButton7;
     private com.raven.suportSwing.MyButton myButton8;
     private com.raven.suportSwing.TableColumn tableShow;
     private com.raven.suportSwing.TextField txtSearch;
