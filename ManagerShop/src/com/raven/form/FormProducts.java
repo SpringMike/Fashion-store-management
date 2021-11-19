@@ -46,7 +46,7 @@ public class FormProducts extends javax.swing.JPanel {
     // hien len ten cua category len txt khi chon o combobox
     public void showCategory() {
         Category c = (Category) cbbCategory.getSelectedItem();
-        if (!txtImportList.isVisible()) {
+        if (c == null) {
             return;
         } else {
             txtImportList.setText(c.getName());
@@ -71,6 +71,7 @@ public class FormProducts extends javax.swing.JPanel {
     public Category getForm() {
         Category c = new Category();
         c.setName(txtImportList.getText());
+        c.setStatus(true);
         return c;
     }
 
@@ -103,6 +104,14 @@ public class FormProducts extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void deleteCategory() {
+        Category c = (Category) cbbCategory.getSelectedItem();
+        int index = c.getId();
+        cDAO.delete(index);
+        MsgBox.alert(this, "Xoá OK");
+        fillComboboxCategory();
     }
 
     /**
@@ -442,8 +451,9 @@ public class FormProducts extends javax.swing.JPanel {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        txtImportList.setVisible(false);
-        btnDelete.setVisible(false);
+//        txtImportList.setVisible(false);
+//        btnDelete.setVisible(false);
+        deleteCategory();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddListActionPerformed

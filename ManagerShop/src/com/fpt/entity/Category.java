@@ -12,6 +12,7 @@ public class Category {
 
     private int id;
     private String name;
+    private boolean status;
 
     public Category() {
     }
@@ -19,6 +20,14 @@ public class Category {
     public Category(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public int getId() {
@@ -41,5 +50,5 @@ public class Category {
     public String toString() {
         return this.name;
     }
-    
+
 }

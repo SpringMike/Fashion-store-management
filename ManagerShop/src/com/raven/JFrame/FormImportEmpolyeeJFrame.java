@@ -26,10 +26,13 @@ import javax.swing.table.DefaultTableModel;
  * @author ducit
  */
 public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form FormImportEmpolyeeJFrame
      */
+    UserDAO daoE = new UserDAO();
+    AccountDao daoA = new AccountDao();
+
     public FormImportEmpolyeeJFrame() {
         initComponents();
         setLocationRelativeTo(null);
@@ -37,8 +40,50 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
-    UserDAO daoE = new UserDAO();
-    AccountDao daoA = new AccountDao();
+    public FormImportEmpolyeeJFrame(String fullname, String role, String gender, String birth, String address, String phone, String email, String salary, int idUser) {
+        initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        btnAddEmployee.setEnabled(false);
+        btnAddEmployee.setVisible(false);
+
+        txtName.setText(fullname);
+        txtBirth.setText(birth);
+        txtAdress.setText(address);
+        txtPhone.setText(phone);
+        txtEmail.setText(email);
+        txtSalary.setText(salary);
+
+        if (gender.equalsIgnoreCase("Nam")) {
+            rdoMale.setSelected(true);
+        } else if (gender.equalsIgnoreCase("Nữ")) {
+            rdoFeMale.setSelected(true);
+        }
+        if (role.equalsIgnoreCase("Quản lý")) {
+            rdoManage.setSelected(true);
+        } else if (role.equalsIgnoreCase("Nhân viên")) {
+            rdoEmpolyee.setSelected(true);
+        }
+        lblIDUser.setText(idUser + "");
+
+    }
+
+    public void update() {
+        User e = new User();
+        e.setFullname(txtName.getText());
+        e.setRole(rdoManage.isSelected());
+        e.setGender(rdoMale.isSelected());
+        e.setDateOfBirth(XDate.toDate(txtBirth.getText(), "dd-MM-yyyy"));
+        e.setAdress(txtAdress.getText());
+        e.setPhoneNumber(txtPhone.getText());
+        e.setEmail(txtEmail.getText());
+        e.setSalary(Double.parseDouble(txtSalary.getText()));
+        e.setIdUser(Integer.parseInt(lblIDUser.getText()));
+        daoE.update(e);
+        MsgBox.alert(this, "Cập nhật thành công !!!");
+        this.dispose();
+    }
 
     public boolean checkDate() {
         LocalDate today = LocalDate.now();
@@ -65,11 +110,7 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
     }
 
     public boolean checkEmail(String acc) {
-        if(emDao.selectAll().isEmpty()){
-            return true;
-        }
         for (int i = 0; i < emDao.selectAll().size(); i++) {
-            
             if (emDao.selectAll().get(i).getEmail().trim().equals(acc.trim())) {
                 return true;
             }
@@ -163,10 +204,11 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         rdoMale.setSelected(true);
         rdoWorking.setSelected(true);
     }
-    
-    public void addEvenFillTable(ActionListener evt){
-        myButton1.addActionListener(evt);
+
+    public void addEvenFillTable(ActionListener evt) {
+        btnAddEmployee.addActionListener(evt);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -177,9 +219,9 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         dateChooser1 = new com.raven.datechooser.DateChooser();
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        buttonGroup2 = new javax.swing.ButtonGroup();
-        buttonGroup3 = new javax.swing.ButtonGroup();
+        GroupGender = new javax.swing.ButtonGroup();
+        GroupStatus = new javax.swing.ButtonGroup();
+        GroupRole = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -203,8 +245,8 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         rdoLeave = new com.raven.suportSwing.RadioButtonCustom();
         txtUsername = new com.raven.suportSwing.TextField();
         txtPassWord = new com.raven.suportSwing.PasswordField();
-        myButton1 = new com.raven.suportSwing.MyButton();
-        myButton2 = new com.raven.suportSwing.MyButton();
+        btnAddEmployee = new com.raven.suportSwing.MyButton();
+        btnClear = new com.raven.suportSwing.MyButton();
         lblBirth = new javax.swing.JLabel();
         lblName = new javax.swing.JLabel();
         lblPhone = new javax.swing.JLabel();
@@ -212,6 +254,8 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         lblEmail = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
         lblPass = new javax.swing.JLabel();
+        lblIDUser = new javax.swing.JLabel();
+        btnUpdate = new com.raven.suportSwing.MyButton();
 
         dateChooser1.setTextRefernce(txtBirth);
 
@@ -280,17 +324,17 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
 
         jLabel3.setText("Giới tính");
 
-        buttonGroup1.add(rdoMale);
+        GroupGender.add(rdoMale);
         rdoMale.setSelected(true);
         rdoMale.setText("Nam");
 
-        buttonGroup1.add(rdoFeMale);
+        GroupGender.add(rdoFeMale);
         rdoFeMale.setText("Nữ");
 
-        buttonGroup3.add(rdoManage);
+        GroupRole.add(rdoManage);
         rdoManage.setText("Quản lý");
 
-        buttonGroup3.add(rdoEmpolyee);
+        GroupRole.add(rdoEmpolyee);
         rdoEmpolyee.setSelected(true);
         rdoEmpolyee.setText("Nhân Viên");
 
@@ -305,11 +349,11 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
 
         jLabel5.setText("Tình trạng");
 
-        buttonGroup2.add(rdoWorking);
+        GroupStatus.add(rdoWorking);
         rdoWorking.setSelected(true);
         rdoWorking.setText("Đang làm việc");
 
-        buttonGroup2.add(rdoLeave);
+        GroupStatus.add(rdoLeave);
         rdoLeave.setText("Nghỉ làm");
 
         txtUsername.setLabelText("Username");
@@ -326,19 +370,19 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
             }
         });
 
-        myButton1.setText("Thêm ");
-        myButton1.setRadius(10);
-        myButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAddEmployee.setText("Thêm ");
+        btnAddEmployee.setRadius(10);
+        btnAddEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton1ActionPerformed(evt);
+                btnAddEmployeeActionPerformed(evt);
             }
         });
 
-        myButton2.setText("Làm mới");
-        myButton2.setRadius(10);
-        myButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnClear.setText("Làm mới");
+        btnClear.setRadius(10);
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton2ActionPerformed(evt);
+                btnClearActionPerformed(evt);
             }
         });
 
@@ -362,6 +406,18 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
 
         lblPass.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         lblPass.setForeground(new java.awt.Color(255, 51, 51));
+
+        lblIDUser.setFont(new java.awt.Font("Tahoma", 0, 1)); // NOI18N
+        lblIDUser.setForeground(new java.awt.Color(255, 255, 255));
+        lblIDUser.setText("jLabel6");
+
+        btnUpdate.setText("Sửa");
+        btnUpdate.setRadius(10);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -391,29 +447,33 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
                     .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(59, 59, 59)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtBirth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(rdoMale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(47, 47, 47)
-                            .addComponent(rdoFeMale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jLabel3)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addGap(143, 143, 143)
-                            .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                            .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1)
-                        .addComponent(lblPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtPassWord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblBirth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtBirth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(rdoMale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(47, 47, 47)
+                                .addComponent(rdoFeMale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                            .addComponent(lblPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtPassWord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblBirth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblIDUser))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(rdoEmpolyee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
                         .addComponent(rdoManage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel4))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,10 +499,12 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
                         .addComponent(txtSalary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addComponent(lblSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(lblIDUser)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -479,8 +541,9 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
                             .addComponent(rdoLeave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27))
         );
 
@@ -501,7 +564,7 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
+            .addGap(0, 722, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -556,15 +619,20 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         lblPass.setText("");
     }//GEN-LAST:event_txtPassWordFocusGained
 
-    private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
-        
-//        this.insert();
-    }//GEN-LAST:event_myButton1ActionPerformed
+    private void btnAddEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeActionPerformed
 
-    private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton2ActionPerformed
+        this.insert();
+    }//GEN-LAST:event_btnAddEmployeeActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
         this.clear();
-    }//GEN-LAST:event_myButton2ActionPerformed
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        this.update();
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -602,9 +670,12 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup GroupGender;
+    private javax.swing.ButtonGroup GroupRole;
+    private javax.swing.ButtonGroup GroupStatus;
+    private com.raven.suportSwing.MyButton btnAddEmployee;
+    private com.raven.suportSwing.MyButton btnClear;
+    private com.raven.suportSwing.MyButton btnUpdate;
     private com.raven.datechooser.DateChooser dateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -617,13 +688,12 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBirth;
     private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblIDUser;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPass;
     private javax.swing.JLabel lblPhone;
     private javax.swing.JLabel lblSalary;
     private javax.swing.JLabel lblUser;
-    private com.raven.suportSwing.MyButton myButton1;
-    private com.raven.suportSwing.MyButton myButton2;
     private com.raven.suportSwing.RadioButtonCustom rdoEmpolyee;
     private com.raven.suportSwing.RadioButtonCustom rdoFeMale;
     private com.raven.suportSwing.RadioButtonCustom rdoLeave;

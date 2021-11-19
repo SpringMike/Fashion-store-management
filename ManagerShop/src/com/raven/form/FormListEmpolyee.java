@@ -8,6 +8,7 @@ package com.raven.form;
 import com.fpt.DAO.UserDAO;
 import com.fpt.entity.User;
 import com.fpt.utils.MsgBox;
+import com.fpt.utils.XDate;
 import com.raven.JFrame.FormImportEmpolyeeJFrame;
 import com.raven.swing.table.Action;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     UserDAO user = new UserDAO();
     FormImportEmpolyeeJFrame formImportEmpolyeeJFrame = new FormImportEmpolyeeJFrame();
+
     /**
      * Creates new form FormProducts
      */
@@ -30,7 +32,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         fillTable();
-        
+
         formImportEmpolyeeJFrame.addEvenFillTable(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -40,8 +42,6 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         });
     }
 
-  
-
     public void fillTable() {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
@@ -49,7 +49,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         for (User u : list) {
             model.addRow(new Object[]{
                 u.getIdUser(), u.getFullname(), u.isRole() ? "Quản lý" : "Nhân viên", u.isGender() ? "Nam" : "Nữ",
-                u.getDateOfBirth(), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
+                XDate.toString(u.getDateOfBirth(), "dd-MM-yyyy"), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
             });
         }
         System.out.println("Hello");
@@ -67,7 +67,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         for (User u : list) {
             model.addRow(new Object[]{
                 u.getIdUser(), u.getFullname(), u.isRole() ? "Quản lý" : "Nhân viên", u.isGender() ? "Nam" : "Nữ",
-                u.getDateOfBirth(), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
+                XDate.toString(u.getDateOfBirth(), "dd-MM-yyyy"), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
             });
         }
         lblSearch.setText("");
@@ -80,7 +80,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         fillTable();
         MsgBox.alert(this, "Xoá OK");
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -216,6 +216,11 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tableShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableShowMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableShow);
         if (tableShow.getColumnModel().getColumnCount() > 0) {
             tableShow.getColumnModel().getColumn(0).setResizable(false);
@@ -279,6 +284,21 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         fillSearch();
 
     }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void tableShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowMouseClicked
+        // TODO add your handling code here:
+        int index = tableShow.getSelectedRow();
+        int idUser = (int) tableShow.getValueAt(index, 0);
+        String fullname = tableShow.getValueAt(index, 1).toString();
+        String role = tableShow.getValueAt(index, 2).toString();
+        String gender = tableShow.getValueAt(index, 3).toString();
+        String birth = tableShow.getValueAt(index, 4).toString();
+        String address = tableShow.getValueAt(index, 5).toString();
+        String phone = tableShow.getValueAt(index, 6).toString();
+        String email = tableShow.getValueAt(index, 7).toString();
+        String salary = tableShow.getValueAt(index, 8).toString();
+        new FormImportEmpolyeeJFrame(fullname, role, gender, birth, address, phone, email, salary, idUser).setVisible(true);
+    }//GEN-LAST:event_tableShowMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

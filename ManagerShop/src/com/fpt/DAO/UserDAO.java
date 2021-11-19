@@ -18,10 +18,11 @@ import java.sql.ResultSet;
 public class UserDAO extends ShopDAO<User, String> {
 
     private String INSERT_SQL_USER = "INSERT dbo.[User](name, birthday, gender, phoneNumber, address, salary, email, role, status) VALUES(?,?,?,?,?,?,?,?, ?)";
-    private String UPDATE_SQL = "";
-    private String DELETE_SQL = "";
+    private String UPDATE_SQL = "UPDATE dbo.[User] SET name = ?, role = ?, gender = ?, birthday = ?, address = ?, phoneNumber = ?, email = ?, salary = ? WHERE idUser = ?";
+    private String DELETE_SQL = "UPDATE dbo.[User] SET status = 0 WHERE idUser = ?";
     private String SELECT_ALL_SQL = "SELECT * FROM dbo.[User] where status = 1";
     private String SELECT_BY_ID = "";
+    private String SELECT_BY_KEY = "SELECT * FROM dbo.[USER] WHERE name LIKE ? ";
 
     @Override
     public void insert(User e) {
@@ -31,17 +32,17 @@ public class UserDAO extends ShopDAO<User, String> {
 
     @Override
     public void update(User e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbcHelper.update(UPDATE_SQL, e.getFullname(), e.isRole(), e.isGender(), e.getDateOfBirth(), e.getAdress(), e.getPhoneNumber(),
+                e.getEmail(), e.getSalary(), e.getIdUser());
     }
 
     @Override
     public void delete(String k) {
-        String sql = "UPDATE dbo.[User] SET status = 0 WHERE idUser = ?";
-        jdbcHelper.update(sql, k);
+        jdbcHelper.update(DELETE_SQL, k);
     }
-     public void delete(int k) {
-        String sql = "UPDATE dbo.[User] SET status = 0 WHERE idUser = ?";
-        jdbcHelper.update(sql, k);
+
+    public void delete(int k) {
+        jdbcHelper.update(DELETE_SQL, k);
     }
 
     @Override
@@ -81,7 +82,6 @@ public class UserDAO extends ShopDAO<User, String> {
     }
 
     public List<User> selectByKey(String k) {
-        String sql = "SELECT * FROM dbo.[USER] WHERE name LIKE ? and status = 1";
-        return selectBySql(sql, "%" + k + "%");
+        return selectBySql(SELECT_BY_KEY, "%" + k + "%");
     }
 }
