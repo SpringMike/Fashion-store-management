@@ -38,6 +38,7 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        btnUpdate.setEnabled(false);
     }
 
     public FormImportEmpolyeeJFrame(String fullname, String role, String gender, String birth, String address, String phone, String email, String salary, int idUser) {

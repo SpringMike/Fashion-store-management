@@ -58,10 +58,8 @@
                           <EmptySpace pref="98" max="32767" attributes="0"/>
                           <Component id="myButton6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="myButton7" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="myButton8" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                          <Component id="myButton8" min="-2" pref="110" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="lblSearch" min="-2" pref="260" max="-2" attributes="0"/>
@@ -79,7 +77,6 @@
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="myButton5" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="myButton6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="myButton7" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="myButton8" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtSearch" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
                   </Group>
@@ -115,15 +112,6 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton6ActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="com.raven.suportSwing.MyButton" name="myButton7">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="S&#x1eed;a Th&#xf4;ng Tin"/>
-            <Property name="radius" type="int" value="20"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton7ActionPerformed"/>
           </Events>
         </Component>
         <Component class="com.raven.suportSwing.MyButton" name="myButton8">
