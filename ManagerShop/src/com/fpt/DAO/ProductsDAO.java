@@ -37,7 +37,7 @@ public class ProductsDAO extends ShopDAO<Products, Integer> {
 
     @Override
     public List<Products> selectAll() {
-        String sql = "SELECT * FROM dbo.Products JOIN dbo.List ON List.idList = Products.idList where statusDelete = 1";
+        String sql = "SELECT * FROM dbo.Products JOIN dbo.List ON List.idList = Products.idList WHERE statusDelete = 1 AND List.status = 1";
         return selectBySql(sql);
     }
 
@@ -73,7 +73,7 @@ public class ProductsDAO extends ShopDAO<Products, Integer> {
     }
 
     public List<Products> selectByKeyWord(String keyword) {
-        String sql = "SELECT * from Products JOIN dbo.List ON List.idList = Products.idList where nameProduct like ?";
+        String sql = "SELECT * from Products JOIN dbo.List ON List.idList = Products.idList where nameProduct like ? and List.status = 1 and statusDelete = 1";
         return selectBySql(sql, "%" + keyword + "%");
     }
 }

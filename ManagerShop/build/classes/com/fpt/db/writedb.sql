@@ -6,37 +6,8 @@ ALTER TABLE dbo.Products ADD statusDelete BIT DEFAULT 1
 ALTER TABLE dbo.Products DROP CONSTRAINT FK__Products__idSupp__44FF419A
 ALTER TABLE dbo.Products DROP COLUMN idSupplier
 
+ALTER TABLE dbo.List ADD status BIT DEFAULT 1
+-----------------------------
+SELECT * FROM dbo.List
 
-INSERT INTO dbo.Products
-(
-    idList,
-    nameProduct,
-    description,
-    status,
-    statusDelete
-)
-VALUES
-(   6,      -- idList - int
-    N'Giày Vải',    -- nameProduct - nvarchar(255)
-    NULL,   -- description - nvarchar(255)
-    1,   -- status - bit
-    DEFAULT -- statusDelete - bit
-    )
-UPDATE dbo.Products SET statusDelete = 0 WHERE idProduct = 15
-SELECT * FROM dbo.Account
-SELECT * FROM dbo.Products
-SELECT * FROM dbo.[User]
-INSERT INTO dbo.Products
-(
-    idList,
-    nameProduct,
-    description,
-    status
-)
-VALUES
-(   1,    -- idList - int
-    N'Done',  -- nameProduct - nvarchar(255)
-    NULL, -- description - nvarchar(255)
-    NULL  -- status - bit
-    )
-SELECT * FROM dbo.Products JOIN dbo.List ON List.idList = Products.idList WHERE status = 1
+UPDATE dbo.List SET status = 0 WHERE idList NOT IN (SELECT idList FROM dbo.Products) AND List.idList = ?

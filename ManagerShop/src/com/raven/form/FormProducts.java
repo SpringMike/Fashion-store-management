@@ -121,9 +121,14 @@ public class FormProducts extends javax.swing.JPanel {
     public void deleteCategory() {
         Category c = (Category) cbbCategory.getSelectedItem();
         int index = c.getId();
-        cDAO.delete(index);
-        MsgBox.alert(this, "Xoá OK");
-        fillComboboxCategory();
+        int check = cDAO.deleteList(index);
+        if (check == 0) {
+            lblCategory.setVisible(true);
+            lblCategory.setText("Danh mục có sản phẩm");
+        } else {
+            MsgBox.alert(this, "Xoá OK");
+            fillComboboxCategory();
+        }
     }
 
     public void fillTableProducts() {
@@ -140,7 +145,15 @@ public class FormProducts extends javax.swing.JPanel {
     Products getFormProducts() {
         Products p = new Products();
         p.setDescription(txtDes.getText());
-        p.setIdList(cbbCategory.getSelectedIndex() + 1);
+        List<Category> list = cDAO.selectAll();
+        int id = 0;
+        for (Category c : list) {
+            String textCb = cbbCategory.getSelectedItem() + "";
+            if (textCb.equals(c.getName())) {
+                id = c.getId();
+            }
+        }
+        p.setIdList(id);
         p.setNameProduct(txtNameProducts.getText());
         p.setStatus(radiNowSell.isSelected());
         return p;
@@ -632,6 +645,7 @@ public class FormProducts extends javax.swing.JPanel {
 //        txtImportList.setVisible(false);
 //        btnDelete.setVisible(false);
         deleteCategory();
+        fillTableProducts();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddListActionPerformed
