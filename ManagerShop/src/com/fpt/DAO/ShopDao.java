@@ -8,7 +8,7 @@ package com.fpt.DAO;
 import java.util.List;
 
 
-public abstract class ShopDAO<Entity, Key> {
+abstract class ShopDAO<Entity, Key> {
 
     abstract public void insert(Entity e);
 
