@@ -17,11 +17,11 @@ import java.util.List;
  */
 public class CategoryDAO extends ShopDAO<Category, Integer> {
 
-    String INSERT_SQL = "INSERT INTO dbo.List(nameList, status) VALUES (?, ?)";
+    String INSERT_SQL = "INSERT INTO dbo.List(nameList) VALUES (?)";
 
     @Override
     public void insert(Category e) {
-        jdbcHelper.update(INSERT_SQL, e.getName(), e.isStatus());
+        jdbcHelper.update(INSERT_SQL, e.getName());
 
     }
 
@@ -43,7 +43,7 @@ public class CategoryDAO extends ShopDAO<Category, Integer> {
 
     @Override
     public List<Category> selectAll() {
-        String sql = "select * from List where status = 1";
+        String sql = "select * from List";
         return selectBySql(sql);
     }
 
@@ -61,7 +61,7 @@ public class CategoryDAO extends ShopDAO<Category, Integer> {
                 Category c = new Category();
                 c.setId(rs.getInt("idList"));
                 c.setName(rs.getString("nameList"));
-                c.setStatus(rs.getBoolean("status"));
+//                c.setStatus(rs.getBoolean("status"));
                 list.add(c);
             }
         } catch (Exception e) {
