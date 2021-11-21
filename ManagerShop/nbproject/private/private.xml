@@ -3,11 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/du-an-1/Project/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Main.java</file>
-            <file>file:/D:/du-an-1/Project/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/ProductsDAO.java</file>
-            <file>file:/D:/du-an-1/Project/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormProducts.java</file>
-            <file>file:/D:/du-an-1/Project/DuAn1_FPOLY/ManagerShop/src/com/fpt/db/writedb.sql</file>
-            <file>file:/D:/du-an-1/Project/DuAn1_FPOLY/ManagerShop/src/com/fpt/db/dbManagerMain.sql</file>
+            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormImportEmpolyeeJFrame.java</file>
+            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/AccountDao.java</file>
+            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormListEmpolyee.java</file>
+            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/SizeDAO.java</file>
+            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormImportItemJFrame.java</file>
+            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormItems.java</file>
+            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/fpt/helper/jdbcHelper.java</file>
+            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/ProductsDAO.java</file>
         </group>
     </open-files>
 </project-private>
