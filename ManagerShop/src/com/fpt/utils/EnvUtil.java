@@ -9,10 +9,9 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 /**
  *
- * @author ducit
+ * @author Đặng Đình Vũ
  */
 public class EnvUtil {
-
     private static Dotenv dotenv;
     
     public static Dotenv dotenv(){
