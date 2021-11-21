@@ -38,7 +38,6 @@ public class FormItems extends javax.swing.JPanel {
      */
     public FormItems() {
         initComponents();
-
         setOpaque(false);
         fillTable();
 
