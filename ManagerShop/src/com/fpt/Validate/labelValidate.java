@@ -9,6 +9,7 @@ import com.fpt.utils.MsgBox;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -24,6 +25,15 @@ public class labelValidate {
     public static boolean checkEmpty(JLabel lbl, JTextField txtString, String mess) {
         if (txtString.getText().isEmpty()) {
             MsgBox.labelAlert(lbl, txtString, mess);
+            return false;
+        }
+        return true;
+
+    }
+    
+    public static boolean checkEmptyTextArea(JLabel lbl, JTextArea txtString, String mess) {
+        if (txtString.getText().isEmpty()) {
+            MsgBox.labelAlertTextArea(lbl, txtString, mess);
             return false;
         }
         return true;
