@@ -13,7 +13,7 @@ public class EnvUtil {
     
     public static Dotenv dotenv(){
         if(dotenv == null){
-            dotenv = Dotenv.load();
+            dotenv = Dotenv.configure().filename(".env").load();
         }
         return dotenv;
     }
