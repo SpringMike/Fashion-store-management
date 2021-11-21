@@ -231,7 +231,7 @@ public class FormItems extends javax.swing.JPanel {
         // TODO add your handling code here:
 //        this.setVisible(false);
 //        new MainForm().setVisible(true);
-        new FormImportItemJFrame().setVisible(true);
+         formImportItemJFrame.setVisible(true);
 
     }//GEN-LAST:event_myButton3ActionPerformed
 
