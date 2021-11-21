@@ -6,11 +6,11 @@
 package com.fpt.helper;
 
 //import com.microsoft.sqlserver.jdbc.SQLServerException;
+import com.fpt.utils.EnvUtil;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  *
@@ -18,10 +18,12 @@ import java.sql.SQLException;
  */
 public class jdbcHelper {
 
-    static String user = "sa";
-    static String pass = "123";
+    static String user = EnvUtil.get("DB_USER");
+    static String pass = EnvUtil.get("DB_PASSWORD");
+    static String host = EnvUtil.get("DB_HOST");
+    static String name = EnvUtil.get("DB_NAME");
     static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    static String url = "jdbc:sqlserver://localhost;databaseName=dbManagerShop";
+    static String url = "jdbc:sqlserver://"+host+";databaseName="+name+"";
     static {
         try {
             Class.forName(driver);
