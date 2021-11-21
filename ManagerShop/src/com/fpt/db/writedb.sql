@@ -12,3 +12,4 @@ SELECT * FROM dbo.List
 UPDATE dbo.List SET status = 0 WHERE idList NOT IN (SELECT idList FROM dbo.Products) AND List.idList = ?
 
 -- vũ ngáo.....(code siêu bẩn)
+
