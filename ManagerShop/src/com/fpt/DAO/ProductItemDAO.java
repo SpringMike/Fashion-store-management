@@ -75,4 +75,12 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
         return list;
     }
 
+    public List<ProductItem> selectByKeyWord(String keyword) {
+        String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial from detailsProduct D\n"
+                + "INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial INNER JOIN Color C on C.idColor = D.idColor\n"
+                + "INNER JOIN Products P on P.idProduct = D.idProduct\n"
+                + "where D.status = 1 and P.nameProduct like ?";
+        return selectBySql(sql, "%" + keyword + "%");
+    }
+
 }
