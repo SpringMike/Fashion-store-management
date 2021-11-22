@@ -1,11 +1,11 @@
 package com.raven.main;
 
+import com.fpt.utils.Auth;
 import com.raven.component.Header;
 import com.raven.component.Menu;
 import com.raven.event.EventMenuSelected;
 import com.raven.event.EventShowPopupMenu;
 import com.raven.form.FormCustomer;
-import com.raven.form.FormImportEmployee;
 import com.raven.form.FormImportProducts;
 import com.raven.form.FormInvoiceImportProducts;
 import com.raven.form.FormInvoiceSell;
@@ -29,8 +29,6 @@ import com.raven.swing.icon.IconFontSwing;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
@@ -62,47 +60,72 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void menuSelected(int menuIndex, int subMenuIndex) {
                 System.out.println("Menu Index : " + menuIndex + " SubMenu Index " + subMenuIndex);
-                if (menuIndex == 0) {
-                    main.showForm(new Form_Home());
-                } else if (menuIndex == 1) {
-                    if (subMenuIndex == 0) {
-                        main.showForm(new FormProducts());
-                    } else if (subMenuIndex == 1) {
-                        main.showForm(new FormItems());
-                    } else if (subMenuIndex == 2) {
-                        main.showForm(new FormSupplier());
+                if (Auth.isManager()) {
+                    if (menuIndex == 0) {
+                        main.showForm(new Form_Home());
+                    } else if (menuIndex == 1) {
+                        if (subMenuIndex == 0) {
+                            main.showForm(new FormProducts());
+                        } else if (subMenuIndex == 1) {
+                            main.showForm(new FormItems());
+                        } else if (subMenuIndex == 2) {
+                            main.showForm(new FormSupplier());
+                        }
+                    } else if (menuIndex == 2) {
+                        if (subMenuIndex == 0) {
+                            main.showForm(new FormImportProducts());
+                        } else if (subMenuIndex == 1) {
+                            main.showForm(new FormSell());
+                        } else if (subMenuIndex == 2) {
+                            main.showForm(new FormReturnProduct());
+                        } else if (subMenuIndex == 3) {
+                            main.showForm(new FormInvoiceSell());
+                        } else if (subMenuIndex == 4) {
+                            main.showForm(new FormInvoiceImportProducts());
+                        }
+                    } else if (menuIndex == 3) {
+                        if (subMenuIndex == 0) {
+                            main.showForm(new FormRevenueStatistics());
+                        } else if (subMenuIndex == 1) {
+                            main.showForm(new FormSalesStatistics());
+                        }
+                    } else if (menuIndex == 4) {
+                        if (subMenuIndex == 0) {
+                            main.showForm(new FormListEmpolyee());
+                        } else if (subMenuIndex == 1) {
+                            main.showForm(new FormSalary());
+                        }
+                    } else if (menuIndex == 5) {
+                        main.showForm(new FormCustomer());
+                    } else if (menuIndex == 6) {
+                        main.showForm(new FormMyProfile());
+                    } else {
+                        main.showForm(new FormProperties());
                     }
-                } else if (menuIndex == 2) {
-                    if (subMenuIndex == 0) {
-                        main.showForm(new FormImportProducts());
-                    } else if (subMenuIndex == 1) {
-                        main.showForm(new FormSell());
-                    } else if (subMenuIndex == 2) {
-                        main.showForm(new FormReturnProduct());
-                    } else if (subMenuIndex == 3) {
-                        main.showForm(new FormInvoiceSell());
-                    } else if(subMenuIndex == 4){
-                        main.showForm(new FormInvoiceImportProducts());
-                    }
-                } else if (menuIndex == 3) {
-                    if (subMenuIndex == 0) {
-                        main.showForm(new FormRevenueStatistics());
-                    } else if(subMenuIndex == 1){
-                        main.showForm(new FormSalesStatistics());
-                    }
-                } else if (menuIndex == 4) {
-                    if (subMenuIndex == 0) {
-                        main.showForm(new FormListEmpolyee());
-                    } else if(subMenuIndex == 1){
-                        main.showForm(new FormSalary());
-                    } 
-                } else if (menuIndex == 5) {
-                    main.showForm(new FormCustomer());
-                } else if (menuIndex == 6) {
-                    main.showForm(new FormMyProfile());
                 } else {
-                    main.showForm(new FormProperties());
+                    if (menuIndex == 0) {
+                        main.showForm(new Form_Home());
+                    } else if (menuIndex == 1) {
+                        if (subMenuIndex == 0) {
+                            main.showForm(new FormSell());
+                        } else if (subMenuIndex == 1) {
+                            main.showForm(new FormReturnProduct());
+                        } else if (subMenuIndex == 2) {
+                            main.showForm(new FormInvoiceSell());
+                        }
+                    } else if (menuIndex == 2) {
+                        if (subMenuIndex == 0) {
+                            main.showForm(new FormRevenueStatistics());
+                        } else if (subMenuIndex == 1) {
+                            main.showForm(new FormSalesStatistics());
+                        }
+                    } else if (menuIndex == 3) {
+                        main.showForm(new FormCustomer());
+                    } else if (menuIndex == 4) {
+                        main.showForm(new FormMyProfile());
+                    }
                 }
+
             }
         });
         menu.addEventShowPopup(new EventShowPopupMenu() {

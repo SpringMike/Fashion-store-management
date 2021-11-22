@@ -52,7 +52,18 @@ public class UserDAO extends ShopDAO<User, String> {
 
     @Override
     public User selectById(String k) {
+        String sql = "select * from User where idUser = ?";
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    }
+
+    public User selectById(int k) {
+        String sql = "SELECT * FROM dbo.[User] WHERE idUser = ?";
+        List<User> list = selectBySql(sql, k);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
     }
 
     @Override
