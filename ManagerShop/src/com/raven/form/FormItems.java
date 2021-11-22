@@ -5,6 +5,11 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.ProductItemDAO;
+import com.fpt.entity.ProductItem;
+import com.fpt.entity.User;
+import com.fpt.utils.XDate;
+import com.raven.JFrame.FormImportEmpolyeeJFrame;
 import com.raven.JFrame.FormImportItemJFrame;
 import com.raven.component.Menu;
 import com.raven.event.EventMenuSelected;
@@ -13,7 +18,11 @@ import com.raven.main.Main;
 import com.raven.swing.MenuItem;
 import com.raven.swing.PopupMenu;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,12 +30,36 @@ import javax.swing.JOptionPane;
  */
 public class FormItems extends javax.swing.JPanel {
 
+    FormImportItemJFrame formImportItemJFrame = new FormImportItemJFrame();
+    ProductItemDAO prDAO = new ProductItemDAO();
+
     /**
      * Creates new form FormItems
      */
     public FormItems() {
         initComponents();
+
         setOpaque(false);
+        fillTable();
+
+        formImportItemJFrame.addEvenFillTable(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                formImportItemJFrame.insertProductItem();
+                fillTable();
+            }
+        });
+    }
+
+    public void fillTable() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        List<ProductItem> list = prDAO.selectAll();
+        for (ProductItem p : list) {
+            model.addRow(new Object[]{
+                p.getId(), p.getProductName(), p.getPrice(), "giavon", "giamgia", p.getSize(), p.getColor(), p.getMaterial()
+            });
+        }
     }
 
     /**
@@ -47,7 +80,7 @@ public class FormItems extends javax.swing.JPanel {
         myButton4 = new com.raven.suportSwing.MyButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableColumn1 = new com.raven.suportSwing.TableColumn();
+        tableShow = new com.raven.suportSwing.TableColumn();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -132,7 +165,7 @@ public class FormItems extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
+        tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -151,7 +184,7 @@ public class FormItems extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tableColumn1);
+        jScrollPane1.setViewportView(tableShow);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -199,7 +232,7 @@ public class FormItems extends javax.swing.JPanel {
         // TODO add your handling code here:
 //        this.setVisible(false);
 //        new MainForm().setVisible(true);
-        new FormImportItemJFrame().setVisible(true);
+        formImportItemJFrame.setVisible(true);
 
     }//GEN-LAST:event_myButton3ActionPerformed
 
@@ -217,7 +250,7 @@ public class FormItems extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton myButton2;
     private com.raven.suportSwing.MyButton myButton3;
     private com.raven.suportSwing.MyButton myButton4;
-    private com.raven.suportSwing.TableColumn tableColumn1;
+    private com.raven.suportSwing.TableColumn tableShow;
     private com.raven.suportSwing.TextField textField2;
     // End of variables declaration//GEN-END:variables
 }

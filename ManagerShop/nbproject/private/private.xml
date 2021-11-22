@@ -3,28 +3,29 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/FogotPassword.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/EmpolyeeDao.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Login_main.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/entity/Employee.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/entity/Category.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/entity/Empolyee.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/helper/jdbcHelper.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/db/writedb.sql</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Main.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormListEmpolyee.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/helper/jdbcHelper.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/entity/User.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormProducts.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/FogotPassword.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Login.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormImportEmployee.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/CustomerDAO.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormImportEmpolyeeJFrame.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/entity/Category.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/entity/Empolyee.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormCustomer.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/db/writedb.sql</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormImportItemJFrame.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormProducts.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Login.java</file>
-            <file>file:/D:/du-an-1/Project/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Main.java</file>
-            <file>file:/D:/du-an-1/Project/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/ProductsDAO.java</file>
-            <file>file:/D:/du-an-1/Project/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormProducts.java</file>
-            <file>file:/D:/du-an-1/Project/DuAn1_FPOLY/ManagerShop/src/com/fpt/db/writedb.sql</file>
-            <file>file:/D:/du-an-1/Project/DuAn1_FPOLY/ManagerShop/src/com/fpt/db/dbManagerMain.sql</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/utils/XImage.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/entity/Employee.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormItems.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/EmpolyeeDao.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Login_main.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/MaterialDAO.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/ProductsDAO.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormImportEmpolyeeJFrame.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/ProductItemDAO.java</file>
         </group>
     </open-files>
 </project-private>

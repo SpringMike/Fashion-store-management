@@ -47,6 +47,11 @@ public class Products {
         this.idList = idList;
     }
 
+    @Override
+    public String toString() {
+        return  nameProduct;
+    }
+
     public String getNameProduct() {
         return nameProduct;
     }
