@@ -44,7 +44,7 @@ END TRY
 BEGIN CATCH
 	ROLLBACK TRANSACTION
 END CATCH
-
+----------------------
 EXEC dbo.PRDelete @idPrDetails = 7 -- int
 
 

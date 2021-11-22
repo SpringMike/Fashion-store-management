@@ -349,6 +349,17 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         }
     }
 
+    public void setForm(ProductItemImage pr) {
+        if (pr.getValue() != null) {
+            panelImage.setToolTipText(pr.getValue());
+            jLabel1.setIcon(XImage.read(pr.getValue()));
+        }
+    }
+    
+    public void edit(){
+        
+    }
+
     public void getProductItemWhenClick() {
         int row = tableColumn1.getSelectedRow();
         for (int i = 0; i < list.size(); i++) {
@@ -359,6 +370,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 //                cbbMaterial.getModel().setSelectedItem(mDao.selectById(p.getIdMaterial()));
 //                cbbProduct.getModel().setSelectedItem(productDAO.selectById(p.getIdProduct()));
                 txtPrice.setText(String.valueOf(p.getPrice()));
+
             }
         }
     }
@@ -552,6 +564,10 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tableColumn1);
         if (tableColumn1.getColumnModel().getColumnCount() > 0) {
             tableColumn1.getColumnModel().getColumn(0).setResizable(false);
+            tableColumn1.getColumnModel().getColumn(1).setResizable(false);
+            tableColumn1.getColumnModel().getColumn(2).setResizable(false);
+            tableColumn1.getColumnModel().getColumn(3).setResizable(false);
+            tableColumn1.getColumnModel().getColumn(4).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
