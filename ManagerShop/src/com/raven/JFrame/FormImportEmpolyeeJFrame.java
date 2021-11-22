@@ -41,6 +41,10 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         btnUpdate.setEnabled(false);
     }
 
+    public void addEvenUpdate(ActionListener evt) {
+        btnUpdate.addActionListener(evt);
+    }
+
     public FormImportEmpolyeeJFrame(String fullname, String role, String gender, String birth, String address, String phone, String email, String salary, int idUser) {
         initComponents();
         setLocationRelativeTo(null);
@@ -632,7 +636,7 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        this.update();
+//        this.update();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**

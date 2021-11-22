@@ -107,7 +107,7 @@ public class FormCustomer extends javax.swing.JPanel {
             cDao.insert(c);
             fillTable();
             clearForm();
-            JOptionPane.showMessageDialog(this, "Them moi thanh cong");
+            MsgBox.alert(this, "Them moi thanh cong");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -121,7 +121,7 @@ public class FormCustomer extends javax.swing.JPanel {
             cDao.update(c);
             fillTable();
             clearForm();
-            JOptionPane.showMessageDialog(this, "Sua doi thanh cong");
+            MsgBox.alert(this, "Sua doi thanh cong");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,7 +135,7 @@ public class FormCustomer extends javax.swing.JPanel {
                 cDao.delete(ma);
                 fillTable();
                 clearForm();
-                JOptionPane.showMessageDialog(this, "Xoa thanh cong");
+                MsgBox.alert(this, "Xoa thanh cong");
             } catch (Exception e) {
                 e.printStackTrace();
             }

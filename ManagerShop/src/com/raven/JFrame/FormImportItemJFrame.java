@@ -7,14 +7,32 @@ package com.raven.JFrame;
 
 import com.fpt.DAO.ColorDAO;
 import com.fpt.DAO.MaterialDAO;
+import com.fpt.DAO.ProductItemDAO;
+import com.fpt.DAO.ProductItemImageDAO;
+import com.fpt.DAO.ProductsDAO;
 import com.fpt.DAO.SizeDAO;
 import com.fpt.Validate.Validate;
 import com.fpt.entity.Color;
 import com.fpt.entity.Material;
+import com.fpt.entity.ProductItem;
+import com.fpt.entity.ProductItemImage;
+import com.fpt.entity.Products;
 import com.fpt.entity.Size;
 import com.fpt.utils.MsgBox;
+import com.fpt.utils.XImage;
+import com.raven.form.FormItems;
+import com.raven.form.FormListEmpolyee;
+import com.raven.form.MainForm;
+import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -34,6 +52,8 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         fillComboboxSize();
         fillComboboxColor();
         fillComboboxMaterial();
+        fillComboboxProduct();
+
     }
 
     public void statusForm() {
@@ -46,10 +66,15 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         txtColorAdd.setVisible(false);
         txtMaterialAdd.setVisible(false);
         txtSizeAdd.setVisible(false);
+        lblMaterialAdd.setVisible(false);
+        lblPrice.setVisible(false);
     }
     SizeDAO sDao = new SizeDAO();
     ColorDAO cDao = new ColorDAO();
     MaterialDAO mDao = new MaterialDAO();
+    ProductsDAO productDAO = new ProductsDAO();
+    ProductItemDAO prodctItemDAO = new ProductItemDAO();
+    ProductItemImageDAO productItemImageDAO = new ProductItemImageDAO();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -249,15 +274,154 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         }
     }
 
+    public void fillComboboxProduct() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cbbProduct.getModel();
+        cbbProduct.removeAllItems();
+        List<Products> list = productDAO.selectAll();
+        for (Products p : list) {
+            model.addElement(p);
+        }
+    }
+
+    public ProductItem getFormProductItem() {
+        Material m = (Material) cbbMaterial.getSelectedItem();
+        Size s = (Size) cbbSize.getSelectedItem();
+        Color c = (Color) cboColor.getSelectedItem();
+        Products p = (Products) cbbProduct.getSelectedItem();
+        ProductItem pro = new ProductItem();
+        pro.setPrice(Float.parseFloat(txtPrice.getText()));
+        pro.setIdSize(s.getIdSize());
+        pro.setIdColor(c.getIdColor());
+        pro.setIdMaterial(m.getIdMaterial());
+        pro.setIdProduct(p.getIdProduct());
+        pro.setQuantity(0);
+        pro.setStatus(true);
+        pro.setSize(s.getValueSize());
+        pro.setColor(c.getValueColor());
+        pro.setMaterial(m.getValueMaterial());
+        pro.setProductName(p.getNameProduct());
+
+        return pro;
+    }
+
+    static List<ProductItem> list = new ArrayList<>();
+
+    public void fillTableTemp() {
+        DefaultTableModel model = (DefaultTableModel) tableColumn1.getModel();
+        ProductItem p = getFormProductItem();
+        Object[] obj = new Object[]{p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial()};
+        model.addRow(obj);
+        list.add(p);
+    }
+
+    public void insertProductItem() {
+        if (!Validate.checkEmpty(lblPrice, txtPrice, "Không bỏ trống giá tiền")) {
+            lblPrice.setVisible(true);
+            return;
+        } else {
+            int count = tableColumn1.getRowCount();
+            for (int i = 0; i < list.size(); i++) {
+                prodctItemDAO.insert(list.get(i));
+                insetImage();
+                clearImage();
+                txtPrice.setText("");
+            }
+//            fillTableProducts();
+
+            MsgBox.alert(this, "Thêm " + count + " mặt hàng thành công");
+            new MainForm().showForm(new FormItems());
+            this.dispose();
+        }
+    }
+
+    public void insetImage() {
+        ProductItemImage productItemImage = new ProductItemImage();
+        int i = 0;
+        for (Component jc : panelImage.getComponents()) {
+            if (jc instanceof JLabel) {
+                if (i > 0) {
+                    JLabel label = (JLabel) jc;
+                    productItemImage.setValue(label.getToolTipText());
+                    productItemImageDAO.insert(productItemImage);
+                }
+                i++;
+            }
+        }
+    }
+
+    public void setForm(ProductItemImage pr) {
+        if (pr.getValue() != null) {
+            panelImage.setToolTipText(pr.getValue());
+            jLabel1.setIcon(XImage.read(pr.getValue()));
+        }
+    }
+    
+    public void edit(){
+        
+    }
+
+    public void getProductItemWhenClick() {
+        int row = tableColumn1.getSelectedRow();
+        for (int i = 0; i < list.size(); i++) {
+            ProductItem p = list.get(i);
+            if (i == row) {
+//                cbbSize.getModel().setSelectedItem(sDao.selectById(p.getIdSize()));
+//                cboColor.getModel().setSelectedItem(cDao.selectById(p.getIdColor()));
+//                cbbMaterial.getModel().setSelectedItem(mDao.selectById(p.getIdMaterial()));
+//                cbbProduct.getModel().setSelectedItem(productDAO.selectById(p.getIdProduct()));
+                txtPrice.setText(String.valueOf(p.getPrice()));
+
+            }
+        }
+    }
+
+    public void clearImage() {
+        int i = 0;
+        for (Component jc : panelImage.getComponents()) {
+            if (jc instanceof JLabel) {
+                if (i > 0) {
+                    JLabel label = (JLabel) jc;
+                    panelImage.remove(jc);
+
+                }
+                i++;
+            }
+        }
+        repaint();
+        revalidate();
+    }
+
+    public void choseImage() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Please select more images");
+        fileChooser.setMultiSelectionEnabled(true);
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File[] img = fileChooser.getSelectedFiles();
+            for (File f : img) {
+                XImage.save(f);//luu vao thu muc
+                ImageIcon icon = XImage.read(f.getName());//doc hinh tu logo
+                JLabel lbl = new JLabel(icon);
+                lbl.setToolTipText(f.getName());//giu ten hinh trong tooltip
+                panelImage.add(lbl);
+            }
+            repaint();
+            revalidate();
+        }
+    }
+
+    public void addEvenFillTable(ActionListener evt) {
+        btnAddProductItem.addActionListener(evt);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel5 = new javax.swing.JPanel();
-        myButton1 = new com.raven.suportSwing.MyButton();
+        btnAddTemp = new com.raven.suportSwing.MyButton();
         myButton3 = new com.raven.suportSwing.MyButton();
         myButton4 = new com.raven.suportSwing.MyButton();
-        myButton5 = new com.raven.suportSwing.MyButton();
+        btnAddProductItem = new com.raven.suportSwing.MyButton();
         myButton6 = new com.raven.suportSwing.MyButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -266,12 +430,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         tableColumn1 = new com.raven.suportSwing.TableColumn();
         scrollBar1 = new com.raven.suportSwing.ScrollBar();
         jPanel2 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        panelImage = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        combobox1 = new com.raven.suportSwing.Combobox();
-        combobox2 = new com.raven.suportSwing.Combobox();
-        textField1 = new com.raven.suportSwing.TextField();
-        myButton2 = new com.raven.suportSwing.MyButton();
+        cbbProduct = new com.raven.suportSwing.Combobox();
+        txtPrice = new com.raven.suportSwing.TextField();
+        btnClearImg = new com.raven.suportSwing.MyButton();
         jPanel6 = new javax.swing.JPanel();
         btn = new com.raven.suportSwing.MyButton();
         txtColorAdd = new com.raven.suportSwing.TextField();
@@ -291,15 +454,22 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         lblSizeAdd = new javax.swing.JLabel();
         lblColor = new javax.swing.JLabel();
         lblMaterialAdd = new javax.swing.JLabel();
-        btnSizeAdd1 = new com.raven.suportSwing.MyButton();
+        lblPrice = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
+        setUndecorated(true);
 
         jPanel5.setBackground(java.awt.Color.white);
 
-        myButton1.setText("Lưu tạm");
-        myButton1.setRadius(20);
+        btnAddTemp.setText("Lưu tạm");
+        btnAddTemp.setRadius(20);
+        btnAddTemp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddTempActionPerformed(evt);
+            }
+        });
 
         myButton3.setText("Mới");
         myButton3.setRadius(20);
@@ -307,8 +477,13 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         myButton4.setText("Xoá");
         myButton4.setRadius(20);
 
-        myButton5.setText("Hoàn Thành");
-        myButton5.setRadius(20);
+        btnAddProductItem.setText("Hoàn Thành");
+        btnAddProductItem.setRadius(20);
+        btnAddProductItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddProductItemActionPerformed(evt);
+            }
+        });
 
         myButton6.setText("Import");
         myButton6.setRadius(20);
@@ -318,23 +493,19 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(myButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(myButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                                .addComponent(myButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(myButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(myButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddTemp, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(myButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(myButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddProductItem, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(59, 59, 59)
-                .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAddTemp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(myButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(161, 161, 161)
@@ -342,7 +513,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAddProductItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(87, 87, 87))
         );
 
@@ -371,16 +542,33 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
         tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Tên sản phẩm", "Loại", "Giá Bán", "Size", "Màu Sắc", "Chất liệu", "Hình Ảnh"
+                "Tên sản phẩm", "Giá Bán", "Size", "Màu Sắc", "Chất liệu"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableColumn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableColumn1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableColumn1);
+        if (tableColumn1.getColumnModel().getColumnCount() > 0) {
+            tableColumn1.getColumnModel().getColumn(0).setResizable(false);
+            tableColumn1.getColumnModel().getColumn(1).setResizable(false);
+            tableColumn1.getColumnModel().getColumn(2).setResizable(false);
+            tableColumn1.getColumnModel().getColumn(3).setResizable(false);
+            tableColumn1.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -403,48 +591,43 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         jPanel2.setBackground(java.awt.Color.white);
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chi tiết sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Hình Ảnh"));
+        panelImage.setBackground(new java.awt.Color(255, 255, 255));
+        panelImage.setBorder(javax.swing.BorderFactory.createTitledBorder("Hình Ảnh"));
+        panelImage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        panelImage.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/add (1).png"))); // NOI18N
         jLabel1.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+        panelImage.add(jLabel1);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(315, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(80, Short.MAX_VALUE))
-        );
-
-        combobox1.setLabeText("Loại sản phẩm");
-        combobox1.addActionListener(new java.awt.event.ActionListener() {
+        cbbProduct.setLabeText("Tên sản phẩm");
+        cbbProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combobox1ActionPerformed(evt);
+                cbbProductActionPerformed(evt);
             }
         });
 
-        combobox2.setLabeText("Tên sản phẩm");
-
-        textField1.setLabelText("Giá Bán");
-        textField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textField1ActionPerformed(evt);
+        txtPrice.setLabelText("Giá Bán");
+        txtPrice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPriceFocusGained(evt);
             }
         });
 
-        myButton2.setText("Tạo mới hình");
-        myButton2.setRadius(20);
+        btnClearImg.setText("Tạo mới hình");
+        btnClearImg.setRadius(20);
+        btnClearImg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearImgActionPerformed(evt);
+            }
+        });
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -662,8 +845,8 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnSizeAdd1.setText("Thêm");
-        btnSizeAdd1.setRadius(20);
+        lblPrice.setForeground(new java.awt.Color(225, 0, 0));
+        lblPrice.setText("jLabel3");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -671,43 +854,37 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(combobox2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnSizeAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40))))
+                    .addComponent(cbbProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClearImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addComponent(panelImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClearImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(btnSizeAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(combobox2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(cbbProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblPrice)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -721,8 +898,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -790,18 +966,10 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMaterialAddActionPerformed
 
-    private void textField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textField1ActionPerformed
-
     private void btnEditMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMaterialActionPerformed
         // TODO add your handling code here:
         updateMaterial();
     }//GEN-LAST:event_btnEditMaterialActionPerformed
-
-    private void combobox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_combobox1ActionPerformed
 
     private void cbbSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSizeActionPerformed
         // TODO add your handling code here:
@@ -842,6 +1010,34 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         showMaterial();
     }//GEN-LAST:event_cbbMaterialActionPerformed
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        choseImage();
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void btnClearImgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearImgActionPerformed
+        clearImage();
+    }//GEN-LAST:event_btnClearImgActionPerformed
+
+    private void txtPriceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusGained
+        lblPrice.setVisible(false);
+    }//GEN-LAST:event_txtPriceFocusGained
+
+    private void btnAddTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTempActionPerformed
+        fillTableTemp();
+    }//GEN-LAST:event_btnAddTempActionPerformed
+
+    private void btnAddProductItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductItemActionPerformed
+        insertProductItem();
+    }//GEN-LAST:event_btnAddProductItemActionPerformed
+
+    private void tableColumn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableColumn1MouseClicked
+        getProductItemWhenClick();
+    }//GEN-LAST:event_tableColumn1MouseClicked
+
+    private void cbbProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbProductActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbProductActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -868,6 +1064,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(FormImportItemJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -880,42 +1077,42 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btn;
     private com.raven.suportSwing.MyButton btnAddMaterial;
+    private com.raven.suportSwing.MyButton btnAddProductItem;
     private com.raven.suportSwing.MyButton btnAddSize;
+    private com.raven.suportSwing.MyButton btnAddTemp;
+    private com.raven.suportSwing.MyButton btnClearImg;
     private com.raven.suportSwing.MyButton btnColorAdd;
     private com.raven.suportSwing.MyButton btnEditColor;
     private com.raven.suportSwing.MyButton btnEditMaterial;
     private com.raven.suportSwing.MyButton btnEditSize;
-    private com.raven.suportSwing.MyButton btnSizeAdd1;
     private com.raven.suportSwing.Combobox cbbMaterial;
+    private com.raven.suportSwing.Combobox cbbProduct;
     private com.raven.suportSwing.Combobox cbbSize;
     private com.raven.suportSwing.Combobox cboColor;
-    private com.raven.suportSwing.Combobox combobox1;
-    private com.raven.suportSwing.Combobox combobox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblMaterialAdd;
+    private javax.swing.JLabel lblPrice;
     private javax.swing.JLabel lblSizeAdd;
-    private com.raven.suportSwing.MyButton myButton1;
     private com.raven.suportSwing.MyButton myButton10;
     private com.raven.suportSwing.MyButton myButton11;
-    private com.raven.suportSwing.MyButton myButton2;
     private com.raven.suportSwing.MyButton myButton3;
     private com.raven.suportSwing.MyButton myButton4;
-    private com.raven.suportSwing.MyButton myButton5;
     private com.raven.suportSwing.MyButton myButton6;
+    private javax.swing.JPanel panelImage;
     private com.raven.suportSwing.ScrollBar scrollBar1;
     private com.raven.suportSwing.TableColumn tableColumn1;
-    private com.raven.suportSwing.TextField textField1;
     private com.raven.suportSwing.TextField txtColorAdd;
     private com.raven.suportSwing.TextField txtMaterialAdd;
+    private com.raven.suportSwing.TextField txtPrice;
     private com.raven.suportSwing.TextField txtSizeAdd;
     // End of variables declaration//GEN-END:variables
+
 }
