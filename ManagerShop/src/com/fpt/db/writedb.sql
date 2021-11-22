@@ -45,6 +45,12 @@ BEGIN CATCH
 	ROLLBACK TRANSACTION
 END CATCH
 ----------------------
-EXEC dbo.PRDelete @idPrDetails = 7 -- int
+
+SELECT * FROM dbo.ImageProducts JOIN dbo.detailsProduct ON ImageProducts.idPrDeltails = detailsProduct.idPrDeltails
+
+SELECT * FROM dbo.[User]
+SELECT * FROM dbo.Account
+SELECT * FROM dbo.[User] WHERE idUser = ?
+UPDATE dbo.[User] SET role = 1 WHERE idUser = 1
 
 

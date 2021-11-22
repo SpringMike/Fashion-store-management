@@ -24,6 +24,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     UserDAO user = new UserDAO();
     FormImportEmpolyeeJFrame formImportEmpolyeeJFrame = new FormImportEmpolyeeJFrame();
+    FormImportEmpolyeeJFrame formUpdateEmpolyeeJFrame;
 
     /**
      * Creates new form FormProducts
@@ -40,6 +41,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                 fillTable();
             }
         });
+
     }
 
     public void fillTable() {
@@ -282,7 +284,16 @@ public class FormListEmpolyee extends javax.swing.JPanel {
             String phone = tableShow.getValueAt(index, 6).toString();
             String email = tableShow.getValueAt(index, 7).toString();
             String salary = tableShow.getValueAt(index, 8).toString();
-            new FormImportEmpolyeeJFrame(fullname, role, gender, birth, address, phone, email, salary, idUser).setVisible(true);
+            formUpdateEmpolyeeJFrame = new FormImportEmpolyeeJFrame(fullname, role, gender, birth, address, phone, email, salary, idUser);
+            formUpdateEmpolyeeJFrame.addEvenUpdate(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    formUpdateEmpolyeeJFrame.update();
+                    fillTable();
+                    System.out.println("update");
+                }
+            });
+            formUpdateEmpolyeeJFrame.setVisible(true);
         }
 
     }//GEN-LAST:event_tableShowMouseClicked
