@@ -30,7 +30,8 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
 
     @Override
     public void delete(Integer k) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "{call PRDelete(?)}";
+        jdbcHelper.update(sql, k);
     }
 
     @Override

@@ -24,3 +24,27 @@ SELECT * FROM dbo.ImageProducts
 
 DELETE dbo.detailsProduct WHERE idPrDeltails
 -- vũ ngáo.....(code siêu bẩn)
+
+-- Product delete 
+IF OBJECT_ID('PRDelete') IS NOT NULL
+DROP PROC PRDelete
+GO
+
+CREATE PROC PRDelete
+@idPrDetails INT
+AS
+BEGIN TRY
+	BEGIN TRAN
+	DELETE dbo.ImageProducts
+	WHERE idPrDeltails IN (SELECT idPrDeltails FROM dbo.ImageProducts WHERE @idPrDetails = idPrDeltails)
+	DELETE dbo.detailsProduct
+	WHERE idPrDeltails IN (SELECT idPrDeltails FROM dbo.detailsProduct WHERE @idPrDetails = idPrDeltails)
+	COMMIT TRAN
+END TRY
+BEGIN CATCH
+	ROLLBACK TRANSACTION
+END CATCH
+
+EXEC dbo.PRDelete @idPrDetails = 7 -- int
+
+
