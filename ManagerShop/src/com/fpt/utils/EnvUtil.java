@@ -7,10 +7,7 @@ package com.fpt.utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-/**
- *
- * @author Đặng Đình Vũ
- */
+
 public class EnvUtil {
 
     private static Dotenv dotenv;
