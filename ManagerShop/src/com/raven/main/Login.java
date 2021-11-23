@@ -114,7 +114,7 @@ public class Login extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Login");
 
-        txtUser.setText("minhvn21");
+        txtUser.setText("minh2");
         txtUser.setLabelText("Usename");
         txtUser.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -137,7 +137,7 @@ public class Login extends javax.swing.JPanel {
             }
         });
 
-        txtPassWord.setText("minh1231");
+        txtPassWord.setText("123");
         txtPassWord.setLabelText("Password");
         txtPassWord.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
