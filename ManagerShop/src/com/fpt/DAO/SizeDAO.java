@@ -53,6 +53,15 @@ public class SizeDAO extends ShopDAO<Size, Integer> {
 
     }
 
+    public Size selectByName(String name) {
+        String sql = "select * from size where valueSize = ?";
+        List<Size> list = selectBySql(sql, name);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
     @Override
     protected List<Size> selectBySql(String sql, Object... args) {
         List<Size> list = new ArrayList<>();

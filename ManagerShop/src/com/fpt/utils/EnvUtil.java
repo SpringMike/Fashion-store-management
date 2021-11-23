@@ -7,16 +7,14 @@ package com.fpt.utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-/**
- *
- * @author Đặng Đình Vũ
- */
+
 public class EnvUtil {
 
     private static Dotenv dotenv;
 
-    public static Dotenv dotenv() {
-        if (dotenv == null) {
+    
+    public static Dotenv dotenv(){
+        if(dotenv == null){
             dotenv = Dotenv.configure().filename(".env").load();
         }
         return dotenv;

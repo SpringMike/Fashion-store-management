@@ -349,6 +349,17 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         }
     }
 
+    public void setForm(ProductItemImage pr) {
+        if (pr.getValue() != null) {
+            panelImage.setToolTipText(pr.getValue());
+            jLabel1.setIcon(XImage.read(pr.getValue()));
+        }
+    }
+    
+    public void edit(){
+        
+    }
+
     public void getProductItemWhenClick() {
         int row = tableColumn1.getSelectedRow();
         for (int i = 0; i < list.size(); i++) {
@@ -359,6 +370,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 //                cbbMaterial.getModel().setSelectedItem(mDao.selectById(p.getIdMaterial()));
 //                cbbProduct.getModel().setSelectedItem(productDAO.selectById(p.getIdProduct()));
                 txtPrice.setText(String.valueOf(p.getPrice()));
+
             }
         }
     }
@@ -445,7 +457,9 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         lblPrice = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
+        setUndecorated(true);
 
         jPanel5.setBackground(java.awt.Color.white);
 
@@ -550,6 +564,10 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tableColumn1);
         if (tableColumn1.getColumnModel().getColumnCount() > 0) {
             tableColumn1.getColumnModel().getColumn(0).setResizable(false);
+            tableColumn1.getColumnModel().getColumn(1).setResizable(false);
+            tableColumn1.getColumnModel().getColumn(2).setResizable(false);
+            tableColumn1.getColumnModel().getColumn(3).setResizable(false);
+            tableColumn1.getColumnModel().getColumn(4).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -590,6 +608,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         panelImage.add(jLabel1);
 
         cbbProduct.setLabeText("Tên sản phẩm");
+        cbbProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbProductActionPerformed(evt);
+            }
+        });
 
         txtPrice.setLabelText("Giá Bán");
         txtPrice.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1011,6 +1034,10 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         getProductItemWhenClick();
     }//GEN-LAST:event_tableColumn1MouseClicked
 
+    private void cbbProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbProductActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbProductActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1036,6 +1063,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormImportItemJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
