@@ -24,6 +24,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     UserDAO user = new UserDAO();
     FormImportEmpolyeeJFrame formImportEmpolyeeJFrame = new FormImportEmpolyeeJFrame();
+    FormImportEmpolyeeJFrame formUpdateEmpolyeeJFrame;
 
     /**
      * Creates new form FormProducts
@@ -40,6 +41,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                 fillTable();
             }
         });
+
     }
 
     public void fillTable() {
@@ -271,17 +273,37 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     private void tableShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowMouseClicked
         // TODO add your handling code here:
-        int index = tableShow.getSelectedRow();
-        int idUser = (int) tableShow.getValueAt(index, 0);
-        String fullname = tableShow.getValueAt(index, 1).toString();
-        String role = tableShow.getValueAt(index, 2).toString();
-        String gender = tableShow.getValueAt(index, 3).toString();
-        String birth = tableShow.getValueAt(index, 4).toString();
-        String address = tableShow.getValueAt(index, 5).toString();
-        String phone = tableShow.getValueAt(index, 6).toString();
-        String email = tableShow.getValueAt(index, 7).toString();
-        String salary = tableShow.getValueAt(index, 8).toString();
-        new FormImportEmpolyeeJFrame(fullname, role, gender, birth, address, phone, email, salary, idUser).setVisible(true);
+
+        if (evt.getClickCount() == 2) {
+            int index = tableShow.getSelectedRow();
+            int idUser = (int) tableShow.getValueAt(index, 0);
+            String fullname = tableShow.getValueAt(index, 1).toString();
+            String role = tableShow.getValueAt(index, 2).toString();
+            String gender = tableShow.getValueAt(index, 3).toString();
+            String birth = tableShow.getValueAt(index, 4).toString();
+            String address = tableShow.getValueAt(index, 5).toString();
+            String phone = tableShow.getValueAt(index, 6).toString();
+            String email = tableShow.getValueAt(index, 7).toString();
+            String salary = tableShow.getValueAt(index, 8).toString();
+            formUpdateEmpolyeeJFrame = new FormImportEmpolyeeJFrame(fullname, role, gender, birth, address, phone, email, salary, idUser);
+            formUpdateEmpolyeeJFrame.setVisible(true);
+        }
+
+        if (formUpdateEmpolyeeJFrame == null) {
+            return;
+        } else {
+            formUpdateEmpolyeeJFrame.addEvenUpdate(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    formUpdateEmpolyeeJFrame.update();
+                    fillTable();
+                    System.out.println("update");
+                }
+            });
+
+        }
+
+
     }//GEN-LAST:event_tableShowMouseClicked
 
 
