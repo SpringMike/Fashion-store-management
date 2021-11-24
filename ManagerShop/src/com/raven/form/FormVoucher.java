@@ -185,12 +185,16 @@ public class FormVoucher extends javax.swing.JPanel {
 
     public void delete() {
         int row = tableShow.getSelectedRow();
+        if(row == -1){
+            MsgBox.alert(this, "Bạn phải chọn voucher cần xóa");
+            return;
+        }
         int code = (int) tableShow.getValueAt(row, 0);
         if (MsgBox.confirm(this, "Bạn có muốn xóa không?")) {
             try {
                 vDao.delete(code);
                 fillTable();
-                clearForm();
+                clearForm();    
                 MsgBox.alert(this, "Xoá Thành công");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -483,7 +487,7 @@ public class FormVoucher extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        delete();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
