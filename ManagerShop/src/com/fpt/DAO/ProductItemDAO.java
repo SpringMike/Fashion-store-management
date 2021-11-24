@@ -25,12 +25,14 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
 
     @Override
     public void update(ProductItem e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "UPDATE dbo.[detailsProduct] SET idSize = ?, idColor = ?, idMaterial = ?, price = ? WHERE idPrDeltails = ?";
+        jdbcHelper.update(sql, e.getIdSize(), e.getIdColor(), e.getIdMaterial(), e.getPrice(), e.getId());
     }
 
     @Override
     public void delete(Integer k) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "{call PRDelete(?)}";
+        jdbcHelper.update(sql, k);
     }
 
     @Override
@@ -72,6 +74,14 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public List<ProductItem> selectByKeyWord(String keyword) {
+        String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial from detailsProduct D\n"
+                + "INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial INNER JOIN Color C on C.idColor = D.idColor\n"
+                + "INNER JOIN Products P on P.idProduct = D.idProduct\n"
+                + "where D.status = 1 and P.nameProduct like ?";
+        return selectBySql(sql, "%" + keyword + "%");
     }
 
 }

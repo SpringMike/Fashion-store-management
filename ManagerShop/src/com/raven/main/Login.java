@@ -6,9 +6,13 @@
 package com.raven.main;
 
 import com.fpt.DAO.AccountDao;
+import com.fpt.DAO.UserDAO;
 import com.fpt.Validate.Validate;
 import com.fpt.entity.Account;
+import com.fpt.entity.User;
+import com.fpt.utils.Auth;
 import com.fpt.utils.MsgBox;
+import com.raven.dialog.Message;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -53,18 +57,18 @@ public class Login extends javax.swing.JPanel {
 
         String userName = txtUser.getText();
         String passWord = new String(txtPassWord.getPassword());
+        UserDAO uDao = new UserDAO();
+
         try {
             Account account = dao.selectById(userName);
-            /*
-            userName là tên đăng nhập
-            account findByUsername(userName)
-             */
             if (account == null) {    //nếu user sai
                 lbAlertUsername.setText("Sai tên đăng nhập!");
             } else {
                 String passwordSystem = account.getPassWord();
                 if (passWord.equals(passwordSystem)) {  //nếu mật khẩu đúng
                     MsgBox.alert(this, "Đăng nhập thành công!");
+                    User user = uDao.selectById(account.getIdUser());
+                    Auth.user = user;
                     new Main().setVisible(true);
                     this.setVisible(false);
                 } else {
@@ -110,10 +114,16 @@ public class Login extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Login");
 
+        txtUser.setText("minh2");
         txtUser.setLabelText("Usename");
         txtUser.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtUserFocusGained(evt);
+            }
+        });
+        txtUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUserActionPerformed(evt);
             }
         });
 
@@ -127,6 +137,7 @@ public class Login extends javax.swing.JPanel {
             }
         });
 
+        txtPassWord.setText("123");
         txtPassWord.setLabelText("Password");
         txtPassWord.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -197,6 +208,10 @@ public class Login extends javax.swing.JPanel {
     private void txtPassWordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPassWordFocusGained
         lbAlertPassword.setText("");
     }//GEN-LAST:event_txtPassWordFocusGained
+
+    private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUserActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

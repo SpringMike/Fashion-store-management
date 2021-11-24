@@ -73,10 +73,12 @@
     </Component>
     <Component class="com.raven.suportSwing.TextField" name="txtUser">
       <Properties>
+        <Property name="text" type="java.lang.String" value="minh2"/>
         <Property name="labelText" type="java.lang.String" value="Usename"/>
       </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtUserFocusGained"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtUserActionPerformed"/>
       </Events>
     </Component>
     <Component class="com.raven.suportSwing.MyButton" name="btnLogin">
@@ -98,6 +100,7 @@
     </Component>
     <Component class="com.raven.suportSwing.PasswordField" name="txtPassWord">
       <Properties>
+        <Property name="text" type="java.lang.String" value="123"/>
         <Property name="labelText" type="java.lang.String" value="Password"/>
       </Properties>
       <Events>

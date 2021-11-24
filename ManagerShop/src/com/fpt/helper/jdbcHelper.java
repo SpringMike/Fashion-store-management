@@ -20,10 +20,9 @@ public class jdbcHelper {
 
     static String user = EnvUtil.get("DB_USER");
     static String pass = EnvUtil.get("DB_PASSWORD");
-    static String host = EnvUtil.get("DB_HOST");
-    static String name = EnvUtil.get("DB_NAME");
     static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    static String url = "jdbc:sqlserver://"+host+";databaseName="+name+"";
+    static String url = "jdbc:sqlserver://" + EnvUtil.get("DB_HOST") + ";databaseName=" + EnvUtil.get("DB_NAME");
+
     static {
         try {
             Class.forName(driver);

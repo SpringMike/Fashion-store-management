@@ -50,6 +50,15 @@ public class ProductsDAO extends ShopDAO<Products, Integer> {
         }
         return list.get(0);
     }
+    
+    public Products selectByName(String name) {
+        String sql = "select * from Products JOIN dbo.List ON List.idList = Products.idList where nameProduct= ?";
+        List<Products> list = selectBySql(sql, name);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
 
     @Override
     protected List<Products> selectBySql(String sql, Object... args) {

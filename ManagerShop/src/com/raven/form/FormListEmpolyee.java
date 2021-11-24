@@ -273,7 +273,6 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     private void tableShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowMouseClicked
         // TODO add your handling code here:
-
         if (evt.getClickCount() == 2) {
             int index = tableShow.getSelectedRow();
             int idUser = (int) tableShow.getValueAt(index, 0);
