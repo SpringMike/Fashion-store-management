@@ -73,7 +73,7 @@
     </Component>
     <Component class="com.raven.suportSwing.TextField" name="txtUser">
       <Properties>
-        <Property name="text" type="java.lang.String" value="minh2"/>
+        <Property name="text" type="java.lang.String" value="Admin"/>
         <Property name="labelText" type="java.lang.String" value="Usename"/>
       </Properties>
       <Events>
