@@ -35,24 +35,23 @@ public class Validate {
         }
         return true;
     }
+
     public static boolean checkEmpty(JLabel lbl, JTextField txtString, String mess) {
         if (txtString.getText().isEmpty()) {
             MsgBox.labelAlert(lbl, txtString, mess);
             return false;
-        } 
-        return true;
-    }
-        public static boolean checkLength(Component component, JTextField txtString, String mess, int numberLength) {
-        if (txtString.getText().length() < numberLength || txtString.getText().length() > numberLength) {
-            MsgBox.warring(component, mess);
-            txtString.setBorder(new LineBorder(Color.red));
-            return false;
-        } else {
-            txtString.setBorder(new LineBorder(Color.green));
         }
         return true;
     }
 
+    public static boolean checkLength(JLabel component, JTextField txtString, String mess, int numberLength) {
+        if (txtString.getText().length() < numberLength || txtString.getText().length() > numberLength) {
+            MsgBox.labelAlert(component, txtString, mess);
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public static boolean checkEmpty(Component component, JTextArea txtString, String mess) {
         if (txtString.getText().isEmpty()) {
@@ -65,9 +64,9 @@ public class Validate {
         return true;
     }
 
-    public static boolean checkDate( Component component, JLabel lbl, JTextField txtString, String mess) {
+    public static boolean checkDate(Component component, JLabel lbl, JTextField txtString, String mess) {
         try {
-            if (!checkEmpty( component, txtString, lbl.getText() + " chưa nhập!!!")) {
+            if (!checkEmpty(component, txtString, lbl.getText() + " chưa nhập!!!")) {
                 return false;
             }
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -98,26 +97,25 @@ public class Validate {
         return true;
     }
 
-    public static boolean checkNumber(Component component, JLabel lbl, JTextField field, String mess) {
+    public static boolean checkNumber(JLabel lbl, JTextField field, String mess) {
         boolean check = true;
-        if (!checkEmpty(component, field, lbl + " chưa nhập!!!")) {
+        if (!checkEmpty(lbl, field, "Chưa nhập!!!")) {
             return false;
         }
         try {
             int intNumber = Integer.parseInt(field.getText());
             double doubleNumber = Double.parseDouble(field.getText());
             if (intNumber <= 0 || doubleNumber <= 0) {
-                MsgBox.alert(component, mess);
-                check = false;
+                MsgBox.labelAlert(lbl, field, mess);
             }
         } catch (Exception e) {
-            MsgBox.warring(component, lbl + " không được nhập chữ!!!\n");
+            MsgBox.labelAlert(lbl, field, "Không được nhập chữ!!!");
             check = false;
         }
         return check;
     }
 
-    public static boolean checkEmail(Component component,JTextField field, String sb) {
+    public static boolean checkEmail(Component component, JTextField field, String sb) {
         boolean flag = true;
         if (!checkEmpty(component, field, "Email Chưa Nhập\n")) {
             return false;
@@ -135,7 +133,7 @@ public class Validate {
         return flag;
     }
 
-    public static boolean checkPhoneNumber(Component component,JTextField field, String sb) {
+    public static boolean checkPhoneNumber(Component component, JTextField field, String sb) {
         Pattern pattern = Pattern.compile("^0\\d{9,10}");
         Matcher matcher = pattern.matcher(field.getText());
         boolean flag = true;
@@ -151,24 +149,24 @@ public class Validate {
         }
         return flag;
     }
-    
-    public static boolean duplicateCheckEmailUser(JLabel lbl, JTextField txtString, String email, String mess){
+
+    public static boolean duplicateCheckEmailUser(JLabel lbl, JTextField txtString, String email, String mess) {
         UserDAO dao = new UserDAO();
         List<User> list = dao.selectAll();
         for (int i = 0; i < list.size(); i++) {
-            if(list.get(i).getEmail().trim().equals(email)){
+            if (list.get(i).getEmail().trim().equals(email)) {
                 MsgBox.labelAlert(lbl, txtString, mess);
                 return true;
             }
         }
         return false;
     }
-    
-    public static boolean duplicateCheckPhoneUser(JLabel lbl, JTextField txtString, String phone, String mess){
+
+    public static boolean duplicateCheckPhoneUser(JLabel lbl, JTextField txtString, String phone, String mess) {
         UserDAO dao = new UserDAO();
         List<User> list = dao.selectAll();
         for (int i = 0; i < list.size(); i++) {
-            if(list.get(i).getPhoneNumber().trim().equals(phone)){
+            if (list.get(i).getPhoneNumber().trim().equals(phone)) {
                 MsgBox.labelAlert(lbl, txtString, mess);
                 return true;
             }

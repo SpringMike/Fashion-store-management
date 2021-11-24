@@ -20,6 +20,7 @@ import com.raven.form.FormSalary;
 import com.raven.form.FormSalesStatistics;
 import com.raven.form.FormSell;
 import com.raven.form.FormSupplier;
+import com.raven.form.FormVoucher;
 import com.raven.form.Form_Home;
 import com.raven.form.MainForm;
 import com.raven.swing.MenuItem;
@@ -100,7 +101,7 @@ public class Main extends javax.swing.JFrame {
                     } else if (menuIndex == 6) {
                         main.showForm(new FormMyProfile());
                     } else {
-                        main.showForm(new FormProperties());
+                        main.showForm(new FormVoucher());
                     }
                 } else {
                     if (menuIndex == 0) {

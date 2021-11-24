@@ -12,6 +12,7 @@ import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import com.raven.JFrame.FormImportEmpolyeeJFrame;
 import com.raven.JFrame.FormImportItemJFrame;
+import com.raven.JFrame.FormUpdateItemJfame;
 import com.raven.component.Menu;
 import com.raven.event.EventMenuSelected;
 import com.raven.event.EventShowPopupMenu;
@@ -33,6 +34,7 @@ public class FormItems extends javax.swing.JPanel {
 
     FormImportItemJFrame formImportItemJFrame = new FormImportItemJFrame();
     ProductItemDAO prDAO = new ProductItemDAO();
+    FormUpdateItemJfame formUpdateItemJframe;
 
     /**
      * Creates new form FormItems
@@ -232,11 +234,16 @@ public class FormItems extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, true, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tableShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableShowMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tableShow);
@@ -288,7 +295,9 @@ public class FormItems extends javax.swing.JPanel {
         // TODO add your handling code here:
 //        this.setVisible(false);
 //        new MainForm().setVisible(true);
+
         formImportItemJFrame.setVisible(true);
+
 
     }//GEN-LAST:event_myButton3ActionPerformed
 
@@ -305,6 +314,29 @@ public class FormItems extends javax.swing.JPanel {
         searchTable();
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchKeyPressed
+
+    private void tableShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowMouseClicked
+        if (evt.getClickCount() == 2) {
+            int index = tableShow.getSelectedRow();
+            int idProductItem = (int) tableShow.getValueAt(index, 0);
+            String nameProduct = tableShow.getValueAt(index, 1).toString();
+            Float price = (float) tableShow.getValueAt(index, 2);
+            String size = tableShow.getValueAt(index, 5).toString();
+            String color = tableShow.getValueAt(index, 6).toString();
+            String material = tableShow.getValueAt(index, 7).toString();
+
+
+            formUpdateItemJframe = new FormUpdateItemJfame(nameProduct, size, color, material, price, idProductItem);
+            formUpdateItemJframe.addEvenUpdate(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    formUpdateItemJframe.update();
+                    fillTable();
+                }
+            });
+            formUpdateItemJframe.setVisible(true);
+        }
+    }//GEN-LAST:event_tableShowMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

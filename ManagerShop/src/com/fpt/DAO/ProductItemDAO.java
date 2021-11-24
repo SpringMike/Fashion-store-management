@@ -25,7 +25,8 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
 
     @Override
     public void update(ProductItem e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "UPDATE dbo.[detailsProduct] SET idSize = ?, idColor = ?, idMaterial = ?, price = ? WHERE idPrDeltails = ?";
+        jdbcHelper.update(sql, e.getIdSize(), e.getIdColor(), e.getIdMaterial(), e.getPrice(), e.getId());
     }
 
     @Override

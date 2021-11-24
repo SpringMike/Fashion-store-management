@@ -68,5 +68,14 @@ public class MaterialDAO extends ShopDAO<Material, Integer> {
         return list;
 
     }
+    
+     public Material selectByName(String name) {
+        String sql = "select * from Material where valueMaterial= ?";
+        List<Material> list = selectBySql(sql, name);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
 
 }
