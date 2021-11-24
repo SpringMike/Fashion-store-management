@@ -67,4 +67,13 @@ public class ColorDAO extends ShopDAO<Color, Integer>{
         return list;
     }
     
+    public Color selectByName(String name) {
+        String sql = "select * from Color where valueColor = ?";
+        List<Color> list = selectBySql(sql, name);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+    
 }

@@ -9,7 +9,9 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 
 public class EnvUtil {
+
     private static Dotenv dotenv;
+
     
     public static Dotenv dotenv(){
         if(dotenv == null){
@@ -17,8 +19,8 @@ public class EnvUtil {
         }
         return dotenv;
     }
-    
-    public static String get(String key){
+
+    public static String get(String key) {
         return dotenv().get(key);
     }
 }
