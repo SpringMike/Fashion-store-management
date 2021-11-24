@@ -53,8 +53,7 @@ public class Login extends javax.swing.JPanel {
         }
     }
 
-    public void login() {
-
+    public boolean login() {
         String userName = txtUser.getText();
         String passWord = new String(txtPassWord.getPassword());
         UserDAO uDao = new UserDAO();
@@ -63,6 +62,7 @@ public class Login extends javax.swing.JPanel {
             Account account = dao.selectById(userName);
             if (account == null) {    //nếu user sai
                 lbAlertUsername.setText("Sai tên đăng nhập!");
+                return false;
             } else {
                 String passwordSystem = account.getPassWord();
                 if (passWord.equals(passwordSystem)) {  //nếu mật khẩu đúng
@@ -71,14 +71,17 @@ public class Login extends javax.swing.JPanel {
                     Auth.user = user;
                     new Main().setVisible(true);
                     this.setVisible(false);
+                    return true;
                 } else {
                     lbAlertPassword.setText("Sai mật khẩu!");
+                    return false;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
         }
+        return true;
 
     }
 

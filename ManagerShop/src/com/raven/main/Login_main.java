@@ -45,12 +45,14 @@ public class Login_main extends javax.swing.JFrame {
         login.addEventLogin(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                login.clickLogin();
-                dispose();
+                if (login.login() == true) {
+                    dispose();
+                }
             }
         });
     }
-    public void dispose(){
+
+    public void dispose() {
         this.setVisible(false);
     }
 
