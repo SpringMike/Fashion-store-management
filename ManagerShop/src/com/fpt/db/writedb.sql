@@ -82,6 +82,13 @@ CREATE TABLE detailsInvoiceSELL
 GO
 ----------------------------------------------------- END --------------------------------------------
 
+SELECT * FROM dbo.detailsProduct
+SELECT * FROM dbo.Products
+SELECT * FROM dbo.detailsInvoiceSELL
+SELECT * FROM dbo.InvoiceSell
+
+
+
 
 
 

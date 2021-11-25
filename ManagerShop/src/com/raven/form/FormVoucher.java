@@ -7,7 +7,6 @@ package com.raven.form;
 
 import com.fpt.DAO.VoucherDAO;
 import com.fpt.Validate.Validate;
-import com.fpt.Validate.labelValidate;
 import com.fpt.entity.Voucher;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;

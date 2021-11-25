@@ -6,7 +6,7 @@ import com.raven.component.Menu;
 import com.raven.event.EventMenuSelected;
 import com.raven.event.EventShowPopupMenu;
 import com.raven.form.FormCustomer;
-import com.raven.form.FormImportProducts;
+import com.raven.form.FormImportProducts888;
 import com.raven.form.FormInvoiceImportProducts;
 import com.raven.form.FormInvoiceSell;
 import com.raven.form.FormItems;
@@ -74,7 +74,7 @@ public class Main extends javax.swing.JFrame {
                         }
                     } else if (menuIndex == 2) {
                         if (subMenuIndex == 0) {
-                            main.showForm(new FormImportProducts());
+                            main.showForm(new FormImportProducts888());
                         } else if (subMenuIndex == 1) {
                             main.showForm(new FormSell());
                         } else if (subMenuIndex == 2) {
