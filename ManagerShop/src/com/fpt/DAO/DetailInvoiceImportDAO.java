@@ -58,7 +58,7 @@ public class DetailInvoiceImportDAO extends ShopDAO<DetailInvoiceImport, Integer
                 de.setValueColor(rs.getString("valueColor"));
                 de.setValueMaterial(rs.getString("valueMaterial"));
                 de.setQuantity(rs.getInt("quatity"));
-                de.setPrice(rs.getInt("price"));
+                de.setPrice(rs.getInt("priceImport"));
                 list.add(de);
             }
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class DetailInvoiceImportDAO extends ShopDAO<DetailInvoiceImport, Integer
     }
 
     public List<DetailInvoiceImport> selectByIdInvoice(Integer idInvoice) {
-        String sql = "select D.detailsInvoice, P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,D.quatity,De.price from detailsInvoiceImportPr D\n"
+        String sql = "select D.detailsInvoice, P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,D.quatity,D.priceImport from detailsInvoiceImportPr D\n"
                 + "join detailsProduct De on De.idPrDeltails = D.idPrDeltails\n"
                 + "join Products P on De.idProduct = P.idProduct\n"
                 + "join Size S on S.idSize = De.idSize\n"
