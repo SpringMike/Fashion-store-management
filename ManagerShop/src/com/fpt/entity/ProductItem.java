@@ -8,6 +8,7 @@ package com.fpt.entity;
  *
  * @author Administrator
  */
+
 public class ProductItem {
 
     private int id;
@@ -24,6 +25,16 @@ public class ProductItem {
     private String Color;
     private String Material;
     private String ProductName;
+    
+    private String categoryName;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
     
 
     public ProductItem() {

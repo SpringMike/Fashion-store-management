@@ -53,7 +53,7 @@ public class Login extends javax.swing.JPanel {
         }
     }
 
-    public void login() {
+    public boolean login() {
 
         String userName = txtUser.getText();
         String passWord = new String(txtPassWord.getPassword());
@@ -63,22 +63,26 @@ public class Login extends javax.swing.JPanel {
             Account account = dao.selectById(userName);
             if (account == null) {    //nếu user sai
                 lbAlertUsername.setText("Sai tên đăng nhập!");
+                return false;
             } else {
                 String passwordSystem = account.getPassWord();
-                if (passWord.equals(passwordSystem)) {  //nếu mật khẩu đúng
+                if (passWord.equals(passwordSystem)) {
                     MsgBox.alert(this, "Đăng nhập thành công!");
                     User user = uDao.selectById(account.getIdUser());
                     Auth.user = user;
                     new Main().setVisible(true);
                     this.setVisible(false);
+                    return true;
                 } else {
                     lbAlertPassword.setText("Sai mật khẩu!");
+                    return false;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
         }
+        return true;
 
     }
 
@@ -114,7 +118,7 @@ public class Login extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Login");
 
-        txtUser.setText("Admin");
+        txtUser.setText("minh2");
         txtUser.setLabelText("Usename");
         txtUser.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
