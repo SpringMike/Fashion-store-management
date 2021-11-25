@@ -24,6 +24,11 @@ public class Supplier {
         this.idSupplier = idSupplier;
     }
 
+    @Override
+    public String toString() {
+        return nameMaterial;
+    }
+
     public String getNameMaterial() {
         return nameMaterial;
     }

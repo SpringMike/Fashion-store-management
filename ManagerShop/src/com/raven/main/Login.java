@@ -65,7 +65,7 @@ public class Login extends javax.swing.JPanel {
                 return false;
             } else {
                 String passwordSystem = account.getPassWord();
-                if (passWord.equals(passwordSystem)) {  //nếu mật khẩu đúng
+                if (passWord.equals(passwordSystem)) {
                     MsgBox.alert(this, "Đăng nhập thành công!");
                     User user = uDao.selectById(account.getIdUser());
                     Auth.user = user;
@@ -117,7 +117,7 @@ public class Login extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Login");
 
-        txtUser.setText("Admin");
+        txtUser.setText("minh2");
         txtUser.setLabelText("Usename");
         txtUser.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
