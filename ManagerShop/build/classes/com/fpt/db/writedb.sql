@@ -39,7 +39,7 @@ EXEC sys.sp_rename 'Invoice', 'InvoiceImportPr'
 ALTER TABLE dbo.InvoiceImportPr ADD idAdmin INT
 ALTER TABLE dbo.InvoiceImportPr ADD FOREIGN KEY (idAdmin) REFERENCES dbo.[User](idUser)
 -----------------------------------------------
-ALTER TABLE dbo.detailsInvoice DROP CONSTRAINT PK__detailsI__5C4F67505F5F8AD9
+ALTER TABLE dbo.detailsInvoice DROP CONSTRAINT PK__detailsI__5C4F675008E94484
 ALTER TABLE dbo.detailsInvoice DROP COLUMN detailsInvoice
 ALTER TABLE dbo.detailsInvoice ADD detailsInvoice INT IDENTITY(1,1) PRIMARY KEY
 EXEC sys.sp_rename 'detailsInvoice', 'detailsInvoiceImportPr'
@@ -135,11 +135,14 @@ JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct JOIN dbo.Size
 JOIN dbo.Color ON Color.idColor = detailsProduct.idColor JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
 WHERE detailsInvoiceSELL.idInvoiceSell = 1
 
-SELECT idInvoiceSell, (SUM(detailsInvoiceSELL.quatity * price) - (SUM(detailsInvoiceSELL.quatity * price) * (valueVoucher / 100)))
+SELECT idInvoiceSell, SUM(detailsInvoiceSELL.quatity * price)
 AS N'Total'
-FROM dbo.detailsInvoiceSELL JOIN dbo.Voucher ON Voucher.quatity = detailsInvoiceSELL.quatity
-GROUP BY idInvoiceSell, valueVoucher
+FROM dbo.detailsInvoiceSELL
+GROUP BY idInvoiceSell
 HAVING idInvoiceSell = 4
+
+SELECT * FROM dbo.InvoiceSell JOIN dbo.Voucher ON Voucher.idVoucher = InvoiceSell.idVoucher
+
 
 
 

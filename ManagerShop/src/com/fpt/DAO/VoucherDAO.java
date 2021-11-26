@@ -37,7 +37,7 @@ public class VoucherDAO extends ShopDAO<Voucher, Integer> {
 
     @Override
     public List<Voucher> selectAll() {
-        String sql = "select * from Voucher";
+        String sql = "select * from Voucher where quatity > 0";
         return selectBySql(sql);
     }
 

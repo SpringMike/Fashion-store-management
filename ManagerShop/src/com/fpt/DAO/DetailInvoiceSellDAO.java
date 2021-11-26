@@ -81,4 +81,6 @@ public class DetailInvoiceSellDAO extends ShopDAO<DetailInvoiceSell, Integer> {
                 + "WHERE detailsInvoiceSELL.idInvoiceSell = ?";
         return selectBySql(sql, id);
     }
+    
+    
 }

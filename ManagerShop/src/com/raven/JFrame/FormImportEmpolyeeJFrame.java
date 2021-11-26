@@ -213,6 +213,10 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
     public void addEvenFillTable(ActionListener evt) {
         btnAddEmployee.addActionListener(evt);
     }
+//    
+//    public void addEvenUpdate(ActionListener evt) {
+//        btnUpdate.addActionListener(evt);
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -636,7 +640,7 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-//        this.update();
+        this.update();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**

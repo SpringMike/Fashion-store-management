@@ -17,6 +17,15 @@ public class InvoiceSell {
     private String description, nameUser, nameCustomer;
     private Date dateCreateInvoice;
     private boolean statusPay, statusInvoice;
+    private double price;
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public String getNameUser() {
         return nameUser;

@@ -20,9 +20,9 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
     @Override
     public void insert(InvoiceSell e) {
         String sql = "INSERT INTO dbo.InvoiceSell\n"
-                + "(idCustomer,idHumanSell,idVoucher,dateCreateInvoice,description,statusPay,statusInvoice)\n"
-                + "VALUES(?, ?, ?, ?,?,?,?)";
-        jdbcHelper.update(sql, e.getIdCustomer(), e.getIdHumanSell(), e.getIdVoucher(), e.getDateCreateInvoice(), e.getDescription(), e.isStatusPay(), e.isStatusInvoice());
+                + "(idCustomer,idHumanSell,idVoucher,dateCreateInvoice,description,statusPay,statusInvoice, totalMoney)\n"
+                + "VALUES(?, ?, ?, ?,?,?,?,?)";
+        jdbcHelper.update(sql, e.getIdCustomer(), e.getIdHumanSell(), e.getIdVoucher(), e.getDateCreateInvoice(), e.getDescription(), e.isStatusPay(), e.isStatusInvoice(), e.getPrice());
     }
 
     @Override
@@ -63,12 +63,36 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
                 i.setStatusInvoice(rs.getBoolean("statusInvoice"));
                 i.setNameCustomer(rs.getString("name"));
                 i.setNameUser(rs.getString("name"));
+                i.setPrice(rs.getDouble("totalMoney"));
                 list.add(i);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public Float getTotalMoney(Integer idInvoice) {
+        String sql = "SELECT idInvoiceSell, SUM(detailsInvoiceSELL.quatity * price)\n"
+                + "AS N'Total'\n"
+                + "FROM dbo.detailsInvoiceSELL\n"
+                + "GROUP BY idInvoiceSell\n"
+                + "HAVING idInvoiceSell = ?";
+        try {
+            ResultSet rs = jdbcHelper.query(sql, idInvoice);
+            while (rs.next()) {
+                return rs.getFloat("Total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<InvoiceSell> fillDate(java.util.Date date) {
+        String sql = " SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer\n"
+                + "WHERE dateCreateInvoice = ?";
+        return selectBySql(sql, date);
     }
 
 }

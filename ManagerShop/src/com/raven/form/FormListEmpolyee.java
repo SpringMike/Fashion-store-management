@@ -285,6 +285,12 @@ public class FormListEmpolyee extends javax.swing.JPanel {
             String email = tableShow.getValueAt(index, 7).toString();
             String salary = tableShow.getValueAt(index, 8).toString();
             formUpdateEmpolyeeJFrame = new FormImportEmpolyeeJFrame(fullname, role, gender, birth, address, phone, email, salary, idUser);
+            formUpdateEmpolyeeJFrame.setVisible(true);
+        }
+
+        if (formUpdateEmpolyeeJFrame == null) {
+            return;
+        } else {
             formUpdateEmpolyeeJFrame.addEvenUpdate(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -293,8 +299,9 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                     System.out.println("update");
                 }
             });
-            formUpdateEmpolyeeJFrame.setVisible(true);
+
         }
+
 
     }//GEN-LAST:event_tableShowMouseClicked
 

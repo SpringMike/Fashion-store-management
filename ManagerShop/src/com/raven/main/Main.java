@@ -14,7 +14,8 @@ import com.raven.form.FormListEmpolyee;
 import com.raven.form.FormMyProfile;
 import com.raven.form.FormProducts;
 import com.raven.form.FormProperties;
-import com.raven.form.FormReturnProduct;
+import com.raven.form.FormInvoiceReturnProduct;
+import com.raven.form.FormReturnProducts;
 import com.raven.form.FormRevenueStatistics;
 import com.raven.form.FormSalary;
 import com.raven.form.FormSalesStatistics;
@@ -78,11 +79,13 @@ public class Main extends javax.swing.JFrame {
                         } else if (subMenuIndex == 1) {
                             main.showForm(new FormSell());
                         } else if (subMenuIndex == 2) {
-                            main.showForm(new FormReturnProduct());
+                            main.showForm(new FormReturnProducts());
                         } else if (subMenuIndex == 3) {
                             main.showForm(new FormInvoiceSell());
                         } else if (subMenuIndex == 4) {
                             main.showForm(new FormInvoiceImportProducts());
+                        } else if (subMenuIndex == 5) {
+                            main.showForm(new FormInvoiceReturnProduct());
                         }
                     } else if (menuIndex == 3) {
                         if (subMenuIndex == 0) {
@@ -110,9 +113,11 @@ public class Main extends javax.swing.JFrame {
                         if (subMenuIndex == 0) {
                             main.showForm(new FormSell());
                         } else if (subMenuIndex == 1) {
-                            main.showForm(new FormReturnProduct());
+                            main.showForm(new FormReturnProducts());
                         } else if (subMenuIndex == 2) {
                             main.showForm(new FormInvoiceSell());
+                        } else if (subMenuIndex == 3) {
+                            main.showForm(new FormInvoiceReturnProduct());
                         }
                     } else if (menuIndex == 2) {
                         if (subMenuIndex == 0) {

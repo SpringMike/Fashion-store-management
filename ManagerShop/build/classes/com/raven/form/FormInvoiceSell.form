@@ -5,7 +5,7 @@
     <Component class="com.raven.datechooser.DateChooser" name="dateChooser1">
       <Properties>
         <Property name="textRefernce" type="javax.swing.JTextField" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="textField1"/>
+          <ComponentRef name="txtDate"/>
         </Property>
       </Properties>
     </Component>
@@ -176,7 +176,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="textField1" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
+                          <Component id="txtDate" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
                           <Component id="myButton9" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -192,7 +192,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane1" pref="495" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="textField1" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtDate" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="myButton9" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -204,7 +204,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="com.raven.suportSwing.TextField" name="textField1">
+            <Component class="com.raven.suportSwing.TextField" name="txtDate">
               <Properties>
                 <Property name="labelText" type="java.lang.String" value="Th&#x1edd;i gian"/>
               </Properties>

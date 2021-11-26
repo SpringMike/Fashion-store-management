@@ -9,12 +9,12 @@ package com.raven.form;
  *
  * @author ducit
  */
-public class FormReturnProduct extends javax.swing.JPanel {
+public class FormInvoiceReturnProduct extends javax.swing.JPanel {
 
     /**
      * Creates new form FormProducts
      */
-    public FormReturnProduct() {
+    public FormInvoiceReturnProduct() {
         initComponents();
         setOpaque(false);
 
