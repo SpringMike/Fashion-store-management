@@ -82,12 +82,64 @@ CREATE TABLE detailsInvoiceSELL
 GO
 ----------------------------------------------------- END --------------------------------------------
 
-SELECT * FROM dbo.detailsProduct
-SELECT * FROM dbo.Products
-SELECT * FROM dbo.detailsInvoiceSELL
+SELECT * FROM dbo.InvoiceImportPr
+SELECT * FROM dbo.detailsInvoiceImportPr
+
 SELECT * FROM dbo.InvoiceSell
 
+SELECT * FROM dbo.detailsInvoiceSELL
 
+select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D
+                 INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial
+                 INNER JOIN Color C on C.idColor = D.idColor
+                 INNER JOIN Products P on P.idProduct = D.idProduct
+                 INNER JOIN List L  on L.idList = P.idList
+                 where D.status = 1 and D.quatity > 0
+
+				 select I.*,name,S.nameMaterial from InvoiceImportPr I join [User] U on U.idUser = I.idAdmin
+                join Supplier S on S.idSupplier = I.idSupplier
+SELECT I.*, idInvoiceSell, Customer.name, [User].name FROM dbo.InvoiceSell I JOIN dbo.[User] ON [User].idUser = I.idHumanSell
+JOIN dbo.Customer ON Customer.idCustomer = I.idCustomer
+
+
+SELECT * FROM dbo.detailsInvoiceSELL
+INSERT INTO dbo.detailsInvoiceImportPr
+(
+    idInvoice,
+    idPrDeltails,
+    quatity,
+    status,
+    priceImport
+)
+VALUES
+(   0,    -- idInvoice - int
+    0,    -- idPrDeltails - int
+    NULL, -- quatity - int
+    NULL, -- status - bit
+    NULL  -- priceImport - money
+    )
+
+
+select D.detailsInvoice, P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,D.quatity,D.priceImport from detailsInvoiceImportPr D
+                join detailsProduct De on De.idPrDeltails = D.idPrDeltails
+                join Products P on De.idProduct = P.idProduct
+                join Size S on S.idSize = De.idSize
+                join Color C on C.idColor = De.idColor
+                join Material M on M.idMaterial = De.idMaterial
+                where D.idInvoice = 1
+SELECT idDetailsInvoiceSELL, nameProduct, name, valueSize, valueColor, valueMaterial, detailsInvoiceSELL.quatity, detailsInvoiceSELL.price  FROM dbo.detailsInvoiceSELL 
+JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
+JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
+JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails
+JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct JOIN dbo.Size ON Size.idSize = detailsProduct.idSize
+JOIN dbo.Color ON Color.idColor = detailsProduct.idColor JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
+WHERE detailsInvoiceSELL.idInvoiceSell = 1
+
+SELECT idInvoiceSell, (SUM(detailsInvoiceSELL.quatity * price) - (SUM(detailsInvoiceSELL.quatity * price) * (valueVoucher / 100)))
+AS N'Total'
+FROM dbo.detailsInvoiceSELL JOIN dbo.Voucher ON Voucher.quatity = detailsInvoiceSELL.quatity
+GROUP BY idInvoiceSell, valueVoucher
+HAVING idInvoiceSell = 4
 
 
 

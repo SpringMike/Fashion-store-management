@@ -5,6 +5,12 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.InvoiceSellDAO;
+import com.fpt.entity.InvoiceSell;
+import com.raven.JFrame.FormDetailInvoiceSell;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ducit
@@ -16,7 +22,20 @@ public class FormInvoiceSell extends javax.swing.JPanel {
      */
     public FormInvoiceSell() {
         initComponents();
-                setOpaque(false);
+        setOpaque(false);
+        fillTable();
+    }
+    InvoiceSellDAO iDao = new InvoiceSellDAO();
+
+    public void fillTable() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        List<InvoiceSell> list = iDao.selectAll();
+        for (InvoiceSell i : list) {
+            model.addRow(new Object[]{
+                i.getIdInvoiceSell(), i.getNameCustomer(), i.getNameUser(), i.getDescription(), i.getDateCreateInvoice(), i.getDescription()
+            });
+        }
     }
 
     /**
@@ -41,7 +60,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         textField1 = new com.raven.suportSwing.TextField();
         myButton9 = new com.raven.suportSwing.MyButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableColumn1 = new com.raven.suportSwing.TableColumn();
+        tableShow = new com.raven.suportSwing.TableColumn();
 
         dateChooser1.setTextRefernce(textField1);
 
@@ -131,7 +150,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
             }
         });
 
-        tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
+        tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -141,8 +160,29 @@ public class FormInvoiceSell extends javax.swing.JPanel {
             new String [] {
                 "Mã hoá đơn", "Tên Khách hàng", "Nhân Viên", "Tổng Tiền", "Ngày Tạo", "Ghi Chú"
             }
-        ));
-        jScrollPane1.setViewportView(tableColumn1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableShowMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableShow);
+        if (tableShow.getColumnModel().getColumnCount() > 0) {
+            tableShow.getColumnModel().getColumn(0).setResizable(false);
+            tableShow.getColumnModel().getColumn(1).setResizable(false);
+            tableShow.getColumnModel().getColumn(2).setResizable(false);
+            tableShow.getColumnModel().getColumn(3).setResizable(false);
+            tableShow.getColumnModel().getColumn(4).setResizable(false);
+            tableShow.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -223,6 +263,15 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_myButton9ActionPerformed
 
+    private void tableShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            int row = tableShow.getSelectedRow();
+            int id = (int) tableShow.getValueAt(row, 0);
+            new FormDetailInvoiceSell(id).setVisible(true);
+        }
+    }//GEN-LAST:event_tableShowMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.datechooser.DateChooser dateChooser1;
@@ -236,7 +285,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton myButton7;
     private com.raven.suportSwing.MyButton myButton8;
     private com.raven.suportSwing.MyButton myButton9;
-    private com.raven.suportSwing.TableColumn tableColumn1;
+    private com.raven.suportSwing.TableColumn tableShow;
     private com.raven.suportSwing.TextField textField1;
     private com.raven.suportSwing.TextField textField2;
     // End of variables declaration//GEN-END:variables
