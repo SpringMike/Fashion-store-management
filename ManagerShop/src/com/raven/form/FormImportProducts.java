@@ -374,6 +374,11 @@ public class FormImportProducts extends javax.swing.JPanel {
 
         myButton4.setText("Import");
         myButton4.setRadius(10);
+        myButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -477,6 +482,10 @@ public class FormImportProducts extends javax.swing.JPanel {
     private void txtPriceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusGained
         lblPrice.setVisible(false);
     }//GEN-LAST:event_txtPriceFocusGained
+
+    private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

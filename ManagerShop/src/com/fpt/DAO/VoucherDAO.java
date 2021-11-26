@@ -72,8 +72,13 @@ public class VoucherDAO extends ShopDAO<Voucher, Integer> {
         return list;
     }
 
-     public List<Voucher> selectByKeyWord(String keyword) {
+    public List<Voucher> selectByKeyWord(String keyword) {
         String sql = "SELECT * from Voucher where valueVoucher LIKE ?";
         return selectBySql(sql, "%" + keyword + "%");
+    }
+
+    public void updateVoucher(Integer id) {
+        String sql = "update Voucher set quatity = quatity - 1 where idVoucher = ?";
+        jdbcHelper.update(sql, id);
     }
 }

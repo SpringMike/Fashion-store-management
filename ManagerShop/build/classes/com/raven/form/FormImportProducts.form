@@ -481,6 +481,9 @@
                 <Property name="text" type="java.lang.String" value="Import"/>
                 <Property name="radius" type="int" value="10"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton4ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

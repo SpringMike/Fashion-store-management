@@ -83,6 +83,4 @@ public class InvoiceImportDAO extends ShopDAO<InvoiceImport, Integer> {
         }
         return null;
     }
-     
-
 }

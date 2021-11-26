@@ -12,7 +12,7 @@ import java.util.Date;
  * @author ducit
  */
 public class Voucher {
-    
+
     private int idVoucher, quatity, value;
     private String nameVoucher;
     private Date dateStart, dateEnd;
@@ -64,7 +64,10 @@ public class Voucher {
     public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return nameVoucher;
+    }
+
 }

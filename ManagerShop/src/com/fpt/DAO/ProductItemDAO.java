@@ -38,11 +38,21 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
     @Override
     public List<ProductItem> selectAll() {
         String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
-                + "INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial \n"
-                + "INNER JOIN Color C on C.idColor = D.idColor\n"
-                + "INNER JOIN Products P on P.idProduct = D.idProduct\n"
-                + "INNER JOIN List L  on L.idList = P.idList\n"
-                + "where D.status = 1";
+                + " INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial\n"
+                + "                 INNER JOIN Color C on C.idColor = D.idColor\n"
+                + "                 INNER JOIN Products P on P.idProduct = D.idProduct\n"
+                + "                 INNER JOIN List L  on L.idList = P.idList\n"
+                + "                 where D.status = 1";
+        return selectBySql(sql);
+    }
+
+    public List<ProductItem> selectAllSell() {
+        String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
+                + " INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial\n"
+                + "                 INNER JOIN Color C on C.idColor = D.idColor\n"
+                + "                 INNER JOIN Products P on P.idProduct = D.idProduct\n"
+                + "                 INNER JOIN List L  on L.idList = P.idList\n"
+                + "                 where D.status = 1 and D.quatity > 0";
         return selectBySql(sql);
     }
 
@@ -91,7 +101,14 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
         String sql = "UPDATE detailsProduct\n"
                 + "SET quatity= quatity + ? \n"
                 + "WHERE idPrDeltails = ?;";
-        jdbcHelper.update(sql, quantity,id);
+        jdbcHelper.update(sql, quantity, id);
+    }
+
+    public void sellProductItem(Integer quantity, Integer id) {
+        String sql = "UPDATE detailsProduct\n"
+                + "SET quatity= quatity - ? \n"
+                + "WHERE idPrDeltails = ?;";
+        jdbcHelper.update(sql, quantity, id);
     }
 
 }

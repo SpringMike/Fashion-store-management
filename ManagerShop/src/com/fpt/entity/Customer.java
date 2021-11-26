@@ -9,6 +9,7 @@ package com.fpt.entity;
  * @author Administrator
  */
 public class Customer {
+
     private int id;
     private String name;
     private String phoneNumber;
@@ -65,7 +66,10 @@ public class Customer {
     public void setAddress(String address) {
         this.address = address;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

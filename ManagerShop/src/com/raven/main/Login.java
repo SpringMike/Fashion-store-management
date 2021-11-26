@@ -117,7 +117,7 @@ public class Login extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Login");
 
-        txtUser.setText("minh2");
+        txtUser.setText("Admin");
         txtUser.setLabelText("Usename");
         txtUser.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -140,11 +140,16 @@ public class Login extends javax.swing.JPanel {
             }
         });
 
-        txtPassWord.setText("123");
+        txtPassWord.setText("25092002");
         txtPassWord.setLabelText("Password");
         txtPassWord.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtPassWordFocusGained(evt);
+            }
+        });
+        txtPassWord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPassWordActionPerformed(evt);
             }
         });
 
@@ -215,6 +220,10 @@ public class Login extends javax.swing.JPanel {
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUserActionPerformed
+
+    private void txtPassWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassWordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPassWordActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
