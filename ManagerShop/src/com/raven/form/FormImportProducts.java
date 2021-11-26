@@ -79,20 +79,27 @@ public class FormImportProducts extends javax.swing.JPanel {
     }
 
     public void insertInvoice() {
-        InvoiceImport invoice = getIvoice();
-        invoiceDAO.insert(invoice);
-        // lặp list để insert từng hóa đơn chi tiết vào db
-        for (int i = 0; i < list.size(); i++) {
-            DetailInvoiceImport de = list.get(i);
-            // hàm insert hóa đơn chi tiết
-            detailInvoiceDAO.insert(de);
-            // hàm cập nhập số lượng tồn kho trong bảng sản phẩm chi tiết
-            prDAO.importProductItem(de.getQuantity(), de.getIdProductItem());
+        int count = tableTemp.getRowCount();
+        if (count <= 0) {
+            MsgBox.alert(this, "Bạn chưa lưu sản phẩm nào");
+        } else {
+            InvoiceImport invoice = getIvoice();
+            invoiceDAO.insert(invoice);
+            // lặp list để insert từng hóa đơn chi tiết vào db
+            for (int i = 0; i < list.size(); i++) {
+                DetailInvoiceImport de = list.get(i);
+                // hàm insert hóa đơn chi tiết
+                detailInvoiceDAO.insert(de);
+                // hàm cập nhập số lượng tồn kho trong bảng sản phẩm chi tiết
+                prDAO.importProductItem(de.getQuantity(), de.getIdProductItem());
+            }
+            MsgBox.alert(this, "Thêm " + list.size() + " mặt hàng vào hóa đơn thành công thành công");
+            DefaultTableModel model = (DefaultTableModel) tableTemp.getModel();
+            model.setRowCount(0);
+            list.clear();
+            fillTableProductItem();
         }
-        MsgBox.alert(this, "Thêm " + list.size() + " mặt hàng vào hóa đơn thành công thành công");
-        DefaultTableModel model = (DefaultTableModel) tableTemp.getModel();
-        model.setRowCount(0);
-        fillTableProductItem();
+
     }
 
     static List<DetailInvoiceImport> list = new ArrayList<>();
