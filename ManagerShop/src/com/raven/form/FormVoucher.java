@@ -7,7 +7,6 @@ package com.raven.form;
 
 import com.fpt.DAO.VoucherDAO;
 import com.fpt.Validate.Validate;
-import com.fpt.Validate.labelValidate;
 import com.fpt.entity.Voucher;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
@@ -480,6 +479,7 @@ public class FormVoucher extends javax.swing.JPanel {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        updateVoucher();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed

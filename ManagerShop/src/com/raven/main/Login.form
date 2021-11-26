@@ -100,11 +100,12 @@
     </Component>
     <Component class="com.raven.suportSwing.PasswordField" name="txtPassWord">
       <Properties>
-        <Property name="text" type="java.lang.String" value="123"/>
+        <Property name="text" type="java.lang.String" value="25092002"/>
         <Property name="labelText" type="java.lang.String" value="Password"/>
       </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtPassWordFocusGained"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPassWordActionPerformed"/>
       </Events>
     </Component>
     <Component class="com.raven.suportSwing.MyButton" name="btnFogot">
