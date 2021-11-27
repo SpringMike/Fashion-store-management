@@ -7,8 +7,12 @@ package com.raven.form;
 
 import com.fpt.DAO.InvoiceImportDAO;
 import com.fpt.entity.InvoiceImport;
+import com.fpt.entity.InvoiceSell;
 import com.fpt.entity.ProductItem;
+import com.fpt.entity.User;
+import com.fpt.utils.XDate;
 import com.raven.JFrame.FormDetailInvoice;
+import java.util.Date;
 
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -26,6 +30,7 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         fillTable();
+        lblSearchId.setVisible(false);
 
     }
     InvoiceImportDAO invoiceDAO = new InvoiceImportDAO();
@@ -47,6 +52,36 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         }
     }
 
+    public void searchDateFillTable() {
+        Date date = XDate.toDate(txtDate.getText(), "dd-MM-yyyy");
+        DefaultTableModel model = (DefaultTableModel) tableInvoice.getModel();
+        model.setRowCount(0);
+        List<InvoiceImport> list = invoiceDAO.fillDate(date);
+        for (InvoiceImport i : list) {
+            Float total = invoiceDAO.getTotalMoney(i.getId());
+            model.addRow(new Object[]{
+                i.getId(), i.getNameUser(), i.getNameSupplier(), i.getDateCreate(), total, i.getDesc()
+            });
+        }
+    }
+
+    public void fillSearch() {
+        DefaultTableModel model = (DefaultTableModel) tableInvoice.getModel();
+        model.setRowCount(0);
+        int id = Integer.parseInt(txtSearchId.getText());
+        InvoiceImport in = invoiceDAO.selectById(id);
+        if (in == null) {
+            lblSearchId.setVisible(true);
+            lblSearchId.setText("Không có mặt hàng có bằng " + id);
+            return;
+        }
+        Float total = invoiceDAO.getTotalMoney(in.getId());
+        model.addRow(new Object[]{
+            in.getId(), in.getNameUser(), in.getNameSupplier(), in.getDateCreate(), total, in.getDesc()
+        });
+        lblSearchId.setText("");
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -55,18 +90,20 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        textField2 = new com.raven.suportSwing.TextField();
-        myButton5 = new com.raven.suportSwing.MyButton();
+        txtSearchId = new com.raven.suportSwing.TextField();
+        btnSearchId = new com.raven.suportSwing.MyButton();
         myButton6 = new com.raven.suportSwing.MyButton();
         myButton7 = new com.raven.suportSwing.MyButton();
         myButton8 = new com.raven.suportSwing.MyButton();
         jPanel3 = new javax.swing.JPanel();
-        textField1 = new com.raven.suportSwing.TextField();
-        myButton9 = new com.raven.suportSwing.MyButton();
+        txtDate = new com.raven.suportSwing.TextField();
+        btnSearch = new com.raven.suportSwing.MyButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableInvoice = new com.raven.suportSwing.TableColumn();
+        btnReset = new com.raven.suportSwing.MyButton();
+        lblSearchId = new javax.swing.JLabel();
 
-        dateChooser1.setTextRefernce(textField1);
+        dateChooser1.setTextRefernce(txtDate);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -75,13 +112,18 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Hoá Đơn Nhập Hàng");
 
-        textField2.setLabelText("Tìm theo mã phiếu nhập");
+        txtSearchId.setLabelText("Tìm theo mã phiếu nhập");
+        txtSearchId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSearchIdFocusGained(evt);
+            }
+        });
 
-        myButton5.setText("Tìm");
-        myButton5.setRadius(20);
-        myButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnSearchId.setText("Tìm");
+        btnSearchId.setRadius(20);
+        btnSearchId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton5ActionPerformed(evt);
+                btnSearchIdActionPerformed(evt);
             }
         });
 
@@ -117,9 +159,9 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
-                .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSearchId, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57)
-                .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSearchId, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
                 .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -139,20 +181,20 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
                         .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtSearchId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSearchId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        textField1.setLabelText("Thời gian");
+        txtDate.setLabelText("Thời gian");
 
-        myButton9.setText("Lọc");
-        myButton9.setRadius(20);
-        myButton9.addActionListener(new java.awt.event.ActionListener() {
+        btnSearch.setText("Lọc");
+        btnSearch.setRadius(20);
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton9ActionPerformed(evt);
+                btnSearchActionPerformed(evt);
             }
         });
 
@@ -182,6 +224,14 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tableInvoice);
 
+        btnReset.setText("Reset");
+        btnReset.setRadius(20);
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -189,35 +239,48 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(myButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        lblSearchId.setForeground(new java.awt.Color(225, 0, 0));
+        lblSearchId.setText("jLabel2");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(214, 214, 214)
+                        .addComponent(lblSearchId, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -225,7 +288,9 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
+                .addComponent(lblSearchId)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -241,9 +306,9 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_myButton5ActionPerformed
+    private void btnSearchIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchIdActionPerformed
+      fillSearch();
+    }//GEN-LAST:event_btnSearchIdActionPerformed
 
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
         // TODO add your handling code here:
@@ -257,33 +322,44 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_myButton8ActionPerformed
 
-    private void myButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_myButton9ActionPerformed
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        searchDateFillTable();
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     private void tableInvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableInvoiceMouseClicked
         if (evt.getClickCount() == 2) {
             int row = tableInvoice.getSelectedRow();
             int id = (int) tableInvoice.getValueAt(row, 0);
-            new FormDetailInvoice(id).setVisible(true);
+            float totalMoney = (float) tableInvoice.getValueAt(row, 4);
+            new FormDetailInvoice(id,totalMoney).setVisible(true);
         }
     }//GEN-LAST:event_tableInvoiceMouseClicked
 
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        fillTable();
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void txtSearchIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchIdFocusGained
+        lblSearchId.setVisible(false);
+    }//GEN-LAST:event_txtSearchIdFocusGained
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.raven.suportSwing.MyButton btnReset;
+    private com.raven.suportSwing.MyButton btnSearch;
+    private com.raven.suportSwing.MyButton btnSearchId;
     private com.raven.datechooser.DateChooser dateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private com.raven.suportSwing.MyButton myButton5;
+    private javax.swing.JLabel lblSearchId;
     private com.raven.suportSwing.MyButton myButton6;
     private com.raven.suportSwing.MyButton myButton7;
     private com.raven.suportSwing.MyButton myButton8;
-    private com.raven.suportSwing.MyButton myButton9;
     private com.raven.suportSwing.TableColumn tableInvoice;
-    private com.raven.suportSwing.TextField textField1;
-    private com.raven.suportSwing.TextField textField2;
+    private com.raven.suportSwing.TextField txtDate;
+    private com.raven.suportSwing.TextField txtSearchId;
     // End of variables declaration//GEN-END:variables
 }

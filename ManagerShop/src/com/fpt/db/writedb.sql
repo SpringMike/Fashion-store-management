@@ -109,6 +109,11 @@ CREATE TABLE DetailInvoiceReturn
 )
 GO
 
+ALTER TABLE dbo.InvoiceReturn ADD idUser INT
+ALTER TABLE dbo.InvoiceReturn ADD FOREIGN KEY(idUser) REFERENCES dbo.[User](idUser)
+
+ALTER TABLE dbo.InvoiceReturn ADD dateCreateInvoice DATE
+----------------------------------------------------------------------------------------
 
 
 SELECT * FROM dbo.InvoiceImportPr

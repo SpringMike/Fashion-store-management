@@ -5,6 +5,8 @@
 package com.fpt.DAO;
 
 import com.fpt.entity.InvoiceImport;
+import com.fpt.entity.InvoiceSell;
+import com.fpt.entity.Supplier;
 import com.fpt.helper.jdbcHelper;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -43,7 +45,13 @@ public class InvoiceImportDAO extends ShopDAO<InvoiceImport, Integer> {
 
     @Override
     public InvoiceImport selectById(Integer k) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "select I.*,name,S.nameMaterial from InvoiceImportPr I join [User] U on U.idUser = I.idAdmin \n"
+                + "join Supplier S on S.idSupplier = I.idSupplier where I.idInvoice = ?";
+        List<InvoiceImport> list = selectBySql(sql, k);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
     }
 
     @Override
@@ -83,4 +91,11 @@ public class InvoiceImportDAO extends ShopDAO<InvoiceImport, Integer> {
         }
         return null;
     }
+
+    public List<InvoiceImport> fillDate(java.util.Date date) {
+        String sql = " select I.*,name,S.nameMaterial from InvoiceImportPr I join [User] U on U.idUser = I.idAdmin \n"
+                + "join Supplier S on S.idSupplier = I.idSupplier where dateCreateInvoice =?";
+        return selectBySql(sql, date);
+    }
+
 }

@@ -224,6 +224,30 @@ public class FormSell extends javax.swing.JPanel {
         lblSearch.setText("");
     }
 
+    public void delete() {
+        DefaultTableModel model = (DefaultTableModel) tableSellTemp.getModel();
+        int row = tableShow.getSelectedRow();
+        int row2 = tableSellTemp.getSelectedRow();
+
+//        List<DetailInvoiceSell> list = new ArrayList<>();
+        if (tableSellTemp.getSelectedRowCount() == 1) {
+            for (int i = 0; i < tableShow.getRowCount(); i++) {
+                if (tableShow.getValueAt(i, 0) == tableSellTemp.getValueAt(row2, 0)) {
+                    int ii = (int) tableShow.getValueAt(i, 7) + (int) tableSellTemp.getValueAt(row2, 7);
+                    tableShow.setValueAt(ii, i, 7);
+                }
+            }
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j).getIdPrDetails() == (int) tableSellTemp.getValueAt(row2, 0)) {
+                    model.removeRow(tableSellTemp.getSelectedRow());
+                    list.remove(list.get(j));
+                    return;
+                }
+            }
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -345,7 +369,7 @@ public class FormSell extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1074, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 19, Short.MAX_VALUE))
+                .addGap(0, 20, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -625,6 +649,9 @@ public class FormSell extends javax.swing.JPanel {
 
     private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton2ActionPerformed
         // TODO add your handling code here:
+
+        delete();
+
     }//GEN-LAST:event_myButton2ActionPerformed
 
     private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed

@@ -5,7 +5,7 @@
     <Component class="com.raven.datechooser.DateChooser" name="dateChooser1">
       <Properties>
         <Property name="textRefernce" type="javax.swing.JTextField" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="textField1"/>
+          <ComponentRef name="txtDate"/>
         </Property>
       </Properties>
     </Component>
@@ -45,11 +45,19 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jPanel2" max="32767" attributes="0"/>
-                      <Component id="jPanel3" max="32767" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jPanel2" max="32767" attributes="0"/>
+                              <Component id="jPanel3" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="214" max="-2" attributes="0"/>
+                          <Component id="lblSearchId" min="-2" pref="256" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
@@ -60,7 +68,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                  <Component id="lblSearchId" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jPanel3" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -81,9 +91,9 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" pref="163" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                      <Component id="textField2" min="-2" pref="304" max="-2" attributes="0"/>
+                      <Component id="txtSearchId" min="-2" pref="304" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                      <Component id="myButton5" min="-2" pref="64" max="-2" attributes="0"/>
+                      <Component id="btnSearchId" min="-2" pref="64" max="-2" attributes="0"/>
                       <EmptySpace pref="168" max="32767" attributes="0"/>
                       <Component id="myButton8" min="-2" pref="64" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -106,8 +116,8 @@
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel1" alignment="3" max="32767" attributes="0"/>
-                              <Component id="textField2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="myButton5" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtSearchId" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnSearchId" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -124,18 +134,21 @@
                 <Property name="text" type="java.lang.String" value="Ho&#xe1; &#x110;&#x1a1;n Nh&#x1ead;p H&#xe0;ng"/>
               </Properties>
             </Component>
-            <Component class="com.raven.suportSwing.TextField" name="textField2">
+            <Component class="com.raven.suportSwing.TextField" name="txtSearchId">
               <Properties>
                 <Property name="labelText" type="java.lang.String" value="T&#xec;m theo m&#xe3; phi&#x1ebf;u nh&#x1ead;p"/>
               </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtSearchIdFocusGained"/>
+              </Events>
             </Component>
-            <Component class="com.raven.suportSwing.MyButton" name="myButton5">
+            <Component class="com.raven.suportSwing.MyButton" name="btnSearchId">
               <Properties>
                 <Property name="text" type="java.lang.String" value="T&#xec;m"/>
                 <Property name="radius" type="int" value="20"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton5ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchIdActionPerformed"/>
               </Events>
             </Component>
             <Component class="com.raven.suportSwing.MyButton" name="myButton6">
@@ -180,11 +193,15 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="textField1" min="-2" pref="219" max="-2" attributes="0"/>
-                          <Component id="myButton9" min="-2" pref="64" max="-2" attributes="0"/>
+                          <Component id="txtDate" min="-2" pref="219" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="btnSearch" min="-2" pref="64" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnReset" min="-2" pref="64" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="754" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -193,32 +210,35 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="textField1" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtDate" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="myButton9" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnReset" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="470" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="450" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="com.raven.suportSwing.TextField" name="textField1">
+            <Component class="com.raven.suportSwing.TextField" name="txtDate">
               <Properties>
                 <Property name="labelText" type="java.lang.String" value="Th&#x1edd;i gian"/>
               </Properties>
             </Component>
-            <Component class="com.raven.suportSwing.MyButton" name="myButton9">
+            <Component class="com.raven.suportSwing.MyButton" name="btnSearch">
               <Properties>
                 <Property name="text" type="java.lang.String" value="L&#x1ecd;c"/>
                 <Property name="radius" type="int" value="20"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton9ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchActionPerformed"/>
               </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -284,8 +304,25 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="com.raven.suportSwing.MyButton" name="btnReset">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reset"/>
+                <Property name="radius" type="int" value="20"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnResetActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JLabel" name="lblSearchId">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="e1" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="jLabel2"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>
