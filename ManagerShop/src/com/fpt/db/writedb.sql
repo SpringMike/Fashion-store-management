@@ -81,6 +81,8 @@ CREATE TABLE detailsInvoiceSELL
 )
 GO
 ----------------------------------------------------- END --------------------------------------------
+--26/11/2021
+ALTER TABLE dbo.InvoiceSell ADD totalMoney MONEY
 
 SELECT * FROM dbo.InvoiceImportPr
 SELECT * FROM dbo.detailsInvoiceImportPr
@@ -133,8 +135,9 @@ JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
 JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails
 JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct JOIN dbo.Size ON Size.idSize = detailsProduct.idSize
 JOIN dbo.Color ON Color.idColor = detailsProduct.idColor JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
-WHERE detailsInvoiceSELL.idInvoiceSell = 1
+WHERE detailsInvoiceSELL.idInvoiceSell =9
 
+SELECT * FROM dbo.InvoiceSell
 SELECT idInvoiceSell, SUM(detailsInvoiceSELL.quatity * price)
 AS N'Total'
 FROM dbo.detailsInvoiceSELL
@@ -142,6 +145,9 @@ GROUP BY idInvoiceSell
 HAVING idInvoiceSell = 4
 
 SELECT * FROM dbo.InvoiceSell JOIN dbo.Voucher ON Voucher.idVoucher = InvoiceSell.idVoucher
+
+SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
+WHERE dateCreateInvoice = ?
 
 
 
