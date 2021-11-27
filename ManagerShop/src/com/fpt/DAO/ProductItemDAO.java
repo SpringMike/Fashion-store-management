@@ -111,6 +111,13 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
         jdbcHelper.update(sql, quantity, id);
     }
 
+    public void returnProductItem(Integer quantity, Integer id) {
+        String sql = "UPDATE detailsProduct\n"
+                + "SET quatity= quatity + ? \n"
+                + "WHERE idPrDeltails = ?;";
+        jdbcHelper.update(sql, quantity, id);
+    }
+
     public List<ProductItem> selectByKeyWordSell(String keyword) {
         String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
                 + "                 INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial\n"
