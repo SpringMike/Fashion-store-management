@@ -144,11 +144,6 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                 txtSearchActionPerformed(evt);
             }
         });
-        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchKeyReleased(evt);
-            }
-        });
 
         lblSearch.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         lblSearch.setForeground(new java.awt.Color(255, 51, 0));
@@ -264,12 +259,6 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         fillSearch();
 
     }//GEN-LAST:event_txtSearchActionPerformed
-
-    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-        // TODO add your handling code here:
-        fillSearch();
-
-    }//GEN-LAST:event_txtSearchKeyReleased
 
     private void tableShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowMouseClicked
         // TODO add your handling code here:
