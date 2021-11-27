@@ -38,7 +38,8 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, String> {
 
     @Override
     public List<InvoiceRetuns> selectAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT * FROM dbo.InvoiceReturn";
+        return selectBySql(sql);
     }
 
     @Override
@@ -49,28 +50,26 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, String> {
     @Override
     protected List<InvoiceRetuns> selectBySql(String sql, Object... args) {
         List<InvoiceRetuns> list = new ArrayList<>();
-//        try {
-//            ResultSet rs = jdbcHelper.query(sql, args);
-//            while (rs.next()) {
-//                ProductItem p = new ProductItem();
-//                p.setIdInvoiceSell(rs.getInt("idInvoiceSell"));
-//                p.setId(rs.getInt("idPrDetails"));
-//                p.setPrice(rs.getFloat("price"));
-//                p.setQuantity(rs.getInt("quatity"));
-//                p.setSize(rs.getString("valueSize"));
-//                p.setColor(rs.getString("valueColor"));
-//                p.setMaterial(rs.getString("valueMaterial"));
-//                p.setProductName(rs.getString("nameProduct"));
-//                p.setNameCustomer(rs.getString("name"));
-//                list.add(p);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            ResultSet rs = jdbcHelper.query(sql, args);
+            while (rs.next()) {
+                InvoiceRetuns p = new InvoiceRetuns();
+                p.setIdInvoiceRetuns(rs.getInt("idInvoiceReturn"));
+                p.setIdInvoiceSell(rs.getInt("idInvoiceSell"));
+                p.setDateCreateInvoiceReturn(rs.getDate("dateCreateInvoice"));
+                p.setIdCustomer(rs.getInt("idCustomer"));
+                p.setTotalReturn(rs.getDouble("totalReturn"));
+                p.setDescription(rs.getString("description"));
+
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return list;
     }
-    
-     protected List<ProductItem> selectBySql1(String sql, Object... args) {
+
+    protected List<ProductItem> selectBySql1(String sql, Object... args) {
         List<ProductItem> list = new ArrayList<>();
         try {
             ResultSet rs = jdbcHelper.query(sql, args);
@@ -106,8 +105,8 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, String> {
 
         return selectBySql1(sql, id);
     }
-    
-     public void sellProductItem(Integer quantity, Integer id) {
+
+    public void sellProductItem(Integer quantity, Integer id) {
         String sql = "UPDATE dbo.detailsInvoiceSELL\n"
                 + "SET quatity -= ? \n"
                 + "WHERE idInvoiceSell = ?;";

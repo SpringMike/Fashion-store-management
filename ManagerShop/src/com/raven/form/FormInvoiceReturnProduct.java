@@ -5,6 +5,11 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.ReturnProductDAO;
+import com.fpt.entity.InvoiceRetuns;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ducit
@@ -17,7 +22,19 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
     public FormInvoiceReturnProduct() {
         initComponents();
         setOpaque(false);
+        fillTableInvoiceRetuns();
 
+    }
+    
+    ReturnProductDAO productDAO = new ReturnProductDAO();
+    
+    public void fillTableInvoiceRetuns(){
+        DefaultTableModel model = (DefaultTableModel) tblShow.getModel();
+        model.setRowCount(0);
+        List<InvoiceRetuns> list = productDAO.selectAll();
+        for (InvoiceRetuns i : list) {
+            model.addRow(new Object[]{i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getIdCustomer(), i.getTotalReturn(), i.getDescription()});
+        }
     }
 
     /**
@@ -40,7 +57,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
         textField1 = new com.raven.suportSwing.TextField();
         myButton9 = new com.raven.suportSwing.MyButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableColumn1 = new com.raven.suportSwing.TableColumn();
+        tblShow = new com.raven.suportSwing.TableColumn();
 
         dateChooser2.setTextRefernce(textField1);
 
@@ -73,7 +90,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
             }
         });
 
-        tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
+        tblShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -84,7 +101,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
                 "Mã Trả hàng", "Mã thanh toán", "Thời gian", "Khách hàng", "Tổng tiền hoàn trả", "Ghi Chú"
             }
         ));
-        jScrollPane1.setViewportView(tableColumn1);
+        jScrollPane1.setViewportView(tblShow);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,7 +183,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private com.raven.suportSwing.MyButton myButton9;
-    private com.raven.suportSwing.TableColumn tableColumn1;
+    private com.raven.suportSwing.TableColumn tblShow;
     private com.raven.suportSwing.TextField textField1;
     private com.raven.suportSwing.TextField txtSearchReturnProduct;
     // End of variables declaration//GEN-END:variables

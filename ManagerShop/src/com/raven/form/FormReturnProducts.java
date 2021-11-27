@@ -75,7 +75,6 @@ public class FormReturnProducts extends javax.swing.JPanel {
 
             int i = ((int) tableIn4Invoice.getValueAt(row, 3)) - quatity;
             tableIn4Invoice.setValueAt(i, row, 3);
-            System.out.println(i);
             lblMoneyRetun.setText(TotalBuy() + "");
 
             DetailInvoiceReturn dir = new DetailInvoiceReturn();
@@ -84,38 +83,23 @@ public class FormReturnProducts extends javax.swing.JPanel {
             dir.setQuatity(quatity);
             list.add(dir);
             tableIn4Invoice.clearSelection();
-
         }
     }
-    
-    public InvoiceRetuns getInvoiceReturn() {
-        InvoiceRetuns ir = new InvoiceRetuns();
-        int row = tableListProduct.getSelectedRow();
-        int idProduct = (int) tableListProduct.getValueAt(row, 0);
-        int idInvoiceSell = (int) tableIn4Invoice.getValueAt(row, 0);
 
-
-        Calendar calendar = Calendar.getInstance();
-        ir.setDateCreateInvoiceReturn(calendar.getTime());
-        ir.setDescription(txtNote.getText());
-        ir.setIdInvoiceSell(idInvoiceSell);
-        ir.setTotalReturn(Double.valueOf(lblMoneyRetun.getText()));
-        ir.setIdUser(Auth.user.getIdUser());
-        ir.setIdCustomer(1);
-        return ir;
-    }
-
+    ProductItemDAO prDAO = new ProductItemDAO();
     public void insertInvoiceReturn() {
-//        int count = tableIn4Invoice.getRowCount();
-//        if (count <= 0) {
-//            MsgBox.alert(this, "bạn chưa thanh toán sản phẩm nào");
-////            return;
-//        } else {
-//
-//        }
         InvoiceRetuns ir = getInvoiceReturn();
         reDao.insert(ir);
         MsgBox.alert(this, "Thêm thành công!!!");
+        int row = tableListProduct.getRowCount();
+        for (int i = 0; i < list.size(); i++) {
+            DetailInvoiceReturn de = list.get(i);
+            System.out.println(de.getQuatity());
+//            .insert(de);
+            prDAO.sellProductItem(de.getQuatity(), Integer.valueOf(txtShearchInvoice.getText()));
+        }
+
+        reDao.sellProductItem(1, Integer.valueOf(txtShearchInvoice.getText()));
     }
 
     public float TotalBuy() {
@@ -127,7 +111,22 @@ public class FormReturnProducts extends javax.swing.JPanel {
         return price;
     }
 
-    
+    public InvoiceRetuns getInvoiceReturn() {
+        InvoiceRetuns ir = new InvoiceRetuns();
+        Calendar calendar = Calendar.getInstance();
+        ir.setDateCreateInvoiceReturn(calendar.getTime());
+        ir.setDescription(txtNote.getText());
+        ir.setIdInvoiceSell(Integer.valueOf(txtShearchInvoice.getText()));
+        ir.setTotalReturn(Double.valueOf(lblMoneyRetun.getText()));
+        ir.setIdUser(Auth.user.getIdUser());
+        List<ProductItem> items = reDao.selectByIdInvoiceReturn(Integer.valueOf(txtShearchInvoice.getText()));
+        for (ProductItem p : items) {
+            ir.setIdCustomer(p.getIdCustomer());
+            break;
+        }
+
+        return ir;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
