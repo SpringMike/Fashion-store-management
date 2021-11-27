@@ -50,6 +50,7 @@ ALTER TABLE dbo.InvoiceImportPr ADD idSupplier INT
 ALTER TABLE dbo.InvoiceImportPr ADD FOREIGN KEY (idSupplier) REFERENCES dbo.Supplier(idSupplier)
 ALTER TABLE dbo.InvoiceImportPr ADD description NVARCHAR(255)
 ALTER TABLE dbo.detailsInvoiceImportPr ADD priceImport MONEY
+ALTER TABLE dbo.InvoiceSell ADD totalMoney MONEY
 
 ------------------------------------------------------------------------------------------------------
 
@@ -127,6 +128,7 @@ select D.detailsInvoice, P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,
                 join Color C on C.idColor = De.idColor
                 join Material M on M.idMaterial = De.idMaterial
                 where D.idInvoice = 1
+
 SELECT idDetailsInvoiceSELL, nameProduct, name, valueSize, valueColor, valueMaterial, detailsInvoiceSELL.quatity, detailsInvoiceSELL.price  FROM dbo.detailsInvoiceSELL 
 JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
 JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer

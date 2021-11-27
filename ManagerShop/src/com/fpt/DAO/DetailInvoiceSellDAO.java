@@ -54,8 +54,8 @@ public class DetailInvoiceSellDAO extends ShopDAO<DetailInvoiceSell, Integer> {
             while (rs.next()) {
                 DetailInvoiceSell de = new DetailInvoiceSell();
                 de.setIdDetailsInvoiceSell(rs.getInt("idDetailsInvoiceSell"));
+//                de.setIdProduct(rs.getInt("idProduct"));
 //                de.setIdInvoiceSell(rs.getInt("idInvoiceSell"));
-//                de.setIdPrDetails(rs.getInt("idPrDetails"));
                 de.setQuantity(rs.getInt("quatity"));
                 de.setPrice(rs.getInt("price"));
                 de.setValueColor(rs.getString("valueColor"));
@@ -63,6 +63,7 @@ public class DetailInvoiceSellDAO extends ShopDAO<DetailInvoiceSell, Integer> {
                 de.setValueSize(rs.getString("valueSize"));
                 de.setNameProduct(rs.getString("nameProduct"));
                 de.setNameCustomer(rs.getString("name"));
+//                de.setValueVoucher(rs.getInt("value"));
                 list.add(de);
             }
         } catch (Exception e) {
@@ -81,6 +82,6 @@ public class DetailInvoiceSellDAO extends ShopDAO<DetailInvoiceSell, Integer> {
                 + "WHERE detailsInvoiceSELL.idInvoiceSell = ?";
         return selectBySql(sql, id);
     }
-    
-    
+
+
 }

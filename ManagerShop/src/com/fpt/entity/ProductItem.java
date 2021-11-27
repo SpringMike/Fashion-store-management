@@ -16,82 +16,50 @@ public class ProductItem {
     private int idSize;
     private int idColor;
     private int idMaterial;
+    private int idInvoiceSell;
 
     private float price;
     private int quantity;
+    private int value;
     private boolean status;
     
     private String Size;
     private String Color;
     private String Material;
     private String ProductName;
+    private String nameCustomer;
     
     private String categoryName;
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-    
 
     public ProductItem() {
     }
 
-    public ProductItem(int id, int idProduct, int idSize, int idColor, int idMaterial, float price, int quantity, boolean status) {
+    public ProductItem(int id, int idProduct, int idSize, int idColor, int idMaterial, int idInvoiceSell, float price, int quantity, int value, boolean status, String Size, String Color, String Material, String ProductName, String categoryName) {
         this.id = id;
         this.idProduct = idProduct;
         this.idSize = idSize;
         this.idColor = idColor;
         this.idMaterial = idMaterial;
+        this.idInvoiceSell = idInvoiceSell;
         this.price = price;
         this.quantity = quantity;
+        this.value = value;
         this.status = status;
-    }
-
-    public String getSize() {
-        return Size;
-    }
-
-    public void setSize(String Size) {
         this.Size = Size;
-    }
-
-    public String getColor() {
-        return Color;
-    }
-
-    public void setColor(String Color) {
         this.Color = Color;
-    }
-
-    public String getMaterial() {
-        return Material;
-    }
-
-    public void setMaterial(String Material) {
         this.Material = Material;
-    }
-
-    public String getProductName() {
-        return ProductName;
-    }
-
-    public void setProductName(String ProductName) {
         this.ProductName = ProductName;
+        this.categoryName = categoryName;
     }
 
-    public boolean isStatus() {
-        return status;
+    public String getNameCustomer() {
+        return nameCustomer;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setNameCustomer(String nameCustomer) {
+        this.nameCustomer = nameCustomer;
     }
-
-
+    
     public int getId() {
         return id;
     }
@@ -132,6 +100,14 @@ public class ProductItem {
         this.idMaterial = idMaterial;
     }
 
+    public int getIdInvoiceSell() {
+        return idInvoiceSell;
+    }
+
+    public void setIdInvoiceSell(int idInvoiceSell) {
+        this.idInvoiceSell = idInvoiceSell;
+    }
+
     public float getPrice() {
         return price;
     }
@@ -148,4 +124,61 @@ public class ProductItem {
         this.quantity = quantity;
     }
 
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public String getSize() {
+        return Size;
+    }
+
+    public void setSize(String Size) {
+        this.Size = Size;
+    }
+
+    public String getColor() {
+        return Color;
+    }
+
+    public void setColor(String Color) {
+        this.Color = Color;
+    }
+
+    public String getMaterial() {
+        return Material;
+    }
+
+    public void setMaterial(String Material) {
+        this.Material = Material;
+    }
+
+    public String getProductName() {
+        return ProductName;
+    }
+
+    public void setProductName(String ProductName) {
+        this.ProductName = ProductName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+   
 }

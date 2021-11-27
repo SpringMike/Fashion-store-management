@@ -55,7 +55,7 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
                 + "                 where D.status = 1 and D.quatity > 0";
         return selectBySql(sql);
     }
-
+    
     @Override
     public ProductItem selectById(Integer k) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
