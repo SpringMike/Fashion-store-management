@@ -12,10 +12,10 @@ import java.util.Date;
  * @author Đặng Đình Vũ
  */
 public class InvoiceRetuns {
-    private int idInvoiceRetuns, idInvoiceSell;
+    private int idInvoiceRetuns, idInvoiceSell, idCustomer, idUser;
     private Date dateCreateInvoiceReturn;
-    private String note, UserName;
-    private double price;
+    private String description;
+    private double totalReturn;
 
     public InvoiceRetuns() {
     }
@@ -36,6 +36,14 @@ public class InvoiceRetuns {
         this.idInvoiceSell = idInvoiceSell;
     }
 
+    public int getIdCustomer() {
+        return idCustomer;
+    }
+
+    public void setIdCustomer(int idCustomer) {
+        this.idCustomer = idCustomer;
+    }
+
     public Date getDateCreateInvoiceReturn() {
         return dateCreateInvoiceReturn;
     }
@@ -44,28 +52,29 @@ public class InvoiceRetuns {
         this.dateCreateInvoiceReturn = dateCreateInvoiceReturn;
     }
 
-    public String getNote() {
-        return note;
+    public int getIdUser() {
+        return idUser;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 
-    public String getUserName() {
-        return UserName;
+
+    public String getDescription() {
+        return description;
     }
 
-    public void setUserName(String UserName) {
-        this.UserName = UserName;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public double getPrice() {
-        return price;
+    public double getTotalReturn() {
+        return totalReturn;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setTotalReturn(double totalReturn) {
+        this.totalReturn = totalReturn;
     }
     
     

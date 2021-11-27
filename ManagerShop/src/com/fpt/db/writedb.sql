@@ -94,9 +94,13 @@ CREATE TABLE InvoiceReturn
 	description NVARCHAR(255),
 	totalReturn MONEY,
 	FOREIGN KEY (idInvoiceSell) REFERENCES dbo.InvoiceSell(idInvoiceSell),
-	FOREIGN KEY (idCustomer) REFERENCES dbo.Customer(idCustomer)
+	FOREIGN KEY (idCustomer) REFERENCES dbo.Customer(idCustomer),
 )
 GO
+ALTER TABLE dbo.InvoiceReturn ADD idUser INT
+ALTER TABLE dbo.InvoiceReturn ADD FOREIGN KEY (idUser) REFERENCES dbo.[User](idUser)
+
+SELECT * FROM dbo.InvoiceReturn
 
 CREATE TABLE DetailInvoiceReturn
 (
@@ -188,11 +192,11 @@ UPDATE dbo.Account SET password = ? WHERE idUser = ?
 SELECT * FROM dbo.Voucher
 
 
+INSERT dbo.InvoiceReturn(idInvoiceSell,idCustomer, description,totalReturn)
+VALUES(?,?,?,?)
 
 
-
-
-
+--INSERT dbo.DetailInvoiceReturn( idInvoiceReturn, idPrDetails,quatity, price)VALUES(?,?,?,?)
 
 
 

@@ -8,7 +8,6 @@ package com.fpt.entity;
  *
  * @author Administrator
  */
-
 public class ProductItem {
 
     private int id;
@@ -17,39 +16,36 @@ public class ProductItem {
     private int idColor;
     private int idMaterial;
     private int idInvoiceSell;
+    private int idCustomer;
 
     private float price;
     private int quantity;
-    private int value;
     private boolean status;
-    
+
     private String Size;
     private String Color;
     private String Material;
     private String ProductName;
     private String nameCustomer;
-    
     private String categoryName;
 
     public ProductItem() {
     }
 
-    public ProductItem(int id, int idProduct, int idSize, int idColor, int idMaterial, int idInvoiceSell, float price, int quantity, int value, boolean status, String Size, String Color, String Material, String ProductName, String categoryName) {
-        this.id = id;
-        this.idProduct = idProduct;
-        this.idSize = idSize;
-        this.idColor = idColor;
-        this.idMaterial = idMaterial;
+    public int getIdCustomer() {
+        return idCustomer;
+    }
+
+    public void setIdCustomer(int idCustomer) {
+        this.idCustomer = idCustomer;
+    }
+
+    public int getIdInvoiceSell() {
+        return idInvoiceSell;
+    }
+
+    public void setIdInvoiceSell(int idInvoiceSell) {
         this.idInvoiceSell = idInvoiceSell;
-        this.price = price;
-        this.quantity = quantity;
-        this.value = value;
-        this.status = status;
-        this.Size = Size;
-        this.Color = Color;
-        this.Material = Material;
-        this.ProductName = ProductName;
-        this.categoryName = categoryName;
     }
 
     public String getNameCustomer() {
@@ -59,7 +55,7 @@ public class ProductItem {
     public void setNameCustomer(String nameCustomer) {
         this.nameCustomer = nameCustomer;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -100,14 +96,6 @@ public class ProductItem {
         this.idMaterial = idMaterial;
     }
 
-    public int getIdInvoiceSell() {
-        return idInvoiceSell;
-    }
-
-    public void setIdInvoiceSell(int idInvoiceSell) {
-        this.idInvoiceSell = idInvoiceSell;
-    }
-
     public float getPrice() {
         return price;
     }
@@ -122,14 +110,6 @@ public class ProductItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 
     public boolean isStatus() {
@@ -180,5 +160,4 @@ public class ProductItem {
         this.categoryName = categoryName;
     }
 
-   
 }

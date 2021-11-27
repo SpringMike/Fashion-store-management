@@ -9,10 +9,14 @@ import com.fpt.DAO.DetailInvoiceSellDAO;
 import com.fpt.DAO.ProductItemDAO;
 import com.fpt.DAO.ReturnProductDAO;
 import com.fpt.Validate.Validate;
+import com.fpt.entity.DetailInvoiceReturn;
 import com.fpt.entity.DetailInvoiceSell;
+import com.fpt.entity.InvoiceRetuns;
 import com.fpt.entity.ProductItem;
+import com.fpt.utils.Auth;
 import com.fpt.utils.MsgBox;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,29 +32,29 @@ public class FormReturnProducts extends javax.swing.JPanel {
     public FormReturnProducts() {
         initComponents();
     }
-    
+
     ReturnProductDAO reDao = new ReturnProductDAO();
     DefaultTableModel model;
     DefaultTableModel modelList;
-    
+
     public void ShearchKeyFillTable(int id) {
         model = (DefaultTableModel) tableIn4Invoice.getModel();
         model.setRowCount(0);
         List<ProductItem> list = reDao.selectByIdInvoiceReturn(id);
         for (ProductItem d : list) {
             model.addRow(new Object[]{
-                d.getIdInvoiceSell(), d.getId(), d.getProductName(), d.getQuantity(), d.getSize(), d.getColor(), d.getMaterial(), d.getPrice(), 0, d.getValue()
+                d.getIdInvoiceSell(), d.getId(), d.getProductName(), d.getQuantity(), d.getSize(), d.getColor(), d.getMaterial(), d.getPrice()
             });
             lblIDCustomer.setText(d.getNameCustomer());
             lblIDInvoice.setText(d.getIdInvoiceSell() + "");
         }
     }
-    
-    List<ProductItem> list = new ArrayList<>();
-    
+
+    List<DetailInvoiceReturn> list = new ArrayList<>();
+
     public void fillTableIn4Invoice() {
         int quatity = Integer.valueOf(MsgBox.prompt(this, "Nhập số lượng cần hoàn trả"));
-        
+
         int row = tableIn4Invoice.getSelectedRow();
         int idinvoiceSell = (int) tableIn4Invoice.getValueAt(row, 0);
         int idProduct = (int) tableIn4Invoice.getValueAt(row, 1);
@@ -60,34 +64,70 @@ public class FormReturnProducts extends javax.swing.JPanel {
         String color = (String) tableIn4Invoice.getValueAt(row, 5);
         String material = (String) tableIn4Invoice.getValueAt(row, 6);
         float price = (float) tableIn4Invoice.getValueAt(row, 7);
-        
+
         if (quatity > (int) tableIn4Invoice.getValueAt(row, 3) || quatity < 0) {
             MsgBox.warring(this, "Số lượng trả hàng không hợp lệ!!!");
         } else {
             modelList = (DefaultTableModel) tableListProduct.getModel();
             modelList.addRow(new Object[]{
-                idProduct, name, quatity, size, color, material
+                idProduct, name, quatity, size, color, material, price
             });
-            
-            model = (DefaultTableModel) tableIn4Invoice.getModel();
-            model.setRowCount(0);
 
-            
-//            for (int i = 0; i < list.size(); i++) {
-//                ProductItem de = list.get(i);
-////                    deDao.insert(de);
-//                reDao.sellProductItem(quatity, idinvoiceSell);
-//            }
-//            DetailInvoiceSell de = new DetailInvoiceSell();
-//                de.setPrice(price);
-//                de.setIdPrDetails(idProduct);
-//                de.setQuantity(quatity);
-//                list.add(de);
-//                tableShow.clearSelection();
-//                txtQuantity.setText("");
+            int i = ((int) tableIn4Invoice.getValueAt(row, 3)) - quatity;
+            tableIn4Invoice.setValueAt(i, row, 3);
+            System.out.println(i);
+            lblMoneyRetun.setText(TotalBuy() + "");
+
+            DetailInvoiceReturn dir = new DetailInvoiceReturn();
+            dir.setPrice(price);
+            dir.setIdPrDetails(idProduct);
+            dir.setQuatity(quatity);
+            list.add(dir);
+            tableIn4Invoice.clearSelection();
 
         }
     }
+    
+    public InvoiceRetuns getInvoiceReturn() {
+        InvoiceRetuns ir = new InvoiceRetuns();
+        int row = tableListProduct.getSelectedRow();
+        int idProduct = (int) tableListProduct.getValueAt(row, 0);
+        int idInvoiceSell = (int) tableIn4Invoice.getValueAt(row, 0);
+
+
+        Calendar calendar = Calendar.getInstance();
+        ir.setDateCreateInvoiceReturn(calendar.getTime());
+        ir.setDescription(txtNote.getText());
+        ir.setIdInvoiceSell(idInvoiceSell);
+        ir.setTotalReturn(Double.valueOf(lblMoneyRetun.getText()));
+        ir.setIdUser(Auth.user.getIdUser());
+        ir.setIdCustomer(1);
+        return ir;
+    }
+
+    public void insertInvoiceReturn() {
+//        int count = tableIn4Invoice.getRowCount();
+//        if (count <= 0) {
+//            MsgBox.alert(this, "bạn chưa thanh toán sản phẩm nào");
+////            return;
+//        } else {
+//
+//        }
+        InvoiceRetuns ir = getInvoiceReturn();
+        reDao.insert(ir);
+        MsgBox.alert(this, "Thêm thành công!!!");
+    }
+
+    public float TotalBuy() {
+        float price = 0;
+        int index = tableListProduct.getRowCount();
+        for (int i = 0; i < index; i++) {
+            price += (int) tableListProduct.getValueAt(i, 2) * (float) tableListProduct.getValueAt(i, 6);
+        }
+        return price;
+    }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -134,11 +174,11 @@ public class FormReturnProducts extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã sản phẩm", "Tên sản phẩm", "Số lượng trả", "Size", "Màu ", "Chất liệu"
+                "Mã sản phẩm", "Tên sản phẩm", "Số lượng trả", "Size", "Màu ", "Chất liệu", "Đơn giá"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -335,10 +375,11 @@ public class FormReturnProducts extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtShearchInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtShearchInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -362,8 +403,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeActionPerformed
-
-//        this.insert();
+        insertInvoiceReturn();
     }//GEN-LAST:event_btnAddEmployeeActionPerformed
 
     private void txtShearchInvoiceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtShearchInvoiceKeyReleased
@@ -383,6 +423,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
         if (evt.getClickCount() == 2) {
             fillTableIn4Invoice();
         }
+
     }//GEN-LAST:event_tableIn4InvoiceMouseClicked
 
 
