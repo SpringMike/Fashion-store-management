@@ -62,14 +62,14 @@ public class Menu extends javax.swing.JPanel {
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/5.png")), "Thống kê", "Thông kê doanh thu", "Thống kê doanh số"));
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/6.png")), "Nhân viên", "Danh sách nhân viên"));
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/7.png")), "Khách hàng"));
-            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/8.png")), "Cá Nhân"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/8.png")), "Cá Nhân", "Thông tin cá nhân", "Đổi mật khẩu"));
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/9.png")), "Khuyến mãi"));
         } else {
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/1.png")), "Trang chủ"));
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/4.png")), "Giao dịch", "Bán Hàng", "Trả Hàng", "Hoá Đơn Bán hàng", "Hoá đơn trả hàng"));
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/5.png")), "Thống kê", "Thông kê doanh thu", "Thống kê doanh số"));
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/7.png")), "Khách hàng"));
-            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/8.png")), "Cá Nhân"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/8.png")), "Cá Nhân", "Thông tin cá nhân", "Đổi mật khẩu"));
         }
 
     }

@@ -116,6 +116,7 @@ public class FormSell extends javax.swing.JPanel {
                     id, name, categoryName, size, color, material, price, quantity
                 });
 
+//                fillTableProductItem();
                 DetailInvoiceSell de = new DetailInvoiceSell();
                 de.setPrice(price);
                 de.setIdPrDetails(id);
@@ -123,6 +124,12 @@ public class FormSell extends javax.swing.JPanel {
                 list.add(de);
                 tableShow.clearSelection();
                 txtQuantity.setText("");
+                int i = ((int) tableShow.getValueAt(row, 7)) - quantity;
+                tableShow.setValueAt(i, row, 7);
+                System.out.println(i);
+//                de.setQuantity(i);
+
+//                fillTableProductItem();
             }
         }
     }
@@ -153,8 +160,12 @@ public class FormSell extends javax.swing.JPanel {
         in.setPrice(Double.parseDouble(txtTotal.getText()));
         Customer s = (Customer) cbbCustomer.getSelectedItem();
         in.setIdCustomer(s.getId());
-        Voucher v = (Voucher) cbbVoucher.getSelectedItem();
-        in.setIdVoucher(v.getIdVoucher());
+        if (!jcheckVoucher.isSelected()) {
+            in.setIdVoucher(null);
+        } else {
+            Voucher v = (Voucher) cbbVoucher.getSelectedItem();
+            in.setIdVoucher(v.getIdVoucher());
+        }
         return in;
     }
 
@@ -174,21 +185,43 @@ public class FormSell extends javax.swing.JPanel {
             } else {
                 InvoiceSell in = getInvoiceSell();
                 inDao.insert(in);
+                int row = tableSellTemp.getRowCount();
                 for (int i = 0; i < list.size(); i++) {
                     DetailInvoiceSell de = list.get(i);
+                    System.out.println(de.getQuantity());
                     deDao.insert(de);
                     prDAO.sellProductItem(de.getQuantity(), de.getIdPrDetails());
                 }
                 in.setPrice(Double.parseDouble(txtTotal.getText()));
                 MsgBox.alert(this, "Bán " + list.size() + " vào hóa đơn thành công thành công");
-                Voucher v = (Voucher) cbbVoucher.getSelectedItem();
-                vDao.updateVoucher(v.getIdVoucher());
+//                Voucher v = (Voucher) cbbVoucher.getSelectedItem();
+//                vDao.updateVoucher(v.getIdVoucher());
+                if (jcheckVoucher.isSelected()) {
+                    Voucher v = (Voucher) cbbVoucher.getSelectedItem();
+                    vDao.updateVoucher(v.getIdVoucher());
+                }
                 DefaultTableModel model = (DefaultTableModel) tableSellTemp.getModel();
                 model.setRowCount(0);
                 list.clear();
                 fillTableProductItem();
             }
         }
+    }
+
+    public void searchFillTable() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        List<ProductItem> list = prDAO.selectByKeyWordSell(txtSearch.getText());
+        if (list.isEmpty()) {
+            lblSearch.setText("Không tìm thấy mặt hàng " + txtSearch.getText() + " để bán");
+            return;
+        }
+        for (ProductItem p : list) {
+            model.addRow(new Object[]{
+                p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(), p.getMaterial(), p.getPrice(), p.getQuantity()
+            });
+        }
+        lblSearch.setText("");
     }
 
     /**
@@ -203,8 +236,9 @@ public class FormSell extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        textField5 = new com.raven.suportSwing.TextField();
+        txtSearch = new com.raven.suportSwing.TextField();
         myButton5 = new com.raven.suportSwing.MyButton();
+        lblSearch = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
@@ -237,7 +271,12 @@ public class FormSell extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel2.setText("Thánh toán bán hàng");
 
-        textField5.setLabelText("Tìm theo tên or mã");
+        txtSearch.setLabelText("Tìm theo tên or mã");
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
 
         myButton5.setText("Tìm");
         myButton5.setRadius(20);
@@ -247,6 +286,9 @@ public class FormSell extends javax.swing.JPanel {
             }
         });
 
+        lblSearch.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lblSearch.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -255,7 +297,9 @@ public class FormSell extends javax.swing.JPanel {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(textField5, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+                    .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(39, 39, 39)
                 .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(193, 193, 193))
@@ -263,14 +307,17 @@ public class FormSell extends javax.swing.JPanel {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textField5, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                    .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                            .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -298,7 +345,7 @@ public class FormSell extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1074, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 18, Short.MAX_VALUE))
+                .addGap(0, 19, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -569,6 +616,7 @@ public class FormSell extends javax.swing.JPanel {
 
     private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton5ActionPerformed
         // TODO add your handling code here:
+        searchFillTable();
     }//GEN-LAST:event_myButton5ActionPerformed
 
     private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton4ActionPerformed
@@ -604,6 +652,7 @@ public class FormSell extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (jcheckVoucher.isSelected()) {
             cbbVoucher.setVisible(true);
+            cbbVoucher.setSelectedIndex(0);
         } else {
             cbbVoucher.setVisible(false);
             txtTotal.setText(TotalBuy() + "");
@@ -637,6 +686,11 @@ public class FormSell extends javax.swing.JPanel {
         lblMoneyCustomer.setText("");
     }//GEN-LAST:event_txtMoneyCustomerFocusGained
 
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        searchFillTable();
+    }//GEN-LAST:event_txtSearchKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.Combobox cbbCustomer;
@@ -653,6 +707,7 @@ public class FormSell extends javax.swing.JPanel {
     private javax.swing.JCheckBox jcheckVoucher;
     private javax.swing.JLabel lblMoneyCustomer;
     private javax.swing.JLabel lblQuantity;
+    private javax.swing.JLabel lblSearch;
     private com.raven.suportSwing.MyButton myButton1;
     private com.raven.suportSwing.MyButton myButton2;
     private com.raven.suportSwing.MyButton myButton3;
@@ -662,11 +717,11 @@ public class FormSell extends javax.swing.JPanel {
     private com.raven.suportSwing.ScrollBar scrollBar2;
     private com.raven.suportSwing.TableColumn tableSellTemp;
     private com.raven.suportSwing.TableColumn tableShow;
-    private com.raven.suportSwing.TextField textField5;
     private javax.swing.JTextArea txtDes;
     private com.raven.suportSwing.TextField txtMoneyCustomer;
     private com.raven.suportSwing.TextField txtQuantity;
     private com.raven.suportSwing.TextField txtReturn;
+    private com.raven.suportSwing.TextField txtSearch;
     private com.raven.suportSwing.TextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

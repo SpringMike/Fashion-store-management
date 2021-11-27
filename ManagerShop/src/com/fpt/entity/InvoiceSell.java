@@ -13,11 +13,12 @@ import java.util.Date;
  */
 public class InvoiceSell {
 
-    private int idInvoiceSell, idCustomer, idHumanSell, idVoucher;
+    private int idInvoiceSell, idCustomer, idHumanSell;
     private String description, nameUser, nameCustomer;
     private Date dateCreateInvoice;
     private boolean statusPay, statusInvoice;
     private double price;
+    private Integer idVoucher;
 
     public double getPrice() {
         return price;
@@ -67,11 +68,11 @@ public class InvoiceSell {
         this.idHumanSell = idHumanSell;
     }
 
-    public int getIdVoucher() {
+    public Integer getIdVoucher() {
         return idVoucher;
     }
 
-    public void setIdVoucher(int idVoucher) {
+    public void setIdVoucher(Integer idVoucher) {
         this.idVoucher = idVoucher;
     }
 
