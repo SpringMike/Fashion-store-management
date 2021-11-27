@@ -82,6 +82,35 @@ CREATE TABLE detailsInvoiceSELL
 )
 GO
 ----------------------------------------------------- END --------------------------------------------
+--26/11/2021
+ALTER TABLE dbo.InvoiceSell ADD totalMoney MONEY
+-----------------------------------------------
+--27/11/2021
+CREATE TABLE InvoiceReturn
+(
+	idInvoiceReturn INT IDENTITY(1,1) PRIMARY KEY,
+	idInvoiceSell INT,
+	idCustomer INT, 
+	description NVARCHAR(255),
+	totalReturn MONEY,
+	FOREIGN KEY (idInvoiceSell) REFERENCES dbo.InvoiceSell(idInvoiceSell),
+	FOREIGN KEY (idCustomer) REFERENCES dbo.Customer(idCustomer)
+)
+GO
+
+CREATE TABLE DetailInvoiceReturn
+(
+	idDetailInvoiceReturn INT IDENTITY(1,1) PRIMARY KEY,
+	idInvoiceReturn INT,
+	idPrDetails INT,
+	quatity INT,
+	price MONEY,
+	FOREIGN KEY (idDetailInvoiceReturn) REFERENCES dbo.InvoiceReturn(idInvoiceReturn),
+	FOREIGN KEY (idPrDetails) REFERENCES dbo.detailsProduct(idPrDeltails)
+)
+GO
+
+
 
 SELECT * FROM dbo.InvoiceImportPr
 SELECT * FROM dbo.detailsInvoiceImportPr
@@ -95,7 +124,7 @@ select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quati
                  INNER JOIN Color C on C.idColor = D.idColor
                  INNER JOIN Products P on P.idProduct = D.idProduct
                  INNER JOIN List L  on L.idList = P.idList
-                 where D.status = 1 and D.quatity > 0
+                 where D.status = 1 and D.quatity > 0 AND P.nameProduct =?
 
 				 select I.*,name,S.nameMaterial from InvoiceImportPr I join [User] U on U.idUser = I.idAdmin
                 join Supplier S on S.idSupplier = I.idSupplier
@@ -135,15 +164,28 @@ JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
 JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails
 JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct JOIN dbo.Size ON Size.idSize = detailsProduct.idSize
 JOIN dbo.Color ON Color.idColor = detailsProduct.idColor JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
-WHERE detailsInvoiceSELL.idInvoiceSell = 1
+WHERE detailsInvoiceSELL.idInvoiceSell =9
 
+SELECT * FROM dbo.InvoiceSell
 SELECT idInvoiceSell, SUM(detailsInvoiceSELL.quatity * price)
 AS N'Total'
 FROM dbo.detailsInvoiceSELL
 GROUP BY idInvoiceSell
 HAVING idInvoiceSell = 4
 
+SELECT *FROM dbo.[User]
+
+UPDATE dbo.[User] SET name = ?, birthday = ?, gender = ?, phoneNumber = ?, address = ?,
+email = ? WHERE idUser = ?
+
 SELECT * FROM dbo.InvoiceSell JOIN dbo.Voucher ON Voucher.idVoucher = InvoiceSell.idVoucher
+
+SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
+WHERE dateCreateInvoice 
+SELECT * FROM dbo.InvoiceSell
+
+UPDATE dbo.Account SET password = ? WHERE idUser = ?
+SELECT * FROM dbo.Voucher
 
 
 
