@@ -5,7 +5,7 @@
     <Component class="com.raven.datechooser.DateChooser" name="dateChooser1">
       <Properties>
         <Property name="textRefernce" type="javax.swing.JTextField" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="textField1"/>
+          <ComponentRef name="txtDate"/>
         </Property>
       </Properties>
     </Component>
@@ -180,11 +180,15 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="textField1" min="-2" pref="219" max="-2" attributes="0"/>
-                          <Component id="myButton9" min="-2" pref="64" max="-2" attributes="0"/>
+                          <Component id="txtDate" min="-2" pref="219" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="btnSearch" min="-2" pref="64" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnReset" min="-2" pref="64" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="754" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -193,9 +197,12 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="textField1" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtDate" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="myButton9" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnReset" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -207,18 +214,18 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="com.raven.suportSwing.TextField" name="textField1">
+            <Component class="com.raven.suportSwing.TextField" name="txtDate">
               <Properties>
                 <Property name="labelText" type="java.lang.String" value="Th&#x1edd;i gian"/>
               </Properties>
             </Component>
-            <Component class="com.raven.suportSwing.MyButton" name="myButton9">
+            <Component class="com.raven.suportSwing.MyButton" name="btnSearch">
               <Properties>
                 <Property name="text" type="java.lang.String" value="L&#x1ecd;c"/>
                 <Property name="radius" type="int" value="20"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton9ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchActionPerformed"/>
               </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -284,6 +291,15 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="com.raven.suportSwing.MyButton" name="btnReset">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reset"/>
+                <Property name="radius" type="int" value="20"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnResetActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

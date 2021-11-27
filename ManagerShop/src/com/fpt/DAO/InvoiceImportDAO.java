@@ -5,6 +5,7 @@
 package com.fpt.DAO;
 
 import com.fpt.entity.InvoiceImport;
+import com.fpt.entity.InvoiceSell;
 import com.fpt.helper.jdbcHelper;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -82,5 +83,11 @@ public class InvoiceImportDAO extends ShopDAO<InvoiceImport, Integer> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<InvoiceImport> fillDate(java.util.Date date) {
+        String sql = " select I.*,name,S.nameMaterial from InvoiceImportPr I join [User] U on U.idUser = I.idAdmin \n"
+                + "join Supplier S on S.idSupplier = I.idSupplier where dateCreateInvoice =?";
+        return selectBySql(sql, date);
     }
 }

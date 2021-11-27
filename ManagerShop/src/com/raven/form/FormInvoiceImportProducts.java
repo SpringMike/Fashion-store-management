@@ -7,8 +7,11 @@ package com.raven.form;
 
 import com.fpt.DAO.InvoiceImportDAO;
 import com.fpt.entity.InvoiceImport;
+import com.fpt.entity.InvoiceSell;
 import com.fpt.entity.ProductItem;
+import com.fpt.utils.XDate;
 import com.raven.JFrame.FormDetailInvoice;
+import java.util.Date;
 
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -47,6 +50,19 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         }
     }
 
+    public void searchFillTable() {
+        Date date = XDate.toDate(txtDate.getText(), "dd-MM-yyyy");
+        DefaultTableModel model = (DefaultTableModel) tableInvoice.getModel();
+        model.setRowCount(0);
+        List<InvoiceImport> list = invoiceDAO.fillDate(date);
+        for (InvoiceImport i : list) {
+            Float total = invoiceDAO.getTotalMoney(i.getId());
+            model.addRow(new Object[]{
+                i.getId(), i.getNameUser(), i.getNameSupplier(), i.getDateCreate(), total, i.getDesc()
+            });
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,12 +77,13 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         myButton7 = new com.raven.suportSwing.MyButton();
         myButton8 = new com.raven.suportSwing.MyButton();
         jPanel3 = new javax.swing.JPanel();
-        textField1 = new com.raven.suportSwing.TextField();
-        myButton9 = new com.raven.suportSwing.MyButton();
+        txtDate = new com.raven.suportSwing.TextField();
+        btnSearch = new com.raven.suportSwing.MyButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableInvoice = new com.raven.suportSwing.TableColumn();
+        btnReset = new com.raven.suportSwing.MyButton();
 
-        dateChooser1.setTextRefernce(textField1);
+        dateChooser1.setTextRefernce(txtDate);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -146,13 +163,13 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        textField1.setLabelText("Thời gian");
+        txtDate.setLabelText("Thời gian");
 
-        myButton9.setText("Lọc");
-        myButton9.setRadius(20);
-        myButton9.addActionListener(new java.awt.event.ActionListener() {
+        btnSearch.setText("Lọc");
+        btnSearch.setRadius(20);
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton9ActionPerformed(evt);
+                btnSearchActionPerformed(evt);
             }
         });
 
@@ -182,6 +199,14 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tableInvoice);
 
+        btnReset.setText("Reset");
+        btnReset.setRadius(20);
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -189,19 +214,24 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(myButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
@@ -257,9 +287,9 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_myButton8ActionPerformed
 
-    private void myButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_myButton9ActionPerformed
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        searchFillTable();
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     private void tableInvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableInvoiceMouseClicked
         if (evt.getClickCount() == 2) {
@@ -269,8 +299,14 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tableInvoiceMouseClicked
 
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+       fillTable();
+    }//GEN-LAST:event_btnResetActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.raven.suportSwing.MyButton btnReset;
+    private com.raven.suportSwing.MyButton btnSearch;
     private com.raven.datechooser.DateChooser dateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
@@ -281,9 +317,8 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton myButton6;
     private com.raven.suportSwing.MyButton myButton7;
     private com.raven.suportSwing.MyButton myButton8;
-    private com.raven.suportSwing.MyButton myButton9;
     private com.raven.suportSwing.TableColumn tableInvoice;
-    private com.raven.suportSwing.TextField textField1;
     private com.raven.suportSwing.TextField textField2;
+    private com.raven.suportSwing.TextField txtDate;
     // End of variables declaration//GEN-END:variables
 }
