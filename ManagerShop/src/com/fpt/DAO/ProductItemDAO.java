@@ -41,8 +41,7 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
                 + " INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial\n"
                 + "                 INNER JOIN Color C on C.idColor = D.idColor\n"
                 + "                 INNER JOIN Products P on P.idProduct = D.idProduct\n"
-                + "                 INNER JOIN List L  on L.idList = P.idList\n"
-                + "                 where D.status = 1";
+                + "                 INNER JOIN List L  on L.idList = P.idList";
         return selectBySql(sql);
     }
 
@@ -126,6 +125,53 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
                 + "                 INNER JOIN List L  on L.idList = P.idList\n"
                 + "                 where D.status = 1 and D.quatity > 0 AND P.nameProduct like ?";
         return selectBySql(sql, "%" + keyword + "%");
+    }
+
+    public List<ProductItem> selectBylblQuantity(int quantity, String keyword) {
+        String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
+                + "INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial \n"
+                + "INNER JOIN Color C on C.idColor = D.idColor \n"
+                + "INNER JOIN Products P on P.idProduct = D.idProduct\n"
+                + "INNER JOIN List L  on L.idList = P.idList ";
+        StringBuilder sb = new StringBuilder();
+        sb.append(sql);
+        switch (keyword) {
+            case "Above":
+                sb.append("where D.quatity >= ?");
+                break;
+            case "Below":
+                sb.append("where D.quatity <= ?");
+                break;
+            case "StillRemailProductItem":
+                sb.append("where D.quatity > 0");
+                return selectBySql(sb.toString());
+            case "OutOfStock":
+                sb.append("where D.quatity = 0");
+                return selectBySql(sb.toString());
+            case "OderByPriceDesc":
+                sb.append("order by D.price desc");
+                return selectBySql(sb.toString());
+            case "OderByPriceAsc":
+                sb.append("order by D.price asc");
+                return selectBySql(sb.toString());
+            case "StatusTrue":
+                sb.append("where D.status = 1");
+                return selectBySql(sb.toString());
+            case "StatusFalse":
+                sb.append("where D.status = 0");
+                return selectBySql(sb.toString());
+        }
+        return selectBySql(sb.toString(), quantity);
+    }
+
+    public List<ProductItem> selectByRemainQuantity(int k) {
+        String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
+                + "INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial \n"
+                + "INNER JOIN Color C on C.idColor = D.idColor \n"
+                + "INNER JOIN Products P on P.idProduct = D.idProduct\n"
+                + "INNER JOIN List L  on L.idList = P.idList\n"
+                + "where D.quatity = 0";
+        return selectBySql(sql, k);
     }
 
 }
