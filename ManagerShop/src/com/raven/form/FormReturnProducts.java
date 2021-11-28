@@ -16,6 +16,10 @@ import com.fpt.entity.InvoiceRetuns;
 import com.fpt.entity.ProductItem;
 import com.fpt.utils.Auth;
 import com.fpt.utils.MsgBox;
+import com.fpt.utils.XDate;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -37,18 +41,47 @@ public class FormReturnProducts extends javax.swing.JPanel {
     ReturnProductDAO reDao = new ReturnProductDAO();
     DefaultTableModel model;
     DefaultTableModel modelList;
+    List<ProductItem> listPr;
 
-    public void ShearchKeyFillTable(int id) {
+    public boolean ShearchKeyFillTable(int id) {
         model = (DefaultTableModel) tableIn4Invoice.getModel();
         model.setRowCount(0);
-        List<ProductItem> list = reDao.selectByIdInvoiceReturn(id);
-        for (ProductItem d : list) {
+        listPr = reDao.selectByIdInvoiceReturn(id);
+        for (ProductItem d : listPr) {
             model.addRow(new Object[]{
                 d.getIdInvoiceSell(), d.getId(), d.getProductName(), d.getQuantity(), d.getSize(), d.getColor(), d.getMaterial(), d.getPrice()
             });
             lblIDCustomer.setText(d.getNameCustomer());
             lblIDInvoice.setText(d.getIdInvoiceSell() + "");
         }
+        if (listPr.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+//        if(list.get(0).getDateCreateInvoice())
+    }
+
+    public boolean checkDayReturn() {
+        LocalDate today = LocalDate.now();
+        LocalDate date = LocalDate.parse(XDate.toString(listPr.get(0).getDateCreateInvoice(), "dd-MM-yyy"), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        int day = Period.between(date, today).getDays();
+        if (day > 2) {
+            MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Ngày trả hoá đơn đã quá hạn");
+            System.out.println(day);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkReturn() {
+        List<InvoiceRetuns> list = reDao.selectAll();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getIdInvoiceSell() == Integer.parseInt(txtShearchInvoice.getText())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     List<DetailInvoiceReturn> list = new ArrayList<>();
@@ -106,7 +139,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
             prDAO.returnProductItem(de.getQuatity(), de.getIdPrDetails());
         }
 
-        reDao.sellProductItem(1, Integer.valueOf(txtShearchInvoice.getText()));
+//        reDao.sellProductItem(1, Integer.valueOf(txtShearchInvoice.getText()));
     }
 
     public float TotalBuy() {
@@ -165,6 +198,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
         tableIn4Invoice = new com.raven.suportSwing.TableColumn();
         txtShearchInvoice = new com.raven.suportSwing.TextField();
         jLabel9 = new javax.swing.JLabel();
+        lblSearch = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -348,7 +382,15 @@ public class FormReturnProducts extends javax.swing.JPanel {
         );
 
         txtShearchInvoice.setLabelText("Tìm kiếm hoá đơn");
+        txtShearchInvoice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtShearchInvoiceFocusGained(evt);
+            }
+        });
         txtShearchInvoice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtShearchInvoiceKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtShearchInvoiceKeyReleased(evt);
             }
@@ -357,6 +399,9 @@ public class FormReturnProducts extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel9.setText("Tìm kiếm:");
 
+        lblSearch.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lblSearch.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -364,18 +409,20 @@ public class FormReturnProducts extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(172, 172, 172)
                         .addComponent(jLabel9)
                         .addGap(35, 35, 35)
-                        .addComponent(txtShearchInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtShearchInvoice, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -387,6 +434,8 @@ public class FormReturnProducts extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtShearchInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -405,12 +454,13 @@ public class FormReturnProducts extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeActionPerformed
         insertInvoiceReturn();
+
     }//GEN-LAST:event_btnAddEmployeeActionPerformed
 
     private void txtShearchInvoiceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtShearchInvoiceKeyReleased
@@ -418,20 +468,50 @@ public class FormReturnProducts extends javax.swing.JPanel {
         if (txtShearchInvoice.getText().isEmpty()) {
             lblIDCustomer.setText("");
             lblIDInvoice.setText("");
-            modelList.setRowCount(0);
+            lblSearch.setText("");
             model.setRowCount(0);
+//            modelList.setRowCount(0);
             return;
         }
-        ShearchKeyFillTable(Integer.valueOf(txtShearchInvoice.getText()));
+
+        if (ShearchKeyFillTable(Integer.valueOf(txtShearchInvoice.getText())) == false) {
+            lblSearch.setText("Hoá đơn không tồn tại");
+            return;
+        }
+        if (checkReturn() == false) {
+            lblSearch.setText("Hoá đơn đã trả hàng");
+            return;
+        }
+        if (checkDayReturn() == false) {
+            return;
+        }
+
     }//GEN-LAST:event_txtShearchInvoiceKeyReleased
 
     private void tableIn4InvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableIn4InvoiceMouseClicked
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
-            fillTableIn4Invoice();
+            if (checkDayReturn() == false) {
+                MsgBox.alert(this, "Hoá đơn đã quá hạn trả");
+                return;
+            } else if (checkReturn() == false) {
+                MsgBox.alert(this, "Hoá đơn đã trả hàng");
+                return;
+            } else {
+                fillTableIn4Invoice();
+            }
         }
 
     }//GEN-LAST:event_tableIn4InvoiceMouseClicked
+
+    private void txtShearchInvoiceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtShearchInvoiceFocusGained
+        // TODO add your handling code here:
+        lblSearch.setText("");
+    }//GEN-LAST:event_txtShearchInvoiceFocusGained
+
+    private void txtShearchInvoiceKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtShearchInvoiceKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtShearchInvoiceKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -451,6 +531,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
     private javax.swing.JLabel lblIDCustomer;
     private javax.swing.JLabel lblIDInvoice;
     private javax.swing.JLabel lblMoneyRetun;
+    private javax.swing.JLabel lblSearch;
     private com.raven.suportSwing.TableColumn tableIn4Invoice;
     private com.raven.suportSwing.TableColumn tableListProduct;
     private javax.swing.JTextArea txtNote;
