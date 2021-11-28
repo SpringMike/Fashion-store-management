@@ -50,6 +50,7 @@ ALTER TABLE dbo.InvoiceImportPr ADD idSupplier INT
 ALTER TABLE dbo.InvoiceImportPr ADD FOREIGN KEY (idSupplier) REFERENCES dbo.Supplier(idSupplier)
 ALTER TABLE dbo.InvoiceImportPr ADD description NVARCHAR(255)
 ALTER TABLE dbo.detailsInvoiceImportPr ADD priceImport MONEY
+ALTER TABLE dbo.InvoiceSell ADD totalMoney MONEY
 
 ------------------------------------------------------------------------------------------------------
 
@@ -93,9 +94,13 @@ CREATE TABLE InvoiceReturn
 	description NVARCHAR(255),
 	totalReturn MONEY,
 	FOREIGN KEY (idInvoiceSell) REFERENCES dbo.InvoiceSell(idInvoiceSell),
-	FOREIGN KEY (idCustomer) REFERENCES dbo.Customer(idCustomer)
+	FOREIGN KEY (idCustomer) REFERENCES dbo.Customer(idCustomer),
 )
 GO
+ALTER TABLE dbo.InvoiceReturn ADD idUser INT
+ALTER TABLE dbo.InvoiceReturn ADD FOREIGN KEY (idUser) REFERENCES dbo.[User](idUser)
+
+SELECT * FROM dbo.InvoiceReturn
 
 CREATE TABLE DetailInvoiceReturn
 (
@@ -161,6 +166,7 @@ select D.detailsInvoice, P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,
                 join Color C on C.idColor = De.idColor
                 join Material M on M.idMaterial = De.idMaterial
                 where D.idInvoice = 1
+
 SELECT idDetailsInvoiceSELL, nameProduct, name, valueSize, valueColor, valueMaterial, detailsInvoiceSELL.quatity, detailsInvoiceSELL.price  FROM dbo.detailsInvoiceSELL 
 JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
 JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
@@ -191,11 +197,22 @@ UPDATE dbo.Account SET password = ? WHERE idUser = ?
 SELECT * FROM dbo.Voucher
 
 
-
-
-
-
-
+INSERT dbo.InvoiceReturn(idInvoiceSell,idCustomer, description,totalReturn)
+VALUES(?,?,?,?)
+SELECT * FROM dbo.DetailInvoiceReturn
+INSERT INTO dbo.DetailInvoiceReturn
+(idInvoiceReturn,idPrDetails,quatity,price)
+VALUES
+((SELECT TOP 1 idInvoiceReturn FROM dbo.InvoiceReturn ORDER BY idInvoiceReturn DESC),?,?,?)
+--INSERT dbo.DetailInvoiceReturn( idInvoiceReturn, idPrDetails,quatity, price)VALUES(?,?,?,?)
+SELECT * FROM dbo.DetailInvoiceReturn
+SELECT idDetailInvoiceReturn, nameProduct, name, valueSize, valueColor, valueMaterial, DetailInvoiceReturn.quatity, detailsProduct.price * DetailInvoiceReturn.quatity AS N'Price' FROM dbo.DetailInvoiceReturn JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceReturn = DetailInvoiceReturn.idDetailInvoiceReturn
+JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer
+JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = DetailInvoiceReturn.idPrDetails
+JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct
+JOIN dbo.Size ON Size.idSize = detailsProduct.idSize JOIN dbo.Color ON Color.idColor = detailsProduct.idColor
+JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial 
+WHERE dbo.DetailInvoiceReturn.idInvoiceReturn = 7
 
 
 

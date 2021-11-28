@@ -11,7 +11,7 @@ package com.fpt.entity;
  */
 public class DetailInvoiceSell {
 
-    private int idDetailsInvoiceSell, idInvoiceSell, idPrDetails, quantity;
+    private int idDetailsInvoiceSell, idProduct, idInvoiceSell, idPrDetails, quantity, valueVoucher;
     private double price;
     private String valueSize, valueColor, valueMaterial, nameProduct, nameCustomer;
 
@@ -19,6 +19,23 @@ public class DetailInvoiceSell {
         return nameCustomer;
     }
 
+    public int getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idProduct;
+    }
+
+    public int getValueVoucher() {
+        return valueVoucher;
+    }
+
+    public void setValueVoucher(int valueVoucher) {
+        this.valueVoucher = valueVoucher;
+    }
+
+    
     public void setNameCustomer(String nameCustomer) {
         this.nameCustomer = nameCustomer;
     }

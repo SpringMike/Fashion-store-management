@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -110,6 +111,24 @@ public class Validate {
             }
         } catch (Exception e) {
             MsgBox.labelAlert(lbl, field, "Không được nhập chữ!!!");
+            check = false;
+        }
+        return check;
+    }
+    
+    public static boolean checkNumber(JComponent component, JTextField field, String mess) {
+        boolean check = true;
+        if (!checkEmpty(component, field, "Chưa nhập!!!")) {
+            return false;
+        }
+        try {
+            int intNumber = Integer.parseInt(field.getText());
+            double doubleNumber = Double.parseDouble(field.getText());
+            if (intNumber <= 0 || doubleNumber <= 0) {
+                MsgBox.alert( field, mess);
+            }
+        } catch (Exception e) {
+            MsgBox.alert(field, "Không được nhập chữ!!!");
             check = false;
         }
         return check;
