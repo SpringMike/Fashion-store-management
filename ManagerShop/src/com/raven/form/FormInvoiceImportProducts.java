@@ -10,8 +10,11 @@ import com.fpt.entity.InvoiceImport;
 import com.fpt.entity.InvoiceSell;
 import com.fpt.entity.ProductItem;
 import com.fpt.entity.User;
+import com.fpt.utils.Excel;
+import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import com.raven.JFrame.FormDetailInvoice;
+import java.io.IOException;
 import java.util.Date;
 
 import java.util.List;
@@ -307,11 +310,20 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchIdActionPerformed
-      fillSearch();
+        fillSearch();
     }//GEN-LAST:event_btnSearchIdActionPerformed
 
+    public void excelInvoice() throws IOException {
+        Excel.outputFile((DefaultTableModel) tableInvoice.getModel());
+        MsgBox.alert(this, "Xuất file thành công");
+    }
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
         // TODO add your handling code here:
+        try {
+            excelInvoice();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_myButton6ActionPerformed
 
     private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed
@@ -331,7 +343,7 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
             int row = tableInvoice.getSelectedRow();
             int id = (int) tableInvoice.getValueAt(row, 0);
             float totalMoney = (float) tableInvoice.getValueAt(row, 4);
-            new FormDetailInvoice(id,totalMoney).setVisible(true);
+            new FormDetailInvoice(id, totalMoney).setVisible(true);
         }
     }//GEN-LAST:event_tableInvoiceMouseClicked
 

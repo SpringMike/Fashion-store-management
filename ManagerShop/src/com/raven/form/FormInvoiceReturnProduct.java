@@ -7,7 +7,10 @@ package com.raven.form;
 
 import com.fpt.DAO.ReturnProductDAO;
 import com.fpt.entity.InvoiceRetuns;
+import com.fpt.utils.Excel;
+import com.fpt.utils.MsgBox;
 import com.raven.JFrame.FormDetailInvoiceReturn;
+import java.io.IOException;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,10 +29,10 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
         fillTableInvoiceRetuns();
 
     }
-    
+
     ReturnProductDAO productDAO = new ReturnProductDAO();
-    
-    public void fillTableInvoiceRetuns(){
+
+    public void fillTableInvoiceRetuns() {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         List<InvoiceRetuns> list = productDAO.selectAll();
@@ -77,6 +80,11 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
 
         btnSearch2.setText("Xuất");
         btnSearch2.setRadius(20);
+        btnSearch2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearch2ActionPerformed(evt);
+            }
+        });
 
         btnSearch3.setText("Thêm");
         btnSearch3.setRadius(20);
@@ -196,12 +204,25 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
 
     private void tableShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount() == 2){
+        if (evt.getClickCount() == 2) {
             int row = tableShow.getSelectedRow();
             int id = (int) tableShow.getValueAt(row, 0);
             new FormDetailInvoiceReturn(id).setVisible(true);
         }
     }//GEN-LAST:event_tableShowMouseClicked
+
+    public void excelReturn() throws IOException {
+        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        MsgBox.alert(this, "Xuất file thành công");
+    }
+    private void btnSearch2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch2ActionPerformed
+        // TODO add your handling code here:
+        try {
+            excelReturn();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnSearch2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

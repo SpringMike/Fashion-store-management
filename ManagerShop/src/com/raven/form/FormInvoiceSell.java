@@ -7,8 +7,11 @@ package com.raven.form;
 
 import com.fpt.DAO.InvoiceSellDAO;
 import com.fpt.entity.InvoiceSell;
+import com.fpt.utils.Excel;
+import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import com.raven.JFrame.FormDetailInvoiceSell;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -261,8 +264,17 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_myButton5ActionPerformed
 
+    public void excelSell() throws IOException {
+        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        MsgBox.alert(this, "Xuất file thành công");
+    }
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
         // TODO add your handling code here:
+        try {
+            excelSell();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_myButton6ActionPerformed
 
     private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed

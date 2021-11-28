@@ -138,6 +138,9 @@
             <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearch2ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="com.raven.suportSwing.MyButton" name="btnSearch3">
           <Properties>

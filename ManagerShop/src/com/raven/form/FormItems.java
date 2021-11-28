@@ -8,6 +8,7 @@ package com.raven.form;
 import com.fpt.DAO.ProductItemDAO;
 import com.fpt.entity.ProductItem;
 import com.fpt.entity.User;
+import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import com.raven.JFrame.FormImportEmpolyeeJFrame;
@@ -22,6 +23,7 @@ import com.raven.swing.PopupMenu;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -348,7 +350,7 @@ public class FormItems extends javax.swing.JPanel {
             }
         });
 
-        myButton4.setText("Export");
+        myButton4.setText("Xuất");
         myButton4.setRadius(20);
         myButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -493,9 +495,16 @@ public class FormItems extends javax.swing.JPanel {
 
 
     }//GEN-LAST:event_myButton3ActionPerformed
-
+    public void excelItems() throws IOException {
+        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        MsgBox.alert(this, "Xuất file thành công");
+    }
     private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton4ActionPerformed
         // TODO add your handling code here:
+        try {
+            excelItems();
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_myButton4ActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -517,7 +526,6 @@ public class FormItems extends javax.swing.JPanel {
             String size = tableShow.getValueAt(index, 5).toString();
             String color = tableShow.getValueAt(index, 6).toString();
             String material = tableShow.getValueAt(index, 7).toString();
-
 
             formUpdateItemJframe = new FormUpdateItemJfame(nameProduct, size, color, material, price, idProductItem);
             formUpdateItemJframe.addEvenUpdate(new ActionListener() {

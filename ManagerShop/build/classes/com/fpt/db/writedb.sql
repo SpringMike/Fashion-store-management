@@ -206,7 +206,7 @@ VALUES
 ((SELECT TOP 1 idInvoiceReturn FROM dbo.InvoiceReturn ORDER BY idInvoiceReturn DESC),?,?,?)
 --INSERT dbo.DetailInvoiceReturn( idInvoiceReturn, idPrDetails,quatity, price)VALUES(?,?,?,?)
 SELECT * FROM dbo.DetailInvoiceReturn
-SELECT idDetailInvoiceReturn, nameProduct, name, valueSize, valueColor, valueMaterial, DetailInvoiceReturn.quatity, detailsProduct.price * DetailInvoiceReturn.quatity AS N'Price' FROM dbo.DetailInvoiceReturn JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceReturn = DetailInvoiceReturn.idDetailInvoiceReturn
+SELECT idDetailInvoiceReturn, nameProduct, name, valueSize, valueColor, valueMaterial, DetailInvoiceReturn.quatity, detailsProduct.price * DetailInvoiceReturn.quatity AS N'price' FROM dbo.DetailInvoiceReturn JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceReturn = DetailInvoiceReturn.idDetailInvoiceReturn
 JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer
 JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = DetailInvoiceReturn.idPrDetails
 JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct

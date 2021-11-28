@@ -436,7 +436,7 @@
         </Component>
         <Component class="com.raven.suportSwing.MyButton" name="myButton4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Export"/>
+            <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
           <Events>

@@ -5,6 +5,11 @@
  */
 package com.raven.form;
 
+import com.fpt.utils.Excel;
+import com.fpt.utils.MsgBox;
+import java.io.IOException;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ducit
@@ -32,7 +37,8 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
         combobox1 = new com.raven.suportSwing.Combobox();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableColumn1 = new com.raven.suportSwing.TableColumn();
+        tableShow = new com.raven.suportSwing.TableColumn();
+        myButton5 = new com.raven.suportSwing.MyButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -47,7 +53,7 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel1.setText("Thống Kê Doanh Thu");
 
-        tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
+        tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -58,7 +64,15 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
                 "Tháng ", "Sản phẩm bán", "Tổng giá bán", "Tổng Giá Vốn", "Tổng giá đã giảm", "Doanh Thu"
             }
         ));
-        jScrollPane1.setViewportView(tableColumn1);
+        jScrollPane1.setViewportView(tableShow);
+
+        myButton5.setText("Xuất");
+        myButton5.setRadius(20);
+        myButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -69,35 +83,55 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addContainerGap(697, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(40, 40, 40)
+                .addGap(2, 2, 2)
+                .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)))
+                        .addContainerGap(352, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void excel() throws IOException {
+        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        MsgBox.alert(this, "Xuất file thành công");
+    }
     private void combobox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_combobox1ActionPerformed
+
+    private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton5ActionPerformed
+        // TODO add your handling code here:
+        try {
+            excel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_myButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.Combobox combobox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private com.raven.suportSwing.TableColumn tableColumn1;
+    private com.raven.suportSwing.MyButton myButton5;
+    private com.raven.suportSwing.TableColumn tableShow;
     // End of variables declaration//GEN-END:variables
 }
