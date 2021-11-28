@@ -66,8 +66,12 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         txtColorAdd.setVisible(false);
         txtMaterialAdd.setVisible(false);
         txtSizeAdd.setVisible(false);
+        lblColor.setVisible(false);
+        lblMaterialAdd.setVisible(false);
+        lblSizeAdd.setVisible(false);
         lblMaterialAdd.setVisible(false);
         lblPrice.setVisible(false);
+
     }
     SizeDAO sDao = new SizeDAO();
     ColorDAO cDao = new ColorDAO();

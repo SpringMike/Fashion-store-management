@@ -343,6 +343,9 @@
             <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblnameSupplier">
           <Properties>

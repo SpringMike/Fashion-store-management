@@ -35,6 +35,8 @@ public class SupplierDao extends ShopDAO<Supplier, Integer> {
 
     @Override
     public void delete(Integer k) {
+        String sql = "DELETE FROM Supplier WHERE idSupplier = ?";
+        jdbcHelper.update(sql, k);
     }
 
     @Override
