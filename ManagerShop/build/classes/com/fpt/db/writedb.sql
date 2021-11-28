@@ -215,6 +215,14 @@ JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
 WHERE dbo.DetailInvoiceReturn.idInvoiceReturn = 7
 
 
+SELECT InvoiceSell.idInvoiceSell, idPrDetails, nameProduct, detailsInvoiceSELL.quatity, valueSize, valueColor, valueMaterial, detailsInvoiceSELL.price, name, Customer.idCustomer  FROM dbo.detailsInvoiceSELL
+JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
+JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
+JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails
+JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct JOIN dbo.Size ON Size.idSize = detailsProduct.idSize
+JOIN dbo.Color ON Color.idColor = detailsProduct.idColor JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
+WHERE detailsInvoiceSELL.idInvoiceSell = 41 AND detailsInvoiceSELL.quatity > 0 AND InvoiceSell.idInvoiceSell NOT IN (SELECT idInvoiceSell FROM dbo.InvoiceReturn)
+
 
 
 

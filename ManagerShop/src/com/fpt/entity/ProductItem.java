@@ -4,6 +4,8 @@
  */
 package com.fpt.entity;
 
+import java.util.Date;
+
 /**
  *
  * @author Administrator
@@ -28,6 +30,15 @@ public class ProductItem {
     private String ProductName;
     private String nameCustomer;
     private String categoryName;
+    private Date dateCreateInvoice;
+
+    public Date getDateCreateInvoice() {
+        return dateCreateInvoice;
+    }
+
+    public void setDateCreateInvoice(Date dateCreateInvoice) {
+        this.dateCreateInvoice = dateCreateInvoice;
+    }
 
     public ProductItem() {
     }

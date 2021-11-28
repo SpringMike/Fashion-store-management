@@ -12,6 +12,7 @@ import com.fpt.entity.ProductItem;
 import com.fpt.helper.jdbcHelper;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -86,6 +87,7 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, String> {
                 p.setProductName(rs.getString("nameProduct"));
                 p.setNameCustomer(rs.getString("name"));
                 p.setIdCustomer(rs.getInt("idCustomer"));
+                p.setDateCreateInvoice(rs.getDate("dateCreateInvoice"));
                 list.add(p);
             }
         } catch (Exception e) {
@@ -95,13 +97,13 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, String> {
     }
 
     public List<ProductItem> selectByIdInvoiceReturn(int id) {
-        String sql = "SELECT InvoiceSell.idInvoiceSell, idPrDetails, nameProduct, detailsInvoiceSELL.quatity, valueSize, valueColor, valueMaterial, detailsInvoiceSELL.price, name, Customer.idCustomer  FROM dbo.detailsInvoiceSELL\n"
-                + "                JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell\n"
-                + "                JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer\n"
-                + "                JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails\n"
-                + "                JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct JOIN dbo.Size ON Size.idSize = detailsProduct.idSize\n"
-                + "                JOIN dbo.Color ON Color.idColor = detailsProduct.idColor JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial\n"
-                + "                WHERE detailsInvoiceSELL.idInvoiceSell = ? AND detailsInvoiceSELL.quatity > 0";
+        String sql = "SELECT InvoiceSell.idInvoiceSell, idPrDetails, nameProduct, detailsInvoiceSELL.quatity, valueSize, valueColor, valueMaterial, detailsInvoiceSELL.price, name, Customer.idCustomer, dateCreateInvoice  FROM dbo.detailsInvoiceSELL\n"
+                + "                        JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell\n"
+                + "                               JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer\n"
+                + "                         JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails\n"
+                + "                           JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct JOIN dbo.Size ON Size.idSize = detailsProduct.idSize\n"
+                + "                              JOIN dbo.Color ON Color.idColor = detailsProduct.idColor JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial\n"
+                + "                               WHERE detailsInvoiceSELL.idInvoiceSell = ? AND detailsInvoiceSELL.quatity > 0";
 
         return selectBySql1(sql, id);
     }
@@ -111,5 +113,10 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, String> {
                 + "SET quatity -= ? \n"
                 + "WHERE idInvoiceSell = ?;";
         jdbcHelper.update(sql, quantity, id);
+    }
+    
+    public List<InvoiceRetuns> fillDate(Date date){
+        String sql = "SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer WHERE dateCreateInvoice = ? ";
+        return selectBySql(sql, date);
     }
 }
