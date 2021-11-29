@@ -5,6 +5,24 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.StatisticalDAO;
+import com.fpt.utils.Excel;
+import com.fpt.utils.MsgBox;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.IOException;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 /**
  *
  * @author ducit
@@ -17,7 +35,40 @@ public class FormSalesStatistics extends javax.swing.JPanel {
     public FormSalesStatistics() {
         initComponents();
         setOpaque(false);
+        fillComboboxYears();
+    }
+    StatisticalDAO sDao = new StatisticalDAO();
 
+    public void fillComboboxYears() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cbbYear.getModel();
+        model.removeAllElements();
+        List<Integer> list = sDao.selectYears();
+        for (Integer year : list) {
+            model.addElement(year);
+        }
+    }
+
+    public void fillComboboxMonths() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cbbMonth.getModel();
+        model.removeAllElements();
+        int years = (int) cbbYear.getSelectedItem();
+
+        List<Integer> list = sDao.selectMonths(years);
+        for (Integer year : list) {
+            model.addElement(year);
+        }
+        fillTable();
+    }
+
+    public void fillTable() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        int year = (int) cbbYear.getSelectedItem();
+        int month = (int) cbbMonth.getSelectedItem();
+        List<Object[]> list = sDao.getSalesStatisticalDAO(year, month);
+        for (Object[] row : list) {
+            model.addRow(row);
+        }
     }
 
     /**
@@ -30,29 +81,45 @@ public class FormSalesStatistics extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        combobox1 = new com.raven.suportSwing.Combobox();
-        combobox2 = new com.raven.suportSwing.Combobox();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        cbbYear = new com.raven.suportSwing.Combobox();
+        cbbMonth = new com.raven.suportSwing.Combobox();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableColumn1 = new com.raven.suportSwing.TableColumn();
+        tableShow = new com.raven.suportSwing.TableColumn();
+        myButton6 = new com.raven.suportSwing.MyButton();
+        myButton7 = new com.raven.suportSwing.MyButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        combobox1.setToolTipText("");
-        combobox1.setLabeText("Năm");
+        cbbYear.setToolTipText("");
+        cbbYear.setLabeText("Năm");
+        cbbYear.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbYearItemStateChanged(evt);
+            }
+        });
+        cbbYear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbYearActionPerformed(evt);
+            }
+        });
 
-        combobox2.setLabeText("Tháng");
-
-        jLabel2.setText("Năm");
-
-        jLabel3.setText("Tháng");
+        cbbMonth.setLabeText("Tháng");
+        cbbMonth.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbMonthItemStateChanged(evt);
+            }
+        });
+        cbbMonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbMonthActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel1.setText("Thống kê doanh số");
 
-        tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
+        tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -63,7 +130,23 @@ public class FormSalesStatistics extends javax.swing.JPanel {
                 "Mã Sản Phẩm", "Tên Sản Phẩm", "Số lượng bán"
             }
         ));
-        jScrollPane1.setViewportView(tableColumn1);
+        jScrollPane1.setViewportView(tableShow);
+
+        myButton6.setText("Xuất");
+        myButton6.setRadius(20);
+        myButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton6ActionPerformed(evt);
+            }
+        });
+
+        myButton7.setText("Xuất");
+        myButton7.setRadius(20);
+        myButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -73,35 +156,38 @@ public class FormSalesStatistics extends javax.swing.JPanel {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(combobox2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(161, 161, 161))))
+                            .addComponent(cbbYear, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(combobox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(81, Short.MAX_VALUE))
+                        .addComponent(cbbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -120,15 +206,82 @@ public class FormSalesStatistics extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void excel() throws IOException {
+        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        MsgBox.alert(this, "Xuất file thành công");
+    }
+    private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
+        // TODO add your handling code here:
+        try {
+            excel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_myButton6ActionPerformed
+
+    private void cbbYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbYearActionPerformed
+        // TODO add your handling code here:
+        fillComboboxMonths();
+//        fillTable();
+    }//GEN-LAST:event_cbbYearActionPerformed
+
+    private void cbbMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbMonthActionPerformed
+        // TODO add your handling code here:
+        if (cbbMonth.getSelectedItem() == null) {
+            return;
+        } else {
+            fillTable();
+        }
+//        fillTable();
+    }//GEN-LAST:event_cbbMonthActionPerformed
+
+    private void cbbMonthItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbMonthItemStateChanged
+        // TODO add your handling code here:
+//        fillTable();
+    }//GEN-LAST:event_cbbMonthItemStateChanged
+
+    private void cbbYearItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbYearItemStateChanged
+        // TODO add your handling code here:
+//        fillComboboxMonths();
+    }//GEN-LAST:event_cbbYearItemStateChanged
+
+    private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed
+        // TODO add your handling code here:
+
+        DefaultCategoryDataset dcd = new DefaultCategoryDataset();
+        dcd.setValue(78.80, "Marks", "Ganesh");
+        dcd.setValue(68.80, "Marks", "Dinesh");
+        dcd.setValue(88.80, "Marks", "John");
+        dcd.setValue(98.80, "Marks", "Ali");
+        dcd.setValue(58.80, "Marks", "Sachin");
+        JFreeChart jchart = ChartFactory.createBarChart("Student Record", "Student Name", "Student Marks", dcd, PlotOrientation.VERTICAL, true, true, false);
+
+        CategoryPlot plot = jchart.getCategoryPlot();
+        plot.setRangeGridlinePaint(Color.black);
+        ChartFrame charFrm = new ChartFrame("Student Record", jchart, true);
+        charFrm.setVisible(true);
+        charFrm.setSize(500, 400);
+        charFrm.setLocationRelativeTo(null);
+        ChartPanel chartPanel = new ChartPanel(jchart);
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        int height = screenSize.height;
+//        int width = screenSize.width;
+//        charFrm.setSize(width / 2, height / 2);
+        jPanel1.add(chartPanel);
+//        jPanel1.removeAll();
+        jPanel1.updateUI();
+
+    }//GEN-LAST:event_myButton7ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.raven.suportSwing.Combobox combobox1;
-    private com.raven.suportSwing.Combobox combobox2;
+    private com.raven.suportSwing.Combobox cbbMonth;
+    private com.raven.suportSwing.Combobox cbbYear;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private com.raven.suportSwing.TableColumn tableColumn1;
+    private com.raven.suportSwing.MyButton myButton6;
+    private com.raven.suportSwing.MyButton myButton7;
+    private com.raven.suportSwing.TableColumn tableShow;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,7 +9,9 @@ import com.fpt.DAO.SupplierDao;
 import com.fpt.Validate.Validate;
 import com.fpt.Validate.labelValidate;
 import com.fpt.entity.Supplier;
+import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
+import java.io.IOException;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -167,6 +169,7 @@ public class FormSupplier extends javax.swing.JPanel {
         txtSearch = new com.raven.suportSwing.TextField();
         myButton2 = new com.raven.suportSwing.MyButton();
         lblSearch = new javax.swing.JLabel();
+        myButton4 = new com.raven.suportSwing.MyButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
@@ -205,6 +208,14 @@ public class FormSupplier extends javax.swing.JPanel {
         lblSearch.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         lblSearch.setForeground(new java.awt.Color(255, 51, 0));
 
+        myButton4.setText("Xuất");
+        myButton4.setRadius(20);
+        myButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -218,7 +229,9 @@ public class FormSupplier extends javax.swing.JPanel {
                         .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
                         .addGap(31, 31, 31)
                         .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(459, 459, 459))
+                        .addGap(239, 239, 239)
+                        .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(141, 141, 141))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -234,7 +247,9 @@ public class FormSupplier extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -488,6 +503,19 @@ public class FormSupplier extends javax.swing.JPanel {
         searchSupplier();
     }//GEN-LAST:event_txtSearchKeyPressed
 
+    public void excelSupplier() throws IOException {
+        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        MsgBox.alert(this, "Xuất file thành công");
+    }
+    private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton4ActionPerformed
+        // TODO add your handling code here:
+        try {
+            excelSupplier();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_myButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnAdd;
@@ -504,6 +532,7 @@ public class FormSupplier extends javax.swing.JPanel {
     private javax.swing.JLabel lblnameSupplier;
     private com.raven.suportSwing.MyButton myButton2;
     private com.raven.suportSwing.MyButton myButton3;
+    private com.raven.suportSwing.MyButton myButton4;
     private com.raven.suportSwing.TableColumn tableShow;
     private com.raven.suportSwing.TextField txtAddress;
     private com.raven.suportSwing.TextField txtPhoneNumber;

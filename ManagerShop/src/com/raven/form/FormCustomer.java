@@ -10,9 +10,11 @@ import com.fpt.Validate.Validate;
 import com.fpt.Validate.labelValidate;
 import com.fpt.entity.Customer;
 import com.fpt.entity.User;
+import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import com.raven.dialog.Message;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -151,10 +153,11 @@ public class FormCustomer extends javax.swing.JPanel {
         Customer c = cDao.selectById(ma);
         setForm(c);
     }
-    
-    public void addEvenFillTable(ActionListener evt){
+
+    public void addEvenFillTable(ActionListener evt) {
         fillTable();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -170,6 +173,7 @@ public class FormCustomer extends javax.swing.JPanel {
         txtTimkiem = new com.raven.suportSwing.TextField();
         btnTim = new com.raven.suportSwing.MyButton();
         lblTimKiem = new javax.swing.JLabel();
+        btnTim1 = new com.raven.suportSwing.MyButton();
         jPanel2 = new javax.swing.JPanel();
         scrollBar1 = new com.raven.suportSwing.ScrollBar();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -213,7 +217,7 @@ public class FormCustomer extends javax.swing.JPanel {
             }
         });
 
-        btnTim.setText("Tìm");
+        btnTim.setText("Xuất");
         btnTim.setRadius(20);
         btnTim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -222,6 +226,14 @@ public class FormCustomer extends javax.swing.JPanel {
         });
 
         lblTimKiem.setForeground(new java.awt.Color(225, 0, 0));
+
+        btnTim1.setText("Tìm");
+        btnTim1.setRadius(20);
+        btnTim1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTim1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -232,11 +244,13 @@ public class FormCustomer extends javax.swing.JPanel {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtTimkiem, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+                    .addComponent(txtTimkiem, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
                     .addComponent(lblTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(31, 31, 31)
+                .addGap(42, 42, 42)
+                .addComponent(btnTim1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnTim, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(474, 474, 474))
+                .addGap(381, 381, 381))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,8 +262,10 @@ public class FormCustomer extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtTimkiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTim1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtTimkiem, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTimKiem))
         );
@@ -450,7 +466,7 @@ public class FormCustomer extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -460,7 +476,7 @@ public class FormCustomer extends javax.swing.JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -546,12 +562,26 @@ public class FormCustomer extends javax.swing.JPanel {
         fillTableWhenFind();
     }//GEN-LAST:event_txtTimkiemKeyReleased
 
+    public void excelCustomer() throws IOException {
+        Excel.outputFile((DefaultTableModel) tableCustomer.getModel());
+        MsgBox.alert(this, "Xuất file thành công");
+    }
+    private void btnTim1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTim1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            excelCustomer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnTim1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnCapNhap;
     private com.raven.suportSwing.MyButton btnClear;
     private com.raven.suportSwing.MyButton btnThem;
     private com.raven.suportSwing.MyButton btnTim;
+    private com.raven.suportSwing.MyButton btnTim1;
     private com.raven.suportSwing.MyButton btnXoa;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel2;

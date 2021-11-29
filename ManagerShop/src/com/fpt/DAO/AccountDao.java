@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author minht
  */
-public class AccountDao extends ShopDAO<Account, Integer >{
+public class AccountDao extends ShopDAO<Account, Integer> {
 
     private String INSERT_SQL_ACCOUNT = "INSERT INTO dbo.Account\n"
             + "(idUser,Username,password)\n"
@@ -32,7 +32,8 @@ public class AccountDao extends ShopDAO<Account, Integer >{
 
     @Override
     public void update(Account e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "UPDATE dbo.Account SET password = ? WHERE idUser = ?";
+        jdbcHelper.update(sql, e.getPassWord(), e.getIdUser());
     }
 
     @Override
@@ -68,6 +69,15 @@ public class AccountDao extends ShopDAO<Account, Integer >{
     @Override
     public Account selectById(Integer k) {
         List<Account> list = this.selectBySql(SELECT_BY_ID, k);
+        if (list.isEmpty()) {
+            return null;
+        } else {
+            return list.get(0);
+        }
+    }
+
+    public Account selectByIdUser(Integer k) {
+        List<Account> list = this.selectBySql("select * from Account where idUser = ?", k);
         if (list.isEmpty()) {
             return null;
         } else {

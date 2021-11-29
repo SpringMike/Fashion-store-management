@@ -57,7 +57,9 @@
                           <Component id="txtSearch" pref="387" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="myButton2" min="-2" pref="79" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="459" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="239" max="-2" attributes="0"/>
+                          <Component id="myButton4" min="-2" pref="79" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="141" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="lblSearch" min="-2" pref="286" max="-2" attributes="0"/>
@@ -79,7 +81,10 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="myButton2" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="myButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="myButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <Component id="txtSearch" max="32767" attributes="0"/>
                           </Group>
@@ -127,6 +132,15 @@
               <Color blue="0" green="33" red="ff" type="rgb"/>
             </Property>
           </Properties>
+        </Component>
+        <Component class="com.raven.suportSwing.MyButton" name="myButton4">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t"/>
+            <Property name="radius" type="int" value="20"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton4ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

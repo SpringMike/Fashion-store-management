@@ -5,8 +5,10 @@
  */
 package com.fpt.DAO;
 
+import com.fpt.entity.InvoiceImport;
 import com.fpt.entity.InvoiceSell;
 import com.fpt.helper.jdbcHelper;
+import com.fpt.utils.XDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
@@ -43,7 +45,13 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
 
     @Override
     public InvoiceSell selectById(Integer k) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer \n"
+                + "where idInvoiceSell = ?";
+        List<InvoiceSell> list = selectBySql(sql, k);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
     }
 
     @Override
@@ -89,10 +97,48 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
         return null;
     }
 
-    public List<InvoiceSell> fillDate(java.util.Date date) {
-        String sql = " SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer\n"
-                + "WHERE dateCreateInvoice = ?";
-        return selectBySql(sql, date);
+    public int totalPage(String Stringdate) {
+        ResultSet rs;
+        if (!Stringdate.isEmpty()) {
+            java.util.Date date = XDate.toDate(Stringdate, "dd-MM-yyyy");
+            String sql = " select count(*) as soLuong from InvoiceSell where dateCreateInvoice = ?";
+            try {
+                rs = jdbcHelper.query(sql, date);
+                while (rs.next()) {
+                    return rs.getInt("soLuong");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        String sql = "select count(*) as soLuong from InvoiceSell";
+        try {
+            rs = jdbcHelper.query(sql);
+            while (rs.next()) {
+                return rs.getInt("soLuong");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
+
+    public List<InvoiceSell> pagingPage(int page, int pageSize, String Stringdate) {
+        if (!Stringdate.isEmpty()) {
+            java.util.Date date = XDate.toDate(Stringdate, "dd-MM-yyyy");
+            String sql = " SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer \n"
+                    + " where dateCreateInvoice =?\n"
+                    + "order by idInvoiceSell OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+            return selectBySql(sql, date, (page - 1) * pageSize, pageSize);
+        }
+        String sql = "SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer \n"
+                + "order by idInvoiceSell OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+        return selectBySql(sql, (page - 1) * pageSize, pageSize);
+    }
+
+//    public List<Integer> selectByMonths(int month) {
+//        String sql = "SELECT * FROM dbo.InvoiceSell WHERE MONTH(dateCreateInvoice) = ?";
+//        return selectBySql(sql, month);
+//    }
 
 }

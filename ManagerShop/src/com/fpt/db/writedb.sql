@@ -50,6 +50,7 @@ ALTER TABLE dbo.InvoiceImportPr ADD idSupplier INT
 ALTER TABLE dbo.InvoiceImportPr ADD FOREIGN KEY (idSupplier) REFERENCES dbo.Supplier(idSupplier)
 ALTER TABLE dbo.InvoiceImportPr ADD description NVARCHAR(255)
 ALTER TABLE dbo.detailsInvoiceImportPr ADD priceImport MONEY
+ALTER TABLE dbo.InvoiceSell ADD totalMoney MONEY
 
 ------------------------------------------------------------------------------------------------------
 
@@ -81,6 +82,54 @@ CREATE TABLE detailsInvoiceSELL
 )
 GO
 ----------------------------------------------------- END --------------------------------------------
+--26/11/2021
+ALTER TABLE dbo.InvoiceSell ADD totalMoney MONEY
+-----------------------------------------------
+--27/11/2021
+CREATE TABLE InvoiceReturn
+(
+	idInvoiceReturn INT IDENTITY(1,1) PRIMARY KEY,
+	idInvoiceSell INT,
+	idCustomer INT, 
+	description NVARCHAR(255),
+	totalReturn MONEY,
+	FOREIGN KEY (idInvoiceSell) REFERENCES dbo.InvoiceSell(idInvoiceSell),
+	FOREIGN KEY (idCustomer) REFERENCES dbo.Customer(idCustomer),
+)
+GO
+ALTER TABLE dbo.InvoiceReturn ADD idUser INT
+ALTER TABLE dbo.InvoiceReturn ADD FOREIGN KEY (idUser) REFERENCES dbo.[User](idUser)
+
+SELECT * FROM dbo.InvoiceReturn
+
+CREATE TABLE DetailInvoiceReturn
+(
+	idDetailInvoiceReturn INT IDENTITY(1,1) PRIMARY KEY,
+	idInvoiceReturn INT,
+	idPrDetails INT,
+	quatity INT,
+	price MONEY,
+	FOREIGN KEY (idDetailInvoiceReturn) REFERENCES dbo.InvoiceReturn(idInvoiceReturn),
+	FOREIGN KEY (idPrDetails) REFERENCES dbo.detailsProduct(idPrDeltails)
+)
+GO
+
+ALTER TABLE dbo.InvoiceReturn ADD idUser INT
+ALTER TABLE dbo.InvoiceReturn ADD FOREIGN KEY(idUser) REFERENCES dbo.[User](idUser)
+
+ALTER TABLE dbo.InvoiceReturn ADD dateCreateInvoice DATE
+----------------------------------------------------------------------------------------
+--29/11/2021
+CREATE TABLE SaveMoney
+(
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	dateCreate DATE,
+	moneyReturn MONEY,
+	moneySell MONEY,
+	moneyImport MONEY,
+)
+GO
+
 
 SELECT * FROM dbo.InvoiceImportPr
 SELECT * FROM dbo.detailsInvoiceImportPr
@@ -94,7 +143,7 @@ select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quati
                  INNER JOIN Color C on C.idColor = D.idColor
                  INNER JOIN Products P on P.idProduct = D.idProduct
                  INNER JOIN List L  on L.idList = P.idList
-                 where D.status = 1 and D.quatity > 0
+                 where D.status = 1 and D.quatity > 0 AND P.nameProduct =?
 
 				 select I.*,name,S.nameMaterial from InvoiceImportPr I join [User] U on U.idUser = I.idAdmin
                 join Supplier S on S.idSupplier = I.idSupplier
@@ -127,24 +176,152 @@ select D.detailsInvoice, P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,
                 join Color C on C.idColor = De.idColor
                 join Material M on M.idMaterial = De.idMaterial
                 where D.idInvoice = 1
+
 SELECT idDetailsInvoiceSELL, nameProduct, name, valueSize, valueColor, valueMaterial, detailsInvoiceSELL.quatity, detailsInvoiceSELL.price  FROM dbo.detailsInvoiceSELL 
 JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
 JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
 JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails
 JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct JOIN dbo.Size ON Size.idSize = detailsProduct.idSize
 JOIN dbo.Color ON Color.idColor = detailsProduct.idColor JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
-WHERE detailsInvoiceSELL.idInvoiceSell = 1
+WHERE detailsInvoiceSELL.idInvoiceSell =9
 
+SELECT * FROM dbo.InvoiceSell
 SELECT idInvoiceSell, SUM(detailsInvoiceSELL.quatity * price)
 AS N'Total'
 FROM dbo.detailsInvoiceSELL
 GROUP BY idInvoiceSell
 HAVING idInvoiceSell = 4
 
+SELECT *FROM dbo.[User]
+
+UPDATE dbo.[User] SET name = ?, birthday = ?, gender = ?, phoneNumber = ?, address = ?,
+email = ? WHERE idUser = ?
+
 SELECT * FROM dbo.InvoiceSell JOIN dbo.Voucher ON Voucher.idVoucher = InvoiceSell.idVoucher
 
+SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
+WHERE dateCreateInvoice 
+SELECT * FROM dbo.InvoiceSell
+
+UPDATE dbo.Account SET password = ? WHERE idUser = ?
+SELECT * FROM dbo.Voucher
 
 
+INSERT dbo.InvoiceReturn(idInvoiceSell,idCustomer, description,totalReturn)
+VALUES(?,?,?,?)
+SELECT * FROM dbo.DetailInvoiceReturn
+INSERT INTO dbo.DetailInvoiceReturn
+(idInvoiceReturn,idPrDetails,quatity,price)
+VALUES
+((SELECT TOP 1 idInvoiceReturn FROM dbo.InvoiceReturn ORDER BY idInvoiceReturn DESC),?,?,?)
+--INSERT dbo.DetailInvoiceReturn( idInvoiceReturn, idPrDetails,quatity, price)VALUES(?,?,?,?)
+SELECT * FROM dbo.DetailInvoiceReturn
+SELECT idDetailInvoiceReturn, nameProduct, name, valueSize, valueColor, valueMaterial, DetailInvoiceReturn.quatity, detailsProduct.price * DetailInvoiceReturn.quatity AS N'price' FROM dbo.DetailInvoiceReturn JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceReturn = DetailInvoiceReturn.idDetailInvoiceReturn
+JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer
+JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = DetailInvoiceReturn.idPrDetails
+JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct
+JOIN dbo.Size ON Size.idSize = detailsProduct.idSize JOIN dbo.Color ON Color.idColor = detailsProduct.idColor
+JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial 
+WHERE dbo.DetailInvoiceReturn.idInvoiceReturn = 7
+
+
+SELECT InvoiceSell.idInvoiceSell, idPrDetails, nameProduct, detailsInvoiceSELL.quatity, valueSize, valueColor, valueMaterial, detailsInvoiceSELL.price, name, Customer.idCustomer, dateCreateInvoice  FROM dbo.detailsInvoiceSELL
+JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
+JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
+JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails
+JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct JOIN dbo.Size ON Size.idSize = detailsProduct.idSize
+JOIN dbo.Color ON Color.idColor = detailsProduct.idColor JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
+WHERE detailsInvoiceSELL.idInvoiceSell = 9 AND detailsInvoiceSELL.quatity > 0 AND InvoiceSell.idInvoiceSell NOT IN (SELECT idInvoiceSell FROM dbo.InvoiceReturn)
+
+SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer WHERE dateCreateInvoice = ?
+
+--------------------------------------------------
+IF OBJECT_ID('sp_statistical') IS NOT NULL
+DROP PROC sp_statistical;
+GO
+CREATE PROC sp_statistical
+(@year INT, @month int)
+AS
+	BEGIN
+	SELECT Products.idProduct  idProduct,nameProduct nameProduct, Sum(detailsInvoiceSELL.quatity) quantitySell  FROM dbo.detailsProduct 
+	JOIN dbo.detailsInvoiceSELL ON detailsInvoiceSELL.idPrDetails = detailsProduct.idPrDeltails
+	JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
+	JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct
+	WHERE YEAR(dateCreateInvoice) = @year AND MONTH(dateCreateInvoice) = @month
+	GROUP BY Products.idProduct, nameProduct
+END;
+
+EXEC dbo.sp_statistical @year = 2021, -- int
+                        @month = 10 -- int
+---------------------------
+IF OBJECT_ID('sp_revenue') IS NOT NULL
+DROP PROC sp_revenue
+GO
+CREATE PROC sp_revenue
+(@year int)
+AS
+BEGIN
+	SELECT MONTH(InvoiceSell.dateCreateInvoice) MonthDate , SUM(detailsInvoiceSELL.quatity) quantity,
+	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) totalSell, SUM(totalReturn) totalReturn, 
+	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) revenue
+	FROM dbo.detailsInvoiceSELL  
+	JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
+	LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell
+	WHERE YEAR(InvoiceSell.dateCreateInvoice) = 2021
+	GROUP BY MONTH(InvoiceSell.dateCreateInvoice)
+END
+EXEC dbo.sp_revenue @year = 2021 -- int
+
+-- thầy view
+	SELECT MONTH(InvoiceSell.dateCreateInvoice) MonthDate , SUM(detailsInvoiceSELL.quatity) quantity,
+	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) totalSell, SUM(totalReturn) totalReturn, 
+	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) revenue
+	FROM dbo.detailsInvoiceSELL  
+	JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
+	LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell
+	JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails
+	JOIN dbo.detailsInvoiceImportPr ON detailsInvoiceImportPr.idPrDeltails = detailsProduct.idPrDeltails
+	JOIN dbo.InvoiceImportPr ON InvoiceImportPr.idInvoice = detailsInvoiceImportPr.idInvoice
+	WHERE YEAR(InvoiceSell.dateCreateInvoice) = @year
+	GROUP BY MONTH(InvoiceSell.dateCreateInvoice)
+-------------------------------
+IF OBJECT_ID('sp_demo') IS NOT NULL
+DROP PROC sp_demo
+GO
+CREATE PROC sp_demo
+(@year int)
+AS
+BEGIN
+    SELECT SUM(priceImport * quatity) TienNhap FROM dbo.detailsInvoiceImportPr JOIN dbo.InvoiceImportPr ON InvoiceImportPr.idInvoice = detailsInvoiceImportPr.idInvoice
+	WHERE YEAR(dateCreateInvoice) = 2021
+	GROUP BY MONTH(dateCreateInvoice)
+END
+
+EXEC dbo.sp_demo @year = 0 -- int
+
+
+IF OBJECT_ID('sp_Return') IS NOT NULL
+DROP FUNCTION sp_Return
+GO
+CREATE FUNCTION sp_Return
+(@year int)
+RETURNS @Bang TABLE (tienNhap FLOAT)
+as
+BEGIN
+  INSERT INTO @Bang
+      SELECT SUM(priceImport * quatity) TienNhap FROM dbo.detailsInvoiceImportPr JOIN dbo.InvoiceImportPr ON InvoiceImportPr.idInvoice = detailsInvoiceImportPr.idInvoice
+	WHERE YEAR(dateCreateInvoice) = @year
+	GROUP BY MONTH(dateCreateInvoice)
+  RETURN
+END
+
+SELECT * FROM dbo.sp_Return(2021)
+
+INSERT INTO dbo.SaveMoney
+(dateCreate,moneyReturn,moneySell,moneyImport)
+VALUES(?,?,?)
+
+ALTER TABLE dbo.DetailInvoiceReturn DROP CONSTRAINT FK__DetailInv__idDet__6FE99F9F
 
 
 

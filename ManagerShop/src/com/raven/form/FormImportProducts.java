@@ -39,6 +39,7 @@ public class FormImportProducts extends javax.swing.JPanel {
         lblPrice.setVisible(false);
         lblQuantity.setVisible(false);
         btnAddTemp.setEnabled(false);
+        btnDeleteTemp.setEnabled(false);
 
     }
     SupplierDao supDAO = new SupplierDao();
@@ -102,8 +103,23 @@ public class FormImportProducts extends javax.swing.JPanel {
 
     }
 
-    static List<DetailInvoiceImport> list = new ArrayList<>();
+    List<DetailInvoiceImport> list = new ArrayList<>();
     //list lưu những hóa đơn chi tiết
+
+    public void deleteRowInTableTemp() {
+        int row = tableTemp.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) tableTemp.getModel();
+        int id = (int) tableTemp.getValueAt(row, 0);
+        model.removeRow(row);
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getIdProductItem() == id) {
+                list.remove(list.get(i));
+                MsgBox.alert(this, "Xóa mặt hàng thành công !");
+                btnDeleteTemp.setEnabled(false);
+                return;
+            }
+        }
+    }
 
     //hàm đổ dữ liệu từ bảng mặt hàng xuống bảng tạm
     public void fillTabelTemp() {
@@ -175,6 +191,7 @@ public class FormImportProducts extends javax.swing.JPanel {
         scrollBar2 = new com.raven.suportSwing.ScrollBar();
         lblQuantity = new javax.swing.JLabel();
         lblPrice = new javax.swing.JLabel();
+        btnDeleteTemp = new com.raven.suportSwing.MyButton();
         jPanel3 = new javax.swing.JPanel();
         myButton1 = new com.raven.suportSwing.MyButton();
         textField1 = new com.raven.suportSwing.TextField();
@@ -198,9 +215,17 @@ public class FormImportProducts extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Sản Phẩm", "Tên Sản Phẩm", "Loại", "Size", "Màu Sắc", "Chất liệu", "Số lượng trong kho"
+                "Mã Mặt hàng", "Tên Sản Phẩm", "Loại", "Size", "Màu Sắc", "Chất liệu", "Số lượng trong kho"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableProductItem.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableProductItemMouseClicked(evt);
@@ -280,7 +305,7 @@ public class FormImportProducts extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã SP", "Tên SP", "Loại", "Size", "Màu Sắc", "Chất liệu", "Số lượng nhập"
+                "Mã mặt hàng", "Tên SP", "Loại", "Size", "Màu Sắc", "Chất liệu", "Số lượng nhập"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -291,6 +316,11 @@ public class FormImportProducts extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tableTemp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableTempMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(tableTemp);
 
         lblQuantity.setForeground(new java.awt.Color(225, 0, 0));
@@ -298,6 +328,14 @@ public class FormImportProducts extends javax.swing.JPanel {
 
         lblPrice.setForeground(new java.awt.Color(225, 0, 0));
         lblPrice.setText("jLabel4");
+
+        btnDeleteTemp.setText("Xóa tạm");
+        btnDeleteTemp.setRadius(10);
+        btnDeleteTemp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteTempActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -315,7 +353,9 @@ public class FormImportProducts extends javax.swing.JPanel {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAddTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnAddTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnDeleteTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -338,7 +378,8 @@ public class FormImportProducts extends javax.swing.JPanel {
                     .addComponent(txtQuantity, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAddTemp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnAddTemp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDeleteTemp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -469,6 +510,7 @@ public class FormImportProducts extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         insertInvoice();
+        btnDeleteTemp.setEnabled(false);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tableProductItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductItemMouseClicked
@@ -487,10 +529,19 @@ public class FormImportProducts extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_myButton4ActionPerformed
 
+    private void btnDeleteTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteTempActionPerformed
+        deleteRowInTableTemp();
+    }//GEN-LAST:event_btnDeleteTempActionPerformed
+
+    private void tableTempMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTempMouseClicked
+        btnDeleteTemp.setEnabled(true);
+    }//GEN-LAST:event_tableTempMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnAdd;
     private com.raven.suportSwing.MyButton btnAddTemp;
+    private com.raven.suportSwing.MyButton btnDeleteTemp;
     private com.raven.suportSwing.Combobox cbbSupplier;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

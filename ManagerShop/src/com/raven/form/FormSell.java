@@ -50,22 +50,22 @@ public class FormSell extends javax.swing.JPanel {
         txtTotal.setEditable(false);
 
     }
+
     ProductItemDAO prDAO = new ProductItemDAO();
     CustomerDAO cDao = new CustomerDAO();
     VoucherDAO vDao = new VoucherDAO();
     InvoiceSellDAO inDao = new InvoiceSellDAO();
     DetailInvoiceSellDAO deDao = new DetailInvoiceSellDAO();
 
-//    Locale lc = new Locale("nv", "VN");
-//    NumberFormat formatter = NumberFormat.getIntegerInstance(lc);
+    // Locale lc = new Locale("nv", "VN");
+    // NumberFormat formatter = NumberFormat.getIntegerInstance(lc);
     public void fillTableProductItem() {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         List<ProductItem> list = prDAO.selectAllSell();
         for (ProductItem p : list) {
-            model.addRow(new Object[]{
-                p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(), p.getMaterial(), p.getPrice(), p.getQuantity()
-            });
+            model.addRow(new Object[] { p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
+                    p.getMaterial(), p.getPrice(), p.getQuantity() });
         }
     }
 
@@ -112,10 +112,9 @@ public class FormSell extends javax.swing.JPanel {
                 int quantity = Integer.parseInt(txtQuantity.getText());
 
                 DefaultTableModel model = (DefaultTableModel) tableSellTemp.getModel();
-                model.addRow(new Object[]{
-                    id, name, categoryName, size, color, material, price, quantity
-                });
+                model.addRow(new Object[] { id, name, categoryName, size, color, material, price, quantity });
 
+                // fillTableProductItem();
                 DetailInvoiceSell de = new DetailInvoiceSell();
                 de.setPrice(price);
                 de.setIdPrDetails(id);
@@ -123,6 +122,12 @@ public class FormSell extends javax.swing.JPanel {
                 list.add(de);
                 tableShow.clearSelection();
                 txtQuantity.setText("");
+                int i = ((int) tableShow.getValueAt(row, 7)) - quantity;
+                tableShow.setValueAt(i, row, 7);
+                System.out.println(i);
+                // de.setQuantity(i);
+
+                // fillTableProductItem();
             }
         }
     }
@@ -153,8 +158,12 @@ public class FormSell extends javax.swing.JPanel {
         in.setPrice(Double.parseDouble(txtTotal.getText()));
         Customer s = (Customer) cbbCustomer.getSelectedItem();
         in.setIdCustomer(s.getId());
-        Voucher v = (Voucher) cbbVoucher.getSelectedItem();
-        in.setIdVoucher(v.getIdVoucher());
+        if (!jcheckVoucher.isSelected()) {
+            in.setIdVoucher(null);
+        } else {
+            Voucher v = (Voucher) cbbVoucher.getSelectedItem();
+            in.setIdVoucher(v.getIdVoucher());
+        }
         return in;
     }
 
@@ -162,7 +171,7 @@ public class FormSell extends javax.swing.JPanel {
         int count = tableSellTemp.getRowCount();
         if (count <= 0) {
             MsgBox.alert(this, "bạn chưa thanh toán sản phẩm nào");
-//            return;
+            // return;
         } else {
             if (!Validate.checkEmpty(lblMoneyCustomer, txtMoneyCustomer, "Khổng bỏ trống tiền khách đưa")) {
                 return;
@@ -174,15 +183,21 @@ public class FormSell extends javax.swing.JPanel {
             } else {
                 InvoiceSell in = getInvoiceSell();
                 inDao.insert(in);
+                int row = tableSellTemp.getRowCount();
                 for (int i = 0; i < list.size(); i++) {
                     DetailInvoiceSell de = list.get(i);
+                    System.out.println(de.getQuantity());
                     deDao.insert(de);
                     prDAO.sellProductItem(de.getQuantity(), de.getIdPrDetails());
                 }
                 in.setPrice(Double.parseDouble(txtTotal.getText()));
                 MsgBox.alert(this, "Bán " + list.size() + " vào hóa đơn thành công thành công");
-                Voucher v = (Voucher) cbbVoucher.getSelectedItem();
-                vDao.updateVoucher(v.getIdVoucher());
+                // Voucher v = (Voucher) cbbVoucher.getSelectedItem();
+                // vDao.updateVoucher(v.getIdVoucher());
+                if (jcheckVoucher.isSelected()) {
+                    Voucher v = (Voucher) cbbVoucher.getSelectedItem();
+                    vDao.updateVoucher(v.getIdVoucher());
+                }
                 DefaultTableModel model = (DefaultTableModel) tableSellTemp.getModel();
                 model.setRowCount(0);
                 list.clear();
@@ -191,20 +206,61 @@ public class FormSell extends javax.swing.JPanel {
         }
     }
 
+    public void searchFillTable() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        List<ProductItem> list = prDAO.selectByKeyWordSell(txtSearch.getText());
+        if (list.isEmpty()) {
+            lblSearch.setText("Không tìm thấy mặt hàng " + txtSearch.getText() + " để bán");
+            return;
+        }
+        for (ProductItem p : list) {
+            model.addRow(new Object[] { p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
+                    p.getMaterial(), p.getPrice(), p.getQuantity() });
+        }
+        lblSearch.setText("");
+    }
+
+    public void delete() {
+        DefaultTableModel model = (DefaultTableModel) tableSellTemp.getModel();
+        int row = tableShow.getSelectedRow();
+        int row2 = tableSellTemp.getSelectedRow();
+
+        // List<DetailInvoiceSell> list = new ArrayList<>();
+        if (tableSellTemp.getSelectedRowCount() == 1) {
+            for (int i = 0; i < tableShow.getRowCount(); i++) {
+                if (tableShow.getValueAt(i, 0) == tableSellTemp.getValueAt(row2, 0)) {
+                    int ii = (int) tableShow.getValueAt(i, 7) + (int) tableSellTemp.getValueAt(row2, 7);
+                    tableShow.setValueAt(ii, i, 7);
+                }
+            }
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j).getIdPrDetails() == (int) tableSellTemp.getValueAt(row2, 0)) {
+                    model.removeRow(tableSellTemp.getSelectedRow());
+                    list.remove(list.get(j));
+                    return;
+                }
+            }
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        textField5 = new com.raven.suportSwing.TextField();
+        txtSearch = new com.raven.suportSwing.TextField();
         myButton5 = new com.raven.suportSwing.MyButton();
+        lblSearch = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
@@ -237,7 +293,12 @@ public class FormSell extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel2.setText("Thánh toán bán hàng");
 
-        textField5.setLabelText("Tìm theo tên or mã");
+        txtSearch.setLabelText("Tìm theo tên or mã");
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
 
         myButton5.setText("Tìm");
         myButton5.setRadius(20);
@@ -247,6 +308,9 @@ public class FormSell extends javax.swing.JPanel {
             }
         });
 
+        lblSearch.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lblSearch.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -255,7 +319,9 @@ public class FormSell extends javax.swing.JPanel {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(textField5, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+                    .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(39, 39, 39)
                 .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(193, 193, 193))
@@ -263,14 +329,17 @@ public class FormSell extends javax.swing.JPanel {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textField5, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                    .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                            .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -298,7 +367,7 @@ public class FormSell extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1074, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 18, Short.MAX_VALUE))
+                .addGap(0, 22, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -559,84 +628,93 @@ public class FormSell extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 37, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantityActionPerformed
+    private void txtQuantityActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtQuantityActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtQuantityActionPerformed
+    }// GEN-LAST:event_txtQuantityActionPerformed
 
-    private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton5ActionPerformed
+    private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton5ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_myButton5ActionPerformed
+        searchFillTable();
+    }// GEN-LAST:event_myButton5ActionPerformed
 
-    private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton4ActionPerformed
+    private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_myButton4ActionPerformed
+    }// GEN-LAST:event_myButton4ActionPerformed
 
-    private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton2ActionPerformed
+    private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_myButton2ActionPerformed
 
-    private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
+        delete();
+
+    }// GEN-LAST:event_myButton2ActionPerformed
+
+    private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton1ActionPerformed
         // TODO add your handling code here:
         fillTableTemp();
         txtTotal.setText(TotalBuy() + "");
-    }//GEN-LAST:event_myButton1ActionPerformed
+    }// GEN-LAST:event_myButton1ActionPerformed
 
-    private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton3ActionPerformed
+    private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton3ActionPerformed
         // TODO add your handling code here:
         insertInvoiceSell();
-    }//GEN-LAST:event_myButton3ActionPerformed
+    }// GEN-LAST:event_myButton3ActionPerformed
 
-    private void cbbVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbVoucherActionPerformed
+    private void cbbVoucherActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbbVoucherActionPerformed
         // TODO add your handling code here:
         txtTotal.setText(MoneyVoucher() + "");
-//        txtMoneyVoucher.setText(MoneyVoucher() + "");
-    }//GEN-LAST:event_cbbVoucherActionPerformed
+        // txtMoneyVoucher.setText(MoneyVoucher() + "");
+    }// GEN-LAST:event_cbbVoucherActionPerformed
 
-    private void txtMoneyCustomerKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMoneyCustomerKeyPressed
+    private void txtMoneyCustomerKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtMoneyCustomerKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtMoneyCustomerKeyPressed
+    }// GEN-LAST:event_txtMoneyCustomerKeyPressed
 
-    private void jcheckVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcheckVoucherActionPerformed
+    private void jcheckVoucherActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcheckVoucherActionPerformed
         // TODO add your handling code here:
         if (jcheckVoucher.isSelected()) {
             cbbVoucher.setVisible(true);
+            cbbVoucher.setSelectedIndex(0);
         } else {
             cbbVoucher.setVisible(false);
             txtTotal.setText(TotalBuy() + "");
         }
-    }//GEN-LAST:event_jcheckVoucherActionPerformed
+    }// GEN-LAST:event_jcheckVoucherActionPerformed
 
-    private void txtReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtReturnActionPerformed
+    private void txtReturnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtReturnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtReturnActionPerformed
+    }// GEN-LAST:event_txtReturnActionPerformed
 
-    private void txtMoneyCustomerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMoneyCustomerKeyReleased
+    private void txtMoneyCustomerKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtMoneyCustomerKeyReleased
         // TODO add your handling code here:
         if (txtMoneyCustomer.getText().isEmpty()) {
             txtReturn.setText("");
         } else {
             txtReturn.setText(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()) + "");
         }
-    }//GEN-LAST:event_txtMoneyCustomerKeyReleased
+    }// GEN-LAST:event_txtMoneyCustomerKeyReleased
 
-    private void txtQuantityKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityKeyPressed
+    private void txtQuantityKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtQuantityKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtQuantityKeyPressed
+    }// GEN-LAST:event_txtQuantityKeyPressed
 
-    private void txtQuantityFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantityFocusGained
+    private void txtQuantityFocusGained(java.awt.event.FocusEvent evt) {// GEN-FIRST:event_txtQuantityFocusGained
         // TODO add your handling code here:
         lblQuantity.setText("");
-    }//GEN-LAST:event_txtQuantityFocusGained
+    }// GEN-LAST:event_txtQuantityFocusGained
 
-    private void txtMoneyCustomerFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMoneyCustomerFocusGained
+    private void txtMoneyCustomerFocusGained(java.awt.event.FocusEvent evt) {// GEN-FIRST:event_txtMoneyCustomerFocusGained
         // TODO add your handling code here:
         lblMoneyCustomer.setText("");
-    }//GEN-LAST:event_txtMoneyCustomerFocusGained
+    }// GEN-LAST:event_txtMoneyCustomerFocusGained
 
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        searchFillTable();
+    }// GEN-LAST:event_txtSearchKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.Combobox cbbCustomer;
@@ -653,6 +731,7 @@ public class FormSell extends javax.swing.JPanel {
     private javax.swing.JCheckBox jcheckVoucher;
     private javax.swing.JLabel lblMoneyCustomer;
     private javax.swing.JLabel lblQuantity;
+    private javax.swing.JLabel lblSearch;
     private com.raven.suportSwing.MyButton myButton1;
     private com.raven.suportSwing.MyButton myButton2;
     private com.raven.suportSwing.MyButton myButton3;
@@ -662,11 +741,11 @@ public class FormSell extends javax.swing.JPanel {
     private com.raven.suportSwing.ScrollBar scrollBar2;
     private com.raven.suportSwing.TableColumn tableSellTemp;
     private com.raven.suportSwing.TableColumn tableShow;
-    private com.raven.suportSwing.TextField textField5;
     private javax.swing.JTextArea txtDes;
     private com.raven.suportSwing.TextField txtMoneyCustomer;
     private com.raven.suportSwing.TextField txtQuantity;
     private com.raven.suportSwing.TextField txtReturn;
+    private com.raven.suportSwing.TextField txtSearch;
     private com.raven.suportSwing.TextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }
