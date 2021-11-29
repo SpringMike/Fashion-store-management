@@ -6,7 +6,10 @@
 package com.raven.form;
 
 import com.fpt.DAO.ProductItemDAO;
+import com.fpt.DAO.ProductsDAO;
+import com.fpt.entity.Category;
 import com.fpt.entity.ProductItem;
+import com.fpt.entity.Products;
 import com.fpt.entity.User;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
@@ -25,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,6 +42,7 @@ public class FormItems extends javax.swing.JPanel {
     ProductItemDAO prDAO = new ProductItemDAO();
     FormUpdateItemJfame formUpdateItemJframe;
     DefaultTableModel model;
+    ProductsDAO productDAO = new ProductsDAO();
 
     /**
      * Creates new form FormItems
@@ -47,7 +52,7 @@ public class FormItems extends javax.swing.JPanel {
         setOpaque(false);
         fillTable();
         rdioSelectAll.setSelected(true);
-
+        fillComboboxProduct();
         formImportItemJFrame.addEvenFillTable(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,6 +82,15 @@ public class FormItems extends javax.swing.JPanel {
         MsgBox.alert(this, "Xoá Thành công");
     }
 
+    public void fillComboboxProduct() {
+        DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbcProduct.getModel();
+        cbcProduct.removeAllItems();
+        List<Products> list = productDAO.selectAll();
+        for (Products p : list) {
+            cbModel.addElement(p);
+        }
+    }
+
     public void searchTable() {
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
@@ -101,7 +115,18 @@ public class FormItems extends javax.swing.JPanel {
             return;
         }
         int quantity = Integer.valueOf(txtQuantity.getText());
-        List<ProductItem> list = prDAO.selectBylblQuantity(quantity, keyword);
+        List<ProductItem> list = prDAO.selectByPropertieProductItem(quantity, keyword);
+        for (ProductItem p : list) {
+            model.addRow(new Object[]{
+                p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+            });
+        }
+    }
+     public void fillTableByProduct() {
+        model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        Products pro = (Products) cbcProduct.getSelectedItem();
+        List<ProductItem> list = prDAO.selectByPropertieProductItem(pro.getIdProduct(),"ByProduct");
         for (ProductItem p : list) {
             model.addRow(new Object[]{
                 p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
@@ -318,6 +343,14 @@ public class FormItems extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        cbcProduct.setLabeText("Sản phẩm");
+        cbcProduct.setName(""); // NOI18N
+        cbcProduct.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbcProductItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -334,14 +367,14 @@ public class FormItems extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(cbcProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbcProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -605,6 +638,11 @@ public class FormItems extends javax.swing.JPanel {
             fillTableByPropertieProductItem("Below");
         }
     }//GEN-LAST:event_txtQuantityKeyReleased
+
+    private void cbcProductItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbcProductItemStateChanged
+        fillTableByProduct();
+        rdioSelectAll.setSelected(true);
+    }//GEN-LAST:event_cbcProductItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

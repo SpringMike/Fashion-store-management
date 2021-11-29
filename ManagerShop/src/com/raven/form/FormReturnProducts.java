@@ -336,10 +336,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
 
         tableIn4Invoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Mã Thanh toán", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Size", "Màu sắc", "Chất liệu", "Đơn giá"
@@ -359,6 +356,13 @@ public class FormReturnProducts extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(tableIn4Invoice);
+        if (tableIn4Invoice.getColumnModel().getColumnCount() > 0) {
+            tableIn4Invoice.getColumnModel().getColumn(0).setResizable(false);
+            tableIn4Invoice.getColumnModel().getColumn(1).setResizable(false);
+            tableIn4Invoice.getColumnModel().getColumn(3).setResizable(false);
+            tableIn4Invoice.getColumnModel().getColumn(4).setResizable(false);
+            tableIn4Invoice.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -470,7 +474,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
             lblIDInvoice.setText("");
             lblSearch.setText("");
             model.setRowCount(0);
-//            modelList.setRowCount(0);
+            modelList.setRowCount(0);
             return;
         }
 

@@ -103,7 +103,7 @@ public class FormImportProducts extends javax.swing.JPanel {
 
     }
 
-    static List<DetailInvoiceImport> list = new ArrayList<>();
+    List<DetailInvoiceImport> list = new ArrayList<>();
     //list lưu những hóa đơn chi tiết
 
     public void deleteRowInTableTemp() {
