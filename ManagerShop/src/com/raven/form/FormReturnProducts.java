@@ -477,6 +477,9 @@ public class FormReturnProducts extends javax.swing.JPanel {
         if (ShearchKeyFillTable(Integer.valueOf(txtShearchInvoice.getText())) == false) {
             lblSearch.setText("Hoá đơn không tồn tại");
             return;
+        } else {
+            lblSearch.setText("");
+
         }
         if (checkReturn() == false) {
             lblSearch.setText("Hoá đơn đã trả hàng");
