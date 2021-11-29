@@ -18,7 +18,7 @@ import com.raven.form.FormProperties;
 import com.raven.form.FormInvoiceReturnProduct;
 import com.raven.form.FormReturnProducts;
 import com.raven.form.FormRevenueStatistics;
-import com.raven.form.FormSalary;
+//import com.raven.form.FormSalary;
 import com.raven.form.FormSalesStatistics;
 import com.raven.form.FormSell;
 import com.raven.form.FormSupplier;
@@ -98,7 +98,7 @@ public class Main extends javax.swing.JFrame {
                         if (subMenuIndex == 0) {
                             main.showForm(new FormListEmpolyee());
                         } else if (subMenuIndex == 1) {
-                            main.showForm(new FormSalary());
+//                            main.showForm(new FormSalary());
                         }
                     } else if (menuIndex == 5) {
                         main.showForm(new FormCustomer());

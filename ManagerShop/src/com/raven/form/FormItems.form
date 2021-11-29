@@ -63,7 +63,7 @@
                       <Component id="jPanel5" max="32767" attributes="0"/>
                       <Component id="jPanel6" alignment="1" max="32767" attributes="0"/>
                       <Component id="jPanel7" alignment="0" max="32767" attributes="0"/>
-                      <Component id="combobox2" alignment="0" max="32767" attributes="0"/>
+                      <Component id="cbcProduct" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -72,7 +72,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="combobox2" min="-2" pref="36" max="-2" attributes="0"/>
+                  <Component id="cbcProduct" min="-2" pref="36" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -102,16 +102,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="rdioMale" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdioSelectAll" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jTextField1" min="-2" pref="110" max="-2" attributes="0"/>
+                              <Component id="txtQuantity" min="-2" pref="110" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="rdioMale1" min="-2" max="-2" attributes="0"/>
-                          <Component id="rdioMale3" min="-2" max="-2" attributes="0"/>
-                          <Component id="rdioMale4" min="-2" max="-2" attributes="0"/>
-                          <Component id="rdioMale2" alignment="0" min="-2" pref="146" max="-2" attributes="0"/>
+                          <Component id="rdioAbove" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdioRemain" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdioOutOfProductItem" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdioBelow" alignment="0" min="-2" pref="146" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="41" max="32767" attributes="0"/>
                   </Group>
@@ -121,27 +121,27 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="rdioMale" min="-2" max="-2" attributes="0"/>
+                      <Component id="rdioSelectAll" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="rdioMale2" min="-2" max="-2" attributes="0"/>
+                      <Component id="rdioBelow" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="rdioMale1" min="-2" max="-2" attributes="0"/>
+                      <Component id="rdioAbove" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="rdioMale3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rdioRemain" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="rdioMale4" min="-2" max="-2" attributes="0"/>
+                      <Component id="rdioOutOfProductItem" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioMale">
+            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioSelectAll">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup1"/>
@@ -149,7 +149,7 @@
                 <Property name="text" type="java.lang.String" value="T&#x1ea5;t c&#x1ea3;"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioMaleActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioSelectAllActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
@@ -157,12 +157,15 @@
                 <Property name="text" type="java.lang.String" value="&#x110;&#x1ecb;nh m&#x1ee9;c t&#x1ed3;n"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="txtQuantity">
               <Properties>
                 <Property name="text" type="java.lang.String" value="10"/>
               </Properties>
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtQuantityKeyReleased"/>
+              </Events>
             </Component>
-            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioMale1">
+            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioAbove">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup1"/>
@@ -170,10 +173,10 @@
                 <Property name="text" type="java.lang.String" value="V&#x1b0;&#x1ee3;t &#x111;&#x1ecb;nh m&#x1ee9;c t&#x1ed3;n"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioMale1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioAboveActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioMale2">
+            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioBelow">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup1"/>
@@ -181,10 +184,10 @@
                 <Property name="text" type="java.lang.String" value="D&#x1b0;&#x1edb;i &#x111;&#x1ecb;nh m&#x1ee9;c t&#x1ed3;n"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioMale2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioBelowActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioMale3">
+            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioRemain">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup1"/>
@@ -192,10 +195,10 @@
                 <Property name="text" type="java.lang.String" value="C&#xf2;n h&#xe0;ng trong kho"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioMale3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioRemainActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioMale4">
+            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioOutOfProductItem">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup1"/>
@@ -203,7 +206,7 @@
                 <Property name="text" type="java.lang.String" value="H&#x1ebf;t h&#xe0;ng trong kho"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioMale4ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioOutOfProductItemActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -225,8 +228,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="rdioMale6" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="rdioMale7" alignment="0" min="-2" pref="146" max="-2" attributes="0"/>
+                          <Component id="rdioStatusFalse" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdioStatusTrue" alignment="0" min="-2" pref="146" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -236,16 +239,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="rdioMale7" min="-2" max="-2" attributes="0"/>
+                      <Component id="rdioStatusTrue" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="rdioMale6" min="-2" max="-2" attributes="0"/>
+                      <Component id="rdioStatusFalse" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioMale6">
+            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioStatusFalse">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup1"/>
@@ -253,10 +256,10 @@
                 <Property name="text" type="java.lang.String" value="Ng&#x1eeb;ng kinh doanh"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioMale6ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioStatusFalseActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioMale7">
+            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioStatusTrue">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup1"/>
@@ -264,7 +267,7 @@
                 <Property name="text" type="java.lang.String" value="&#x110;ang kinh doanh"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioMale7ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioStatusTrueActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -286,8 +289,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="rdioMale11" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="rdioMale12" alignment="0" min="-2" pref="146" max="-2" attributes="0"/>
+                          <Component id="rdioPriceAsc" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdioPriceDesc" alignment="0" min="-2" pref="146" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -297,16 +300,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="rdioMale12" min="-2" max="-2" attributes="0"/>
+                      <Component id="rdioPriceDesc" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="rdioMale11" min="-2" max="-2" attributes="0"/>
+                      <Component id="rdioPriceAsc" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioMale11">
+            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioPriceAsc">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup1"/>
@@ -314,10 +317,10 @@
                 <Property name="text" type="java.lang.String" value="T&#x1eeb; th&#x1ea5;p &#x111;&#x1ebf;n cao"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioMale11ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioPriceAscActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioMale12">
+            <Component class="com.raven.suportSwing.RadioButtonCustom" name="rdioPriceDesc">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup1"/>
@@ -325,12 +328,12 @@
                 <Property name="text" type="java.lang.String" value="T&#x1eeb; cao &#x111;&#x1ebf;n th&#x1ea5;p"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioMale12ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdioPriceDescActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="com.raven.suportSwing.Combobox" name="combobox2">
+        <Component class="com.raven.suportSwing.Combobox" name="cbcProduct">
         </Component>
       </SubComponents>
     </Container>
@@ -436,7 +439,7 @@
         </Component>
         <Component class="com.raven.suportSwing.MyButton" name="myButton4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Export"/>
+            <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
           <Events>
@@ -501,24 +504,18 @@
             <Component class="com.raven.suportSwing.TableColumn" name="tableShow">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="8" rowCount="4">
+                  <Table columnCount="7" rowCount="4">
                     <Column editable="false" title="M&#xe3; S&#x1ea3;n Ph&#x1ea9;m" type="java.lang.Object"/>
                     <Column editable="false" title="T&#xea;n S&#x1ea3;n Ph&#x1ea9;m" type="java.lang.Object"/>
-                    <Column editable="false" title="Gi&#xe1; B&#xe1;n" type="java.lang.Object"/>
                     <Column editable="false" title="Gi&#xe1; V&#x1ed1;n" type="java.lang.Object"/>
-                    <Column editable="false" title="Gi&#x1ea3;m Gi&#xe1;" type="java.lang.Object"/>
                     <Column editable="false" title="Size" type="java.lang.Object"/>
                     <Column editable="false" title="M&#xe0;u S&#x1eaf;c" type="java.lang.Object"/>
                     <Column editable="false" title="Ch&#x1ea5;t Li&#x1ec7;u" type="java.lang.Object"/>
+                    <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng t&#x1ed3;n kho" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>

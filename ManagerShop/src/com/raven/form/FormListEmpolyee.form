@@ -59,7 +59,9 @@
                           <Component id="myButton6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="myButton8" min="-2" pref="110" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="myButton7" min="-2" pref="64" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="lblSearch" min="-2" pref="260" max="-2" attributes="0"/>
@@ -79,6 +81,7 @@
                       <Component id="myButton6" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="myButton8" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtSearch" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
+                      <Component id="myButton7" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="lblSearch" min="-2" pref="19" max="-2" attributes="0"/>
@@ -141,6 +144,15 @@
               <Color blue="0" green="33" red="ff" type="rgb"/>
             </Property>
           </Properties>
+        </Component>
+        <Component class="com.raven.suportSwing.MyButton" name="myButton7">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t"/>
+            <Property name="radius" type="int" value="20"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton7ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

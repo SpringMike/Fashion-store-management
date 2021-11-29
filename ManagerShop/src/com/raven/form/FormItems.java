@@ -8,6 +8,7 @@ package com.raven.form;
 import com.fpt.DAO.ProductItemDAO;
 import com.fpt.entity.ProductItem;
 import com.fpt.entity.User;
+import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import com.raven.JFrame.FormImportEmpolyeeJFrame;
@@ -22,6 +23,7 @@ import com.raven.swing.PopupMenu;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -35,6 +37,7 @@ public class FormItems extends javax.swing.JPanel {
     FormImportItemJFrame formImportItemJFrame = new FormImportItemJFrame();
     ProductItemDAO prDAO = new ProductItemDAO();
     FormUpdateItemJfame formUpdateItemJframe;
+    DefaultTableModel model;
 
     /**
      * Creates new form FormItems
@@ -43,6 +46,7 @@ public class FormItems extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         fillTable();
+        rdioSelectAll.setSelected(true);
 
         formImportItemJFrame.addEvenFillTable(new ActionListener() {
             @Override
@@ -54,12 +58,12 @@ public class FormItems extends javax.swing.JPanel {
     }
 
     public void fillTable() {
-        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         List<ProductItem> list = prDAO.selectAll();
         for (ProductItem p : list) {
             model.addRow(new Object[]{
-                p.getId(), p.getProductName(), p.getPrice(), "giavon", "giamgia", p.getSize(), p.getColor(), p.getMaterial()
+                p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
             });
         }
     }
@@ -74,7 +78,7 @@ public class FormItems extends javax.swing.JPanel {
     }
 
     public void searchTable() {
-        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         String keyWord = txtSearch.getText();
         List<ProductItem> list = prDAO.selectByKeyWord(keyWord);
@@ -84,10 +88,25 @@ public class FormItems extends javax.swing.JPanel {
         }
         for (ProductItem p : list) {
             model.addRow(new Object[]{
-                p.getId(), p.getProductName(), p.getPrice(), "giavon", "giamgia", p.getSize(), p.getColor(), p.getMaterial()
+                p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
             });
         }
         lblSearch.setText("");
+    }
+
+    public void fillTableByPropertieProductItem(String keyword) {
+        model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        if (txtQuantity.getText().trim().equals("")) {
+            return;
+        }
+        int quantity = Integer.valueOf(txtQuantity.getText());
+        List<ProductItem> list = prDAO.selectBylblQuantity(quantity, keyword);
+        for (ProductItem p : list) {
+            model.addRow(new Object[]{
+                p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+            });
+        }
     }
 
     /**
@@ -102,20 +121,20 @@ public class FormItems extends javax.swing.JPanel {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        rdioMale = new com.raven.suportSwing.RadioButtonCustom();
+        rdioSelectAll = new com.raven.suportSwing.RadioButtonCustom();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        rdioMale1 = new com.raven.suportSwing.RadioButtonCustom();
-        rdioMale2 = new com.raven.suportSwing.RadioButtonCustom();
-        rdioMale3 = new com.raven.suportSwing.RadioButtonCustom();
-        rdioMale4 = new com.raven.suportSwing.RadioButtonCustom();
+        txtQuantity = new javax.swing.JTextField();
+        rdioAbove = new com.raven.suportSwing.RadioButtonCustom();
+        rdioBelow = new com.raven.suportSwing.RadioButtonCustom();
+        rdioRemain = new com.raven.suportSwing.RadioButtonCustom();
+        rdioOutOfProductItem = new com.raven.suportSwing.RadioButtonCustom();
         jPanel6 = new javax.swing.JPanel();
-        rdioMale6 = new com.raven.suportSwing.RadioButtonCustom();
-        rdioMale7 = new com.raven.suportSwing.RadioButtonCustom();
+        rdioStatusFalse = new com.raven.suportSwing.RadioButtonCustom();
+        rdioStatusTrue = new com.raven.suportSwing.RadioButtonCustom();
         jPanel7 = new javax.swing.JPanel();
-        rdioMale11 = new com.raven.suportSwing.RadioButtonCustom();
-        rdioMale12 = new com.raven.suportSwing.RadioButtonCustom();
-        combobox2 = new com.raven.suportSwing.Combobox();
+        rdioPriceAsc = new com.raven.suportSwing.RadioButtonCustom();
+        rdioPriceDesc = new com.raven.suportSwing.RadioButtonCustom();
+        cbcProduct = new com.raven.suportSwing.Combobox();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtSearch = new com.raven.suportSwing.TextField();
@@ -135,47 +154,52 @@ public class FormItems extends javax.swing.JPanel {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Tồn Kho"));
 
-        buttonGroup1.add(rdioMale);
-        rdioMale.setText("Tất cả");
-        rdioMale.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rdioSelectAll);
+        rdioSelectAll.setText("Tất cả");
+        rdioSelectAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMaleActionPerformed(evt);
+                rdioSelectAllActionPerformed(evt);
             }
         });
 
         jLabel1.setText("Định mức tồn");
 
-        jTextField1.setText("10");
-
-        buttonGroup1.add(rdioMale1);
-        rdioMale1.setText("Vượt định mức tồn");
-        rdioMale1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMale1ActionPerformed(evt);
+        txtQuantity.setText("10");
+        txtQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtQuantityKeyReleased(evt);
             }
         });
 
-        buttonGroup1.add(rdioMale2);
-        rdioMale2.setText("Dưới định mức tồn");
-        rdioMale2.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rdioAbove);
+        rdioAbove.setText("Vượt định mức tồn");
+        rdioAbove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMale2ActionPerformed(evt);
+                rdioAboveActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(rdioMale3);
-        rdioMale3.setText("Còn hàng trong kho");
-        rdioMale3.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rdioBelow);
+        rdioBelow.setText("Dưới định mức tồn");
+        rdioBelow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMale3ActionPerformed(evt);
+                rdioBelowActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(rdioMale4);
-        rdioMale4.setText("Hết hàng trong kho");
-        rdioMale4.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rdioRemain);
+        rdioRemain.setText("Còn hàng trong kho");
+        rdioRemain.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMale4ActionPerformed(evt);
+                rdioRemainActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(rdioOutOfProductItem);
+        rdioOutOfProductItem.setText("Hết hàng trong kho");
+        rdioOutOfProductItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdioOutOfProductItemActionPerformed(evt);
             }
         });
 
@@ -185,53 +209,53 @@ public class FormItems extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rdioMale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rdioSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(rdioMale1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdioMale3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdioMale4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdioMale2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rdioAbove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rdioRemain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rdioOutOfProductItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rdioBelow, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 41, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(rdioMale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rdioSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rdioMale2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rdioBelow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rdioMale1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rdioAbove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rdioMale3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rdioRemain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rdioMale4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rdioOutOfProductItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Trạng thái"));
 
-        buttonGroup1.add(rdioMale6);
-        rdioMale6.setText("Ngừng kinh doanh");
-        rdioMale6.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rdioStatusFalse);
+        rdioStatusFalse.setText("Ngừng kinh doanh");
+        rdioStatusFalse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMale6ActionPerformed(evt);
+                rdioStatusFalseActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(rdioMale7);
-        rdioMale7.setText("Đang kinh doanh");
-        rdioMale7.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rdioStatusTrue);
+        rdioStatusTrue.setText("Đang kinh doanh");
+        rdioStatusTrue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMale7ActionPerformed(evt);
+                rdioStatusTrueActionPerformed(evt);
             }
         });
 
@@ -241,36 +265,36 @@ public class FormItems extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rdioMale6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdioMale7, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rdioStatusFalse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rdioStatusTrue, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(rdioMale7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rdioStatusTrue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rdioMale6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rdioStatusFalse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Giá bán"));
 
-        buttonGroup1.add(rdioMale11);
-        rdioMale11.setText("Từ thấp đến cao");
-        rdioMale11.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rdioPriceAsc);
+        rdioPriceAsc.setText("Từ thấp đến cao");
+        rdioPriceAsc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMale11ActionPerformed(evt);
+                rdioPriceAscActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(rdioMale12);
-        rdioMale12.setText("Từ cao đến thấp");
-        rdioMale12.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rdioPriceDesc);
+        rdioPriceDesc.setText("Từ cao đến thấp");
+        rdioPriceDesc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMale12ActionPerformed(evt);
+                rdioPriceDescActionPerformed(evt);
             }
         });
 
@@ -280,17 +304,17 @@ public class FormItems extends javax.swing.JPanel {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rdioMale11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdioMale12, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rdioPriceAsc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rdioPriceDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(rdioMale12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rdioPriceDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rdioMale11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rdioPriceAsc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -304,13 +328,13 @@ public class FormItems extends javax.swing.JPanel {
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(combobox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cbcProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(combobox2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbcProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -348,7 +372,7 @@ public class FormItems extends javax.swing.JPanel {
             }
         });
 
-        myButton4.setText("Export");
+        myButton4.setText("Xuất");
         myButton4.setRadius(20);
         myButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -417,17 +441,17 @@ public class FormItems extends javax.swing.JPanel {
 
         tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Bán", "Giá Vốn", "Giảm Giá", "Size", "Màu Sắc", "Chất Liệu"
+                "Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Vốn", "Size", "Màu Sắc", "Chất Liệu", "Số lượng tồn kho"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -493,9 +517,16 @@ public class FormItems extends javax.swing.JPanel {
 
 
     }//GEN-LAST:event_myButton3ActionPerformed
-
+    public void excelItems() throws IOException {
+        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        MsgBox.alert(this, "Xuất file thành công");
+    }
     private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton4ActionPerformed
         // TODO add your handling code here:
+        try {
+            excelItems();
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_myButton4ActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -518,7 +549,6 @@ public class FormItems extends javax.swing.JPanel {
             String color = tableShow.getValueAt(index, 6).toString();
             String material = tableShow.getValueAt(index, 7).toString();
 
-
             formUpdateItemJframe = new FormUpdateItemJfame(nameProduct, size, color, material, price, idProductItem);
             formUpdateItemJframe.addEvenUpdate(new ActionListener() {
                 @Override
@@ -531,47 +561,56 @@ public class FormItems extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tableShowMouseClicked
 
-    private void rdioMaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioMaleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdioMaleActionPerformed
+    private void rdioSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioSelectAllActionPerformed
+        fillTable();
+    }//GEN-LAST:event_rdioSelectAllActionPerformed
 
-    private void rdioMale1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioMale1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdioMale1ActionPerformed
+    private void rdioAboveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioAboveActionPerformed
+        fillTableByPropertieProductItem("Above");
+    }//GEN-LAST:event_rdioAboveActionPerformed
 
-    private void rdioMale2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioMale2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdioMale2ActionPerformed
+    private void rdioBelowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioBelowActionPerformed
+        fillTableByPropertieProductItem("Below");
+    }//GEN-LAST:event_rdioBelowActionPerformed
 
-    private void rdioMale3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioMale3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdioMale3ActionPerformed
+    private void rdioRemainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioRemainActionPerformed
+        fillTableByPropertieProductItem("StillRemailProductItem");
+    }//GEN-LAST:event_rdioRemainActionPerformed
 
-    private void rdioMale4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioMale4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdioMale4ActionPerformed
+    private void rdioOutOfProductItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioOutOfProductItemActionPerformed
+        fillTableByPropertieProductItem("OutOfStock");
+    }//GEN-LAST:event_rdioOutOfProductItemActionPerformed
 
-    private void rdioMale6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioMale6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdioMale6ActionPerformed
+    private void rdioStatusFalseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioStatusFalseActionPerformed
+        fillTableByPropertieProductItem("StatusFalse");
+    }//GEN-LAST:event_rdioStatusFalseActionPerformed
 
-    private void rdioMale7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioMale7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdioMale7ActionPerformed
+    private void rdioStatusTrueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioStatusTrueActionPerformed
+        fillTableByPropertieProductItem("StatusTrue");
+    }//GEN-LAST:event_rdioStatusTrueActionPerformed
 
-    private void rdioMale11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioMale11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdioMale11ActionPerformed
+    private void rdioPriceAscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioPriceAscActionPerformed
+        fillTableByPropertieProductItem("OderByPriceAsc");
+    }//GEN-LAST:event_rdioPriceAscActionPerformed
 
-    private void rdioMale12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioMale12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdioMale12ActionPerformed
+    private void rdioPriceDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioPriceDescActionPerformed
+        fillTableByPropertieProductItem("OderByPriceDesc");
+    }//GEN-LAST:event_rdioPriceDescActionPerformed
+
+    private void txtQuantityKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityKeyReleased
+
+        if (rdioAbove.isSelected()) {
+            fillTableByPropertieProductItem("Above");
+        } else if (rdioBelow.isSelected()) {
+            fillTableByPropertieProductItem("Below");
+        }
+    }//GEN-LAST:event_txtQuantityKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnDelete;
     private javax.swing.ButtonGroup buttonGroup1;
-    private com.raven.suportSwing.Combobox combobox2;
+    private com.raven.suportSwing.Combobox cbcProduct;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -581,21 +620,21 @@ public class FormItems extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblSearch;
     private com.raven.suportSwing.MyButton myButton2;
     private com.raven.suportSwing.MyButton myButton3;
     private com.raven.suportSwing.MyButton myButton4;
-    private com.raven.suportSwing.RadioButtonCustom rdioMale;
-    private com.raven.suportSwing.RadioButtonCustom rdioMale1;
-    private com.raven.suportSwing.RadioButtonCustom rdioMale11;
-    private com.raven.suportSwing.RadioButtonCustom rdioMale12;
-    private com.raven.suportSwing.RadioButtonCustom rdioMale2;
-    private com.raven.suportSwing.RadioButtonCustom rdioMale3;
-    private com.raven.suportSwing.RadioButtonCustom rdioMale4;
-    private com.raven.suportSwing.RadioButtonCustom rdioMale6;
-    private com.raven.suportSwing.RadioButtonCustom rdioMale7;
+    private com.raven.suportSwing.RadioButtonCustom rdioAbove;
+    private com.raven.suportSwing.RadioButtonCustom rdioBelow;
+    private com.raven.suportSwing.RadioButtonCustom rdioOutOfProductItem;
+    private com.raven.suportSwing.RadioButtonCustom rdioPriceAsc;
+    private com.raven.suportSwing.RadioButtonCustom rdioPriceDesc;
+    private com.raven.suportSwing.RadioButtonCustom rdioRemain;
+    private com.raven.suportSwing.RadioButtonCustom rdioSelectAll;
+    private com.raven.suportSwing.RadioButtonCustom rdioStatusFalse;
+    private com.raven.suportSwing.RadioButtonCustom rdioStatusTrue;
     private com.raven.suportSwing.TableColumn tableShow;
+    private javax.swing.JTextField txtQuantity;
     private com.raven.suportSwing.TextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
