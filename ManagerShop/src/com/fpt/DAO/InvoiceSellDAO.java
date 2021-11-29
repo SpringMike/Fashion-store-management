@@ -95,4 +95,9 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
         return selectBySql(sql, date);
     }
 
+//    public List<Integer> selectByMonths(int month) {
+//        String sql = "SELECT * FROM dbo.InvoiceSell WHERE MONTH(dateCreateInvoice) = ?";
+//        return selectBySql(sql, month);
+//    }
+
 }
