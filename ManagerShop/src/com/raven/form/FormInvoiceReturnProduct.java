@@ -116,6 +116,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
         model.addRow(new Object[]{
             i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), i.getTotalReturn(), i.getDescription()
         });
+       
         lblSearchId.setText("");
     }
 
