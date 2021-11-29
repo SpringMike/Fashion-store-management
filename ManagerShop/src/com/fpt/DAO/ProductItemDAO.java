@@ -127,7 +127,7 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
         return selectBySql(sql, "%" + keyword + "%");
     }
 
-    public List<ProductItem> selectBylblQuantity(int quantity, String keyword) {
+    public List<ProductItem> selectByPropertieProductItem(int quantity, String keyword) {
         String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
                 + "INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial \n"
                 + "INNER JOIN Color C on C.idColor = D.idColor \n"
@@ -160,6 +160,9 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
             case "StatusFalse":
                 sb.append("where D.status = 0");
                 return selectBySql(sb.toString());
+            case "ByProduct":
+                sb.append("where D.idProduct = ?");
+                break;
         }
         return selectBySql(sb.toString(), quantity);
     }
