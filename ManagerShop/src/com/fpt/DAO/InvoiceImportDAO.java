@@ -8,8 +8,10 @@ import com.fpt.entity.InvoiceImport;
 import com.fpt.entity.InvoiceSell;
 import com.fpt.entity.Supplier;
 import com.fpt.helper.jdbcHelper;
+import com.fpt.utils.XDate;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,6 +79,45 @@ public class InvoiceImportDAO extends ShopDAO<InvoiceImport, Integer> {
         return list;
     }
 
+    public int totalPage(String Stringdate) {
+        ResultSet rs;
+        if (!Stringdate.isEmpty()) {
+            Date date = XDate.toDate(Stringdate, "dd-MM-yyyy");
+            String sql = " select count(*) as soLuong from InvoiceImportPr where dateCreateInvoice = ?";
+            try {
+                rs = jdbcHelper.query(sql,date);
+                while (rs.next()) {
+                    return rs.getInt("soLuong");
+                }
+            } catch (Exception ex) {
+               ex.printStackTrace();
+            }
+        }
+        String sql = "select count(*) as soLuong from InvoiceImportPr";
+        try {
+            rs = jdbcHelper.query(sql);
+            while (rs.next()) {
+                return rs.getInt("soLuong");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public List<InvoiceImport> pagingPage(int page, int pageSize, String Stringdate) {
+        if (!Stringdate.isEmpty()) {
+            Date date = XDate.toDate(Stringdate, "dd-MM-yyyy");
+            String sql = " select I.*,name,S.nameMaterial from InvoiceImportPr I  join [User] U on U.idUser = I.idAdmin \n"
+                    + "join Supplier S on S.idSupplier = I.idSupplier where dateCreateInvoice =?\n"
+                    + "order by I.idInvoice OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+            return selectBySql(sql, date, (page - 1) * pageSize, pageSize);
+        }
+        String sql = "select I.*,name,S.nameMaterial from InvoiceImportPr I join [User] U on U.idUser = I.idAdmin \n"
+                + "join Supplier S on S.idSupplier = I.idSupplier order by I.idInvoice OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+        return selectBySql(sql, (page - 1) * pageSize, pageSize);
+    }
+
     public Float getTotalMoney(Integer idInvoice) {
         String sql = "select idInvoice,SUM(D.quatity * D.priceImport) as \"totalCash\" from detailsInvoiceImportPr D\n"
                 + "group by idInvoice\n"
@@ -93,8 +134,9 @@ public class InvoiceImportDAO extends ShopDAO<InvoiceImport, Integer> {
     }
 
     public List<InvoiceImport> fillDate(java.util.Date date) {
-        String sql = " select I.*,name,S.nameMaterial from InvoiceImportPr I join [User] U on U.idUser = I.idAdmin \n"
-                + "join Supplier S on S.idSupplier = I.idSupplier where dateCreateInvoice =?";
+        String sql = " select I.*,name,S.nameMaterial from InvoiceImportPr I  join [User] U on U.idUser = I.idAdmin \n"
+                + "join Supplier S on S.idSupplier = I.idSupplier where dateCreateInvoice =''\n"
+                + "order by I.idInvoice OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
         return selectBySql(sql, date);
     }
 
