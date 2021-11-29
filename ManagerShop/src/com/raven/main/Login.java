@@ -140,7 +140,7 @@ public class Login extends javax.swing.JPanel {
             }
         });
 
-        txtPassWord.setText("25092002");
+        txtPassWord.setText("123456");
         txtPassWord.setLabelText("Password");
         txtPassWord.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {

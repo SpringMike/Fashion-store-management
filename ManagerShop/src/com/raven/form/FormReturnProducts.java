@@ -6,12 +6,9 @@
 package com.raven.form;
 
 import com.fpt.DAO.DetailInvoiceReturnDAO;
-import com.fpt.DAO.DetailInvoiceSellDAO;
 import com.fpt.DAO.ProductItemDAO;
 import com.fpt.DAO.ReturnProductDAO;
-import com.fpt.Validate.Validate;
 import com.fpt.entity.DetailInvoiceReturn;
-import com.fpt.entity.DetailInvoiceSell;
 import com.fpt.entity.InvoiceRetuns;
 import com.fpt.entity.ProductItem;
 import com.fpt.utils.Auth;
@@ -34,13 +31,16 @@ public class FormReturnProducts extends javax.swing.JPanel {
     /**
      * Creates new form FormReturnProducts
      */
+    DefaultTableModel model = null;
+    DefaultTableModel modelList = null;
+
     public FormReturnProducts() {
         initComponents();
+        model = new DefaultTableModel();
+        modelList = new DefaultTableModel();
     }
 
     ReturnProductDAO reDao = new ReturnProductDAO();
-    DefaultTableModel model;
-    DefaultTableModel modelList;
     List<ProductItem> listPr;
 
     public boolean ShearchKeyFillTable(int id) {
@@ -138,8 +138,6 @@ public class FormReturnProducts extends javax.swing.JPanel {
             dDao.insert(de);
             prDAO.returnProductItem(de.getQuatity(), de.getIdPrDetails());
         }
-
-//        reDao.sellProductItem(1, Integer.valueOf(txtShearchInvoice.getText()));
     }
 
     public float TotalBuy() {
@@ -469,28 +467,31 @@ public class FormReturnProducts extends javax.swing.JPanel {
 
     private void txtShearchInvoiceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtShearchInvoiceKeyReleased
         // TODO add your handling code here:
-        if (txtShearchInvoice.getText().isEmpty()) {
-            lblIDCustomer.setText("");
-            lblIDInvoice.setText("");
-            lblSearch.setText("");
-            model.setRowCount(0);
-            modelList.setRowCount(0);
-            return;
-        }
+        try {
+            if (txtShearchInvoice.getText().isEmpty()) {
+                lblIDCustomer.setText("");
+                lblIDInvoice.setText("");
+                lblSearch.setText("");
+                model.setRowCount(0);
+                modelList.setRowCount(0);
+                return;
+            }
 
-        if (ShearchKeyFillTable(Integer.valueOf(txtShearchInvoice.getText())) == false) {
-            lblSearch.setText("Hoá đơn không tồn tại");
-            return;
-        } else {
-            lblSearch.setText("");
-
-        }
-        if (checkReturn() == false) {
-            lblSearch.setText("Hoá đơn đã trả hàng");
-            return;
-        }
-        if (checkDayReturn() == false) {
-            return;
+            if (ShearchKeyFillTable(Integer.valueOf(txtShearchInvoice.getText())) == false) {
+                lblSearch.setText("Hoá đơn không tồn tại");
+                return;
+            } else {
+                lblSearch.setText("");
+            }
+            if (checkReturn() == false) {
+                lblSearch.setText("Hoá đơn đã trả hàng");
+                return;
+            }
+            if (checkDayReturn() == false) {
+                return;
+            }
+        } catch (Exception e) {
+            MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Vui lòng nhập lại -.-");
         }
 
     }//GEN-LAST:event_txtShearchInvoiceKeyReleased
