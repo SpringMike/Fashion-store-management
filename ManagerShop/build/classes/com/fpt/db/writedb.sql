@@ -249,6 +249,7 @@ AS
 	JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct
 	WHERE YEAR(dateCreateInvoice) = @year AND MONTH(dateCreateInvoice) = @month
 	GROUP BY Products.idProduct, nameProduct
+	ORDER BY quantitySell DESC
 END;
 
 EXEC dbo.sp_statistical @year = 2021, -- int
@@ -355,7 +356,8 @@ WHERE DetailInvoiceReturn.idInvoiceReturn = ?
 
 SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
 
-
+SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer
+               where idInvoiceReturn = 29
 
 
 

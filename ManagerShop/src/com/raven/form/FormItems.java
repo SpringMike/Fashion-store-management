@@ -92,6 +92,7 @@ public class FormItems extends javax.swing.JPanel {
     }
 
     public void searchTable() {
+        // tìm kiếm theo mã sản phẩm
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         int keyWord = Integer.parseInt(txtSearch.getText());
@@ -107,6 +108,24 @@ public class FormItems extends javax.swing.JPanel {
             p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
         });
         lblSearch.setText("");
+    }
+
+    public void searchKeyFillTable() {
+        // tìm kiếm theo tên sản phẩm
+        String key = txtSearch.getText();
+        model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        List<ProductItem> list = prDAO.selectByKey(key);
+        if (list.isEmpty()) {
+            lblSearch.setText("Không có mặt hàng " + key);
+            return;
+        }
+        for (ProductItem p : list) {
+            model.addRow(new Object[]{
+                p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+            });
+        }
+        model.fireTableDataChanged();
     }
 
     public void fillTableByPropertieProductItem(String keyword) {
@@ -395,6 +414,11 @@ public class FormItems extends javax.swing.JPanel {
                 txtSearchFocusGained(evt);
             }
         });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
 
         myButton2.setText("Tìm");
         myButton2.setRadius(20);
@@ -534,7 +558,11 @@ public class FormItems extends javax.swing.JPanel {
 
     private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton2ActionPerformed
         // TODO add your handling code here:
-        searchTable();
+        try {
+            searchTable();
+        } catch (Exception e) {
+            searchKeyFillTable();
+        }
     }//GEN-LAST:event_myButton2ActionPerformed
 
 
@@ -644,6 +672,10 @@ public class FormItems extends javax.swing.JPanel {
         fillTableByProduct();
         rdioSelectAll.setSelected(true);
     }//GEN-LAST:event_cbcProductActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

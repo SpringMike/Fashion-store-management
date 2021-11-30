@@ -6,12 +6,9 @@
 package com.raven.form;
 
 import com.fpt.DAO.DetailInvoiceReturnDAO;
-import com.fpt.DAO.DetailInvoiceSellDAO;
 import com.fpt.DAO.ProductItemDAO;
 import com.fpt.DAO.ReturnProductDAO;
-import com.fpt.Validate.Validate;
 import com.fpt.entity.DetailInvoiceReturn;
-import com.fpt.entity.DetailInvoiceSell;
 import com.fpt.entity.InvoiceRetuns;
 import com.fpt.entity.ProductItem;
 import com.fpt.utils.Auth;
@@ -41,10 +38,10 @@ public class FormReturnProducts extends javax.swing.JPanel {
         initComponents();
         model = new DefaultTableModel();
         modelList = new DefaultTableModel();
-
     }
 
     ReturnProductDAO reDao = new ReturnProductDAO();
+
 
     List<ProductItem> listPr;
 
@@ -147,8 +144,6 @@ public class FormReturnProducts extends javax.swing.JPanel {
             dDao.insert(de);
             prDAO.returnProductItem(de.getQuatity(), de.getIdPrDetails());
         }
-
-//        reDao.sellProductItem(1, Integer.valueOf(txtShearchInvoice.getText()));
     }
 
     public float TotalBuy() {
@@ -499,10 +494,8 @@ public class FormReturnProducts extends javax.swing.JPanel {
                 return;
             }
         } catch (Exception e) {
-            MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Vui lòng nhập lại");
+            MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Vui lòng nhập lại -.-");
         }
-
-
     }//GEN-LAST:event_txtShearchInvoiceKeyReleased
 
     private void tableIn4InvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableIn4InvoiceMouseClicked

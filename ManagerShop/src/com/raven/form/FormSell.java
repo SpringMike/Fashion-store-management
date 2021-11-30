@@ -63,8 +63,8 @@ public class FormSell extends javax.swing.JPanel {
         model.setRowCount(0);
         List<ProductItem> list = prDAO.selectAllSell();
         for (ProductItem p : list) {
-            model.addRow(new Object[] { p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
-                    p.getMaterial(), p.getPrice(), p.getQuantity() });
+            model.addRow(new Object[]{p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
+                p.getMaterial(), p.getPrice(), p.getQuantity()});
         }
     }
 
@@ -111,7 +111,7 @@ public class FormSell extends javax.swing.JPanel {
                 int quantity = Integer.parseInt(txtQuantity.getText());
 
                 DefaultTableModel model = (DefaultTableModel) tableSellTemp.getModel();
-                model.addRow(new Object[] { id, name, categoryName, size, color, material, price, quantity });
+                model.addRow(new Object[]{id, name, categoryName, size, color, material, price, quantity});
 
                 // fillTableProductItem();
                 DetailInvoiceSell de = new DetailInvoiceSell();
@@ -214,9 +214,23 @@ public class FormSell extends javax.swing.JPanel {
             return;
         }
         for (ProductItem p : list) {
-            model.addRow(new Object[] { p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
-                    p.getMaterial(), p.getPrice(), p.getQuantity() });
+            model.addRow(new Object[]{p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
+                p.getMaterial(), p.getPrice(), p.getQuantity()});
         }
+        lblSearch.setText("");
+    }
+
+    public void searchIDFillTable() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        int id = Integer.valueOf(txtSearch.getText());
+        ProductItem p = prDAO.selectById(id);
+        if (p == null) {
+            lblSearch.setText("Không tìm thấy mặt hàng " + id + " để bán");
+            return;
+        }
+        model.addRow(new Object[]{p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
+            p.getMaterial(), p.getPrice(), p.getQuantity()});
         lblSearch.setText("");
     }
 
@@ -715,7 +729,11 @@ public class FormSell extends javax.swing.JPanel {
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
-        searchFillTable();
+        try {
+            searchIDFillTable();
+        } catch (Exception e) {
+            searchFillTable();
+        }
     }// GEN-LAST:event_txtSearchKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

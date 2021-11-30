@@ -65,6 +65,36 @@ public class FormImportProducts extends javax.swing.JPanel {
             });
         }
     }
+    
+    public void fillTableId() {
+        DefaultTableModel model = (DefaultTableModel) tableProductItem.getModel();
+        model.setRowCount(0);
+        int id = Integer.valueOf(txtSearch.getText());
+        ProductItem p = prDAO.selectImprotProductID(id);
+        if (p == null) {
+            lblSearch.setText("Không tìm thấy mặt hàng " + id + " để bán");
+            return;
+        }
+        model.addRow(new Object[]{
+            p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+        });
+    }
+
+    public void fillTableKey() {
+        DefaultTableModel model = (DefaultTableModel) tableProductItem.getModel();
+        model.setRowCount(0);
+        String key = txtSearch.getText();
+        List<ProductItem> list = prDAO.selectImprotProductKey(key);
+        if (list.isEmpty()) {
+            lblSearch.setText("Không tìm thấy mặt hàng " + key + " để bán");
+            return;
+        }
+        for (ProductItem p : list) {
+            model.addRow(new Object[]{
+                p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+            });
+        }
+    }
 
     public InvoiceImport getIvoice() {
         InvoiceImport in = new InvoiceImport();
@@ -192,9 +222,10 @@ public class FormImportProducts extends javax.swing.JPanel {
         btnDeleteTemp = new com.raven.suportSwing.MyButton();
         jPanel3 = new javax.swing.JPanel();
         myButton1 = new com.raven.suportSwing.MyButton();
-        textField1 = new com.raven.suportSwing.TextField();
+        txtSearch = new com.raven.suportSwing.TextField();
         jLabel2 = new javax.swing.JLabel();
         myButton4 = new com.raven.suportSwing.MyButton();
+        lblSearch = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -404,8 +435,13 @@ public class FormImportProducts extends javax.swing.JPanel {
 
         myButton1.setText("Tìm kiếm");
         myButton1.setRadius(10);
+        myButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton1ActionPerformed(evt);
+            }
+        });
 
-        textField1.setLabelText("Tìm theo tên hoặc mã sản phẩm");
+        txtSearch.setLabelText("Tìm theo tên hoặc mã sản phẩm");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel2.setText("Nhập Hàng");
@@ -418,6 +454,9 @@ public class FormImportProducts extends javax.swing.JPanel {
             }
         });
 
+        lblSearch.setFont(new java.awt.Font("Times New Roman", 3, 12)); // NOI18N
+        lblSearch.setForeground(new java.awt.Color(255, 51, 51));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -428,10 +467,14 @@ public class FormImportProducts extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 768, Short.MAX_VALUE)
                 .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(71, 71, 71))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(136, 136, 136)
+                .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(132, 132, 132)
-                    .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(27, 27, 27)
                     .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(474, Short.MAX_VALUE)))
@@ -443,12 +486,14 @@ public class FormImportProducts extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(10, 10, 10)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(myButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addContainerGap()))
         );
@@ -517,6 +562,15 @@ public class FormImportProducts extends javax.swing.JPanel {
         btnDeleteTemp.setEnabled(true);
     }//GEN-LAST:event_tableTempMouseClicked
 
+    private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            fillTableId();
+        } catch (Exception e) {
+            fillTableKey();
+        }
+    }//GEN-LAST:event_myButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnAdd;
@@ -533,15 +587,16 @@ public class FormImportProducts extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JLabel lblPrice;
     private javax.swing.JLabel lblQuantity;
+    private javax.swing.JLabel lblSearch;
     private com.raven.suportSwing.MyButton myButton1;
     private com.raven.suportSwing.MyButton myButton4;
     private com.raven.suportSwing.ScrollBar scrollBar1;
     private com.raven.suportSwing.ScrollBar scrollBar2;
     private com.raven.suportSwing.TableColumn tableProductItem;
     private com.raven.suportSwing.TableColumn tableTemp;
-    private com.raven.suportSwing.TextField textField1;
     private javax.swing.JTextArea txtAreaDesc;
     private com.raven.suportSwing.TextField txtPrice;
     private com.raven.suportSwing.TextField txtQuantity;
+    private com.raven.suportSwing.TextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

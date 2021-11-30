@@ -78,6 +78,22 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         lblSearch.setText("");
     }
 
+    public void fillSearchID() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        int keyString = Integer.valueOf(txtSearch.getText());
+        User u = user.selectById(keyString);
+        if (u == null) {
+            lblSearch.setText("Không có nhân viên " + keyString);
+            return;
+        }
+        model.addRow(new Object[]{
+            u.getIdUser(), u.getFullname(), u.isRole() ? "Quản lý" : "Nhân viên", u.isGender() ? "Nam" : "Nữ",
+            XDate.toString(u.getDateOfBirth(), "dd-MM-yyyy"), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
+        });
+        lblSearch.setText("");
+    }
+
     public void delete() {
         int index = tableShow.getSelectedRow();
         int idUser = (int) tableShow.getValueAt(index, 0);
@@ -256,7 +272,11 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton5ActionPerformed
         // TODO add your handling code here:
-        fillSearch();
+        try {
+            fillSearchID();
+        } catch (Exception e) {
+            fillSearch();
+        }
     }//GEN-LAST:event_myButton5ActionPerformed
 
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
