@@ -50,9 +50,9 @@ public class FormItems extends javax.swing.JPanel {
     public FormItems() {
         initComponents();
         setOpaque(false);
+        fillComboboxProduct();
         fillTable();
         rdioSelectAll.setSelected(true);
-        fillComboboxProduct();
         formImportItemJFrame.addEvenFillTable(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -352,6 +352,11 @@ public class FormItems extends javax.swing.JPanel {
                 cbcProductItemStateChanged(evt);
             }
         });
+        cbcProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbcProductActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -568,9 +573,9 @@ public class FormItems extends javax.swing.JPanel {
             int idProductItem = (int) tableShow.getValueAt(index, 0);
             String nameProduct = tableShow.getValueAt(index, 1).toString();
             Float price = (float) tableShow.getValueAt(index, 2);
-            String size = tableShow.getValueAt(index, 5).toString();
-            String color = tableShow.getValueAt(index, 6).toString();
-            String material = tableShow.getValueAt(index, 7).toString();
+            String size = tableShow.getValueAt(index, 3).toString();
+            String color = tableShow.getValueAt(index, 4).toString();
+            String material = tableShow.getValueAt(index, 5).toString();
 
             formUpdateItemJframe = new FormUpdateItemJfame(nameProduct, size, color, material, price, idProductItem);
             formUpdateItemJframe.addEvenUpdate(new ActionListener() {
@@ -635,8 +640,13 @@ public class FormItems extends javax.swing.JPanel {
     }//GEN-LAST:event_cbcProductItemStateChanged
 
     private void txtSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchFocusGained
-       lblSearch.setText("");
+        lblSearch.setText("");
     }//GEN-LAST:event_txtSearchFocusGained
+
+    private void cbcProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbcProductActionPerformed
+        fillTableByProduct();
+        rdioSelectAll.setSelected(true);
+    }//GEN-LAST:event_cbcProductActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

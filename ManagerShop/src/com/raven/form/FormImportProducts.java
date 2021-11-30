@@ -33,7 +33,6 @@ public class FormImportProducts extends javax.swing.JPanel {
      */
     public FormImportProducts() {
         initComponents();
-        setOpaque(false);
         fillComboboxSupplier();
         fillTableProductItem();
         lblPrice.setVisible(false);
