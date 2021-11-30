@@ -34,18 +34,24 @@ public class FormReturnProducts extends javax.swing.JPanel {
     /**
      * Creates new form FormReturnProducts
      */
+    DefaultTableModel model = null;
+    DefaultTableModel modelList = null;
+
     public FormReturnProducts() {
         initComponents();
+        model = new DefaultTableModel();
+        modelList = new DefaultTableModel();
+
     }
 
     ReturnProductDAO reDao = new ReturnProductDAO();
-    DefaultTableModel model;
-    DefaultTableModel modelList;
+
     List<ProductItem> listPr;
 
     public boolean ShearchKeyFillTable(int id) {
         model = (DefaultTableModel) tableIn4Invoice.getModel();
         model.setRowCount(0);
+
         listPr = reDao.selectByIdInvoiceReturn(id);
         for (ProductItem d : listPr) {
             model.addRow(new Object[]{
@@ -477,18 +483,25 @@ public class FormReturnProducts extends javax.swing.JPanel {
             modelList.setRowCount(0);
             return;
         }
+        try {
+            if (ShearchKeyFillTable(Integer.valueOf(txtShearchInvoice.getText())) == false) {
+                lblSearch.setText("Hoá đơn không tồn tại");
+                return;
+            } else {
+                lblSearch.setText("");
 
-        if (ShearchKeyFillTable(Integer.valueOf(txtShearchInvoice.getText())) == false) {
-            lblSearch.setText("Hoá đơn không tồn tại");
-            return;
+            }
+            if (checkReturn() == false) {
+                lblSearch.setText("Hoá đơn đã trả hàng");
+                return;
+            }
+            if (checkDayReturn() == false) {
+                return;
+            }
+        } catch (Exception e) {
+            MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Vui lòng nhập lại");
         }
-        if (checkReturn() == false) {
-            lblSearch.setText("Hoá đơn đã trả hàng");
-            return;
-        }
-        if (checkDayReturn() == false) {
-            return;
-        }
+
 
     }//GEN-LAST:event_txtShearchInvoiceKeyReleased
 
