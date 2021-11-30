@@ -72,7 +72,10 @@ public class FormReturnProducts extends javax.swing.JPanel {
         LocalDate today = LocalDate.now();
         LocalDate date = LocalDate.parse(XDate.toString(listPr.get(0).getDateCreateInvoice(), "dd-MM-yyy"), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         int day = Period.between(date, today).getDays();
-        if (day > 2) {
+        int month = Period.between(date, today).getMonths();
+        int year = Period.between(date, today).getYears();
+
+        if (day > 2 || month > 0 || year > 0) {
             MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Ngày trả hoá đơn đã quá hạn");
             System.out.println(day);
             return false;

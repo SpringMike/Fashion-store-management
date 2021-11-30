@@ -480,7 +480,7 @@ public class FormItems extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Vốn", "Size", "Màu Sắc", "Chất Liệu", "Số lượng tồn kho"
+                "Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Bán", "Size", "Màu Sắc", "Chất Liệu", "Số lượng tồn kho"
             }
         ) {
             boolean[] canEdit = new boolean [] {
