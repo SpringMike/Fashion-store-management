@@ -371,7 +371,15 @@ public class FormProducts extends javax.swing.JPanel {
             new String [] {
                 "ID Sản phẩm", "Tên Sản Phẩm", "Loại Sản Phẩm", "Mô Tả", "Trạng Thái"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableShowProducts.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableShowProductsMouseClicked(evt);

@@ -8,10 +8,20 @@ package com.raven.form;
 import com.fpt.DAO.StatisticalDAO;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -77,6 +87,7 @@ public class FormSalesStatistics extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
         myButton6 = new com.raven.suportSwing.MyButton();
+        myButton7 = new com.raven.suportSwing.MyButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -110,15 +121,20 @@ public class FormSalesStatistics extends javax.swing.JPanel {
 
         tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Mã Sản Phẩm", "Tên Sản Phẩm", "Số lượng bán"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tableShow);
 
         myButton6.setText("Xuất");
@@ -129,25 +145,35 @@ public class FormSalesStatistics extends javax.swing.JPanel {
             }
         });
 
+        myButton7.setText("Xuất");
+        myButton7.setRadius(20);
+        myButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbbYear, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                            .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(33, 33, 33)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1461, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39))))
+                        .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,9 +187,11 @@ public class FormSalesStatistics extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(cbbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
-                        .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 767, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -221,6 +249,34 @@ public class FormSalesStatistics extends javax.swing.JPanel {
 //        fillComboboxMonths();
     }//GEN-LAST:event_cbbYearItemStateChanged
 
+    private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed
+        // TODO add your handling code here:
+
+        DefaultCategoryDataset dcd = new DefaultCategoryDataset();
+        dcd.setValue(78.80, "Marks", "Ganesh");
+        dcd.setValue(68.80, "Marks", "Dinesh");
+        dcd.setValue(88.80, "Marks", "John");
+        dcd.setValue(98.80, "Marks", "Ali");
+        dcd.setValue(58.80, "Marks", "Sachin");
+        JFreeChart jchart = ChartFactory.createBarChart("Student Record", "Student Name", "Student Marks", dcd, PlotOrientation.VERTICAL, true, true, false);
+
+        CategoryPlot plot = jchart.getCategoryPlot();
+        plot.setRangeGridlinePaint(Color.black);
+        ChartFrame charFrm = new ChartFrame("Student Record", jchart, true);
+        charFrm.setVisible(true);
+        charFrm.setSize(500, 400);
+        charFrm.setLocationRelativeTo(null);
+        ChartPanel chartPanel = new ChartPanel(jchart);
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        int height = screenSize.height;
+//        int width = screenSize.width;
+//        charFrm.setSize(width / 2, height / 2);
+        jPanel1.add(chartPanel);
+//        jPanel1.removeAll();
+        jPanel1.updateUI();
+
+    }//GEN-LAST:event_myButton7ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.Combobox cbbMonth;
@@ -229,6 +285,7 @@ public class FormSalesStatistics extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private com.raven.suportSwing.MyButton myButton6;
+    private com.raven.suportSwing.MyButton myButton7;
     private com.raven.suportSwing.TableColumn tableShow;
     // End of variables declaration//GEN-END:variables
 }

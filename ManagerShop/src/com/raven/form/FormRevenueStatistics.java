@@ -5,10 +5,20 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.StatisticalDAO;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
+import java.awt.Color;
 import java.io.IOException;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -22,7 +32,27 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
     public FormRevenueStatistics() {
         initComponents();
         setOpaque(false);
+        fillYear();
+    }
+    StatisticalDAO sDao = new StatisticalDAO();
 
+    public void fillYear() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cbbYear.getModel();
+        model.removeAllElements();
+        List<Integer> list = sDao.selectYears();
+        for (Integer i : list) {
+            model.addElement(i);
+        }
+    }
+
+    public void fillTable() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        int year = (int) cbbYear.getSelectedItem();
+        List<Object[]> list = sDao.getSalesStatisticalRevenue(year);
+        for (Object[] o : list) {
+            model.addRow(o);
+        }
     }
 
     /**
@@ -34,7 +64,7 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        combobox1 = new com.raven.suportSwing.Combobox();
+        cbbYear = new com.raven.suportSwing.Combobox();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
@@ -42,11 +72,11 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        combobox1.setToolTipText("");
-        combobox1.setLabeText("Năm");
-        combobox1.addActionListener(new java.awt.event.ActionListener() {
+        cbbYear.setToolTipText("");
+        cbbYear.setLabeText("Năm");
+        cbbYear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combobox1ActionPerformed(evt);
+                cbbYearActionPerformed(evt);
             }
         });
 
@@ -55,15 +85,20 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
 
         tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Tháng ", "Sản phẩm bán", "Tổng giá bán", "Tổng Giá Vốn", "Tổng giá đã giảm", "Doanh Thu"
+                "Tháng ", "Sản phẩm bán", "Tổng giá bán", "Tổng Giá Chi", "Doanh Thu"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tableShow);
 
         myButton5.setText("Xuất");
@@ -78,19 +113,19 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1441, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(cbbYear, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
@@ -103,9 +138,9 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(352, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(cbbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -113,9 +148,10 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
         Excel.outputFile((DefaultTableModel) tableShow.getModel());
         MsgBox.alert(this, "Xuất file thành công");
     }
-    private void combobox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox1ActionPerformed
+    private void cbbYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbYearActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_combobox1ActionPerformed
+        fillTable();
+    }//GEN-LAST:event_cbbYearActionPerformed
 
     private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton5ActionPerformed
         // TODO add your handling code here:
@@ -128,7 +164,7 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.raven.suportSwing.Combobox combobox1;
+    private com.raven.suportSwing.Combobox cbbYear;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private com.raven.suportSwing.MyButton myButton5;

@@ -40,6 +40,12 @@ public class StatisticalDAO {
         return getListOfArray(sql, cols, year, month);
     }
 
+    public List<Object[]> getSalesStatisticalRevenue(Integer year) {
+        String sql = "{call sp_revenue(?)}";
+        String[] cols = {"MonthDate", "quantity", "totalSell", "totalReturn", "revenue"};
+        return getListOfArray(sql, cols, year);
+    }
+
     public List<Integer> selectYears() {
         String sql = "SELECT DISTINCT YEAR(dateCreateInvoice) FROM dbo.InvoiceSell ORDER BY YEAR(dateCreateInvoice) DESC";
         List<Integer> list = new ArrayList<>();
@@ -72,6 +78,7 @@ public class StatisticalDAO {
         }
         return list;
     }
+
 
 //     public List<Object[]> selectByMonths(int month){
 //         String sql = "SELECT * FROM dbo.InvoiceSell WHERE MONTH(dateCreateInvoice) = ?";

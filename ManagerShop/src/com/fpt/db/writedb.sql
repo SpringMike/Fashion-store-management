@@ -119,6 +119,16 @@ ALTER TABLE dbo.InvoiceReturn ADD FOREIGN KEY(idUser) REFERENCES dbo.[User](idUs
 
 ALTER TABLE dbo.InvoiceReturn ADD dateCreateInvoice DATE
 ----------------------------------------------------------------------------------------
+--29/11/2021
+CREATE TABLE SaveMoney
+(
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	dateCreate DATE,
+	moneyReturn MONEY,
+	moneySell MONEY,
+	moneyImport MONEY,
+)
+GO
 
 
 SELECT * FROM dbo.InvoiceImportPr
@@ -243,45 +253,87 @@ END;
 
 EXEC dbo.sp_statistical @year = 2021, -- int
                         @month = 10 -- int
-
-SELECT DISTINCT YEAR(dateCreateInvoice) FROM dbo.InvoiceSell ORDER BY YEAR(dateCreateInvoice) DESC
-SELECT DISTINCT MONTH(dateCreateInvoice) FROM dbo.InvoiceSell ORDER BY MONTH(dateCreateInvoice) DESC
-SELECT * FROM dbo.InvoiceSell WHERE MONTH(dateCreateInvoice) = 10
-
-SELECT * FROM dbo.detailsInvoiceSELL
+---------------------------
 IF OBJECT_ID('sp_revenue') IS NOT NULL
 DROP PROC sp_revenue
 GO
 CREATE PROC sp_revenue
+(@year int)
 AS
 BEGIN
-    SELECT MONTH(InvoiceSell.dateCreateInvoice) AS Month, SUM(detailsInvoiceSELL.quatity) quantitySell, SUM(totalMoney) totalSell, SUM(priceImport * detailsInvoiceSELL.quatity) totalImport,SUM(totalMoney) - SUM(priceImport * detailsInvoiceSELL.quatity) revenue  
-	FROM dbo.InvoiceSell JOIN dbo.detailsInvoiceSELL ON detailsInvoiceSELL.idInvoiceSell = InvoiceSell.idInvoiceSell
-	JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails
-	JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct
-	JOIN dbo.detailsInvoiceImportPr ON detailsInvoiceImportPr.idPrDeltails = detailsProduct.idPrDeltails
-	JOIN dbo.InvoiceImportPr ON InvoiceImportPr.idInvoice = detailsInvoiceImportPr.idInvoice
-	JOIN dbo.DetailInvoiceReturn ON DetailInvoiceReturn.idPrDetails = detailsProduct.idPrDeltails
-	JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell
-	GROUP BY MONTH(InvoiceSell.dateCreateInvoice)
-
-	SELECT DISTINCT MONTH(InvoiceSell.dateCreateInvoice) AS Month1, SUM(detailsInvoiceSELL.quatity) quantitySell, SUM(totalMoney) totalSell, SUM(priceImport * detailsInvoiceSELL.quatity) totalImport,SUM(totalMoney) - SUM(priceImport * detailsInvoiceSELL.quatity) revenue   FROM dbo.detailsInvoiceSELL 
+	SELECT MONTH(InvoiceSell.dateCreateInvoice) MonthDate , SUM(detailsInvoiceSELL.quatity) quantity,
+	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) totalSell, SUM(totalReturn) totalReturn, 
+	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) revenue
+	FROM dbo.detailsInvoiceSELL  
 	JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
+	LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell
+	WHERE YEAR(InvoiceSell.dateCreateInvoice) = 2021
+	GROUP BY MONTH(InvoiceSell.dateCreateInvoice)
+END
+EXEC dbo.sp_revenue @year = 2021 -- int
+
+-- thầy view
+	SELECT MONTH(InvoiceSell.dateCreateInvoice) MonthDate , SUM(detailsInvoiceSELL.quatity) quantity,
+	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) totalSell, SUM(totalReturn) totalReturn, 
+	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) revenue
+	FROM dbo.detailsInvoiceSELL  
+	JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
+	LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell
 	JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails
 	JOIN dbo.detailsInvoiceImportPr ON detailsInvoiceImportPr.idPrDeltails = detailsProduct.idPrDeltails
 	JOIN dbo.InvoiceImportPr ON InvoiceImportPr.idInvoice = detailsInvoiceImportPr.idInvoice
-	JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell
-	JOIN dbo.DetailInvoiceReturn ON DetailInvoiceReturn.idDetailInvoiceReturn = InvoiceReturn.idInvoiceReturn
-	GROUP BY MONTH(InvoiceSell.dateCreateInvoice) 
-
+	WHERE YEAR(InvoiceSell.dateCreateInvoice) = @year
+	GROUP BY MONTH(InvoiceSell.dateCreateInvoice)
+-------------------------------
+IF OBJECT_ID('sp_demo') IS NOT NULL
+DROP PROC sp_demo
+GO
+CREATE PROC sp_demo
+(@year int)
+AS
+BEGIN
+    SELECT SUM(priceImport * quatity) TienNhap FROM dbo.detailsInvoiceImportPr JOIN dbo.InvoiceImportPr ON InvoiceImportPr.idInvoice = detailsInvoiceImportPr.idInvoice
+	WHERE YEAR(dateCreateInvoice) = 2021
+	GROUP BY MONTH(dateCreateInvoice)
 END
 
-SELECT MONTH(InvoiceSell.dateCreateInvoice) Thang, SUM(detailsInvoiceSELL.quatity) soluong, SUM(totalMoney) Tongtien, SUM(priceImport * detailsInvoiceSELL.quatity)  FROM dbo.detailsInvoiceSELL  
-JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
-JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails
-JOIN dbo.detailsInvoiceImportPr ON detailsInvoiceImportPr.idPrDeltails = detailsProduct.idPrDeltails
-JOIN dbo.InvoiceImportPr ON InvoiceImportPr.idInvoice = detailsInvoiceImportPr.idInvoice
-GROUP BY MONTH(InvoiceSell.dateCreateInvoice)
+EXEC dbo.sp_demo @year = 0 -- int
+
+
+IF OBJECT_ID('sp_Return') IS NOT NULL
+DROP FUNCTION sp_Return
+GO
+CREATE FUNCTION sp_Return
+(@year int)
+RETURNS @Bang TABLE (tienNhap FLOAT)
+as
+BEGIN
+  INSERT INTO @Bang
+      SELECT SUM(priceImport * quatity) TienNhap FROM dbo.detailsInvoiceImportPr JOIN dbo.InvoiceImportPr ON InvoiceImportPr.idInvoice = detailsInvoiceImportPr.idInvoice
+	WHERE YEAR(dateCreateInvoice) = @year
+	GROUP BY MONTH(dateCreateInvoice)
+  RETURN
+END
+
+SELECT * FROM dbo.sp_Return(2021)
+
+INSERT INTO dbo.SaveMoney
+(dateCreate,moneyReturn,moneySell,moneyImport)
+VALUES(?,?,?)
+
+ALTER TABLE dbo.DetailInvoiceReturn DROP CONSTRAINT FK__DetailInv__idDet__6FE99F9F
+ALTER TABLE dbo.DetailInvoiceReturn ADD FOREIGN KEY (idInvoiceReturn) REFERENCES dbo.InvoiceReturn(idInvoiceReturn)
+DROP TABLE dbo.SaveMoney
+
+
+SELECT * FROM Account
+SELECT * FROM [user]
+
+UPDATE dbo.[User] SET status = 1 WHERE idUser = 15
+
+
+
+
 
 
 

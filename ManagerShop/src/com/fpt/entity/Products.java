@@ -18,6 +18,7 @@ public class Products {
     public boolean isStatusDelete() {
         return statusDelete;
     }
+    
 
     public void setStatusDelete(boolean statusDelete) {
         this.statusDelete = statusDelete;
