@@ -26,7 +26,7 @@ public class Login_main extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
-         Image icon = Toolkit.getDefaultToolkit().getImage("D:\\Fall2021\\DuAn1_FPOLY\\ManagerShop\\src\\com\\raven\\icon\\shop (6).png");
+         Image icon = Toolkit.getDefaultToolkit().getImage("src\\com\\raven\\icon\\shop (6).png");
         this.setIconImage(icon);
 //        setIconImage(XImage.getAppImage());
         Login login = new Login();
