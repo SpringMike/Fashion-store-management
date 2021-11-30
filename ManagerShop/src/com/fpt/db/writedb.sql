@@ -331,6 +331,29 @@ SELECT * FROM [user]
 
 UPDATE dbo.[User] SET status = 1 WHERE idUser = 15
 
+SELECT idDetailInvoiceReturn, nameProduct, name, valueSize, valueColor, valueMaterial, DetailInvoiceReturn.quatity, detailsProduct.price * DetailInvoiceReturn.quatity AS N'price' 
+FROM dbo.InvoiceReturn
+LEFT JOIN dbo.DetailInvoiceReturn ON InvoiceReturn.idInvoiceReturn = DetailInvoiceReturn.idDetailInvoiceReturn
+JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer
+JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = DetailInvoiceReturn.idPrDetails
+JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct
+JOIN dbo.Size ON Size.idSize = detailsProduct.idSize JOIN dbo.Color ON Color.idColor = detailsProduct.idColor
+JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial 
+
+SELECT * FROM dbo.InvoiceReturn
+JOIN dbo.DetailInvoiceReturn ON DetailInvoiceReturn.idInvoiceReturn = InvoiceReturn.idInvoiceReturn
+JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer
+JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = DetailInvoiceReturn.idPrDetails
+JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct
+JOIN dbo.Size ON Size.idSize = detailsProduct.idSize
+JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
+JOIN dbo.Color ON Color.idColor = detailsProduct.idColor
+WHERE DetailInvoiceReturn.idInvoiceReturn = ?
+                
+
+
+
+SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
 
 
 

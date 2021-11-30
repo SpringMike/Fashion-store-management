@@ -7,6 +7,7 @@ package com.raven.form;
 
 import com.fpt.DAO.UserDAO;
 import com.fpt.entity.User;
+import com.fpt.utils.Auth;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
@@ -80,9 +81,13 @@ public class FormListEmpolyee extends javax.swing.JPanel {
     public void delete() {
         int index = tableShow.getSelectedRow();
         int idUser = (int) tableShow.getValueAt(index, 0);
-        user.delete(idUser);
-        fillTable();
-        MsgBox.alert(this, "Xoá OK");
+        if (idUser == Auth.user.getIdUser()) {
+            MsgBox.warring(this, "Bạn không thể xoá được bạn ???");
+        } else if (MsgBox.confirm(this, "Bạn có muốn xoá nhân viên này ???")) {
+            user.delete(idUser);
+            fillTable();
+            MsgBox.alert(this, "Xoá thành coongF");
+        }
     }
 
     /**

@@ -73,13 +73,15 @@ public class DetailInvoiceReturnDAO extends ShopDAO<DetailInvoiceReturn, Integer
     }
 
     public List<DetailInvoiceReturn> selectByIdInvoice(int id) {
-        String sql = "SELECT idDetailInvoiceReturn, nameProduct, name, valueSize, valueColor, valueMaterial, DetailInvoiceReturn.quatity, detailsProduct.price * DetailInvoiceReturn.quatity AS N'price' FROM dbo.DetailInvoiceReturn JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceReturn = DetailInvoiceReturn.idDetailInvoiceReturn\n"
+        String sql = "SELECT * FROM dbo.InvoiceReturn\n"
+                + "JOIN dbo.DetailInvoiceReturn ON DetailInvoiceReturn.idInvoiceReturn = InvoiceReturn.idInvoiceReturn\n"
                 + "JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer\n"
                 + "JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = DetailInvoiceReturn.idPrDetails\n"
                 + "JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct\n"
-                + "JOIN dbo.Size ON Size.idSize = detailsProduct.idSize JOIN dbo.Color ON Color.idColor = detailsProduct.idColor\n"
-                + "JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial \n"
-                + "WHERE dbo.DetailInvoiceReturn.idInvoiceReturn = ?";
+                + "JOIN dbo.Size ON Size.idSize = detailsProduct.idSize\n"
+                + "JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial\n"
+                + "JOIN dbo.Color ON Color.idColor = detailsProduct.idColor\n"
+                + "WHERE DetailInvoiceReturn.idInvoiceReturn = ?";
         return selectBySql(sql, id);
     }
 
