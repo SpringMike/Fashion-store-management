@@ -48,7 +48,7 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, Integer> {
     @Override
     public InvoiceRetuns selectById(Integer k) {
         String sql = "SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer \n"
-                + "where idInvoiceSell = ?";
+                + "where idInvoiceReturn = ?";
         List<InvoiceRetuns> list = selectBySql(sql, k);
         if (list.isEmpty()) {
             return null;

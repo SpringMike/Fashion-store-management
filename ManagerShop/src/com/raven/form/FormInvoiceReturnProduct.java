@@ -456,6 +456,9 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        if(txtSearchId.getText().isEmpty()){
+            fillPagination();
+        }
         fillSearch();
     }//GEN-LAST:event_btnSearchActionPerformed
 
