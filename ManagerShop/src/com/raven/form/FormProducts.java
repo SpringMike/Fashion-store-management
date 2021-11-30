@@ -10,6 +10,7 @@ import com.fpt.DAO.ProductsDAO;
 import com.fpt.Validate.Validate;
 import com.fpt.Validate.labelValidate;
 import com.fpt.entity.Category;
+import com.fpt.entity.ProductItem;
 import com.fpt.entity.Products;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
@@ -224,6 +225,21 @@ public class FormProducts extends javax.swing.JPanel {
             }
         }
 
+    }
+
+    public void searchProductsID() {
+        DefaultTableModel model = (DefaultTableModel) tableShowProducts.getModel();
+        model.setRowCount(0);
+        int id = Integer.valueOf(txtSearch.getText());
+        Products p = pDao.selectById(id);
+        if (p == null) {
+            MsgBox.labelAlert(lblSearch, txtSearch, "Không có sản phẩm " + id + "  ");
+            return;
+        }
+        model.addRow(new Object[]{
+            p.getIdProduct(), p.getNameProduct(), p.getNameList(), p.getDescription(), p.isStatus() ? "Đang kinh doanh" : "Ngừng kinh doanh"
+        });
+        lblSearch.setText("");
     }
 
     public void searchProducts() {
@@ -746,8 +762,10 @@ public class FormProducts extends javax.swing.JPanel {
     private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton4ActionPerformed
         // TODO add your handling code here:
         try {
+            if(txtSearch.getText().isEmpty()){
+                return;
+            }
             excelProducts();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -755,7 +773,12 @@ public class FormProducts extends javax.swing.JPanel {
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
-        searchProducts();
+        try {
+            searchProductsID();
+        } catch (Exception e) {
+            searchProducts();
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_txtSearchKeyReleased
 
 
