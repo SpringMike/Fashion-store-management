@@ -305,7 +305,6 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     }
 
     List<ProductItem> list = new ArrayList<>();
-    int countTemp = 0;
 
     public void fillTableTemp() {
         if (!Validate.checkEmpty(lblPrice, txtPrice, "Không bỏ trống giá tiền")) {
@@ -317,7 +316,6 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             Object[] obj = new Object[]{p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial()};
             model.addRow(obj);
             list.add(p);
-            countTemp++;
 
         }
     }
@@ -337,16 +335,15 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) tableColumn1.getModel();
             model.setRowCount(0);
             txtPrice.setText("");
+            new MainForm().showForm(new FormItems());
+            this.dispose();
         } else {
             MsgBox.alert(this, "Bạn chưa thêm mặt hàng nào cả");
         }
 
     }
 
-    public void showFormItem() {
-        new MainForm().showForm(new FormItems());
-        this.dispose();
-    }
+
 
     public void insetImage() {
         ProductItemImage productItemImage = new ProductItemImage();
@@ -366,14 +363,12 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     public void deleteRowInTableTemp() {
         int row = tableColumn1.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) tableColumn1.getModel();
-        int countTable = tableColumn1.getRowCount();
-        model.removeRow(row);
 
-        for (int i = 0; i < countTable; i++) {
-            if (countTable == countTemp) {
+        for (int i = 0; i < tableColumn1.getRowCount(); i++) {
+            if (row == i) {
+                model.removeRow(row);
                 list.remove(list.get(i));
                 MsgBox.alert(this, "Xóa mặt hàng thành công !");
-                countTemp = 0;
                 btnDelete.setEnabled(false);
                 return;
             }
@@ -1065,7 +1060,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
     private void btnAddProductItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductItemActionPerformed
 //        insertProductItem();
-        this.dispose();
+//        this.dispose();
     }//GEN-LAST:event_btnAddProductItemActionPerformed
 
     private void tableColumn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableColumn1MouseClicked
