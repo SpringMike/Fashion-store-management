@@ -263,7 +263,10 @@ CREATE PROC sp_revenue
 AS
 BEGIN
 	SELECT MONTH(InvoiceSell.dateCreateInvoice) MonthDate , SUM(detailsInvoiceSELL.quatity) quantity,
-	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) totalSell, SUM(totalReturn) totalReturn, 
+	CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) AS INT)
+	 totalSell, 
+	 
+	 SUM(totalReturn) totalReturn, 
 	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) revenue
 	FROM dbo.detailsInvoiceSELL  
 	JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell

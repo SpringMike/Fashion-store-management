@@ -10,15 +10,15 @@ public class ModelChart {
         this.label = label;
     }
 
-    public long[] getValues() {
+    public double[] getValues() {
         return values;
     }
 
-    public void setValues(long[] values) {
+    public void setValues(double[] values) {
         this.values = values;
     }
 
-    public ModelChart(String label, long[] values) {
+    public ModelChart(String label, double[] values) {
         this.label = label;
         this.values = values;
     }
@@ -27,11 +27,11 @@ public class ModelChart {
     }
 
     private String label;
-    private long values[];
+    private double values[];
 
-    public long getMaxValues() {
-        long max = 0;
-        for (long v : values) {
+    public double getMaxValues() {
+        double max = 0;
+        for (double v : values) {
             if (v > max) {
                 max = v;
             }

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -31,7 +35,12 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="cbbYear" min="-2" pref="133" max="-2" attributes="0"/>
-                          <Component id="myButton6" min="-2" pref="75" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                              <Component id="myButton6" min="-2" pref="75" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="radiStreet" min="-2" max="-2" attributes="0"/>
+                          <Component id="radiColumn" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane1" max="32767" attributes="0"/>
@@ -56,7 +65,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="cbbYear" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="radiStreet" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="radiColumn" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="242" max="-2" attributes="0"/>
                       <Component id="myButton6" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -158,6 +171,22 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton6ActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="com.raven.suportSwing.RadioButtonCustom" name="radiStreet">
+      <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Bi&#x1ec1;u &#x111;&#x1ed3; &#x111;&#x1b0;&#x1edd;ng"/>
+      </Properties>
+    </Component>
+    <Component class="com.raven.suportSwing.RadioButtonCustom" name="radiColumn">
+      <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Bi&#x1ec1;u &#x111;&#x1ed3; C&#x1ed9;t"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

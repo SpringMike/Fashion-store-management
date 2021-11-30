@@ -118,7 +118,7 @@ public class CurveChart extends javax.swing.JPanel {
     public void addData(ModelChart data) {
         model.add(data);
         blankPlotChart.setLabelCount(model.size());
-        long max = data.getMaxValues();
+        double max = data.getMaxValues();
         if (max > blankPlotChart.getMaxValues()) {
             blankPlotChart.setMaxValues(max);
         }
