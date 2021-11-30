@@ -292,7 +292,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
             }
         });
 
-        cbbPagination.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "5", "10", "15", "20" }));
+        cbbPagination.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5", "10", "15", "20", "25", "30" }));
         cbbPagination.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbbPaginationItemStateChanged(evt);
