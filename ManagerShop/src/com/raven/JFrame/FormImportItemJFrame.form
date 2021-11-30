@@ -124,9 +124,6 @@
             <Property name="text" type="java.lang.String" value="Ho&#xe0;n Th&#xe0;nh"/>
             <Property name="radius" type="int" value="20"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddProductItemActionPerformed"/>
-          </Events>
         </Component>
         <Component class="com.raven.suportSwing.MyButton" name="myButton6">
           <Properties>
