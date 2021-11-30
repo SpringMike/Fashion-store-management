@@ -13,6 +13,7 @@ import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +21,11 @@ import javax.swing.table.DefaultTableModel;
  * @author ducit
  */
 public class FormVoucher extends javax.swing.JPanel {
+
+    private static final String alpha = "abcdefghijklmnopqrstuvwxyz"; // a-z
+    private static final String alphaUpperCase = alpha.toUpperCase(); // A-Z
+    private static final String digits = "0123456789"; // 0-9
+    private static final String ALPHA_NUMERIC = alpha + alphaUpperCase + digits;
 
     /**
      * Creates new form FormVoucher
@@ -63,7 +69,6 @@ public class FormVoucher extends javax.swing.JPanel {
     }
 
     public void setForm(Voucher c) {
-        txtCodeVoucher.setText(c.getNameVoucher());
         txtDateEnd.setText(XDate.toString(c.getDateEnd(), "dd-MM-yyyy"));
         txtDateStart.setText(XDate.toString(c.getDateStart(), "dd-MM-yyyy"));
         txtQuatity.setText(String.valueOf(c.getQuatity()));
@@ -74,7 +79,7 @@ public class FormVoucher extends javax.swing.JPanel {
         Voucher v = new Voucher();
         v.setDateEnd(XDate.toDate(txtDateEnd.getText(), "dd-MM-yyyy"));
         v.setDateStart(XDate.toDate(txtDateStart.getText(), "dd-MM-yyyy"));
-        v.setNameVoucher(txtCodeVoucher.getText());
+        v.setNameVoucher(randomAlphaNumeric(8));
         v.setQuatity(Integer.parseInt(txtQuatity.getText()));
         v.setValue(Integer.parseInt(txtValue.getText()));
         return v;
@@ -82,7 +87,6 @@ public class FormVoucher extends javax.swing.JPanel {
 
     public void edit() {
         int row = tableShow.getSelectedRow();
-        txtCodeVoucher.setEditable(false);
         btnAdd.setEnabled(false);
         btnDelete.setEnabled(true);
         btnUpdate.setEnabled(true);
@@ -92,8 +96,6 @@ public class FormVoucher extends javax.swing.JPanel {
     }
 
     public void clearForm() {
-        txtCodeVoucher.setEditable(true);
-        txtCodeVoucher.setText("");
         txtDateEnd.setText("");
         txtDateStart.setText("");
         txtValue.setText("");
@@ -121,16 +123,25 @@ public class FormVoucher extends javax.swing.JPanel {
         return false;
     }
 
+    private static Random generator = new Random();
+
+    public static int randomNumber(int min, int max) {
+        return generator.nextInt((max - min) + 1) + min;
+    }
+
+    public String randomAlphaNumeric(int numberOfCharactor) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numberOfCharactor; i++) {
+            int number = randomNumber(0, ALPHA_NUMERIC.length() - 1);
+            char ch = ALPHA_NUMERIC.charAt(number);
+            sb.append(ch);
+        }
+        return sb.toString();
+    }
+
     public void insert() {
         try {
-            if (!Validate.checkEmpty(lblCodeVoucher, txtCodeVoucher, "Không bỏ trống mã")) {
-                return;
-            } else if (!Validate.checkLength(lblCodeVoucher, txtCodeVoucher, "Mã Voucher tối đa 7 ký tự", 7)) {
-                return;
-            } else if (checkVoucher(txtCodeVoucher.getText()) == true) {
-                MsgBox.labelAlert(lblCodeVoucher, txtCodeVoucher, "Mã voucher đã tồn tại");
-                return;
-            } else if (!Validate.checkEmpty(lblValue, txtValue, "Không bỏ trống %")) {
+            if (!Validate.checkEmpty(lblValue, txtValue, "Không bỏ trống %")) {
                 return;
             } else if (!Validate.checkNumber(lblValue, txtValue, "Giá trị không hợp lệ")) {
                 return;
@@ -215,7 +226,6 @@ public class FormVoucher extends javax.swing.JPanel {
         tableShow = new com.raven.suportSwing.TableColumn();
         jLabel1 = new javax.swing.JLabel();
         txtValue = new com.raven.suportSwing.TextField();
-        txtCodeVoucher = new com.raven.suportSwing.TextField();
         txtDateStart = new com.raven.suportSwing.TextField();
         txtDateEnd = new com.raven.suportSwing.TextField();
         txtQuatity = new com.raven.suportSwing.TextField();
@@ -277,13 +287,6 @@ public class FormVoucher extends javax.swing.JPanel {
         txtValue.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtValueFocusGained(evt);
-            }
-        });
-
-        txtCodeVoucher.setLabelText("Mã Voucher");
-        txtCodeVoucher.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtCodeVoucherFocusGained(evt);
             }
         });
 
@@ -410,36 +413,34 @@ public class FormVoucher extends javax.swing.JPanel {
                                 .addComponent(txtQuatity, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(txtValue, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtCodeVoucher, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 635, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addGap(22, 22, 22)
-                                                    .addComponent(lblCodeVoucher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addGap(22, 22, 22)
-                                                    .addComponent(lblValue, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addGap(22, 22, 22)
-                                                    .addComponent(lblQuatity, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addGap(22, 22, 22)
-                                                    .addComponent(lblDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addGap(18, 18, 18)
-                                                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(18, 18, 18)
-                                                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(18, 18, 18)
-                                                    .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addGap(22, 22, 22)
-                                                    .addComponent(lblDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))))))))))
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 635, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(22, 22, 22)
+                                                .addComponent(lblCodeVoucher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(22, 22, 22)
+                                                .addComponent(lblValue, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(22, 22, 22)
+                                                .addComponent(lblQuatity, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(22, 22, 22)
+                                                .addComponent(lblDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(22, 22, 22)
+                                                .addComponent(lblDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))))))))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -457,8 +458,7 @@ public class FormVoucher extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtCodeVoucher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(50, 50, 50)
                         .addComponent(lblCodeVoucher, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -522,11 +522,6 @@ public class FormVoucher extends javax.swing.JPanel {
         // TODO add your handling code here:
         edit();
     }//GEN-LAST:event_tableShowMouseClicked
-
-    private void txtCodeVoucherFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodeVoucherFocusGained
-        // TODO add your handling code here:
-        lblCodeVoucher.setText("");
-    }//GEN-LAST:event_txtCodeVoucherFocusGained
 
     private void txtValueFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtValueFocusGained
         // TODO add your handling code here:
@@ -596,7 +591,6 @@ public class FormVoucher extends javax.swing.JPanel {
     private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblValue;
     private com.raven.suportSwing.TableColumn tableShow;
-    private com.raven.suportSwing.TextField txtCodeVoucher;
     private com.raven.suportSwing.TextField txtDateEnd;
     private com.raven.suportSwing.TextField txtDateStart;
     private com.raven.suportSwing.TextField txtQuatity;

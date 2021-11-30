@@ -155,6 +155,21 @@ public class FormSupplier extends javax.swing.JPanel {
         lblSearch.setText("");
     }
 
+    public void searchSupplierID() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        int keyWord = Integer.valueOf(txtSearch.getText());
+        Supplier s = sDao.selectById(keyWord);
+        if (s == null) {
+            lblSearch.setText("Không có nhà cung cấp " + keyWord);
+            return;
+        }
+        model.addRow(new Object[]{
+            s.getIdSupplier(), s.getNameMaterial(), s.getAddress(), s.getPhoneNumber()
+        });
+        lblSearch.setText("");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -196,6 +211,9 @@ public class FormSupplier extends javax.swing.JPanel {
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtSearchKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
             }
         });
 
@@ -538,8 +556,16 @@ public class FormSupplier extends javax.swing.JPanel {
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
         // TODO add your handling code here:
-        searchSupplier();
     }//GEN-LAST:event_txtSearchKeyPressed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        try {
+            searchSupplierID();
+        } catch (Exception e) {
+            searchSupplier();
+        }
+    }//GEN-LAST:event_txtSearchKeyReleased
 
     public void excelSupplier() throws IOException {
         Excel.outputFile((DefaultTableModel) tableShow.getModel());

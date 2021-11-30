@@ -7,6 +7,7 @@ package com.raven.form;
 
 import com.fpt.DAO.UserDAO;
 import com.fpt.entity.User;
+import com.fpt.utils.Auth;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
@@ -23,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
  * @author ducit
  */
 public class FormListEmpolyee extends javax.swing.JPanel {
-    
+
     UserDAO user = new UserDAO();
     FormImportEmpolyeeJFrame formImportEmpolyeeJFrame = new FormImportEmpolyeeJFrame();
     FormImportEmpolyeeJFrame formUpdateEmpolyeeJFrame;
@@ -58,7 +59,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         }
         System.out.println("Hello");
     }
-    
+
     public void fillSearch() {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
@@ -76,15 +77,33 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         }
         lblSearch.setText("");
     }
-    
+
+    public void fillSearchID() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        int keyString = Integer.valueOf(txtSearch.getText());
+        User u = user.selectById(keyString);
+        if (u == null) {
+            lblSearch.setText("Không có nhân viên " + keyString);
+            return;
+        }
+        model.addRow(new Object[]{
+            u.getIdUser(), u.getFullname(), u.isRole() ? "Quản lý" : "Nhân viên", u.isGender() ? "Nam" : "Nữ",
+            XDate.toString(u.getDateOfBirth(), "dd-MM-yyyy"), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
+        });
+        lblSearch.setText("");
+    }
+
     public void delete() {
         int index = tableShow.getSelectedRow();
-        if (MsgBox.confirm(this, "Bạn có muốn xóa không?")) {
-            int idUser = (int) tableShow.getValueAt(index, 0);
+        int idUser = (int) tableShow.getValueAt(index, 0);
+        if (idUser == Auth.user.getIdUser()) {
+            MsgBox.warring(this, "Bạn không thể xoá được bạn ???");
+        } else if (MsgBox.confirm(this, "Bạn có muốn xoá nhân viên này ???")) {
             user.delete(idUser);
             fillTable();
+            MsgBox.alert(this, "Xoá thành coongF");
         }
-        MsgBox.alert(this, "Xoá OK");
     }
 
     /**
@@ -253,7 +272,11 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton5ActionPerformed
         // TODO add your handling code here:
-        fillSearch();
+        try {
+            fillSearchID();
+        } catch (Exception e) {
+            fillSearch();
+        }
     }//GEN-LAST:event_myButton5ActionPerformed
 
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
