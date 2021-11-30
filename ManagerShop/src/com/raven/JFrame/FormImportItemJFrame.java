@@ -337,6 +337,8 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) tableColumn1.getModel();
             model.setRowCount(0);
             txtPrice.setText("");
+            new MainForm().showForm(new FormItems());
+            this.dispose();
         } else {
             MsgBox.alert(this, "Bạn chưa thêm mặt hàng nào cả");
         }
@@ -344,8 +346,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     }
 
     public void showFormItem() {
-        new MainForm().showForm(new FormItems());
-        this.dispose();
+
     }
 
     public void insetImage() {
@@ -511,11 +512,6 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
         btnAddProductItem.setText("Hoàn Thành");
         btnAddProductItem.setRadius(20);
-        btnAddProductItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddProductItemActionPerformed(evt);
-            }
-        });
 
         myButton6.setText("Import");
         myButton6.setRadius(20);
@@ -1062,11 +1058,6 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     private void btnAddTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTempActionPerformed
         fillTableTemp();
     }//GEN-LAST:event_btnAddTempActionPerformed
-
-    private void btnAddProductItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductItemActionPerformed
-//        insertProductItem();
-        this.dispose();
-    }//GEN-LAST:event_btnAddProductItemActionPerformed
 
     private void tableColumn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableColumn1MouseClicked
         getProductItemWhenClick();
