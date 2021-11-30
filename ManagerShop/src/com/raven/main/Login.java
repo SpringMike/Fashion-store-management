@@ -12,8 +12,10 @@ import com.fpt.entity.Account;
 import com.fpt.entity.User;
 import com.fpt.utils.Auth;
 import com.fpt.utils.MsgBox;
+import com.fpt.utils.XImage;
 import com.raven.dialog.Message;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.border.LineBorder;
@@ -32,7 +34,9 @@ public class Login extends javax.swing.JPanel {
         lbAlertPassword.setText("");
         lbAlertUsername.setText("");
         txtUser.grabFocus();
+
     }
+
     AccountDao dao = new AccountDao();
 
     public void backLogin() {
@@ -235,4 +239,5 @@ public class Login extends javax.swing.JPanel {
     private com.raven.suportSwing.PasswordField txtPassWord;
     private com.raven.suportSwing.TextField txtUser;
     // End of variables declaration//GEN-END:variables
+
 }

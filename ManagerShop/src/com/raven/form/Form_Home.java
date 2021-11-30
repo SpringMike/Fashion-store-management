@@ -1,5 +1,6 @@
 package com.raven.form;
 
+import com.fpt.utils.XImage;
 import com.raven.dialog.Message;
 import com.raven.main.Main;
 import com.raven.model.ModelCard;

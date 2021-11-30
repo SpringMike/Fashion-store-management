@@ -322,8 +322,14 @@ INSERT INTO dbo.SaveMoney
 VALUES(?,?,?)
 
 ALTER TABLE dbo.DetailInvoiceReturn DROP CONSTRAINT FK__DetailInv__idDet__6FE99F9F
+ALTER TABLE dbo.DetailInvoiceReturn ADD FOREIGN KEY (idInvoiceReturn) REFERENCES dbo.InvoiceReturn(idInvoiceReturn)
+DROP TABLE dbo.SaveMoney
 
 
+SELECT * FROM Account
+SELECT * FROM [user]
+
+UPDATE dbo.[User] SET status = 1 WHERE idUser = 15
 
 
 

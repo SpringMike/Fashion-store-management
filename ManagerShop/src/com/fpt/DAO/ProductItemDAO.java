@@ -45,6 +45,28 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
         return selectBySql(sql);
     }
 
+    public ProductItem selectImprotProductID(int id) {
+        String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
+                + "		INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial\n"
+                + "             INNER JOIN Color C on C.idColor = D.idColor\n"
+                + "             INNER JOIN Products P on P.idProduct = D.idProduct\n"
+                + "             INNER JOIN List L  on L.idList = P.idList where D.idPrDeltails = ?";
+        List<ProductItem> list = selectBySql(sql, id);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    public List<ProductItem> selectImprotProductKey(String key) {
+        String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
+                + "				  INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial\n"
+                + "                               INNER JOIN Color C on C.idColor = D.idColor\n"
+                + "                               INNER JOIN Products P on P.idProduct = D.idProduct\n"
+                + "                               INNER JOIN List L  on L.idList = P.idList where P.nameProduct LIKE ?";
+        return selectBySql(sql, "%" + key + "%");
+    }
+
     public List<ProductItem> selectAllSell() {
         String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
                 + " INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial\n"
@@ -57,7 +79,27 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
 
     @Override
     public ProductItem selectById(Integer k) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
+                + "                INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial\n"
+                + "                INNER JOIN Color C on C.idColor = D.idColor\n"
+                + "                INNER JOIN Products P on P.idProduct = D.idProduct\n"
+                + "                INNER JOIN List L  on L.idList = P.idList\n"
+                + "                where D.idPrDeltails = ?";
+        List<ProductItem> list = selectBySql(sql, k);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    public List<ProductItem> selectByKey(String k) {
+        String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
+                + "                INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial\n"
+                + "                INNER JOIN Color C on C.idColor = D.idColor\n"
+                + "                INNER JOIN Products P on P.idProduct = D.idProduct\n"
+                + "                INNER JOIN List L  on L.idList = P.idList\n"
+                + "                where P.nameProduct like ?";
+        return selectBySql(sql, "%" + k + "%");
     }
 
     @Override
@@ -86,14 +128,6 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
             e.printStackTrace();
         }
         return list;
-    }
-
-    public List<ProductItem> selectByKeyWord(String keyword) {
-        String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial from detailsProduct D\n"
-                + "INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial INNER JOIN Color C on C.idColor = D.idColor\n"
-                + "INNER JOIN Products P on P.idProduct = D.idProduct\n"
-                + "where D.status = 1 and P.nameProduct like ?";
-        return selectBySql(sql, "%" + keyword + "%");
     }
 
     public void importProductItem(Integer quantity, Integer id) {
