@@ -425,6 +425,9 @@ public class FormInvoiceSell extends javax.swing.JPanel {
 
     private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton5ActionPerformed
         fillSearch();
+        if (txtSearchId.getText().isEmpty()) {
+            fillPagination();
+        }
     }//GEN-LAST:event_myButton5ActionPerformed
 
     public void excelSell() throws IOException {
@@ -514,7 +517,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void txtSearchIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchIdFocusGained
-       lblSearchId.setVisible(false);
+        lblSearchId.setVisible(false);
     }//GEN-LAST:event_txtSearchIdFocusGained
 
 

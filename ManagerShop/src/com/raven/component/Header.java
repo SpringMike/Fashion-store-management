@@ -1,11 +1,16 @@
 package com.raven.component;
 
+import com.fpt.utils.Auth;
 import java.awt.event.ActionListener;
 
 public class Header extends javax.swing.JPanel {
 
     public Header() {
         initComponents();
+        if (Auth.isLogin()) {
+            lbUserName.setText(Auth.user.getFullname());
+            lbRole.setText(Auth.user.isRole() ? "Quản lý" : "Nhân viên");
+        }
     }
 
     public void addMenuEvent(ActionListener event) {
