@@ -21,10 +21,10 @@ import javax.swing.ImageIcon;
  */
 public class XImage {
 
-    public static Image getAppImage() {
-        URL url = XImage.class.getResource("/ducnv/com/icons/fpt.png");
-        return new ImageIcon(url).getImage();
-    }
+//    public static Image getAppImage() {
+//        URL url = XImage.class.getResource("src\\com\\raven\\icon\\shop(5).png");
+//        return new ImageIcon(url).getImage();
+//    }
 
     public static void save(File src) {
         File dst = new File("Logos", src.getName());

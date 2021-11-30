@@ -326,6 +326,11 @@ ALTER TABLE dbo.DetailInvoiceReturn ADD FOREIGN KEY (idInvoiceReturn) REFERENCES
 DROP TABLE dbo.SaveMoney
 
 
+SELECT * FROM Account
+SELECT * FROM [user]
+
+UPDATE dbo.[User] SET status = 1 WHERE idUser = 15
+
 
 
 
