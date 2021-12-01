@@ -20,15 +20,22 @@ public class ShowChart extends javax.swing.JFrame {
      */
     public ShowChart(DefaultTableModel tableShow) {
         initComponents();
-//        init(tableShow);
-        initRevenue(tableShow);
+        init(tableShow);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+
+    public ShowChart(DefaultTableModel model, String str) {
+        initComponents();
+        initRevenue(model);
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     public ShowChart() {
-        initComponents();
+
     }
 
     private void init(DefaultTableModel tableShow) {
@@ -37,27 +44,26 @@ public class ShowChart extends javax.swing.JFrame {
             if (j == 10) {
                 break;
             }
-            chart.addData(new ModelChart((String) tableShow.getValueAt(j, 1), new long[]{(int) tableShow.getValueAt(j, 2)}));
+            chart.addData(new ModelChart((String) tableShow.getValueAt(j, 1), new double[]{(int) tableShow.getValueAt(j, 2)}));
         }
         chart.start();
     }
 
     private void initRevenue(DefaultTableModel tableShow) {
-        chart.addLegend("Tháng", new Color(12, 84, 175), new Color(0, 108, 247));
         chart.addLegend("Sản phẩm bán", new Color(54, 4, 143), new Color(104, 49, 200));
         chart.addLegend("Tổng giá bán", new Color(5, 125, 0), new Color(95, 209, 69));
         chart.addLegend("Tống giá chi", new Color(186, 37, 37), new Color(241, 100, 120));
-        chart.addLegend("Doanh thu", new Color(128, 151, 12), new Color(250, 203, 60));
+        chart.addLegend("Doanh thu", new Color(12, 84, 175), new Color(0, 108, 247));
 
         for (int j = 0; j < tableShow.getRowCount(); j++) {
             if (j == 10) {
                 break;
             }
-            chart.addData(new ModelChart((int) tableShow.getValueAt(j, 0) +"", new long[]{
+            chart.addData(new ModelChart((int) tableShow.getValueAt(j, 0) + "", new double[]{
                 (int) tableShow.getValueAt(j, 1),
-//                (long) tableShow.getValueAt(j, 2),
-//                (long) tableShow.getValueAt(j, 3), 
-//                (long) tableShow.getValueAt(j, 4)
+                (int) tableShow.getValueAt(j, 2),
+                (int) tableShow.getValueAt(j, 3),
+                (int) tableShow.getValueAt(j, 4)
             }));
         }
         chart.start();

@@ -33,6 +33,7 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         fillYear();
+        radiStreet.setSelected(true);
     }
     StatisticalDAO sDao = new StatisticalDAO();
 
@@ -64,12 +65,15 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         cbbYear = new com.raven.suportSwing.Combobox();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
         myButton5 = new com.raven.suportSwing.MyButton();
         myButton6 = new com.raven.suportSwing.MyButton();
+        radiStreet = new com.raven.suportSwing.RadioButtonCustom();
+        radiColumn = new com.raven.suportSwing.RadioButtonCustom();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -118,6 +122,12 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
             }
         });
 
+        buttonGroup1.add(radiStreet);
+        radiStreet.setText("Biều đồ đường");
+
+        buttonGroup1.add(radiColumn);
+        radiColumn.setText("Biều đồ Cột");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -131,7 +141,11 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbbYear, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
+                                .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(radiStreet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(radiColumn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
@@ -150,7 +164,11 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cbbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49)
+                        .addGap(50, 50, 50)
+                        .addComponent(radiStreet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(radiColumn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(242, 242, 242)
                         .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)))
@@ -177,17 +195,26 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
 
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
         // TODO add your handling code here:
-        
-        new ShowChart((DefaultTableModel) tableShow.getModel()).setVisible(true);
+
+        if (radiStreet.isSelected()) {
+            new ShowChart((DefaultTableModel) tableShow.getModel(), null).setVisible(true);
+
+        } else {
+            new showChartRevenue((DefaultTableModel) tableShow.getModel()).setVisible(true);
+        }
+
     }//GEN-LAST:event_myButton6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private com.raven.suportSwing.Combobox cbbYear;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private com.raven.suportSwing.MyButton myButton5;
     private com.raven.suportSwing.MyButton myButton6;
+    private com.raven.suportSwing.RadioButtonCustom radiColumn;
+    private com.raven.suportSwing.RadioButtonCustom radiStreet;
     private com.raven.suportSwing.TableColumn tableShow;
     // End of variables declaration//GEN-END:variables
 }
