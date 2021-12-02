@@ -31,6 +31,7 @@ public class FormImportProducts extends javax.swing.JPanel {
     /**
      * Creates new form FormProducts
      */
+    
     public FormImportProducts() {
         initComponents();
         fillComboboxSupplier();

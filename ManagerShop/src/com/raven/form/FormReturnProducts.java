@@ -207,6 +207,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
         lblSearch = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setMaximumSize(new java.awt.Dimension(1000, 1000));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
