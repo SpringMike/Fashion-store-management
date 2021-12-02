@@ -15,12 +15,12 @@ import com.fpt.utils.MsgBox;
  *
  * @author ducit
  */
-public class ChangePassword extends javax.swing.JPanel {
+public class FormChangePassword extends javax.swing.JPanel {
 
     /**
      * Creates new form ChangePassword
      */
-    public ChangePassword() {
+    public FormChangePassword() {
         initComponents();
         edit();
     }

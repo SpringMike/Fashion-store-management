@@ -157,6 +157,7 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
         lblCount = new javax.swing.JLabel();
+        scrollBarCustom1 = new com.raven.suportSwing.ScrollBarCustom();
         lblSearchId = new javax.swing.JLabel();
 
         dateChooser1.setTextRefernce(txtDate);
@@ -254,6 +255,8 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
             }
         });
 
+        jScrollPane1.setVerticalScrollBar(scrollBarCustom1);
+
         tableInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -349,8 +352,10 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
                     .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCount, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -374,8 +379,11 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
                         .addComponent(lblCount))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         lblSearchId.setForeground(new java.awt.Color(225, 0, 0));
@@ -534,6 +542,7 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton myButton6;
     private com.raven.suportSwing.MyButton myButton7;
     private com.raven.suportSwing.MyButton myButton8;
+    private com.raven.suportSwing.ScrollBarCustom scrollBarCustom1;
     private com.raven.suportSwing.TableColumn tableInvoice;
     private com.raven.suportSwing.TextField txtDate;
     private com.raven.suportSwing.TextField txtSearchId;

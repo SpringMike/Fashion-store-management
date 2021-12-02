@@ -6,7 +6,7 @@ import com.raven.component.Header;
 import com.raven.component.Menu;
 import com.raven.event.EventMenuSelected;
 import com.raven.event.EventShowPopupMenu;
-import com.raven.form.ChangePassword;
+import com.raven.form.FormChangePassword;
 import com.raven.form.FormCustomer;
 import com.raven.form.FormImportProducts;
 import com.raven.form.FormInvoiceImportProducts;
@@ -111,7 +111,7 @@ public class Main extends javax.swing.JFrame {
                         if (subMenuIndex == 0) {
                             main.showForm(new FormMyProfile());
                         } else if (subMenuIndex == 1) {
-                            main.showForm(new ChangePassword());
+                            main.showForm(new FormChangePassword());
                         }
                     } else {
                         main.showForm(new FormVoucher());
@@ -141,7 +141,7 @@ public class Main extends javax.swing.JFrame {
                         if (subMenuIndex == 0) {
                             main.showForm(new FormMyProfile());
                         } else if (subMenuIndex == 1) {
-                            main.showForm(new ChangePassword());
+                            main.showForm(new FormChangePassword());
                         }
                     }
                 }
