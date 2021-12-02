@@ -43,7 +43,7 @@ public class EmpolyeeDao extends ShopDAO<Empolyee, String> {
 
     @Override
     public List<Empolyee> selectAll() {
-        String sql = "SELECT * FROM dbo.Account JOIN dbo.[User] ON [User].idUser = Account.idUser";
+        String sql = "SELECT * FROM dbo.Account JOIN dbo.[User] ON [User].idUser = Account.idUser ORDER BY idUser Desc";
         return selectBySql(sql);
     }
 

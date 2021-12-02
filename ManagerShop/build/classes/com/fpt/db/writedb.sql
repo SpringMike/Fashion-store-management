@@ -290,77 +290,11 @@ EXEC dbo.sp_revenue @year = 2021 -- int
 	WHERE YEAR(InvoiceSell.dateCreateInvoice) = @year
 	GROUP BY MONTH(InvoiceSell.dateCreateInvoice)
 -------------------------------
-IF OBJECT_ID('sp_demo') IS NOT NULL
-DROP PROC sp_demo
-GO
-CREATE PROC sp_demo
-(@year int)
-AS
-BEGIN
-    SELECT SUM(priceImport * quatity) TienNhap FROM dbo.detailsInvoiceImportPr JOIN dbo.InvoiceImportPr ON InvoiceImportPr.idInvoice = detailsInvoiceImportPr.idInvoice
-	WHERE YEAR(dateCreateInvoice) = 2021
-	GROUP BY MONTH(dateCreateInvoice)
-END
-
-EXEC dbo.sp_demo @year = 0 -- int
-
-
-IF OBJECT_ID('sp_Return') IS NOT NULL
-DROP FUNCTION sp_Return
-GO
-CREATE FUNCTION sp_Return
-(@year int)
-RETURNS @Bang TABLE (tienNhap FLOAT)
-as
-BEGIN
-  INSERT INTO @Bang
-      SELECT SUM(priceImport * quatity) TienNhap FROM dbo.detailsInvoiceImportPr JOIN dbo.InvoiceImportPr ON InvoiceImportPr.idInvoice = detailsInvoiceImportPr.idInvoice
-	WHERE YEAR(dateCreateInvoice) = @year
-	GROUP BY MONTH(dateCreateInvoice)
-  RETURN
-END
-
-SELECT * FROM dbo.sp_Return(2021)
-
-INSERT INTO dbo.SaveMoney
-(dateCreate,moneyReturn,moneySell,moneyImport)
-VALUES(?,?,?)
-
-ALTER TABLE dbo.DetailInvoiceReturn DROP CONSTRAINT FK__DetailInv__idDet__6FE99F9F
-ALTER TABLE dbo.DetailInvoiceReturn ADD FOREIGN KEY (idInvoiceReturn) REFERENCES dbo.InvoiceReturn(idInvoiceReturn)
-DROP TABLE dbo.SaveMoney
-
-
-SELECT * FROM Account
-SELECT * FROM [user]
-
-UPDATE dbo.[User] SET status = 1 WHERE idUser = 15
-
-SELECT idDetailInvoiceReturn, nameProduct, name, valueSize, valueColor, valueMaterial, DetailInvoiceReturn.quatity, detailsProduct.price * DetailInvoiceReturn.quatity AS N'price' 
-FROM dbo.InvoiceReturn
-LEFT JOIN dbo.DetailInvoiceReturn ON InvoiceReturn.idInvoiceReturn = DetailInvoiceReturn.idDetailInvoiceReturn
-JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer
-JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = DetailInvoiceReturn.idPrDetails
-JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct
-JOIN dbo.Size ON Size.idSize = detailsProduct.idSize JOIN dbo.Color ON Color.idColor = detailsProduct.idColor
-JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial 
-
-SELECT * FROM dbo.InvoiceReturn
-JOIN dbo.DetailInvoiceReturn ON DetailInvoiceReturn.idInvoiceReturn = InvoiceReturn.idInvoiceReturn
-JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer
-JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = DetailInvoiceReturn.idPrDetails
-JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct
-JOIN dbo.Size ON Size.idSize = detailsProduct.idSize
-JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
-JOIN dbo.Color ON Color.idColor = detailsProduct.idColor
-WHERE DetailInvoiceReturn.idInvoiceReturn = ?
-                
-select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D
-                INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial
-                  INNER JOIN Color C on C.idColor = D.idColor
-                               INNER JOIN Products P on P.idProduct = D.idProduct
-                                INNER JOIN List L  on L.idList = P.idList
-
+--2/12/2021
+ALTER TABLE dbo.InvoiceImportPr ALTER COLUMN dateCreateInvoice DATETIME
+ALTER TABLE dbo.InvoiceReturn ALTER COLUMN dateCreateInvoice DATETIME
+ALTER TABLE dbo.InvoiceSell ALTER COLUMN dateCreateInvoice DATETIME
+-------------------------------
 
 
 

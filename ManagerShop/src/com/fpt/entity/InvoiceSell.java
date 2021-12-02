@@ -15,7 +15,7 @@ public class InvoiceSell {
 
     private int idInvoiceSell, idCustomer, idHumanSell;
     private String description, nameUser, nameCustomer;
-    private Date dateCreateInvoice;
+    private String dateCreateInvoice;
     private boolean statusPay, statusInvoice;
     private double price;
     private Integer idVoucher;
@@ -84,11 +84,11 @@ public class InvoiceSell {
         this.description = description;
     }
 
-    public Date getDateCreateInvoice() {
+    public String getDateCreateInvoice() {
         return dateCreateInvoice;
     }
 
-    public void setDateCreateInvoice(Date dateCreateInvoice) {
+    public void setDateCreateInvoice(String dateCreateInvoice) {
         this.dateCreateInvoice = dateCreateInvoice;
     }
 

@@ -35,8 +35,8 @@
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormImportEmployee.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormChangePassword.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormInvoiceReturnProduct.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormCustomer.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/entity/ProductItem.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormCustomer.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormInvoiceSell.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormReturnProducts.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormDetailInvoice.java</file>
@@ -50,6 +50,7 @@
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/chart/LabelColor.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormVoucher.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/showChartRevenue.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormUpdateItemJfame.java</file>
         </group>
     </open-files>
 </project-private>

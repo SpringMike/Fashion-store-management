@@ -8,12 +8,25 @@ package com.raven.JFrame;
 import com.fpt.DAO.DetailInvoiceImportDAO;
 import com.fpt.DAO.DetailInvoiceSellDAO;
 import com.fpt.entity.DetailInvoiceSell;
+import com.fpt.utils.MsgBox;
+import com.itextpdf.kernel.color.Color;
+import com.itextpdf.kernel.color.DeviceRgb;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.border.Border;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.VerticalAlignment;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Table;
 import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +42,12 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
     /**
      * Creates new form FormDetailInvoiceSell
      */
-    public FormDetailInvoiceSell(int id) {
+    DefaultTableModel model;
+    int row;
+
+    public FormDetailInvoiceSell(int id, DefaultTableModel model, int row) {
+        this.model = model;
+        this.row = row;
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -47,7 +65,6 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
                 d.getIdDetailsInvoiceSell(), d.getNameProduct(), d.getNameCustomer(), d.getValueSize(), d.getValueColor(), d.getValueMaterial(), d.getQuantity(), d.getPrice()
             });
         }
-
     }
 
     /**
@@ -167,55 +184,133 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_myButton6ActionPerformed
 
-    private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed
-        // TODO add your handling code here:
+    public void outputPDF() throws IOException {
+        String path = "D:\\Invoice.pdf";
+        PdfWriter pdfWriter = new PdfWriter(path);
+        PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+        com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
+        pdfDocument.setDefaultPageSize(PageSize.A4);
 
-        String path = "";
-        JFileChooser j = new JFileChooser();
-        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int x = j.showSaveDialog(this);
-        if (x == JFileChooser.APPROVE_OPTION) {
-            path = j.getSelectedFile().getPath();
+        float col = 280f;
+        float columnWidth[] = {col, col};
+        com.itextpdf.layout.element.Table table = new com.itextpdf.layout.element.Table(columnWidth);
+        table.setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE);
+        table.addCell(new Cell().add("Invoice").setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)
+                .setMarginTop(30f)
+                .setMarginBottom(30f).setFontSize(30f).setBorder(Border.NO_BORDER));
+
+        table.addCell(new Cell().add("Đức")
+                .setTextAlignment(TextAlignment.RIGHT).setMarginTop(30f).setMarginBottom(30f).setBorder(Border.NO_BORDER).setMarginRight(10f)
+        );
+
+        float colWidth[] = {80, 300, 100, 80};
+
+        com.itextpdf.layout.element.Table customerInfor = new com.itextpdf.layout.element.Table(colWidth);
+        customerInfor.addCell(new Cell(0, 4).add("Customer Information").setBold().setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add("Name").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add(tableShow.getValueAt(0, 2).toString()).setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add("Invoice No. ").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add(model.getValueAt(row, 0) + "").setBorder(Border.NO_BORDER));
+
+//        customerInfor.addCell(new Cell().add("Mo. No.").setBorder(Border.NO_BORDER)); //
+//        customerInfor.addCell(new Cell().add("TTIDKH").setBorder(Border.NO_BORDER)); //
+        customerInfor.addCell(new Cell().add("Date: ").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add(model.getValueAt(row, 4) + "").setBorder(Border.NO_BORDER));
+
+        float iteamInforColWidth[] = {140, 140, 140, 140};
+        com.itextpdf.layout.element.Table itemInforTable = new com.itextpdf.layout.element.Table(iteamInforColWidth);
+        itemInforTable.addCell(new Cell().add("Item").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add("Quantity").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add("Price").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE).setTextAlignment(TextAlignment.RIGHT));
+        itemInforTable.addCell(new Cell().add("Amount").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE).setTextAlignment(TextAlignment.RIGHT));
+
+        int total = 0;
+        for (int i = 0; i < tableShow.getRowCount(); i++) {
+            String id = tableShow.getValueAt(i, 0).toString();
+            String nameProduct = tableShow.getValueAt(i, 1).toString();
+            String nameCustomer = tableShow.getValueAt(i, 2).toString();
+            String Size = tableShow.getValueAt(i, 3).toString();
+            String Color = tableShow.getValueAt(i, 4).toString();
+            String Material = tableShow.getValueAt(i, 5).toString();
+            int quantity = (int) tableShow.getValueAt(i, 6);
+            double price = (double) tableShow.getValueAt(i, 7);
+            itemInforTable.addCell(new Cell().add(nameProduct));
+            itemInforTable.addCell(new Cell().add(quantity + ""));
+            itemInforTable.addCell(new Cell().add(price + "").setTextAlignment(TextAlignment.RIGHT));
+            itemInforTable.addCell(new Cell().add(price * quantity + "").setTextAlignment(TextAlignment.RIGHT));
+            total += price * quantity;
         }
 
-        Document doc = new Document();
+        itemInforTable.addCell(new Cell().add("").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTable.addCell(new Cell().add("").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTable.addCell(new Cell().add("Total Amount").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add(total + "").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+
+        document.add(table);
+        document.add(new Paragraph("\n"));
+        document.add(customerInfor);
+        document.add(new Paragraph("\n"));
+        document.add(itemInforTable);
+//        document.add(new Paragraph("\n(Authorised Signatory)").setTextAlignment(TextAlignment.RIGHT));
+
+        document.close();
+        System.out.println("OOkF");
+    }
+    private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed
         try {
-            PdfWriter.getInstance(doc, new FileOutputStream(path + "abc123.pdf"));
-            doc.open();
-            PdfPTable tbl = new PdfPTable(8);
-            tbl.addCell("ID");
-            tbl.addCell("Tên sản phẩm");
-            tbl.addCell("Tên khách hàng");
-            tbl.addCell("Size");
-            tbl.addCell("Color");
-            tbl.addCell("Chất liệu");
-            tbl.addCell("Số lượng");
-            tbl.addCell("Giá");
-            
-            for (int i = 0; i < tableShow.getRowCount(); i++) {
-                String id = tableShow.getValueAt(i, 0).toString();
-                String nameProduct = tableShow.getValueAt(i, 1).toString();
-                String nameCustomer = tableShow.getValueAt(i, 2).toString();
-                String Size = tableShow.getValueAt(i, 3).toString();
-                String Color = tableShow.getValueAt(i, 4).toString();
-                String Material = tableShow.getValueAt(i, 5).toString();
-                String quantity = tableShow.getValueAt(i, 6).toString();
-                String price = tableShow.getValueAt(i, 7).toString();
-                tbl.addCell(id);
-                tbl.addCell(nameProduct);
-                tbl.addCell(nameCustomer);
-                tbl.addCell(Size);
-                tbl.addCell(Color);
-                tbl.addCell(Material);
-                tbl.addCell(quantity);
-                tbl.addCell(price);
-            }
-            doc.add(tbl);
-            doc.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FormDetailInvoiceReturn.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DocumentException ex) {
-            Logger.getLogger(FormDetailInvoiceReturn.class.getName()).log(Level.SEVERE, null, ex);
+            // TODO add your handling code here:
+            outputPDF();
+            MsgBox.alert(this, "In hoá đơn thành công");
+//        String path = "";
+//        JFileChooser j = new JFileChooser();
+//        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        int x = j.showSaveDialog(this);
+//        if (x == JFileChooser.APPROVE_OPTION) {
+//            path = j.getSelectedFile().getPath();
+//        }
+//
+//        Document doc = new Document();
+//        try {
+//            PdfWriter.getInstance(doc, new FileOutputStream(path + "abc123.pdf"));
+//            doc.open();
+//            PdfPTable tbl = new PdfPTable(8);
+//            tbl.addCell("ID");
+//            tbl.addCell("Tên sản phẩm");
+//            tbl.addCell("Tên khách hàng");
+//            tbl.addCell("Size");
+//            tbl.addCell("Color");
+//            tbl.addCell("Chất liệu");
+//            tbl.addCell("Số lượng");
+//            tbl.addCell("Giá");
+//            
+//            for (int i = 0; i < tableShow.getRowCount(); i++) {
+//                String id = tableShow.getValueAt(i, 0).toString();
+//                String nameProduct = tableShow.getValueAt(i, 1).toString();
+//                String nameCustomer = tableShow.getValueAt(i, 2).toString();
+//                String Size = tableShow.getValueAt(i, 3).toString();
+//                String Color = tableShow.getValueAt(i, 4).toString();
+//                String Material = tableShow.getValueAt(i, 5).toString();
+//                String quantity = tableShow.getValueAt(i, 6).toString();
+//                String price = tableShow.getValueAt(i, 7).toString();
+//                tbl.addCell(id);
+//                tbl.addCell(nameProduct);
+//                tbl.addCell(nameCustomer);
+//                tbl.addCell(Size);
+//                tbl.addCell(Color);
+//                tbl.addCell(Material);
+//                tbl.addCell(quantity);
+//                tbl.addCell(price);
+//            }
+//            doc.add(tbl);
+//            doc.close();
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(FormDetailInvoiceReturn.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (DocumentException ex) {
+//            Logger.getLogger(FormDetailInvoiceReturn.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        PdfWriter pdfWriter = new PdfWriter(path);
+        } catch (IOException ex) {
+            Logger.getLogger(FormDetailInvoiceSell.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_myButton7ActionPerformed
 

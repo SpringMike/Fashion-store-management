@@ -563,6 +563,9 @@
                   <Properties>
                     <Property name="labelText" type="java.lang.String" value="M&#xe0;u Th&#xea;m"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtColorAddFocusGained"/>
+                  </Events>
                 </Component>
                 <Component class="com.raven.suportSwing.MyButton" name="btnEditColor">
                   <Properties>
@@ -604,6 +607,7 @@
                     <Property name="labelText" type="java.lang.String" value="Ch&#x1ea5;t li&#x1ec7;u Th&#xea;m"/>
                   </Properties>
                   <Events>
+                    <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtMaterialAddFocusGained"/>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtMaterialAddActionPerformed"/>
                   </Events>
                 </Component>
@@ -657,6 +661,9 @@
                   <Properties>
                     <Property name="labelText" type="java.lang.String" value="Size Th&#xea;m"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtSizeAddFocusGained"/>
+                  </Events>
                 </Component>
                 <Component class="com.raven.suportSwing.MyButton" name="btnEditMaterial">
                   <Properties>
