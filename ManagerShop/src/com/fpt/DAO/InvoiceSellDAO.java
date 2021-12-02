@@ -69,8 +69,8 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
                 i.setDescription(rs.getString("description"));
                 i.setStatusPay(rs.getBoolean("statusPay"));
                 i.setStatusInvoice(rs.getBoolean("statusInvoice"));
-                i.setNameCustomer(rs.getString("name"));
-                i.setNameUser(rs.getString("name"));
+                i.setNameCustomer(rs.getString(21));
+                i.setNameUser(rs.getString(11));
                 i.setPrice(rs.getDouble("totalMoney"));
                 list.add(i);
             }

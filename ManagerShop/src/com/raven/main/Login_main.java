@@ -5,8 +5,11 @@
  */
 package com.raven.main;
 
+import com.fpt.utils.XImage;
 import com.raven.suportSwing.PanelBorder;
 import com.raven.suportSwing.PanelSlide;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,6 +26,9 @@ public class Login_main extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+         Image icon = Toolkit.getDefaultToolkit().getImage("src\\com\\raven\\icon\\shop (6).png");
+        this.setIconImage(icon);
+//        setIconImage(XImage.getAppImage());
         Login login = new Login();
         FogotPassword fogotPassword = new FogotPassword();
         slide.setAnimate(15);
@@ -70,6 +76,7 @@ public class Login_main extends javax.swing.JFrame {
         slide = new com.raven.suportSwing.PanelSlide();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("IT Shop APP");
 
         panelGradiente2.setColorPrimario(new java.awt.Color(146, 233, 251));
         panelGradiente2.setColorSecundario(new java.awt.Color(12, 137, 163));

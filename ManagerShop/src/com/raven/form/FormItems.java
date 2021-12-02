@@ -27,7 +27,9 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -50,9 +52,9 @@ public class FormItems extends javax.swing.JPanel {
     public FormItems() {
         initComponents();
         setOpaque(false);
+        fillComboboxProduct();
         fillTable();
         rdioSelectAll.setSelected(true);
-        fillComboboxProduct();
         formImportItemJFrame.addEvenFillTable(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,13 +64,15 @@ public class FormItems extends javax.swing.JPanel {
         });
     }
 
+    Locale lc = new Locale("nv","VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
     public void fillTable() {
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         List<ProductItem> list = prDAO.selectAll();
         for (ProductItem p : list) {
             model.addRow(new Object[]{
-                p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+                p.getId(), p.getProductName(), nf.format(p.getPrice()) + " đ", p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
             });
         }
     }
@@ -92,12 +96,32 @@ public class FormItems extends javax.swing.JPanel {
     }
 
     public void searchTable() {
+        // tìm kiếm theo mã sản phẩm
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
-        String keyWord = txtSearch.getText();
-        List<ProductItem> list = prDAO.selectByKeyWord(keyWord);
-        if (list.isEmpty()) {
+        int keyWord = Integer.parseInt(txtSearch.getText());
+        if (txtSearch.getText().trim().equals("")) {
+            return;
+        }
+        ProductItem p = prDAO.selectById(keyWord);
+        if (p == null) {
             lblSearch.setText("Không có mặt hàng " + keyWord);
+            return;
+        }
+        model.addRow(new Object[]{
+            p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+        });
+        lblSearch.setText("");
+    }
+
+    public void searchKeyFillTable() {
+        // tìm kiếm theo tên sản phẩm
+        String key = txtSearch.getText();
+        model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        List<ProductItem> list = prDAO.selectByKey(key);
+        if (list.isEmpty()) {
+            lblSearch.setText("Không có mặt hàng " + key);
             return;
         }
         for (ProductItem p : list) {
@@ -105,7 +129,7 @@ public class FormItems extends javax.swing.JPanel {
                 p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
             });
         }
-        lblSearch.setText("");
+        model.fireTableDataChanged();
     }
 
     public void fillTableByPropertieProductItem(String keyword) {
@@ -118,15 +142,16 @@ public class FormItems extends javax.swing.JPanel {
         List<ProductItem> list = prDAO.selectByPropertieProductItem(quantity, keyword);
         for (ProductItem p : list) {
             model.addRow(new Object[]{
-                p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+                p.getId(), p.getProductName(), nf.format(p.getPrice()) + " đ", p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
             });
         }
     }
-     public void fillTableByProduct() {
+
+    public void fillTableByProduct() {
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         Products pro = (Products) cbcProduct.getSelectedItem();
-        List<ProductItem> list = prDAO.selectByPropertieProductItem(pro.getIdProduct(),"ByProduct");
+        List<ProductItem> list = prDAO.selectByPropertieProductItem(pro.getIdProduct(), "ByProduct");
         for (ProductItem p : list) {
             model.addRow(new Object[]{
                 p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
@@ -171,6 +196,7 @@ public class FormItems extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
+        scrollBarCustom1 = new com.raven.suportSwing.ScrollBarCustom();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -350,6 +376,11 @@ public class FormItems extends javax.swing.JPanel {
                 cbcProductItemStateChanged(evt);
             }
         });
+        cbcProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbcProductActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -374,7 +405,7 @@ public class FormItems extends javax.swing.JPanel {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addContainerGap(310, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -383,9 +414,14 @@ public class FormItems extends javax.swing.JPanel {
         jLabel2.setText("Mặt Hàng");
 
         txtSearch.setLabelText("Tìm theo tên or mã");
+        txtSearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSearchFocusGained(evt);
+            }
+        });
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSearchKeyPressed(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
             }
         });
 
@@ -438,13 +474,13 @@ public class FormItems extends javax.swing.JPanel {
                         .addGap(43, 43, 43))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 429, Short.MAX_VALUE)))
                 .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(150, 150, 150)
+                .addGap(185, 185, 185)
+                .addComponent(myButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(myButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
                 .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86))
         );
@@ -453,34 +489,29 @@ public class FormItems extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 26, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(myButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 26, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(myButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
+        jScrollPane1.setVerticalScrollBar(scrollBarCustom1);
+
         tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Vốn", "Size", "Màu Sắc", "Chất Liệu", "Số lượng tồn kho"
+                "Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Bán", "Size", "Màu Sắc", "Chất Liệu", "Số lượng tồn kho"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -502,16 +533,19 @@ public class FormItems extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 910, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 733, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addComponent(scrollBarCustom1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -520,8 +554,9 @@ public class FormItems extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -537,7 +572,11 @@ public class FormItems extends javax.swing.JPanel {
 
     private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton2ActionPerformed
         // TODO add your handling code here:
-        searchTable();
+        try {
+            searchTable();
+        } catch (Exception e) {
+            searchKeyFillTable();
+        }
     }//GEN-LAST:event_myButton2ActionPerformed
 
 
@@ -567,20 +606,15 @@ public class FormItems extends javax.swing.JPanel {
         deletePr();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
-        searchTable();
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchKeyPressed
-
     private void tableShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowMouseClicked
         if (evt.getClickCount() == 2) {
             int index = tableShow.getSelectedRow();
             int idProductItem = (int) tableShow.getValueAt(index, 0);
             String nameProduct = tableShow.getValueAt(index, 1).toString();
             Float price = (float) tableShow.getValueAt(index, 2);
-            String size = tableShow.getValueAt(index, 5).toString();
-            String color = tableShow.getValueAt(index, 6).toString();
-            String material = tableShow.getValueAt(index, 7).toString();
+            String size = tableShow.getValueAt(index, 3).toString();
+            String color = tableShow.getValueAt(index, 4).toString();
+            String material = tableShow.getValueAt(index, 5).toString();
 
             formUpdateItemJframe = new FormUpdateItemJfame(nameProduct, size, color, material, price, idProductItem);
             formUpdateItemJframe.addEvenUpdate(new ActionListener() {
@@ -644,6 +678,19 @@ public class FormItems extends javax.swing.JPanel {
         rdioSelectAll.setSelected(true);
     }//GEN-LAST:event_cbcProductItemStateChanged
 
+    private void txtSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchFocusGained
+        lblSearch.setText("");
+    }//GEN-LAST:event_txtSearchFocusGained
+
+    private void cbcProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbcProductActionPerformed
+        fillTableByProduct();
+        rdioSelectAll.setSelected(true);
+    }//GEN-LAST:event_cbcProductActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnDelete;
@@ -671,6 +718,7 @@ public class FormItems extends javax.swing.JPanel {
     private com.raven.suportSwing.RadioButtonCustom rdioSelectAll;
     private com.raven.suportSwing.RadioButtonCustom rdioStatusFalse;
     private com.raven.suportSwing.RadioButtonCustom rdioStatusTrue;
+    private com.raven.suportSwing.ScrollBarCustom scrollBarCustom1;
     private com.raven.suportSwing.TableColumn tableShow;
     private javax.swing.JTextField txtQuantity;
     private com.raven.suportSwing.TextField txtSearch;

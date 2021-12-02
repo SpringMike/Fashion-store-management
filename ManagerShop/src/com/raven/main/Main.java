@@ -1,11 +1,12 @@
 package com.raven.main;
 
 import com.fpt.utils.Auth;
+import com.fpt.utils.XImage;
 import com.raven.component.Header;
 import com.raven.component.Menu;
 import com.raven.event.EventMenuSelected;
 import com.raven.event.EventShowPopupMenu;
-import com.raven.form.ChangePassword;
+import com.raven.form.FormChangePassword;
 import com.raven.form.FormCustomer;
 import com.raven.form.FormImportProducts;
 import com.raven.form.FormInvoiceImportProducts;
@@ -14,11 +15,9 @@ import com.raven.form.FormItems;
 import com.raven.form.FormListEmpolyee;
 import com.raven.form.FormMyProfile;
 import com.raven.form.FormProducts;
-import com.raven.form.FormProperties;
 import com.raven.form.FormInvoiceReturnProduct;
 import com.raven.form.FormReturnProducts;
 import com.raven.form.FormRevenueStatistics;
-//import com.raven.form.FormSalary;
 import com.raven.form.FormSalesStatistics;
 import com.raven.form.FormSell;
 import com.raven.form.FormSupplier;
@@ -30,8 +29,11 @@ import com.raven.swing.PopupMenu;
 import com.raven.swing.icon.GoogleMaterialDesignIcons;
 import com.raven.swing.icon.IconFontSwing;
 import java.awt.Component;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JFrame;
 
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
@@ -49,11 +51,14 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         init();
+//        setIconImage(XImage.getAppImage());
+        Image icon = Toolkit.getDefaultToolkit().getImage("src\\com\\raven\\icon\\shop (6).png");
+        this.setIconImage(icon);
     }
 
     private void init() {
         setLocationRelativeTo(null);    //cho ra giữa màn hình
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);//cho toàn màn hình 
+        setExtendedState(JFrame.MAXIMIZED_BOTH);//cho toàn màn hình 
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
         menu = new Menu();
@@ -106,7 +111,7 @@ public class Main extends javax.swing.JFrame {
                         if (subMenuIndex == 0) {
                             main.showForm(new FormMyProfile());
                         } else if (subMenuIndex == 1) {
-                            main.showForm(new ChangePassword());
+                            main.showForm(new FormChangePassword());
                         }
                     } else {
                         main.showForm(new FormVoucher());
@@ -136,7 +141,7 @@ public class Main extends javax.swing.JFrame {
                         if (subMenuIndex == 0) {
                             main.showForm(new FormMyProfile());
                         } else if (subMenuIndex == 1) {
-                            main.showForm(new ChangePassword());
+                            main.showForm(new FormChangePassword());
                         }
                     }
                 }
@@ -207,6 +212,7 @@ public class Main extends javax.swing.JFrame {
         bg = new javax.swing.JLayeredPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("IT Shop APP");
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
         bg.setOpaque(true);

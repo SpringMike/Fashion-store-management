@@ -249,6 +249,7 @@ AS
 	JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct
 	WHERE YEAR(dateCreateInvoice) = @year AND MONTH(dateCreateInvoice) = @month
 	GROUP BY Products.idProduct, nameProduct
+	ORDER BY quantitySell DESC
 END;
 
 EXEC dbo.sp_statistical @year = 2021, -- int
@@ -262,8 +263,12 @@ CREATE PROC sp_revenue
 AS
 BEGIN
 	SELECT MONTH(InvoiceSell.dateCreateInvoice) MonthDate , SUM(detailsInvoiceSELL.quatity) quantity,
-	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) totalSell, SUM(totalReturn) totalReturn, 
-	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) revenue
+	CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) AS INT)
+	 totalSell, 
+	 CAST(SUM(totalReturn) AS INT )
+	  totalReturn, 
+	  CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) AS INT)
+	revenue
 	FROM dbo.detailsInvoiceSELL  
 	JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
 	LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell
@@ -322,11 +327,39 @@ INSERT INTO dbo.SaveMoney
 VALUES(?,?,?)
 
 ALTER TABLE dbo.DetailInvoiceReturn DROP CONSTRAINT FK__DetailInv__idDet__6FE99F9F
+ALTER TABLE dbo.DetailInvoiceReturn ADD FOREIGN KEY (idInvoiceReturn) REFERENCES dbo.InvoiceReturn(idInvoiceReturn)
+DROP TABLE dbo.SaveMoney
 
 
+SELECT * FROM Account
+SELECT * FROM [user]
 
+UPDATE dbo.[User] SET status = 1 WHERE idUser = 15
 
+SELECT idDetailInvoiceReturn, nameProduct, name, valueSize, valueColor, valueMaterial, DetailInvoiceReturn.quatity, detailsProduct.price * DetailInvoiceReturn.quatity AS N'price' 
+FROM dbo.InvoiceReturn
+LEFT JOIN dbo.DetailInvoiceReturn ON InvoiceReturn.idInvoiceReturn = DetailInvoiceReturn.idDetailInvoiceReturn
+JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer
+JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = DetailInvoiceReturn.idPrDetails
+JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct
+JOIN dbo.Size ON Size.idSize = detailsProduct.idSize JOIN dbo.Color ON Color.idColor = detailsProduct.idColor
+JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial 
 
+SELECT * FROM dbo.InvoiceReturn
+JOIN dbo.DetailInvoiceReturn ON DetailInvoiceReturn.idInvoiceReturn = InvoiceReturn.idInvoiceReturn
+JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer
+JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = DetailInvoiceReturn.idPrDetails
+JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct
+JOIN dbo.Size ON Size.idSize = detailsProduct.idSize
+JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
+JOIN dbo.Color ON Color.idColor = detailsProduct.idColor
+WHERE DetailInvoiceReturn.idInvoiceReturn = ?
+                
+select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D
+                INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial
+                  INNER JOIN Color C on C.idColor = D.idColor
+                               INNER JOIN Products P on P.idProduct = D.idProduct
+                                INNER JOIN List L  on L.idList = P.idList
 
 
 
