@@ -7,6 +7,7 @@ package com.raven.form;
 
 import com.fpt.DAO.UserDAO;
 import com.fpt.entity.User;
+import com.fpt.utils.Auth;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
@@ -77,12 +78,32 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         lblSearch.setText("");
     }
 
+    public void fillSearchID() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        int keyString = Integer.valueOf(txtSearch.getText());
+        User u = user.selectById(keyString);
+        if (u == null) {
+            lblSearch.setText("Không có nhân viên " + keyString);
+            return;
+        }
+        model.addRow(new Object[]{
+            u.getIdUser(), u.getFullname(), u.isRole() ? "Quản lý" : "Nhân viên", u.isGender() ? "Nam" : "Nữ",
+            XDate.toString(u.getDateOfBirth(), "dd-MM-yyyy"), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
+        });
+        lblSearch.setText("");
+    }
+
     public void delete() {
         int index = tableShow.getSelectedRow();
         int idUser = (int) tableShow.getValueAt(index, 0);
-        user.delete(idUser);
-        fillTable();
-        MsgBox.alert(this, "Xoá OK");
+        if (idUser == Auth.user.getIdUser()) {
+            MsgBox.warring(this, "Bạn không thể xoá được bạn ???");
+        } else if (MsgBox.confirm(this, "Bạn có muốn xoá nhân viên này ???")) {
+            user.delete(idUser);
+            fillTable();
+            MsgBox.alert(this, "Xoá thành coongF");
+        }
     }
 
     /**
@@ -104,6 +125,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         myButton7 = new com.raven.suportSwing.MyButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
+        scrollBarCustom1 = new com.raven.suportSwing.ScrollBarCustom();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -172,7 +194,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(52, 52, 52)
                         .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 357, Short.MAX_VALUE)
                         .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -198,6 +220,8 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                 .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        jScrollPane1.setVerticalScrollBar(scrollBarCustom1);
 
         tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -238,20 +262,34 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(scrollBarCustom1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton5ActionPerformed
         // TODO add your handling code here:
-        fillSearch();
+        try {
+            fillSearchID();
+        } catch (Exception e) {
+            fillSearch();
+        }
     }//GEN-LAST:event_myButton5ActionPerformed
 
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
@@ -330,6 +368,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton myButton6;
     private com.raven.suportSwing.MyButton myButton7;
     private com.raven.suportSwing.MyButton myButton8;
+    private com.raven.suportSwing.ScrollBarCustom scrollBarCustom1;
     private com.raven.suportSwing.TableColumn tableShow;
     private com.raven.suportSwing.TextField txtSearch;
     // End of variables declaration//GEN-END:variables

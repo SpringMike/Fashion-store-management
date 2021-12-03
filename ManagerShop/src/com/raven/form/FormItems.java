@@ -27,7 +27,9 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -62,13 +64,15 @@ public class FormItems extends javax.swing.JPanel {
         });
     }
 
+    Locale lc = new Locale("nv","VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
     public void fillTable() {
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         List<ProductItem> list = prDAO.selectAll();
         for (ProductItem p : list) {
             model.addRow(new Object[]{
-                p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+                p.getId(), p.getProductName(), nf.format(p.getPrice()) + " đ", p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
             });
         }
     }
@@ -92,6 +96,7 @@ public class FormItems extends javax.swing.JPanel {
     }
 
     public void searchTable() {
+        // tìm kiếm theo mã sản phẩm
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         int keyWord = Integer.parseInt(txtSearch.getText());
@@ -109,6 +114,24 @@ public class FormItems extends javax.swing.JPanel {
         lblSearch.setText("");
     }
 
+    public void searchKeyFillTable() {
+        // tìm kiếm theo tên sản phẩm
+        String key = txtSearch.getText();
+        model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        List<ProductItem> list = prDAO.selectByKey(key);
+        if (list.isEmpty()) {
+            lblSearch.setText("Không có mặt hàng " + key);
+            return;
+        }
+        for (ProductItem p : list) {
+            model.addRow(new Object[]{
+                p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+            });
+        }
+        model.fireTableDataChanged();
+    }
+
     public void fillTableByPropertieProductItem(String keyword) {
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
@@ -119,7 +142,7 @@ public class FormItems extends javax.swing.JPanel {
         List<ProductItem> list = prDAO.selectByPropertieProductItem(quantity, keyword);
         for (ProductItem p : list) {
             model.addRow(new Object[]{
-                p.getId(), p.getProductName(), p.getPrice(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+                p.getId(), p.getProductName(), nf.format(p.getPrice()) + " đ", p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
             });
         }
     }
@@ -173,6 +196,7 @@ public class FormItems extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
+        scrollBarCustom1 = new com.raven.suportSwing.ScrollBarCustom();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -381,7 +405,7 @@ public class FormItems extends javax.swing.JPanel {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addContainerGap(310, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -393,6 +417,11 @@ public class FormItems extends javax.swing.JPanel {
         txtSearch.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtSearchFocusGained(evt);
+            }
+        });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
             }
         });
 
@@ -445,7 +474,7 @@ public class FormItems extends javax.swing.JPanel {
                         .addGap(43, 43, 43))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 429, Short.MAX_VALUE)))
                 .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(185, 185, 185)
                 .addComponent(myButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -475,12 +504,14 @@ public class FormItems extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
+        jScrollPane1.setVerticalScrollBar(scrollBarCustom1);
+
         tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Vốn", "Size", "Màu Sắc", "Chất Liệu", "Số lượng tồn kho"
+                "Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Bán", "Size", "Màu Sắc", "Chất Liệu", "Số lượng tồn kho"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -502,13 +533,19 @@ public class FormItems extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 733, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane1))
+                .addGap(39, 39, 39)
+                .addComponent(scrollBarCustom1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -518,7 +555,8 @@ public class FormItems extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -534,7 +572,11 @@ public class FormItems extends javax.swing.JPanel {
 
     private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton2ActionPerformed
         // TODO add your handling code here:
-        searchTable();
+        try {
+            searchTable();
+        } catch (Exception e) {
+            searchKeyFillTable();
+        }
     }//GEN-LAST:event_myButton2ActionPerformed
 
 
@@ -645,6 +687,10 @@ public class FormItems extends javax.swing.JPanel {
         rdioSelectAll.setSelected(true);
     }//GEN-LAST:event_cbcProductActionPerformed
 
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnDelete;
@@ -672,6 +718,7 @@ public class FormItems extends javax.swing.JPanel {
     private com.raven.suportSwing.RadioButtonCustom rdioSelectAll;
     private com.raven.suportSwing.RadioButtonCustom rdioStatusFalse;
     private com.raven.suportSwing.RadioButtonCustom rdioStatusTrue;
+    private com.raven.suportSwing.ScrollBarCustom scrollBarCustom1;
     private com.raven.suportSwing.TableColumn tableShow;
     private javax.swing.JTextField txtQuantity;
     private com.raven.suportSwing.TextField txtSearch;

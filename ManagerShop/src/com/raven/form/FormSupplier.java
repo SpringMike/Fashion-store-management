@@ -127,6 +127,9 @@ public class FormSupplier extends javax.swing.JPanel {
                 return;
             } else if (labelValidate.checkNumber(lblPhoneNumber, txtPhoneNumber, "Số điện thoại không hợp lệ") == false) {
                 return;
+            } else if (checkPhoneNumber(txtPhoneNumber.getText()) == true) {
+                MsgBox.labelAlert(lblPhoneNumber, txtPhoneNumber, "Trùng số điện thoại");
+                return;
             } else {
                 sDao.insert(s);
                 fillTable();
@@ -155,6 +158,21 @@ public class FormSupplier extends javax.swing.JPanel {
         lblSearch.setText("");
     }
 
+    public void searchSupplierID() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        int keyWord = Integer.valueOf(txtSearch.getText());
+        Supplier s = sDao.selectById(keyWord);
+        if (s == null) {
+            lblSearch.setText("Không có nhà cung cấp " + keyWord);
+            return;
+        }
+        model.addRow(new Object[]{
+            s.getIdSupplier(), s.getNameMaterial(), s.getAddress(), s.getPhoneNumber()
+        });
+        lblSearch.setText("");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -174,6 +192,7 @@ public class FormSupplier extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
+        scrollBarCustom1 = new com.raven.suportSwing.ScrollBarCustom();
         jPanel3 = new javax.swing.JPanel();
         myButton3 = new com.raven.suportSwing.MyButton();
         btnAdd = new com.raven.suportSwing.MyButton();
@@ -196,6 +215,9 @@ public class FormSupplier extends javax.swing.JPanel {
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtSearchKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
             }
         });
 
@@ -260,6 +282,8 @@ public class FormSupplier extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
+        jScrollPane1.setVerticalScrollBar(scrollBarCustom1);
+
         tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -295,14 +319,21 @@ public class FormSupplier extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(scrollBarCustom1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -538,8 +569,16 @@ public class FormSupplier extends javax.swing.JPanel {
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
         // TODO add your handling code here:
-        searchSupplier();
     }//GEN-LAST:event_txtSearchKeyPressed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        try {
+            searchSupplierID();
+        } catch (Exception e) {
+            searchSupplier();
+        }
+    }//GEN-LAST:event_txtSearchKeyReleased
 
     public void excelSupplier() throws IOException {
         Excel.outputFile((DefaultTableModel) tableShow.getModel());
@@ -562,6 +601,7 @@ public class FormSupplier extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton myButton2;
     private com.raven.suportSwing.MyButton myButton3;
     private com.raven.suportSwing.MyButton myButton4;
+    private com.raven.suportSwing.ScrollBarCustom scrollBarCustom1;
     private com.raven.suportSwing.TableColumn tableShow;
     private com.raven.suportSwing.TextField txtAddress;
     private com.raven.suportSwing.TextField txtPhoneNumber;
