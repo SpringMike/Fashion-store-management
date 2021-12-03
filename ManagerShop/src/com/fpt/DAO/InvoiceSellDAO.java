@@ -39,7 +39,7 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
 
     @Override
     public List<InvoiceSell> selectAll() {
-        String sql = "SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer";
+        String sql = "SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer ORDER BY idInvoiceSell Desc";
         return selectBySql(sql);
     }
 
@@ -65,7 +65,7 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
                 i.setIdCustomer(rs.getInt("idCustomer"));
                 i.setIdHumanSell(rs.getInt("idHumanSell"));
                 i.setIdVoucher(rs.getInt("idVoucher"));
-                i.setDateCreateInvoice(rs.getDate("dateCreateInvoice"));
+                i.setDateCreateInvoice(rs.getString("dateCreateInvoice"));
                 i.setDescription(rs.getString("description"));
                 i.setStatusPay(rs.getBoolean("statusPay"));
                 i.setStatusInvoice(rs.getBoolean("statusInvoice"));
@@ -128,11 +128,11 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
             java.util.Date date = XDate.toDate(Stringdate, "dd-MM-yyyy");
             String sql = " SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer \n"
                     + " where dateCreateInvoice =?\n"
-                    + "order by idInvoiceSell OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+                    + "order by idInvoiceSell desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
             return selectBySql(sql, date, (page - 1) * pageSize, pageSize);
         }
         String sql = "SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer \n"
-                + "order by idInvoiceSell OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+                + "order by idInvoiceSell desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
         return selectBySql(sql, (page - 1) * pageSize, pageSize);
     }
 

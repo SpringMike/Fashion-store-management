@@ -16,9 +16,12 @@ import com.fpt.entity.ProductItem;
 import com.fpt.entity.Supplier;
 import static com.fpt.utils.Auth.user;
 import com.fpt.utils.MsgBox;
+import com.fpt.utils.XDate;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -41,6 +44,8 @@ public class FormImportProducts extends javax.swing.JPanel {
         btnDeleteTemp.setEnabled(false);
 
     }
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat formatter = NumberFormat.getIntegerInstance(lc);
     SupplierDao supDAO = new SupplierDao();
     ProductItemDAO prDAO = new ProductItemDAO();
     DetailInvoiceImportDAO detailInvoiceDAO = new DetailInvoiceImportDAO();
@@ -61,22 +66,22 @@ public class FormImportProducts extends javax.swing.JPanel {
         List<ProductItem> list = prDAO.selectAll();
         for (ProductItem p : list) {
             model.addRow(new Object[]{
-                p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+                p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity(), formatter.format(p.getPrice()) + " đ"
             });
         }
     }
-    
+
     public void fillTableId() {
         DefaultTableModel model = (DefaultTableModel) tableProductItem.getModel();
         model.setRowCount(0);
         int id = Integer.valueOf(txtSearch.getText());
         ProductItem p = prDAO.selectImprotProductID(id);
         if (p == null) {
-            lblSearch.setText("Không tìm thấy mặt hàng " + id + " để bán");
+            lblSearch.setText("Không tìm thấy mặt hàng " + id);
             return;
         }
         model.addRow(new Object[]{
-            p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+            p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity(), formatter.format(p.getPrice()) + " đ"
         });
     }
 
@@ -86,12 +91,12 @@ public class FormImportProducts extends javax.swing.JPanel {
         String key = txtSearch.getText();
         List<ProductItem> list = prDAO.selectImprotProductKey(key);
         if (list.isEmpty()) {
-            lblSearch.setText("Không tìm thấy mặt hàng " + key + " để bán");
+            lblSearch.setText("Không tìm thấy mặt hàng " + key);
             return;
         }
         for (ProductItem p : list) {
             model.addRow(new Object[]{
-                p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity()
+                p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(), p.getMaterial(), p.getQuantity(), formatter.format(p.getPrice()) + " đ"
             });
         }
     }
@@ -99,7 +104,7 @@ public class FormImportProducts extends javax.swing.JPanel {
     public InvoiceImport getIvoice() {
         InvoiceImport in = new InvoiceImport();
         Calendar calendar = Calendar.getInstance();
-        in.setDateCreate(calendar.getTime());
+        in.setDateCreate(XDate.toString(calendar.getTime(), "hh:mm:ss aa yyyy-MM-dd"));
         in.setStatusPay(false);
         in.setIdUser(user.getIdUser());
         in.setDesc(txtAreaDesc.getText());
@@ -204,7 +209,7 @@ public class FormImportProducts extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableProductItem = new com.raven.suportSwing.TableColumn();
-        scrollBar1 = new com.raven.suportSwing.ScrollBar();
+        scrollBarCustom1 = new com.raven.suportSwing.ScrollBarCustom();
         jPanel2 = new javax.swing.JPanel();
         cbbSupplier = new com.raven.suportSwing.Combobox();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -232,18 +237,18 @@ public class FormImportProducts extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 12))); // NOI18N
 
-        jScrollPane1.setVerticalScrollBar(scrollBar1);
+        jScrollPane1.setVerticalScrollBar(scrollBarCustom1);
 
         tableProductItem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã Mặt hàng", "Tên Sản Phẩm", "Loại", "Size", "Màu Sắc", "Chất liệu", "Số lượng trong kho"
+                "Mã Mặt hàng", "Tên Sản Phẩm", "Loại", "Size", "Màu Sắc", "Chất liệu", "Số lượng trong kho", "Giá bán"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -261,21 +266,21 @@ public class FormImportProducts extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1184, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(scrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(scrollBarCustom1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -395,7 +400,7 @@ public class FormImportProducts extends javax.swing.JPanel {
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
                             .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -504,12 +509,12 @@ public class FormImportProducts extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -521,7 +526,7 @@ public class FormImportProducts extends javax.swing.JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(24, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -590,8 +595,8 @@ public class FormImportProducts extends javax.swing.JPanel {
     private javax.swing.JLabel lblSearch;
     private com.raven.suportSwing.MyButton myButton1;
     private com.raven.suportSwing.MyButton myButton4;
-    private com.raven.suportSwing.ScrollBar scrollBar1;
     private com.raven.suportSwing.ScrollBar scrollBar2;
+    private com.raven.suportSwing.ScrollBarCustom scrollBarCustom1;
     private com.raven.suportSwing.TableColumn tableProductItem;
     private com.raven.suportSwing.TableColumn tableTemp;
     private javax.swing.JTextArea txtAreaDesc;

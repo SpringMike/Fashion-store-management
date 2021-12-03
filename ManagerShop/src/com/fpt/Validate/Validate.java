@@ -27,7 +27,7 @@ import javax.swing.border.LineBorder;
 public class Validate {
 
     public static boolean checkEmpty(Component component, JTextField txtString, String mess) {
-        if (txtString.getText().isEmpty()) {
+        if (txtString.getText().trim().isEmpty()) {
             MsgBox.warring(component, mess);
             txtString.setBorder(new LineBorder(Color.red));
             return false;
@@ -38,7 +38,7 @@ public class Validate {
     }
 
     public static boolean checkEmpty(JLabel lbl, JTextField txtString, String mess) {
-        if (txtString.getText().isEmpty()) {
+        if (txtString.getText().trim().isEmpty()) {
             MsgBox.labelAlert(lbl, txtString, mess);
             return false;
         }
@@ -55,7 +55,7 @@ public class Validate {
     }
 
     public static boolean checkEmpty(Component component, JTextArea txtString, String mess) {
-        if (txtString.getText().isEmpty()) {
+        if (txtString.getText().trim().isEmpty()) {
             MsgBox.warring(component, mess);
             txtString.setBorder(new LineBorder(Color.red));
             return false;

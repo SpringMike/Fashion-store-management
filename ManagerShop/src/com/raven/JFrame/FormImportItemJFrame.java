@@ -675,6 +675,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         });
 
         txtColorAdd.setLabelText("Màu Thêm");
+        txtColorAdd.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtColorAddFocusGained(evt);
+            }
+        });
 
         btnEditColor.setText("Sửa");
         btnEditColor.setMaximumSize(new java.awt.Dimension(59, 23));
@@ -703,6 +708,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         });
 
         txtMaterialAdd.setLabelText("Chất liệu Thêm");
+        txtMaterialAdd.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtMaterialAddFocusGained(evt);
+            }
+        });
         txtMaterialAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMaterialAddActionPerformed(evt);
@@ -748,6 +758,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         });
 
         txtSizeAdd.setLabelText("Size Thêm");
+        txtSizeAdd.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSizeAddFocusGained(evt);
+            }
+        });
 
         btnEditMaterial.setText("Sửa");
         btnEditMaterial.setMaximumSize(new java.awt.Dimension(59, 23));
@@ -980,6 +995,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             txtSizeAdd.setVisible(false);
             btnAddSize.setVisible(false);
             btnEditSize.setVisible(false);
+            lblSizeAdd.setText("");
         } else {
             txtSizeAdd.setVisible(true);
             btnAddSize.setVisible(true);
@@ -995,6 +1011,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             btnColorAdd.setVisible(false);
             txtColorAdd.setVisible(false);
             btnEditColor.setVisible(false);
+            lblColor.setText("");
         } else {
             btnColorAdd.setVisible(true);
             txtColorAdd.setVisible(true);
@@ -1009,6 +1026,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
             txtMaterialAdd.setVisible(false);
             btnAddMaterial.setVisible(false);
             btnEditMaterial.setVisible(false);
+            lblMaterialAdd.setText("");
         } else {
             txtMaterialAdd.setVisible(true);
             btnAddMaterial.setVisible(true);
@@ -1115,6 +1133,21 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_myButton7ActionPerformed
+
+    private void txtSizeAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSizeAddFocusGained
+        // TODO add your handling code here:
+        lblSizeAdd.setText("");
+    }//GEN-LAST:event_txtSizeAddFocusGained
+
+    private void txtColorAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtColorAddFocusGained
+        // TODO add your handling code here:
+        lblColor.setText("");
+    }//GEN-LAST:event_txtColorAddFocusGained
+
+    private void txtMaterialAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMaterialAddFocusGained
+        // TODO add your handling code here:
+        lblMaterialAdd.setText("");
+    }//GEN-LAST:event_txtMaterialAddFocusGained
 
     /**
      * @param args the command line arguments
