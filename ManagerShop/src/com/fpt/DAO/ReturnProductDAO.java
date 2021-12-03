@@ -41,7 +41,7 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, Integer> {
 
     @Override
     public List<InvoiceRetuns> selectAll() {
-        String sql = "SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer";
+        String sql = "SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer ORDER BY idInvoiceReturn Desc";
         return selectBySql(sql);
     }
 
@@ -65,7 +65,7 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, Integer> {
                 InvoiceRetuns p = new InvoiceRetuns();
                 p.setIdInvoiceRetuns(rs.getInt("idInvoiceReturn"));
                 p.setIdInvoiceSell(rs.getInt("idInvoiceSell"));
-                p.setDateCreateInvoiceReturn(rs.getDate("dateCreateInvoice"));
+                p.setDateCreateInvoiceReturn(rs.getString("dateCreateInvoice"));
                 p.setIdCustomer(rs.getInt("idCustomer"));
                 p.setTotalReturn(rs.getDouble("totalReturn"));
                 p.setDescription(rs.getString("description"));
@@ -95,7 +95,7 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, Integer> {
                 p.setProductName(rs.getString("nameProduct"));
                 p.setNameCustomer(rs.getString("name"));
                 p.setIdCustomer(rs.getInt("idCustomer"));
-                p.setDateCreateInvoice(rs.getDate("dateCreateInvoice"));
+                p.setDateCreateInvoice(rs.getString("dateCreateInvoice"));
                 list.add(p);
             }
         } catch (Exception e) {
@@ -154,11 +154,11 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, Integer> {
             java.util.Date date = XDate.toDate(Stringdate, "dd-MM-yyyy");
             String sql = "SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer \n"
                     + " where dateCreateInvoice =?\n"
-                    + "order by idInvoiceReturn OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+                    + "order by idInvoiceReturn desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
             return selectBySql(sql, date, (page - 1) * pageSize, pageSize);
         }
         String sql = "SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer \n"
-                + "order by idInvoiceReturn OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+                + "order by idInvoiceReturn desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
         return selectBySql(sql, (page - 1) * pageSize, pageSize);
     }
 }

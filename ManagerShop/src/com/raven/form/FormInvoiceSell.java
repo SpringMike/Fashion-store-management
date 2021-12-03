@@ -5,8 +5,12 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.CustomerDAO;
 import com.fpt.DAO.InvoiceSellDAO;
+import com.fpt.DAO.ReturnProductDAO;
+import com.fpt.entity.Customer;
 import com.fpt.entity.InvoiceImport;
+import com.fpt.entity.InvoiceRetuns;
 import com.fpt.entity.InvoiceSell;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
@@ -73,15 +77,41 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         model.setRowCount(0);
 
         List<InvoiceSell> list = iDao.pagingPage(page, rowCountPerPage, "");
+        CustomerDAO cDao = new CustomerDAO();
+        List<Customer> listC = cDao.selectAll();
+        String phone = "";
         for (InvoiceSell i : list) {
+            for (int j = 0; j < listC.size(); j++) {
+                if (i.getIdCustomer() == listC.get(j).getId()) {
+                    phone = listC.get(j).getPhoneNumber();
+                }
+            }
             model.addRow(new Object[]{
-                i.getIdInvoiceSell(), i.getNameCustomer(), i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
+                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
+        ReturnProductDAO reDao = new ReturnProductDAO();
+        List<InvoiceRetuns> list2 = reDao.selectAll();
+        for (int i = 0; i < list2.size(); i++) {
+            for (int j = 0; j < list.size(); j++) {
+                if (list2.get(i).getIdInvoiceSell() == list.get(j).getIdInvoiceSell()) {
+                    tableShow.setValueAt("Đã trả hàng", j, 6);
+                }
+            }
 
+        }
     }
 
+//      public boolean checkReturn() {
+//        List<InvoiceRetuns> list = reDao.selectAll();
+//        for (int i = 0; i < list.size(); i++) {
+//            if (list.get(i).getIdInvoiceSell() == Integer.parseInt(txtShearchInvoice.getText())) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
     public void searchDateFillTable() {
         totalData = iDao.totalPage(txtDate.getText());
         rowCountPerPage = Integer.valueOf(cbbPagination.getSelectedItem().toString());
@@ -253,11 +283,11 @@ public class FormInvoiceSell extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã hoá đơn", "Tên Khách hàng", "Nhân Viên", "Tổng Tiền", "Ngày Tạo", "Ghi Chú", "Trạng thái"
+                "Mã hoá đơn", "Tên Khách hàng", "Số điện thoại", "Nhân Viên", "Tổng Tiền", "Ngày Tạo", "Ghi Chú", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -277,6 +307,8 @@ public class FormInvoiceSell extends javax.swing.JPanel {
             tableShow.getColumnModel().getColumn(3).setResizable(false);
             tableShow.getColumnModel().getColumn(4).setResizable(false);
             tableShow.getColumnModel().getColumn(5).setResizable(false);
+            tableShow.getColumnModel().getColumn(6).setResizable(false);
+            tableShow.getColumnModel().getColumn(7).setResizable(false);
         }
 
         btnReset.setText("Reset");
@@ -299,6 +331,11 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         cbbPagination.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbbPaginationItemStateChanged(evt);
+            }
+        });
+        cbbPagination.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbPaginationActionPerformed(evt);
             }
         });
 
@@ -471,7 +508,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         if (evt.getClickCount() == 2) {
             int row = tableShow.getSelectedRow();
             int id = (int) tableShow.getValueAt(row, 0);
-            new FormDetailInvoiceSell(id).setVisible(true);
+            new FormDetailInvoiceSell(id, (DefaultTableModel) tableShow.getModel(), tableShow.getSelectedRow()).setVisible(true);
         }
     }//GEN-LAST:event_tableShowMouseClicked
 
@@ -528,6 +565,10 @@ public class FormInvoiceSell extends javax.swing.JPanel {
     private void txtSearchIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchIdFocusGained
         lblSearchId.setVisible(false);
     }//GEN-LAST:event_txtSearchIdFocusGained
+
+    private void cbbPaginationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbPaginationActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbPaginationActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

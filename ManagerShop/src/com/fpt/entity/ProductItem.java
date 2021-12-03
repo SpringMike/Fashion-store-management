@@ -30,13 +30,13 @@ public class ProductItem {
     private String ProductName;
     private String nameCustomer;
     private String categoryName;
-    private Date dateCreateInvoice;
+    private String dateCreateInvoice;
 
-    public Date getDateCreateInvoice() {
+    public String getDateCreateInvoice() {
         return dateCreateInvoice;
     }
 
-    public void setDateCreateInvoice(Date dateCreateInvoice) {
+    public void setDateCreateInvoice(String dateCreateInvoice) {
         this.dateCreateInvoice = dateCreateInvoice;
     }
 

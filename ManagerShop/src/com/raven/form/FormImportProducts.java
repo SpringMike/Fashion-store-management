@@ -16,6 +16,7 @@ import com.fpt.entity.ProductItem;
 import com.fpt.entity.Supplier;
 import static com.fpt.utils.Auth.user;
 import com.fpt.utils.MsgBox;
+import com.fpt.utils.XDate;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -103,7 +104,7 @@ public class FormImportProducts extends javax.swing.JPanel {
     public InvoiceImport getIvoice() {
         InvoiceImport in = new InvoiceImport();
         Calendar calendar = Calendar.getInstance();
-        in.setDateCreate(calendar.getTime());
+        in.setDateCreate(XDate.toString(calendar.getTime(), "hh:mm:ss aa yyyy-MM-dd"));
         in.setStatusPay(false);
         in.setIdUser(user.getIdUser());
         in.setDesc(txtAreaDesc.getText());

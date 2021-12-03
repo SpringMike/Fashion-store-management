@@ -13,7 +13,7 @@ import java.util.Date;
 public class InvoiceImport {
 
     private int id;
-    private Date dateCreate;
+    private String dateCreate;
 
     private boolean statusPay;
     private int idUser;
@@ -44,7 +44,7 @@ public class InvoiceImport {
     public InvoiceImport() {
     }
 
-    public InvoiceImport(int id, Date dateCreate, boolean statusPay, int idUser, int idSupplier, String desc) {
+    public InvoiceImport(int id, String dateCreate, boolean statusPay, int idUser, int idSupplier, String desc) {
         this.id = id;
         this.dateCreate = dateCreate;
       
@@ -62,11 +62,11 @@ public class InvoiceImport {
         this.id = id;
     }
 
-    public Date getDateCreate() {
+    public String getDateCreate() {
         return dateCreate;
     }
 
-    public void setDateCreate(Date dateCreate) {
+    public void setDateCreate(String dateCreate) {
         this.dateCreate = dateCreate;
     }
 
