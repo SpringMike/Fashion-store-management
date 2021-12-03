@@ -295,7 +295,11 @@ ALTER TABLE dbo.InvoiceImportPr ALTER COLUMN dateCreateInvoice DATETIME
 ALTER TABLE dbo.InvoiceReturn ALTER COLUMN dateCreateInvoice DATETIME
 ALTER TABLE dbo.InvoiceSell ALTER COLUMN dateCreateInvoice DATETIME
 -------------------------------
+SELECT * FROM Customer ORDER BY idCustomer DESC
 
+SELECT * FROM dbo.InvoiceSell
+
+					
 
 
 
