@@ -5,8 +5,10 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.CustomerDAO;
 import com.fpt.DAO.InvoiceSellDAO;
 import com.fpt.DAO.ReturnProductDAO;
+import com.fpt.entity.Customer;
 import com.fpt.entity.InvoiceImport;
 import com.fpt.entity.InvoiceRetuns;
 import com.fpt.entity.InvoiceSell;
@@ -75,9 +77,17 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         model.setRowCount(0);
 
         List<InvoiceSell> list = iDao.pagingPage(page, rowCountPerPage, "");
+        CustomerDAO cDao = new CustomerDAO();
+        List<Customer> listC = cDao.selectAll();
+        String phone = "";
         for (InvoiceSell i : list) {
+            for (int j = 0; j < listC.size(); j++) {
+                if (i.getIdCustomer() == listC.get(j).getId()) {
+                    phone = listC.get(j).getPhoneNumber();
+                }
+            }
             model.addRow(new Object[]{
-                i.getIdInvoiceSell(), i.getNameCustomer(), i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
+                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
@@ -273,11 +283,11 @@ public class FormInvoiceSell extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã hoá đơn", "Tên Khách hàng", "Nhân Viên", "Tổng Tiền", "Ngày Tạo", "Ghi Chú", "Trạng thái"
+                "Mã hoá đơn", "Tên Khách hàng", "Số điện thoại", "Nhân Viên", "Tổng Tiền", "Ngày Tạo", "Ghi Chú", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -297,6 +307,8 @@ public class FormInvoiceSell extends javax.swing.JPanel {
             tableShow.getColumnModel().getColumn(3).setResizable(false);
             tableShow.getColumnModel().getColumn(4).setResizable(false);
             tableShow.getColumnModel().getColumn(5).setResizable(false);
+            tableShow.getColumnModel().getColumn(6).setResizable(false);
+            tableShow.getColumnModel().getColumn(7).setResizable(false);
         }
 
         btnReset.setText("Reset");

@@ -5,32 +5,30 @@
  */
 package com.raven.JFrame;
 
-import com.fpt.DAO.DetailInvoiceImportDAO;
 import com.fpt.DAO.DetailInvoiceSellDAO;
 import com.fpt.entity.DetailInvoiceSell;
 import com.fpt.utils.MsgBox;
+import static com.fpt.utils.convertEng.removeAccent;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.color.DeviceRgb;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
 import com.itextpdf.layout.border.Border;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Table;
-import com.lowagie.text.pdf.PdfPTable;
+import com.itextpdf.text.BadElementException;
+import com.lowagie.text.Image;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -184,47 +182,57 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_myButton6ActionPerformed
 
-    public void outputPDF() throws IOException {
+    public void outputPDF() throws IOException, BadElementException {
+
         String path = "D:\\Invoice.pdf";
         PdfWriter pdfWriter = new PdfWriter(path);
         PdfDocument pdfDocument = new PdfDocument(pdfWriter);
         com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
         pdfDocument.setDefaultPageSize(PageSize.A4);
-
+        Document doc = new Document(pdfDocument);
         float col = 280f;
         float columnWidth[] = {col, col};
         com.itextpdf.layout.element.Table table = new com.itextpdf.layout.element.Table(columnWidth);
         table.setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE);
-        table.addCell(new Cell().add("Invoice").setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)
-                .setMarginTop(30f)
-                .setMarginBottom(30f).setFontSize(30f).setBorder(Border.NO_BORDER));
+        String file = "D:\\Fall2021\\DuAn1_FPOLY\\ManagerShop\\src\\com\\raven\\icon\\shop (2).png";
+        ImageData date = ImageDataFactory.create(file);
+        com.itextpdf.layout.element.Image image = new com.itextpdf.layout.element.Image(date);
+//        doc.add(image);
+        table.addCell(new Cell().add(image).setBorder(Border.NO_BORDER));
+        table.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+        table.addCell(new Cell().add("IT SHOP").setFontSize(30f).setBorder(Border.NO_BORDER));
 
-        table.addCell(new Cell().add("Đức")
+        table.addCell(new Cell().add("68 Nguyen Trai \n SĐT: 0332429178 - 03324287654")
                 .setTextAlignment(TextAlignment.RIGHT).setMarginTop(30f).setMarginBottom(30f).setBorder(Border.NO_BORDER).setMarginRight(10f)
         );
 
-        float colWidth[] = {80, 300, 100, 80};
+        float colWidth[] = {80, 250, 80, 150};
 
         com.itextpdf.layout.element.Table customerInfor = new com.itextpdf.layout.element.Table(colWidth);
-        customerInfor.addCell(new Cell(0, 4).add("Customer Information").setBold().setBorder(Border.NO_BORDER));
-        customerInfor.addCell(new Cell().add("Name").setBorder(Border.NO_BORDER));
-        customerInfor.addCell(new Cell().add(tableShow.getValueAt(0, 2).toString()).setBorder(Border.NO_BORDER));
-        customerInfor.addCell(new Cell().add("Invoice No. ").setBorder(Border.NO_BORDER));
-        customerInfor.addCell(new Cell().add(model.getValueAt(row, 0) + "").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell(0, 4).add("Phieu Thanh Toan").setBold().setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER));
 
-//        customerInfor.addCell(new Cell().add("Mo. No.").setBorder(Border.NO_BORDER)); //
-//        customerInfor.addCell(new Cell().add("TTIDKH").setBorder(Border.NO_BORDER)); //
+        customerInfor.addCell(new Cell(0, 4).add("Thong tin").setBold().setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add("Khach Hang: ").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add(removeAccent(model.getValueAt(row, 1).toString())).setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add("Ma Hoa Don: ").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add(model.getValueAt(row, 0) + "").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add("SDT: ").setBorder(Border.NO_BORDER)); //
+        customerInfor.addCell(new Cell().add(removeAccent(model.getValueAt(row, 2).toString())).setBorder(Border.NO_BORDER)); //
+
+        customerInfor.addCell(new Cell().add("Thu Ngan: ").setBorder(Border.NO_BORDER)); //
+        customerInfor.addCell(new Cell().add(removeAccent(model.getValueAt(row, 3).toString())).setBorder(Border.NO_BORDER)); //
         customerInfor.addCell(new Cell().add("Date: ").setBorder(Border.NO_BORDER));
-        customerInfor.addCell(new Cell().add(model.getValueAt(row, 4) + "").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add(model.getValueAt(row, 5) + "").setBorder(Border.NO_BORDER));
 
         float iteamInforColWidth[] = {140, 140, 140, 140};
         com.itextpdf.layout.element.Table itemInforTable = new com.itextpdf.layout.element.Table(iteamInforColWidth);
-        itemInforTable.addCell(new Cell().add("Item").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
-        itemInforTable.addCell(new Cell().add("Quantity").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
-        itemInforTable.addCell(new Cell().add("Price").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE).setTextAlignment(TextAlignment.RIGHT));
-        itemInforTable.addCell(new Cell().add("Amount").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE).setTextAlignment(TextAlignment.RIGHT));
+        itemInforTable.addCell(new Cell().add("San Pham").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add("So luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add("Gia").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE).setTextAlignment(TextAlignment.RIGHT));
+        itemInforTable.addCell(new Cell().add("Thanh Tien").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE).setTextAlignment(TextAlignment.RIGHT));
 
         int total = 0;
+        int quantitySum = 0;
         for (int i = 0; i < tableShow.getRowCount(); i++) {
             String id = tableShow.getValueAt(i, 0).toString();
             String nameProduct = tableShow.getValueAt(i, 1).toString();
@@ -234,25 +242,35 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
             String Material = tableShow.getValueAt(i, 5).toString();
             int quantity = (int) tableShow.getValueAt(i, 6);
             double price = (double) tableShow.getValueAt(i, 7);
-            itemInforTable.addCell(new Cell().add(nameProduct));
+            itemInforTable.addCell(new Cell().add(removeAccent(nameProduct)));
             itemInforTable.addCell(new Cell().add(quantity + ""));
             itemInforTable.addCell(new Cell().add(price + "").setTextAlignment(TextAlignment.RIGHT));
             itemInforTable.addCell(new Cell().add(price * quantity + "").setTextAlignment(TextAlignment.RIGHT));
             total += price * quantity;
+            quantitySum += quantity;
         }
 
-        itemInforTable.addCell(new Cell().add("").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
-        itemInforTable.addCell(new Cell().add("").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
-        itemInforTable.addCell(new Cell().add("Total Amount").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add("Tong So Luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTable.addCell(new Cell().add(quantitySum + "").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTable.addCell(new Cell().add("Tong Tien").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
         itemInforTable.addCell(new Cell().add(total + "").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
 
+        float colWidthNote[] = {560};
+
+        com.itextpdf.layout.element.Table customerInforNote = new com.itextpdf.layout.element.Table(colWidthNote);
+        customerInforNote.addCell(new Cell().add("Luu y: Quy khach vui long kiem tra hang truoc khi roi khoi shop \n Giu hoa don khi tra hang trong vong 2 ngay").
+                setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setItalic().setFontColor(Color.RED));
+        customerInforNote.addCell(new Cell().add("Xin cam on quy khach !!!").
+                setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setItalic().setFontColor(Color.BLACK));
         document.add(table);
         document.add(new Paragraph("\n"));
         document.add(customerInfor);
         document.add(new Paragraph("\n"));
         document.add(itemInforTable);
-//        document.add(new Paragraph("\n(Authorised Signatory)").setTextAlignment(TextAlignment.RIGHT));
+        document.add(new Paragraph("\n"));
+        document.add(customerInforNote);
 
+//        document.add(new Paragraph("\n(Authorised Signatory)").setTextAlignment(TextAlignment.RIGHT));
         document.close();
         System.out.println("OOkF");
     }
@@ -310,6 +328,8 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
 //        }
 //        PdfWriter pdfWriter = new PdfWriter(path);
         } catch (IOException ex) {
+            Logger.getLogger(FormDetailInvoiceSell.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadElementException ex) {
             Logger.getLogger(FormDetailInvoiceSell.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_myButton7ActionPerformed
