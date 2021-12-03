@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="86bd7eef-73cc-4b42-ae3d-1c500fd85091" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormChangePassword$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormChangePassword$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormChangePassword$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/fpt/db/writedb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/fpt/db/writedb.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoice$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoice$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoice$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoice$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoice.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoice.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoice.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoice.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceReturn$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceReturn$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceReturn$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceReturn$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceReturn$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceReturn$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceReturn.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceReturn.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceReturn.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceReturn.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceSell$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceSell$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceSell$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceSell$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceSell$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceSell$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceSell.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceSell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceSell.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/JFrame/FormDetailInvoiceSell.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/ChangePassword$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/ChangePassword$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/ChangePassword$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/ChangePassword.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormChangePassword.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/ChangePassword.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormChangePassword.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$15.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$16.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$16.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormCustomer.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportItem.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportItem.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormImportProducts.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceImportProducts.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceReturnProduct.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormInvoiceSell.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$15.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$16.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$16.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$17.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$17.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$18.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$18.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$19.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$19.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$20.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$20.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$21.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$21.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$22.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$22.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormItems.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormListEmpolyee.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$15.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$16.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$16.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$17.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$17.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$18.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$18.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$19.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$19.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$20.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$20.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$21.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$21.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormProducts.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormReturnProducts.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormRevenueStatistics$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormRevenueStatistics$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormRevenueStatistics$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormRevenueStatistics$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormRevenueStatistics$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormRevenueStatistics$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormRevenueStatistics$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormRevenueStatistics$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormRevenueStatistics.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormRevenueStatistics.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormRevenueStatistics.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormRevenueStatistics.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSalesStatistics.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$15.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$16.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$16.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSell.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormSupplier.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/form/FormVoucher.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/demo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/demo.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/demoCoTheXoa.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/demoCom$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/demoCom$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/demoCom$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/demoCom$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/demoCom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/form/demoCom.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/raven/main/Main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/raven/main/Main$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/fpt/db/writedb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/fpt/db/writedb.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/JFrame/FormDetailInvoice.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/JFrame/FormDetailInvoice.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/JFrame/FormDetailInvoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/JFrame/FormDetailInvoice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/JFrame/FormDetailInvoiceReturn.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/JFrame/FormDetailInvoiceReturn.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/JFrame/FormDetailInvoiceReturn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/JFrame/FormDetailInvoiceReturn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/JFrame/FormDetailInvoiceSell.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/JFrame/FormDetailInvoiceSell.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/JFrame/FormDetailInvoiceSell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/JFrame/FormDetailInvoiceSell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/ChangePassword.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormChangePassword.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/ChangePassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormChangePassword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormCustomer.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormCustomer.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormCustomer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormCustomer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormImportItem.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormImportItem.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormImportItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormImportItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormImportProducts.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormImportProducts.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormImportProducts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormImportProducts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormInvoiceImportProducts.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormInvoiceImportProducts.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormInvoiceImportProducts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormInvoiceImportProducts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormInvoiceReturnProduct.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormInvoiceReturnProduct.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormInvoiceReturnProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormInvoiceReturnProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormInvoiceSell.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormInvoiceSell.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormInvoiceSell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormInvoiceSell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormItems.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormItems.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormListEmpolyee.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormListEmpolyee.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormListEmpolyee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormListEmpolyee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormProducts.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormProducts.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormProducts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormProducts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormReturnProducts.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormReturnProducts.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormReturnProducts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormReturnProducts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormRevenueStatistics.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormRevenueStatistics.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormRevenueStatistics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormRevenueStatistics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormSalesStatistics.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormSalesStatistics.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormSalesStatistics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormSalesStatistics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormSell.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormSell.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormSell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormSell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormSupplier.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormSupplier.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormSupplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormSupplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormVoucher.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormVoucher.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/FormVoucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/form/FormVoucher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/demo.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/demo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/demoCoTheXoa.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/demoCom.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/form/demoCom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/raven/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/raven/main/Main.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="21ip6uHXsa3sCej2XPi40GEMvtL" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="86bd7eef-73cc-4b42-ae3d-1c500fd85091" name="Default Changelist" comment="" />
+      <created>1638433589724</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1638433589724</updated>
+      <workItem from="1638433591221" duration="112000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

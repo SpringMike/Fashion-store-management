@@ -265,9 +265,10 @@ BEGIN
 	SELECT MONTH(InvoiceSell.dateCreateInvoice) MonthDate , SUM(detailsInvoiceSELL.quatity) quantity,
 	CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) AS INT)
 	 totalSell, 
-	 
-	 SUM(totalReturn) totalReturn, 
-	SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) revenue
+	 CAST(SUM(totalReturn) AS INT )
+	  totalReturn, 
+	  CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) AS INT)
+	revenue
 	FROM dbo.detailsInvoiceSELL  
 	JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
 	LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell
@@ -354,13 +355,11 @@ JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
 JOIN dbo.Color ON Color.idColor = detailsProduct.idColor
 WHERE DetailInvoiceReturn.idInvoiceReturn = ?
                 
-
-
-
-SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
-
-SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer
-               where idInvoiceReturn = 29
+select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D
+                INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial
+                  INNER JOIN Color C on C.idColor = D.idColor
+                               INNER JOIN Products P on P.idProduct = D.idProduct
+                                INNER JOIN List L  on L.idList = P.idList
 
 
 
