@@ -1,6 +1,7 @@
 package com.raven.main;
 
 import com.fpt.utils.Auth;
+import com.fpt.utils.MsgBox;
 import com.fpt.utils.XImage;
 import com.raven.component.Header;
 import com.raven.component.Menu;
@@ -113,8 +114,12 @@ public class Main extends javax.swing.JFrame {
                         } else if (subMenuIndex == 1) {
                             main.showForm(new FormChangePassword());
                         }
-                    } else {
+                    } else if (menuIndex == 7) {
                         main.showForm(new FormVoucher());
+                    } else {
+                        MsgBox.confirm(rootPane, "Bạn có muốn đăng xuất không ?");
+                        dispose();
+                        new Login_main().setVisible(true);
                     }
                 } else {
                     if (menuIndex == 0) {
@@ -143,6 +148,10 @@ public class Main extends javax.swing.JFrame {
                         } else if (subMenuIndex == 1) {
                             main.showForm(new FormChangePassword());
                         }
+                    } else {
+                        MsgBox.confirm(rootPane, "Bạn có muốn đăng xuất không ?");
+                        dispose();
+                        new Login_main().setVisible(true);
                     }
                 }
 
