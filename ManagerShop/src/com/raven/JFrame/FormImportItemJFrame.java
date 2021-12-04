@@ -306,6 +306,18 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
     List<ProductItem> list = new ArrayList<>();
 
+
+    public void checkIteam() {
+        List<Products> list = productDAO.selectAll();
+        int id = 0;
+        for (Products p : list) {
+            String text = cbbMaterial.getSelectedItem() + "";
+            if (text.equals(p.getNameList())) {
+                id = p.getIdList();
+            }
+        }
+    }
+
     public void fillTableTemp() {
         if (!Validate.checkEmpty(lblPrice, txtPrice, "Không bỏ trống giá tiền")) {
             lblPrice.setVisible(true);
@@ -342,8 +354,6 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
         }
 
     }
-
-
 
     public void insetImage() {
         ProductItemImage productItemImage = new ProductItemImage();
