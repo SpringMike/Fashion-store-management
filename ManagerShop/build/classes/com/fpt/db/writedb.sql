@@ -308,51 +308,25 @@ GROUP BY name,
          gender,
          phoneNumber
 END
-
-IF OBJECT_ID('sp_SumCustomer') IS NOT NULL
-DROP PROC sp_SumCustomer
+----------- db 5/12/021
+CREATE TABLE InvoiceChangeProducts
+(
+	idInvoiceChangeProducts INT IDENTITY(1,1) PRIMARY KEY,
+	idCustomer INT,
+	idInvoiceSell INT,
+	dateCreateInvoice DATETIME,
+	idDetailsNew int,
+	idDetailsOld INT,
+	idUser INT,
+	description NVARCHAR(255),
+	FOREIGN KEY(idCustomer) REFERENCES dbo.Customer(idCustomer),
+	FOREIGN KEY(idInvoiceSell) REFERENCES dbo.InvoiceSell(idInvoiceSell),
+	FOREIGN KEY(idDetailsOld) REFERENCES dbo.detailsInvoiceSELL(idDetailsInvoiceSELL),
+	FOREIGN KEY(idDetailsNew) REFERENCES dbo.Products(idProduct),
+	FOREIGN KEY(idUser) REFERENCES dbo.[User](idUser)
+)
 GO
-CREATE PROC sp_SumCustomer
-AS
-BEGIN
-    SELECT COUNT(idCustomer) SumCustomer FROM dbo.Customer 
-END
 
-IF OBJECT_ID('sp_QuantityDate') IS NOT NULL
-DROP PROC sp_QuantityDate
-GO
-CREATE PROC sp_QuantityDate
-AS
-BEGIN
-    SELECT SUM(quatity) Quantity FROM dbo.InvoiceSell JOIN dbo.detailsInvoiceSELL ON detailsInvoiceSELL.idInvoiceSell = InvoiceSell.idInvoiceSell
-WHERE YEAR(dateCreateInvoice) = YEAR(GETDATE()) AND MONTH(dateCreateInvoice) = MONTH(GETDATE()) AND DAY(dateCreateInvoice) = DAY(GETDATE())
-END
-
-
-IF OBJECT_ID('sp_inventory') IS NOT NULL
-DROP PROC sp_inventory
-GO
-CREATE PROC sp_inventory
-AS
-BEGIN
-SELECT SUM(quatity) inventory FROM dbo.detailsProduct
-    
-END
-
-IF OBJECT_ID('sp_revenueDate') IS NOT NULL
-DROP PROC sp_evenueDate
-GO
-CREATE PROC sp_evenueDate
-AS
-BEGIN
-SELECT CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) AS INT)
-revenue FROM dbo.detailsInvoiceSELL JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
-LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell WHERE
-YEAR(InvoiceSell.dateCreateInvoice) = YEAR(GETDATE()) AND 
-MONTH(InvoiceSell.dateCreateInvoice) = MONTH(GETDATE()) AND DAY(InvoiceSell.dateCreateInvoice) = DAY(GETDATE())
-END
-
-EXEC dbo.sp_QuantityDate
 
 
 
