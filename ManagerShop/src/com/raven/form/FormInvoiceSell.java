@@ -115,16 +115,24 @@ public class FormInvoiceSell extends javax.swing.JPanel {
     public void searchDateFillTable() {
         totalData = iDao.totalPage(txtDate.getText());
         rowCountPerPage = Integer.valueOf(cbbPagination.getSelectedItem().toString());
+        
         Double totalPageD = Math.ceil(totalData.doubleValue() / rowCountPerPage);
         totalPage = totalPageD.intValue();
         edit();
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         List<InvoiceSell> list = iDao.pagingPage(page, rowCountPerPage, txtDate.getText());
+        CustomerDAO cDao = new CustomerDAO();
+        List<Customer> listC = cDao.selectAll();
+        String phone = "";
         for (InvoiceSell i : list) {
-
+            for (int j = 0; j < listC.size(); j++) {
+                if (i.getIdCustomer() == listC.get(j).getId()) {
+                    phone = listC.get(j).getPhoneNumber();
+                }
+            }
             model.addRow(new Object[]{
-                i.getIdInvoiceSell(), i.getNameCustomer(), i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
+                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
@@ -144,8 +152,17 @@ public class FormInvoiceSell extends javax.swing.JPanel {
             lblSearchId.setText("Không có mặt hàng có bằng " + id);
             return;
         }
+        CustomerDAO cDao = new CustomerDAO();
+        List<Customer> listC = cDao.selectAll();
+        String phone = "";
+        for (int j = 0; j < listC.size(); j++) {
+            if (i.getIdCustomer() == listC.get(j).getId()) {
+                phone = listC.get(j).getPhoneNumber();
+            }
+        }
+
         model.addRow(new Object[]{
-            i.getIdInvoiceSell(), i.getNameCustomer(), i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
+            i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
         });
         lblSearchId.setText("");
     }
@@ -183,6 +200,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         scrollBarCustom1 = new com.raven.suportSwing.ScrollBarCustom();
         lblSearchId = new javax.swing.JLabel();
 
+        dateChooser1.setDateFormat("yyyy-MM-dd");
         dateChooser1.setTextRefernce(txtDate);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

@@ -40,6 +40,9 @@ public class AccountDao extends ShopDAO<Account, Integer> {
     public List<Account> selectAll() {
         return this.selectBySql(SELECT_ALL_SQL);
     }
+    public List<Account> selectAllUP(Integer i) {
+        return this.selectBySql("select * from Account where idUser = ?", i);
+    }
 
     @Override
     protected List<Account> selectBySql(String sql, Object... args) {

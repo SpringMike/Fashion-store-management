@@ -5,7 +5,9 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.CustomerDAO;
 import com.fpt.DAO.ReturnProductDAO;
+import com.fpt.entity.Customer;
 import com.fpt.entity.InvoiceRetuns;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
@@ -74,9 +76,17 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
         model.setRowCount(0);
 
         List<InvoiceRetuns> list = reProductDAO.pagingPage(page, rowCountPerPage, "");
+        CustomerDAO cDao = new CustomerDAO();
+        List<Customer> listC = cDao.selectAll();
+        String phone = "";
         for (InvoiceRetuns i : list) {
+            for (int j = 0; j < listC.size(); j++) {
+                if (i.getIdCustomer() == listC.get(j).getId()) {
+                    phone = listC.get(j).getPhoneNumber();
+                }
+            }
             model.addRow(new Object[]{
-                i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), i.getTotalReturn(), i.getDescription()
+                i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, i.getTotalReturn(), i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
@@ -92,9 +102,17 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         List<InvoiceRetuns> list = reProductDAO.pagingPage(page, rowCountPerPage, txtDate.getText());
+        CustomerDAO cDao = new CustomerDAO();
+        List<Customer> listC = cDao.selectAll();
+        String phone = "";
         for (InvoiceRetuns i : list) {
+            for (int j = 0; j < listC.size(); j++) {
+                if (i.getIdCustomer() == listC.get(j).getId()) {
+                    phone = listC.get(j).getPhoneNumber();
+                }
+            }
             model.addRow(new Object[]{
-                i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), i.getTotalReturn(), i.getDescription()
+                i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, i.getTotalReturn(), i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
@@ -113,10 +131,18 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
             lblSearchId.setText("Không có mặt hàng có bằng " + id);
             return;
         }
+        CustomerDAO cDao = new CustomerDAO();
+        List<Customer> listC = cDao.selectAll();
+        String phone = "";
+        for (int j = 0; j < listC.size(); j++) {
+            if (i.getIdCustomer() == listC.get(j).getId()) {
+                phone = listC.get(j).getPhoneNumber();
+            }
+        }
         model.addRow(new Object[]{
-            i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), i.getTotalReturn(), i.getDescription()
+            i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, i.getTotalReturn(), i.getDescription()
         });
-       
+
         lblSearchId.setText("");
     }
 
@@ -151,6 +177,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
         lblCount = new javax.swing.JLabel();
         scrollBarCustom1 = new com.raven.suportSwing.ScrollBarCustom();
 
+        dateChooser2.setDateFormat("yyyy-MM-dd");
         dateChooser2.setTextRefernce(txtDate);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -204,11 +231,11 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã Trả hàng", "Mã thanh toán", "Thời gian", "Khách hàng", "Tổng tiền hoàn trả", "Ghi Chú"
+                "Mã Trả hàng", "Mã thanh toán", "Thời gian", "Khách hàng", "SDT", "Tổng tiền hoàn trả", "Ghi Chú"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -228,6 +255,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
             tableShow.getColumnModel().getColumn(3).setResizable(false);
             tableShow.getColumnModel().getColumn(4).setResizable(false);
             tableShow.getColumnModel().getColumn(5).setResizable(false);
+            tableShow.getColumnModel().getColumn(6).setResizable(false);
         }
 
         btnReset.setText("Reset");
@@ -367,7 +395,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
                                 .addGap(34, 34, 34)
                                 .addComponent(lblCount))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 769, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -398,7 +426,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
         if (evt.getClickCount() == 2) {
             int row = tableShow.getSelectedRow();
             int id = (int) tableShow.getValueAt(row, 0);
-            new FormDetailInvoiceReturn(id).setVisible(true);
+            new FormDetailInvoiceReturn(id, (DefaultTableModel) tableShow.getModel(), tableShow.getSelectedRow()).setVisible(true);
         }
     }//GEN-LAST:event_tableShowMouseClicked
 

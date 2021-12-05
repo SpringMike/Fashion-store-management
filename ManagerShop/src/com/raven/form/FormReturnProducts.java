@@ -543,7 +543,14 @@ public class FormReturnProducts extends javax.swing.JPanel {
 
     private void btnAddEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeActionPerformed
         insertInvoiceReturn();
-
+        model.setRowCount(0);
+        modelList.setRowCount(0);
+        lblSearch.setText("");
+        lblIDCustomer.setText("");
+        lblIDInvoice.setText("");
+        lblMoneyRetun.setText("");
+        txtNote.setText("");
+        txtShearchInvoice.setText("");
     }//GEN-LAST:event_btnAddEmployeeActionPerformed
 
     private void txtShearchInvoiceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtShearchInvoiceKeyReleased

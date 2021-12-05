@@ -78,5 +78,6 @@ public class CustomerDAO extends ShopDAO<Customer, Integer> {
         String sql = "SELECT * from Customer where name LIKE ? ORDER BY idCustomer Desc";
         return selectBySql(sql, "%" + keyword + "%");
     }
+    
 
 }

@@ -39,13 +39,17 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         btnUpdate.setEnabled(false);
+//        txtPassWord.setVisible(false);
+//        txtUsername.setVisible(false);
+//        lblPass.setVisible(false);
+//        lblUser.setVisible(false);
     }
 
     public void addEvenUpdate(ActionListener evt) {
         btnUpdate.addActionListener(evt);
     }
 
-    public FormImportEmpolyeeJFrame(String fullname, String role, String gender, String birth, String address, String phone, String email, String salary, int idUser) {
+    public FormImportEmpolyeeJFrame(String fullname, String role, String gender, String birth, String address, String phone, String email, String salary, int idUser, int status) {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -59,6 +63,18 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         txtPhone.setText(phone);
         txtEmail.setText(email);
         txtSalary.setText(salary);
+        txtPassWord.setVisible(false);
+        txtUsername.setVisible(false);
+        lblUser.setText("");
+        lblPass.setText("");
+        txtAdress.setEditable(false);
+        txtBirth.setEditable(false);
+        dateChooser1.setVisible(false);
+        rdoFeMale.setEnabled(false);
+        rdoMale.setEnabled(false);
+        txtEmail.setEditable(false);
+        txtName.setEditable(false);
+        txtPhone.setEditable(false);
 
         if (gender.equalsIgnoreCase("Nam")) {
             rdoMale.setSelected(true);
@@ -69,6 +85,12 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
             rdoManage.setSelected(true);
         } else if (role.equalsIgnoreCase("Nhân viên")) {
             rdoEmpolyee.setSelected(true);
+        }
+
+        if (status == 0) {
+            rdoWorking.setSelected(true);
+        } else {
+            rdoLeave.setSelected(true);
         }
         lblIDUser.setText(idUser + "");
 
@@ -85,6 +107,7 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         e.setEmail(txtEmail.getText());
         e.setSalary(Double.parseDouble(txtSalary.getText()));
         e.setIdUser(Integer.parseInt(lblIDUser.getText()));
+        e.setStatus(rdoWorking.isSelected());
         daoE.update(e);
         MsgBox.alert(this, "Cập nhật thành công !!!");
         this.dispose();
@@ -653,7 +676,7 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        this.update();
+//        this.update();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnClear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear1ActionPerformed

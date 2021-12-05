@@ -295,11 +295,68 @@ ALTER TABLE dbo.InvoiceImportPr ALTER COLUMN dateCreateInvoice DATETIME
 ALTER TABLE dbo.InvoiceReturn ALTER COLUMN dateCreateInvoice DATETIME
 ALTER TABLE dbo.InvoiceSell ALTER COLUMN dateCreateInvoice DATETIME
 -------------------------------
-SELECT * FROM Customer ORDER BY idCustomer DESC
+--PRoc5/11/2021
+IF OBJECT_ID('sp_Quantity') IS NOT NULL
+DROP PROC sp_Quantity
+GO
+CREATE PROC sp_Quantity
+AS
+BEGIN
+    SELECT name , iIF(gender = 0, N'Nữ', 'Nam') gender , phoneNumber, SUM(quatity) SumBuy FROM dbo.Customer JOIN dbo.InvoiceSell ON InvoiceSell.idCustomer = Customer.idCustomer
+JOIN dbo.detailsInvoiceSELL ON detailsInvoiceSELL.idInvoiceSell = InvoiceSell.idInvoiceSell
+GROUP BY name,
+         gender,
+         phoneNumber
+END
 
-SELECT * FROM dbo.InvoiceSell
+IF OBJECT_ID('sp_SumCustomer') IS NOT NULL
+DROP PROC sp_SumCustomer
+GO
+CREATE PROC sp_SumCustomer
+AS
+BEGIN
+    SELECT COUNT(idCustomer) SumCustomer FROM dbo.Customer 
+END
 
-					
+IF OBJECT_ID('sp_QuantityDate') IS NOT NULL
+DROP PROC sp_QuantityDate
+GO
+CREATE PROC sp_QuantityDate
+AS
+BEGIN
+    SELECT SUM(quatity) Quantity FROM dbo.InvoiceSell JOIN dbo.detailsInvoiceSELL ON detailsInvoiceSELL.idInvoiceSell = InvoiceSell.idInvoiceSell
+WHERE YEAR(dateCreateInvoice) = YEAR(GETDATE()) AND MONTH(dateCreateInvoice) = MONTH(GETDATE()) AND DAY(dateCreateInvoice) = DAY(GETDATE())
+END
+
+
+IF OBJECT_ID('sp_inventory') IS NOT NULL
+DROP PROC sp_inventory
+GO
+CREATE PROC sp_inventory
+AS
+BEGIN
+SELECT SUM(quatity) inventory FROM dbo.detailsProduct
+    
+END
+
+IF OBJECT_ID('sp_revenueDate') IS NOT NULL
+DROP PROC sp_evenueDate
+GO
+CREATE PROC sp_evenueDate
+AS
+BEGIN
+SELECT CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) AS INT)
+revenue FROM dbo.detailsInvoiceSELL JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
+LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell WHERE
+YEAR(InvoiceSell.dateCreateInvoice) = YEAR(GETDATE()) AND 
+MONTH(InvoiceSell.dateCreateInvoice) = MONTH(GETDATE()) AND DAY(InvoiceSell.dateCreateInvoice) = DAY(GETDATE())
+END
+
+EXEC dbo.sp_QuantityDate
+
+
+
+
 
 
 

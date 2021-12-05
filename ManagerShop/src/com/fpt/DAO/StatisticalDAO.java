@@ -46,6 +46,74 @@ public class StatisticalDAO {
         return getListOfArray(sql, cols, year);
     }
 
+    public List<Object[]> getQuantityBuy() {
+        String sql = "{call sp_Quantity}";
+        String[] cols = {"name", "gender", "phoneNumber", "sumBuy"};
+        return getListOfArray(sql, cols);
+    }
+
+    public int getSumCustomer() {
+        ResultSet rs;
+        String sql = "SELECT COUNT(idCustomer) SumCustomer FROM dbo.Customer ";
+        try {
+            rs = jdbcHelper.query(sql);
+            while (rs.next()) {
+                return rs.getInt("SumCustomer");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getRevenueDate() {
+        ResultSet rs;
+        String sql = "SELECT CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) AS INT)\n"
+                + "revenue FROM dbo.detailsInvoiceSELL JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell\n"
+                + "LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell WHERE\n"
+                + "YEAR(InvoiceSell.dateCreateInvoice) = YEAR(GETDATE()) AND \n"
+                + "MONTH(InvoiceSell.dateCreateInvoice) = MONTH(GETDATE()) AND DAY(InvoiceSell.dateCreateInvoice) = DAY(GETDATE())";
+        try {
+            rs = jdbcHelper.query(sql);
+            while (rs.next()) {
+                return rs.getInt("revenue");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getInventory() {
+        ResultSet rs;
+        String sql = "SELECT SUM(quatity) inventory FROM dbo.detailsProduct";
+        try {
+            rs = jdbcHelper.query(sql);
+            while (rs.next()) {
+                return rs.getInt("inventory");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getQuantityDate() {
+        ResultSet rs;
+        String sql = "    SELECT SUM(quatity) Quantity FROM dbo.InvoiceSell JOIN dbo.detailsInvoiceSELL ON detailsInvoiceSELL.idInvoiceSell = InvoiceSell.idInvoiceSell\n"
+                + "WHERE YEAR(dateCreateInvoice) = YEAR(GETDATE()) AND MONTH(dateCreateInvoice) = MONTH(GETDATE()) AND DAY(dateCreateInvoice) = DAY(GETDATE())";
+        String[] cols = {"Quantity"};
+        try {
+            rs = jdbcHelper.query(sql);
+            while (rs.next()) {
+                return rs.getInt("Quantity");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public List<Integer> selectYears() {
         String sql = "SELECT DISTINCT YEAR(dateCreateInvoice) FROM dbo.InvoiceSell ORDER BY YEAR(dateCreateInvoice) DESC";
         List<Integer> list = new ArrayList<>();
@@ -78,7 +146,6 @@ public class StatisticalDAO {
         }
         return list;
     }
-
 
 //     public List<Object[]> selectByMonths(int month){
 //         String sql = "SELECT * FROM dbo.InvoiceSell WHERE MONTH(dateCreateInvoice) = ?";

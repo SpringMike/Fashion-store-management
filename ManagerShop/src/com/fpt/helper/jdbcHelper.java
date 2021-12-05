@@ -25,8 +25,6 @@ public class jdbcHelper {
     static String url2 = "jdbc:sqlserver://" + EnvUtil.get("DB_LOCAL") + ";database=" + EnvUtil.get("DB_NAME") + ";user=" + EnvUtil.get("DB_USER") + ";password={" + EnvUtil.get("DB_PASSWORD") + "}" + ";encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
     static String url3 = "jdbc:sqlserver://dbshop.database.windows.net:1433;database=DBSHOP;user=dbshop@dbshop;password={it_shop123};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 
-
-
     static {
         try {
             Class.forName(driver);
@@ -55,6 +53,8 @@ public class jdbcHelper {
         PreparedStatement stmt = jdbcHelper.getStmt(sql, args);
         return stmt.executeQuery();
     }
+
+    
 
     public static Object value(String sql, Object... args) {
         try {

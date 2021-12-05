@@ -35,6 +35,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
@@ -117,9 +118,13 @@ public class Main extends javax.swing.JFrame {
                     } else if (menuIndex == 7) {
                         main.showForm(new FormVoucher());
                     } else {
-                        MsgBox.confirm(rootPane, "Bạn có muốn đăng xuất không ?");
-                        dispose();
-                        new Login_main().setVisible(true);
+                         int i = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn đăng xuất không");
+                        if (i == JOptionPane.YES_OPTION) {
+                            dispose();
+                            new Login_main().setVisible(true);
+                        } else {
+                            return;
+                        }
                     }
                 } else {
                     if (menuIndex == 0) {
@@ -149,9 +154,14 @@ public class Main extends javax.swing.JFrame {
                             main.showForm(new FormChangePassword());
                         }
                     } else {
-                        MsgBox.confirm(rootPane, "Bạn có muốn đăng xuất không ?");
-                        dispose();
-                        new Login_main().setVisible(true);
+                        int i = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn đăng xuất không");
+                        if (i == JOptionPane.YES_OPTION) {
+                            dispose();
+                            new Login_main().setVisible(true);
+                        } else {
+                            return;
+                        }
+
                     }
                 }
 

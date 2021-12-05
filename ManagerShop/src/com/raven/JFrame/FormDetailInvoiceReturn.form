@@ -83,7 +83,7 @@
                           <Component id="scrollBarCustom1" min="-2" pref="182" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="-38" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="myButton6" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="myButton7" alignment="3" min="-2" max="-2" attributes="0"/>

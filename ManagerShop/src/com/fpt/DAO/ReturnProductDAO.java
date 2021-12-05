@@ -47,8 +47,8 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, Integer> {
 
     @Override
     public InvoiceRetuns selectById(Integer k) {
-        String sql = "SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer\n" +
-"               where idInvoiceReturn = ?";
+        String sql = "SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer\n"
+                + "               where idInvoiceReturn = ?";
         List<InvoiceRetuns> list = selectBySql(sql, k);
         if (list.isEmpty()) {
             return null;
@@ -126,10 +126,10 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, Integer> {
     public int totalPage(String Stringdate) {
         ResultSet rs;
         if (!Stringdate.isEmpty()) {
-            java.util.Date date = XDate.toDate(Stringdate, "dd-MM-yyyy");
-            String sql = " select count(*) as soLuong from InvoiceReturn where dateCreateInvoice = ?";
+            java.util.Date date = XDate.toDate(Stringdate, "yyyy-MM-dd");
+            String sql = " select count(*) as soLuong from InvoiceReturn WHERE  dateCreateInvoice BETWEEN '" + new java.sql.Date(date.getTime()) + " 00:00:00.000'" + "AND '" + new java.sql.Date(date.getTime()) + " 23:59:59.000' ";
             try {
-                rs = jdbcHelper.query(sql, date);
+                rs = jdbcHelper.query(sql);
                 while (rs.next()) {
                     return rs.getInt("soLuong");
                 }
@@ -151,11 +151,11 @@ public class ReturnProductDAO extends ShopDAO<InvoiceRetuns, Integer> {
 
     public List<InvoiceRetuns> pagingPage(int page, int pageSize, String Stringdate) {
         if (!Stringdate.isEmpty()) {
-            java.util.Date date = XDate.toDate(Stringdate, "dd-MM-yyyy");
+            java.util.Date date = XDate.toDate(Stringdate, "yyyy-MM-dd");
             String sql = "SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer \n"
-                    + " where dateCreateInvoice =?\n"
+                    + "WHERE  dateCreateInvoice BETWEEN '" + new java.sql.Date(date.getTime()) + " 00:00:00.000'" + "AND '" + new java.sql.Date(date.getTime()) + " 23:59:59.000' \n"
                     + "order by idInvoiceReturn desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
-            return selectBySql(sql, date, (page - 1) * pageSize, pageSize);
+            return selectBySql(sql, (page - 1) * pageSize, pageSize);
         }
         String sql = "SELECT * FROM dbo.InvoiceReturn JOIN dbo.Customer ON Customer.idCustomer = InvoiceReturn.idCustomer \n"
                 + "order by idInvoiceReturn desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
