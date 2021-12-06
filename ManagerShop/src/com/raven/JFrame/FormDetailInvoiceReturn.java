@@ -28,7 +28,9 @@ import com.lowagie.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -45,7 +47,7 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
      */
     DefaultTableModel model;
     int row;
-
+    List<DetailInvoiceReturn> list;
     public FormDetailInvoiceReturn(int id, DefaultTableModel model, int row) {
         this.model = model;
         this.row = row;
@@ -57,14 +59,15 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
     }
 
     DetailInvoiceReturnDAO dDao = new DetailInvoiceReturnDAO();
-
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
     public void fillTable(int id) {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
-        List<DetailInvoiceReturn> list = dDao.selectByIdInvoice(id);
+        list = dDao.selectByIdInvoice(id);
         for (DetailInvoiceReturn d : list) {
             model.addRow(new Object[]{
-                d.getIdDetailInvoiceReturn(), d.getNameProduct(), d.getNameCustomer(), d.getValueSize(), d.getValueColor(), d.getValueMaterial(), d.getQuatity(), d.getPrice()
+                d.getIdDetailInvoiceReturn(), d.getNameProduct(), d.getNameCustomer(), d.getValueSize(), d.getValueColor(), d.getValueMaterial(), d.getQuatity(), nf.format(d.getPrice()) + " đ"
             });
         }
     }
@@ -120,19 +123,19 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
 
         int total = 0;
         int quantitySum = 0;
-        for (int i = 0; i < tableShow.getRowCount(); i++) {
-            String id = tableShow.getValueAt(i, 0).toString();
-            String nameProduct = tableShow.getValueAt(i, 1).toString();
-            String nameCustomer = tableShow.getValueAt(i, 2).toString();
-            String Size = tableShow.getValueAt(i, 3).toString();
-            String Color = tableShow.getValueAt(i, 4).toString();
-            String Material = tableShow.getValueAt(i, 5).toString();
-            int quantity = (int) tableShow.getValueAt(i, 6);
-            double price = (double) tableShow.getValueAt(i, 7);
+        for (DetailInvoiceReturn detailReturn : list) {
+            String id = detailReturn.getIdDetailInvoiceReturn()+"";
+            String nameProduct = detailReturn.getNameProduct();
+            String nameCustomer = detailReturn.getNameCustomer();
+            String Size = detailReturn.getValueSize();
+            String Color = detailReturn.getValueColor();
+            String Material = detailReturn.getValueMaterial();
+            int quantity = (int) detailReturn.getQuatity();
+            double price = (double) detailReturn.getPrice();
             itemInforTable.addCell(new Cell().add(removeAccent(nameProduct)));
             itemInforTable.addCell(new Cell().add(quantity + ""));
-            itemInforTable.addCell(new Cell().add(price + "").setTextAlignment(TextAlignment.RIGHT));
-            itemInforTable.addCell(new Cell().add(price * quantity + "").setTextAlignment(TextAlignment.RIGHT));
+            itemInforTable.addCell(new Cell().add(nf.format(price)+" đ").setTextAlignment(TextAlignment.RIGHT));
+            itemInforTable.addCell(new Cell().add(price * quantity + " đ").setTextAlignment(TextAlignment.RIGHT));
             total += price * quantity;
             quantitySum += quantity;
         }
@@ -140,7 +143,7 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
         itemInforTable.addCell(new Cell().add("Tong So Luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
         itemInforTable.addCell(new Cell().add(quantitySum + "").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
         itemInforTable.addCell(new Cell().add("Tong Tien").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
-        itemInforTable.addCell(new Cell().add(total + "").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add(nf.format(total) + " đ").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
 
         float colWidthNote[] = {560};
 

@@ -6,6 +6,7 @@
 package com.raven.JFrame;
 
 import com.fpt.DAO.DetailInvoiceSellDAO;
+import com.fpt.entity.DetailInvoiceReturn;
 import com.fpt.entity.DetailInvoiceSell;
 import com.fpt.utils.MsgBox;
 import static com.fpt.utils.convertEng.removeAccent;
@@ -26,7 +27,9 @@ import com.itextpdf.text.BadElementException;
 import com.lowagie.text.Image;
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -42,7 +45,7 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
      */
     DefaultTableModel model;
     int row;
-
+    List<DetailInvoiceSell> list;
     public FormDetailInvoiceSell(int id, DefaultTableModel model, int row) {
         this.model = model;
         this.row = row;
@@ -53,14 +56,15 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
         fillTable(id);
     }
     DetailInvoiceSellDAO deDao = new DetailInvoiceSellDAO();
-
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
     public void fillTable(int id) {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
-        List<DetailInvoiceSell> list = deDao.selectByIdInvoice(id);
+        list = deDao.selectByIdInvoice(id);
         for (DetailInvoiceSell d : list) {
             model.addRow(new Object[]{
-                d.getIdDetailsInvoiceSell(), d.getNameProduct(), d.getNameCustomer(), d.getValueSize(), d.getValueColor(), d.getValueMaterial(), d.getQuantity(), d.getPrice()
+                d.getIdDetailsInvoiceSell(), d.getNameProduct(), d.getNameCustomer(), d.getValueSize(), d.getValueColor(), d.getValueMaterial(), d.getQuantity(), nf.format(d.getPrice())+" đ"
             });
         }
     }
@@ -233,19 +237,19 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
 
         int total = 0;
         int quantitySum = 0;
-        for (int i = 0; i < tableShow.getRowCount(); i++) {
-            String id = tableShow.getValueAt(i, 0).toString();
-            String nameProduct = tableShow.getValueAt(i, 1).toString();
-            String nameCustomer = tableShow.getValueAt(i, 2).toString();
-            String Size = tableShow.getValueAt(i, 3).toString();
-            String Color = tableShow.getValueAt(i, 4).toString();
-            String Material = tableShow.getValueAt(i, 5).toString();
-            int quantity = (int) tableShow.getValueAt(i, 6);
-            double price = (double) tableShow.getValueAt(i, 7);
+        for (DetailInvoiceSell detailSell : list) {
+            int id = detailSell.getIdDetailsInvoiceSell();
+            String nameProduct = detailSell.getNameProduct();
+            String nameCustomer = detailSell.getNameCustomer();
+            String Size = detailSell.getValueSize();
+            String Color = detailSell.getValueColor();
+            String Material = detailSell.getValueMaterial();
+            int quantity = (int) detailSell.getQuantity();
+            double price = (double)detailSell.getPrice();
             itemInforTable.addCell(new Cell().add(removeAccent(nameProduct)));
             itemInforTable.addCell(new Cell().add(quantity + ""));
-            itemInforTable.addCell(new Cell().add(price + "").setTextAlignment(TextAlignment.RIGHT));
-            itemInforTable.addCell(new Cell().add(price * quantity + "").setTextAlignment(TextAlignment.RIGHT));
+            itemInforTable.addCell(new Cell().add(nf.format(price) + " đ").setTextAlignment(TextAlignment.RIGHT));
+            itemInforTable.addCell(new Cell().add(price * quantity + " đ").setTextAlignment(TextAlignment.RIGHT));
             total += price * quantity;
             quantitySum += quantity;
         }
@@ -253,7 +257,7 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
         itemInforTable.addCell(new Cell().add("Tong So Luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
         itemInforTable.addCell(new Cell().add(quantitySum + "").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
         itemInforTable.addCell(new Cell().add("Tong Tien").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
-        itemInforTable.addCell(new Cell().add(total + "").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add(nf.format(total) + " đ").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
 
         float colWidthNote[] = {560};
 

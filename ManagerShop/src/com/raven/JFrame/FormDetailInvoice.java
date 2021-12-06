@@ -243,14 +243,14 @@ public class FormDetailInvoice extends javax.swing.JFrame {
 
         int total = 0;
         int quantitySum = 0;
-        for (int i = 0; i < list.size(); i++) {
-            int id = list.get(i).getId();
-            String nameProduct = list.get(i).getNameProduct();
-            String Size = list.get(i).getValueSize();
-            String Color = list.get(i).getValueColor();
-            String Material = list.get(i).getValueMaterial();
-            int quantity = list.get(i).getQuantity();
-            float price = list.get(i).getPrice();
+        for (DetailInvoiceImport detailImport : list) {
+            int id = detailImport.getId();
+            String nameProduct = detailImport.getNameProduct();
+            String Size = detailImport.getValueSize();
+            String Color = detailImport.getValueColor();
+            String Material = detailImport.getValueMaterial();
+            int quantity = detailImport.getQuantity();
+            float price = detailImport.getPrice();
             itemInforTable.addCell(new Cell().add(removeAccent(nameProduct)));
             itemInforTable.addCell(new Cell().add(quantity + ""));
             itemInforTable.addCell(new Cell().add(nf.format(price) +" đ").setTextAlignment(TextAlignment.RIGHT));
