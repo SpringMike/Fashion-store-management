@@ -27,10 +27,14 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                   </Group>
+<<<<<<< HEAD
+                  <Component id="jPanel1" alignment="0" min="-2" max="-2" attributes="0"/>
+=======
                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                       <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
                       <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
                   </Group>
+>>>>>>> origin/master
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>

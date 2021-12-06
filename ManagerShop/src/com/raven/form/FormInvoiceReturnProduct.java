@@ -98,6 +98,13 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
         rowCountPerPage = Integer.valueOf(cbbPagination.getSelectedItem().toString());
         Double totalPageD = Math.ceil(totalData.doubleValue() / rowCountPerPage);
         totalPage = totalPageD.intValue();
+
+        if (totalData == 0) {
+            MsgBox.alert(this, "Ngày bạn chọn không có hóa đơn nào");
+            fillPagination();
+            flag = false;
+            return;
+        }
         edit();
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);

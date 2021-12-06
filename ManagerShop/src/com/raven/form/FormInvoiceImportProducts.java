@@ -423,7 +423,7 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         lblSearchId.setForeground(new java.awt.Color(225, 0, 0));

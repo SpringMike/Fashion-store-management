@@ -204,14 +204,18 @@ CREATE TABLE InvoiceChangeProducts
 	idUser INT,
 	description NVARCHAR(255),
 	FOREIGN KEY(idCustomer) REFERENCES dbo.Customer(idCustomer),
+
 	FOREIGN KEY(idInvoiceSell) REFERENCES dbo.InvoiceSell(idInvoiceSell),
+		-- xoa khoa ngoai
 	FOREIGN KEY(idDetailsOld) REFERENCES dbo.detailsInvoiceSELL(idDetailsInvoiceSELL),
+		-- xoa khoa ngoai
 	FOREIGN KEY(idDetailsNew) REFERENCES dbo.Products(idProduct),
 	FOREIGN KEY(idUser) REFERENCES dbo.[User](idUser)
 )
 GO
 
 
+<<<<<<< HEAD
 
 
 
@@ -221,3 +225,5 @@ GO
 
 
 
+=======
+>>>>>>> origin/Minhvn

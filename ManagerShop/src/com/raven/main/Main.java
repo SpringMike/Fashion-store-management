@@ -8,8 +8,10 @@ import com.raven.component.Menu;
 import com.raven.event.EventMenuSelected;
 import com.raven.event.EventShowPopupMenu;
 import com.raven.form.FormChangePassword;
+import com.raven.form.FormChangeProducts;
 import com.raven.form.FormCustomer;
 import com.raven.form.FormImportProducts;
+import com.raven.form.FormInvoiceChangeProduct;
 import com.raven.form.FormInvoiceImportProducts;
 import com.raven.form.FormInvoiceSell;
 import com.raven.form.FormItems;
@@ -89,11 +91,15 @@ public class Main extends javax.swing.JFrame {
                         } else if (subMenuIndex == 2) {
                             main.showForm(new FormReturnProducts());
                         } else if (subMenuIndex == 3) {
-                            main.showForm(new FormInvoiceSell());
+                            main.showForm(new FormChangeProducts());
                         } else if (subMenuIndex == 4) {
-                            main.showForm(new FormInvoiceImportProducts());
+                            main.showForm(new FormInvoiceSell());
                         } else if (subMenuIndex == 5) {
+                            main.showForm(new FormInvoiceImportProducts());
+                        } else if (subMenuIndex == 6) {
                             main.showForm(new FormInvoiceReturnProduct());
+                        } else if (subMenuIndex == 7) {
+                            main.showForm(new FormInvoiceChangeProduct());
                         }
                     } else if (menuIndex == 3) {
                         if (subMenuIndex == 0) {
@@ -118,7 +124,7 @@ public class Main extends javax.swing.JFrame {
                     } else if (menuIndex == 7) {
                         main.showForm(new FormVoucher());
                     } else {
-                         int i = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn đăng xuất không");
+                        int i = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn đăng xuất không");
                         if (i == JOptionPane.YES_OPTION) {
                             dispose();
                             new Login_main().setVisible(true);

@@ -18,12 +18,10 @@ import java.sql.ResultSet;
  */
 public class jdbcHelper {
 
-    static String user = "sa";
+    static String user ="sa";
     static String pass = "123";
     static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    static String url = "jdbc:sqlserver://localhost" + ";databaseName=dbManagerShop";
-    static String url2 = "jdbc:sqlserver://" + EnvUtil.get("DB_LOCAL") + ";database=" + EnvUtil.get("DB_NAME") + ";user=" + EnvUtil.get("DB_USER") + ";password={" + EnvUtil.get("DB_PASSWORD") + "}" + ";encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
-    static String url3 = "jdbc:sqlserver://dbshop.database.windows.net:1433;database=DBSHOP;user=dbshop@dbshop;password={it_shop123};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+    static String url = "jdbc:sqlserver://localhost;databaseName=dbManagerShop";
 
     static {
         try {
