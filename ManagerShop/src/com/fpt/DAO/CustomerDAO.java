@@ -7,7 +7,7 @@ package com.fpt.DAO;
 import com.fpt.entity.Customer;
 import com.fpt.entity.Empolyee;
 import com.fpt.helper.jdbcHelper;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
+//import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,5 +78,6 @@ public class CustomerDAO extends ShopDAO<Customer, Integer> {
         String sql = "SELECT * from Customer where name LIKE ? ORDER BY idCustomer Desc";
         return selectBySql(sql, "%" + keyword + "%");
     }
+    
 
 }

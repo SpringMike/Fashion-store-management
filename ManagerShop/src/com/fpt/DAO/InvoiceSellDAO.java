@@ -100,10 +100,10 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
     public int totalPage(String Stringdate) {
         ResultSet rs;
         if (!Stringdate.isEmpty()) {
-            java.util.Date date = XDate.toDate(Stringdate, "dd-MM-yyyy");
-            String sql = " select count(*) as soLuong from InvoiceSell where dateCreateInvoice = ?";
+            java.util.Date date = XDate.toDate(Stringdate, "yyyy-MM-dd");
+            String sql = " select count(*) as soLuong from InvoiceSell WHERE  dateCreateInvoice BETWEEN '" + new java.sql.Date(date.getTime()) + " 00:00:00.000'" + "AND '" + new java.sql.Date(date.getTime()) + " 23:59:59.000' ";
             try {
-                rs = jdbcHelper.query(sql, date);
+                rs = jdbcHelper.query(sql);
                 while (rs.next()) {
                     return rs.getInt("soLuong");
                 }
@@ -125,11 +125,11 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
 
     public List<InvoiceSell> pagingPage(int page, int pageSize, String Stringdate) {
         if (!Stringdate.isEmpty()) {
-            java.util.Date date = XDate.toDate(Stringdate, "dd-MM-yyyy");
-            String sql = " SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer \n"
-                    + " where dateCreateInvoice =?\n"
+            java.util.Date date = XDate.toDate(Stringdate, "yyyy-MM-dd");
+            String sql = " SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer\n"
+                    + "                 WHERE  dateCreateInvoice BETWEEN '" + new java.sql.Date(date.getTime()) + " 00:00:00.000'" + "AND '" + new java.sql.Date(date.getTime()) + " 23:59:59.000' \n"
                     + "order by idInvoiceSell desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
-            return selectBySql(sql, date, (page - 1) * pageSize, pageSize);
+            return selectBySql(sql, (page - 1) * pageSize, pageSize);
         }
         String sql = "SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer \n"
                 + "order by idInvoiceSell desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
@@ -140,5 +140,11 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
 //        String sql = "SELECT * FROM dbo.InvoiceSell WHERE MONTH(dateCreateInvoice) = ?";
 //        return selectBySql(sql, month);
 //    }
-
+//    String sql = " SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer\n"
+//            + "                 WHERE  dateCreateInvoice BETWEEN '" + date + "00:00:00.000'" + "AND '" + date + "23:59:59.000'"
+//            + "order by idInvoiceSell desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+//
+//    String sql = " SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer \n"
+//            + " where dateCreateInvoice =?\n"
+//            + "order by idInvoiceSell desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
 }

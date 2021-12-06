@@ -6,9 +6,11 @@
 package com.raven.form;
 
 import com.fpt.DAO.CustomerDAO;
+import com.fpt.DAO.InvoiceChangeDAO;
 import com.fpt.DAO.InvoiceSellDAO;
 import com.fpt.DAO.ReturnProductDAO;
 import com.fpt.entity.Customer;
+import com.fpt.entity.InvoiceChange;
 import com.fpt.entity.InvoiceImport;
 import com.fpt.entity.InvoiceRetuns;
 import com.fpt.entity.InvoiceSell;
@@ -37,6 +39,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         lblSearchId.setVisible(false);
     }
     InvoiceSellDAO iDao = new InvoiceSellDAO();
+    InvoiceChangeDAO invoiceChangeDAO = new InvoiceChangeDAO();
     DefaultTableModel model;
     int page = 1;
     int rowCountPerPage = 5;
@@ -87,18 +90,20 @@ public class FormInvoiceSell extends javax.swing.JPanel {
                 }
             }
             model.addRow(new Object[]{
-                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
+                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), i.getPrice(), i.getDateCreateInvoice()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
         ReturnProductDAO reDao = new ReturnProductDAO();
         List<InvoiceRetuns> list2 = reDao.selectAll();
+        List<InvoiceChange> list3 = invoiceChangeDAO.selectAll();
         for (int i = 0; i < list2.size(); i++) {
             for (int j = 0; j < list.size(); j++) {
                 if (list2.get(i).getIdInvoiceSell() == list.get(j).getIdInvoiceSell()) {
                     tableShow.setValueAt("Đã trả hàng", j, 6);
                 }
             }
+
 
         }
     }
@@ -115,16 +120,29 @@ public class FormInvoiceSell extends javax.swing.JPanel {
     public void searchDateFillTable() {
         totalData = iDao.totalPage(txtDate.getText());
         rowCountPerPage = Integer.valueOf(cbbPagination.getSelectedItem().toString());
+
         Double totalPageD = Math.ceil(totalData.doubleValue() / rowCountPerPage);
         totalPage = totalPageD.intValue();
+
+        if (totalData == 0) {
+            MsgBox.alert(this, "Ngày bạn chọn không có hóa đơn nào");
+            return;
+        }
         edit();
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         List<InvoiceSell> list = iDao.pagingPage(page, rowCountPerPage, txtDate.getText());
+        CustomerDAO cDao = new CustomerDAO();
+        List<Customer> listC = cDao.selectAll();
+        String phone = "";
         for (InvoiceSell i : list) {
-
+            for (int j = 0; j < listC.size(); j++) {
+                if (i.getIdCustomer() == listC.get(j).getId()) {
+                    phone = listC.get(j).getPhoneNumber();
+                }
+            }
             model.addRow(new Object[]{
-                i.getIdInvoiceSell(), i.getNameCustomer(), i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
+                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
@@ -144,8 +162,17 @@ public class FormInvoiceSell extends javax.swing.JPanel {
             lblSearchId.setText("Không có mặt hàng có bằng " + id);
             return;
         }
+        CustomerDAO cDao = new CustomerDAO();
+        List<Customer> listC = cDao.selectAll();
+        String phone = "";
+        for (int j = 0; j < listC.size(); j++) {
+            if (i.getIdCustomer() == listC.get(j).getId()) {
+                phone = listC.get(j).getPhoneNumber();
+            }
+        }
+
         model.addRow(new Object[]{
-            i.getIdInvoiceSell(), i.getNameCustomer(), i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
+            i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
         });
         lblSearchId.setText("");
     }
@@ -183,6 +210,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         scrollBarCustom1 = new com.raven.suportSwing.ScrollBarCustom();
         lblSearchId = new javax.swing.JLabel();
 
+        dateChooser1.setDateFormat("yyyy-MM-dd");
         dateChooser1.setTextRefernce(txtDate);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -388,9 +416,9 @@ public class FormInvoiceSell extends javax.swing.JPanel {
                         .addComponent(btnNext)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnLast)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1237, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51))
         );
@@ -437,7 +465,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(23, 41, Short.MAX_VALUE))
+                .addGap(23, 59, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())

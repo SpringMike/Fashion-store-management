@@ -269,10 +269,7 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
         document.add(itemInforTable);
         document.add(new Paragraph("\n"));
         document.add(customerInforNote);
-
-//        document.add(new Paragraph("\n(Authorised Signatory)").setTextAlignment(TextAlignment.RIGHT));
         document.close();
-        System.out.println("OOkF");
     }
     private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed
         try {

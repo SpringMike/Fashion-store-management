@@ -5,7 +5,9 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.AccountDao;
 import com.fpt.DAO.UserDAO;
+import com.fpt.entity.Account;
 import com.fpt.entity.User;
 import com.fpt.utils.Auth;
 import com.fpt.utils.Excel;
@@ -36,7 +38,8 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         fillTable();
-
+        fillCombox();
+        cbbStatus.setSelectedIndex(0);
         formImportEmpolyeeJFrame.addEvenFillTable(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,10 +50,29 @@ public class FormListEmpolyee extends javax.swing.JPanel {
 
     }
 
+    public void fillCombox() {
+        cbbStatus.removeAllItems();
+        cbbStatus.addItem("Đang làm việc");
+        cbbStatus.addItem("Nghỉ làm");
+    }
+
     public void fillTable() {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         List<User> list = user.selectAll();
+        for (User u : list) {
+            model.addRow(new Object[]{
+                u.getIdUser(), u.getFullname(), u.isRole() ? "Quản lý" : "Nhân viên", u.isGender() ? "Nam" : "Nữ",
+                XDate.toString(u.getDateOfBirth(), "dd-MM-yyyy"), u.getAdress(), u.getPhoneNumber(), u.getEmail(), u.getSalary()
+            });
+        }
+        System.out.println("Hello");
+    }
+
+    public void fillTableOFF() {
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+        model.setRowCount(0);
+        List<User> list = user.selectAllOFF();
         for (User u : list) {
             model.addRow(new Object[]{
                 u.getIdUser(), u.getFullname(), u.isRole() ? "Quản lý" : "Nhân viên", u.isGender() ? "Nam" : "Nữ",
@@ -102,7 +124,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         } else if (MsgBox.confirm(this, "Bạn có muốn xoá nhân viên này ???")) {
             user.delete(idUser);
             fillTable();
-            MsgBox.alert(this, "Xoá thành coongF");
+            MsgBox.alert(this, "Xoá thành công");
         }
     }
 
@@ -123,6 +145,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         txtSearch = new com.raven.suportSwing.TextField();
         lblSearch = new javax.swing.JLabel();
         myButton7 = new com.raven.suportSwing.MyButton();
+        cbbStatus = new com.raven.suportSwing.Combobox();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
         scrollBarCustom1 = new com.raven.suportSwing.ScrollBarCustom();
@@ -181,6 +204,14 @@ public class FormListEmpolyee extends javax.swing.JPanel {
             }
         });
 
+        cbbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Đang làm việc", "Nghỉ làm" }));
+        cbbStatus.setLabeText("Tình trạng");
+        cbbStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbStatusActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -194,7 +225,9 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(52, 52, 52)
                         .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 357, Short.MAX_VALUE)
+                        .addGap(52, 52, 52)
+                        .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                         .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,8 +248,9 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                     .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -275,7 +309,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(scrollBarCustom1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -325,7 +359,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
             String phone = tableShow.getValueAt(index, 6).toString();
             String email = tableShow.getValueAt(index, 7).toString();
             String salary = tableShow.getValueAt(index, 8).toString();
-            formUpdateEmpolyeeJFrame = new FormImportEmpolyeeJFrame(fullname, role, gender, birth, address, phone, email, salary, idUser);
+            formUpdateEmpolyeeJFrame = new FormImportEmpolyeeJFrame(fullname, role, gender, birth, address, phone, email, salary, idUser, cbbStatus.getSelectedIndex());
             formUpdateEmpolyeeJFrame.setVisible(true);
         }
 
@@ -336,8 +370,9 @@ public class FormListEmpolyee extends javax.swing.JPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     formUpdateEmpolyeeJFrame.update();
+//                    MsgBox.alert(this, "Update thành công");
+                    cbbStatus.setSelectedIndex(0);
                     fillTable();
-                    System.out.println("update");
                 }
             });
 
@@ -358,8 +393,18 @@ public class FormListEmpolyee extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_myButton7ActionPerformed
 
+    private void cbbStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbStatusActionPerformed
+        // TODO add your handling code here:
+        if (cbbStatus.getSelectedIndex() == 0) {
+            fillTable();
+        } else {
+            fillTableOFF();
+        }
+    }//GEN-LAST:event_cbbStatusActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.raven.suportSwing.Combobox cbbStatus;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

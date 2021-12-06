@@ -295,11 +295,42 @@ ALTER TABLE dbo.InvoiceImportPr ALTER COLUMN dateCreateInvoice DATETIME
 ALTER TABLE dbo.InvoiceReturn ALTER COLUMN dateCreateInvoice DATETIME
 ALTER TABLE dbo.InvoiceSell ALTER COLUMN dateCreateInvoice DATETIME
 -------------------------------
-SELECT * FROM Customer ORDER BY idCustomer DESC
+--PRoc5/11/2021
+IF OBJECT_ID('sp_Quantity') IS NOT NULL
+DROP PROC sp_Quantity
+GO
+CREATE PROC sp_Quantity
+AS
+BEGIN
+    SELECT name , iIF(gender = 0, N'Nữ', 'Nam') gender , phoneNumber, SUM(quatity) SumBuy FROM dbo.Customer JOIN dbo.InvoiceSell ON InvoiceSell.idCustomer = Customer.idCustomer
+JOIN dbo.detailsInvoiceSELL ON detailsInvoiceSELL.idInvoiceSell = InvoiceSell.idInvoiceSell
+GROUP BY name,
+         gender,
+         phoneNumber
+END
+----------- db 5/12/021
+CREATE TABLE InvoiceChangeProducts
+(
+	idInvoiceChangeProducts INT IDENTITY(1,1) PRIMARY KEY,
+	idCustomer INT,
+	idInvoiceSell INT,
+	dateCreateInvoice DATETIME,
+	idDetailsNew int,
+	idDetailsOld INT,
+	idUser INT,
+	description NVARCHAR(255),
+	FOREIGN KEY(idCustomer) REFERENCES dbo.Customer(idCustomer),
+	FOREIGN KEY(idInvoiceSell) REFERENCES dbo.InvoiceSell(idInvoiceSell),
+	FOREIGN KEY(idDetailsOld) REFERENCES dbo.detailsInvoiceSELL(idDetailsInvoiceSELL),
+	FOREIGN KEY(idDetailsNew) REFERENCES dbo.Products(idProduct),
+	FOREIGN KEY(idUser) REFERENCES dbo.[User](idUser)
+)
+GO
 
-SELECT * FROM dbo.InvoiceSell
 
-					
+
+
+
 
 
 

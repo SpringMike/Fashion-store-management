@@ -22,7 +22,6 @@ public class jdbcHelper {
     static String pass = EnvUtil.get("DB_PASSWORD");
     static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     static String url = "jdbc:sqlserver://" + EnvUtil.get("DB_HOST") + ";databaseName=" + EnvUtil.get("DB_NAME");
-    static String url2 = "jdbc:sqlserver://"+EnvUtil.get("DB_LOCAL")+";database="+EnvUtil.get("DB_NAME")+";user="+EnvUtil.get("DB_USER")+";password={"+EnvUtil.get("DB_PASSWORD")+"}"+";encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
 
     static {
         try {
@@ -34,7 +33,7 @@ public class jdbcHelper {
     }
 
     public static PreparedStatement getStmt(String sql, Object... args) throws Exception {
-        Connection con = DriverManager.getConnection(url2);
+        Connection con = DriverManager.getConnection(url, user, pass);
         PreparedStatement stmt;
         if (sql.trim().startsWith("{")) {
             stmt = con.prepareCall(sql);
@@ -52,6 +51,8 @@ public class jdbcHelper {
         PreparedStatement stmt = jdbcHelper.getStmt(sql, args);
         return stmt.executeQuery();
     }
+
+    
 
     public static Object value(String sql, Object... args) {
         try {

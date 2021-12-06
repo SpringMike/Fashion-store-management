@@ -40,6 +40,9 @@ public class AccountDao extends ShopDAO<Account, Integer> {
     public List<Account> selectAll() {
         return this.selectBySql(SELECT_ALL_SQL);
     }
+    public List<Account> selectAllUP(Integer i) {
+        return this.selectBySql("select * from Account where idUser = ?", i);
+    }
 
     @Override
     protected List<Account> selectBySql(String sql, Object... args) {
@@ -69,11 +72,7 @@ public class AccountDao extends ShopDAO<Account, Integer> {
     @Override
     public Account selectById(Integer k) {
         List<Account> list = this.selectBySql(SELECT_BY_ID, k);
-        if (list.isEmpty()) {
-            return null;
-        } else {
-            return list.get(0);
-        }
+        return list.size()>0?list.get(0):null;
     }
 
     public Account selectByIdUser(Integer k) {
@@ -86,12 +85,8 @@ public class AccountDao extends ShopDAO<Account, Integer> {
     }
 
     public Account selectById(String k) {
-        String sql = "SELECT * FROM dbo.Account where username = ?";
+        String sql = "SELECT dbo.Account.* FROM dbo.Account JOIN dbo.[User] ON [User].idUser = Account.idUser WHERE username = ? AND status = 1";
         List<Account> list = this.selectBySql(sql, k);
-        if (list.isEmpty()) {
-            return null;
-        } else {
-            return list.get(0);
-        }
+        return list.size()>0?list.get(0):null;
     }
 }

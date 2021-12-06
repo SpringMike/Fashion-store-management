@@ -6,7 +6,27 @@ package com.raven.JFrame;
 
 import com.fpt.DAO.DetailInvoiceImportDAO;
 import com.fpt.entity.DetailInvoiceImport;
+import com.fpt.utils.MsgBox;
+import static com.fpt.utils.convertEng.removeAccent;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.color.Color;
+import com.itextpdf.kernel.color.DeviceRgb;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.border.Border;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.text.BadElementException;
+import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,7 +38,13 @@ public class FormDetailInvoice extends javax.swing.JFrame {
     /**
      * Creates new form FormDetailInvoice
      */
-    public FormDetailInvoice(int id,float totalMoney) {
+    DefaultTableModel model;
+    int row;
+    List<DetailInvoiceImport> list;
+
+    public FormDetailInvoice(int id, String totalMoney, DefaultTableModel model, int row) {
+        this.model = model;
+        this.row = row;
         initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -28,13 +54,16 @@ public class FormDetailInvoice extends javax.swing.JFrame {
     }
     DetailInvoiceImportDAO detailDAO = new DetailInvoiceImportDAO();
 
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
+
     public void fillTabel(int id) {
-        DefaultTableModel model = (DefaultTableModel) tableColumn1.getModel();
+        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
-        List<DetailInvoiceImport> list = detailDAO.selectByIdInvoice(id);
+        list = detailDAO.selectByIdInvoice(id);
         for (DetailInvoiceImport d : list) {
             model.addRow(new Object[]{
-                d.getId(), d.getNameProduct(), d.getValueSize(), d.getValueColor(), d.getValueMaterial(), d.getQuantity(), d.getPrice()
+                d.getId(), d.getNameProduct(), d.getValueSize(), d.getValueColor(), d.getValueMaterial(), d.getQuantity(), nf.format(d.getPrice()) + " đ"
             });
         }
     }
@@ -50,11 +79,12 @@ public class FormDetailInvoice extends javax.swing.JFrame {
 
         jLabel2 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        tableColumn1 = new com.raven.suportSwing.TableColumn();
+        tableShow = new com.raven.suportSwing.TableColumn();
         lblTotalMoney = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         myButton6 = new com.raven.suportSwing.MyButton();
         scrollBarCustom1 = new com.raven.suportSwing.ScrollBarCustom();
+        myButton7 = new com.raven.suportSwing.MyButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -66,7 +96,7 @@ public class FormDetailInvoice extends javax.swing.JFrame {
 
         jScrollPane5.setVerticalScrollBar(scrollBarCustom1);
 
-        tableColumn1.setModel(new javax.swing.table.DefaultTableModel(
+        tableShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -82,7 +112,7 @@ public class FormDetailInvoice extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane5.setViewportView(tableColumn1);
+        jScrollPane5.setViewportView(tableShow);
 
         lblTotalMoney.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblTotalMoney.setForeground(new java.awt.Color(225, 0, 0));
@@ -98,27 +128,36 @@ public class FormDetailInvoice extends javax.swing.JFrame {
             }
         });
 
+        myButton7.setText("Xuất hoá đơn");
+        myButton7.setRadius(20);
+        myButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblTotalMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTotalMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,21 +165,23 @@ public class FormDetailInvoice extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(7, 7, 7)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblTotalMoney, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))))
+                        .addComponent(lblTotalMoney, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(47, 47, 47)
-                        .addComponent(scrollBarCustom1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)))
+                        .addComponent(scrollBarCustom1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -151,10 +192,109 @@ public class FormDetailInvoice extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_myButton6ActionPerformed
 
+    public void outputPDF() throws IOException, BadElementException {
+
+        String path = "D:\\InvoiceImport.pdf";
+        PdfWriter pdfWriter = new PdfWriter(path);
+        PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+        com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
+        pdfDocument.setDefaultPageSize(PageSize.A4);
+        Document doc = new Document(pdfDocument);
+        float col = 280f;
+        float columnWidth[] = {col, col};
+        com.itextpdf.layout.element.Table table = new com.itextpdf.layout.element.Table(columnWidth);
+        table.setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE);
+        String file = "D:\\Fall2021\\DuAn1_FPOLY\\ManagerShop\\src\\com\\raven\\icon\\shop (2).png";
+        ImageData date = ImageDataFactory.create(file);
+        com.itextpdf.layout.element.Image image = new com.itextpdf.layout.element.Image(date);
+//        doc.add(image);
+        table.addCell(new Cell().add(image).setBorder(Border.NO_BORDER));
+        table.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+        table.addCell(new Cell().add("IT SHOP").setFontSize(30f).setBorder(Border.NO_BORDER));
+
+        table.addCell(new Cell().add("68 Nguyen Trai \n SĐT: 0332429178 - 03324287654")
+                .setTextAlignment(TextAlignment.RIGHT).setMarginTop(30f).setMarginBottom(30f).setBorder(Border.NO_BORDER).setMarginRight(10f)
+        );
+
+        float colWidth[] = {80, 250, 80, 150};
+
+        com.itextpdf.layout.element.Table customerInfor = new com.itextpdf.layout.element.Table(colWidth);
+        customerInfor.addCell(new Cell(0, 4).add("Hoa don nhap hang").setBold().setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER));
+
+        customerInfor.addCell(new Cell(0, 4).add("Thong tin").setBold().setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add("Nguon Hang: ").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add(removeAccent(model.getValueAt(row, 2).toString())).setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add("Ma Hoa Don: ").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add(model.getValueAt(row, 0) + "").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add("SDT: ").setBorder(Border.NO_BORDER)); //
+        customerInfor.addCell(new Cell().add(removeAccent(model.getValueAt(row, 3).toString())).setBorder(Border.NO_BORDER)); //
+
+        customerInfor.addCell(new Cell().add("Nguoi Nhap: ").setBorder(Border.NO_BORDER)); //
+        customerInfor.addCell(new Cell().add(removeAccent(model.getValueAt(row, 1).toString())).setBorder(Border.NO_BORDER)); //
+        customerInfor.addCell(new Cell().add("Date: ").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add(model.getValueAt(row, 4) + "").setBorder(Border.NO_BORDER));
+
+        float iteamInforColWidth[] = {140, 140, 140, 140};
+        com.itextpdf.layout.element.Table itemInforTable = new com.itextpdf.layout.element.Table(iteamInforColWidth);
+        itemInforTable.addCell(new Cell().add("San Pham").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add("So luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add("Gia").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE).setTextAlignment(TextAlignment.RIGHT));
+        itemInforTable.addCell(new Cell().add("Thanh Tien").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE).setTextAlignment(TextAlignment.RIGHT));
+
+        int total = 0;
+        int quantitySum = 0;
+        for (int i = 0; i < list.size(); i++) {
+            int id = list.get(i).getId();
+            String nameProduct = list.get(i).getNameProduct();
+            String Size = list.get(i).getValueSize();
+            String Color = list.get(i).getValueColor();
+            String Material = list.get(i).getValueMaterial();
+            int quantity = list.get(i).getQuantity();
+            float price = list.get(i).getPrice();
+            itemInforTable.addCell(new Cell().add(removeAccent(nameProduct)));
+            itemInforTable.addCell(new Cell().add(quantity + ""));
+            itemInforTable.addCell(new Cell().add(nf.format(price) +" đ").setTextAlignment(TextAlignment.RIGHT));
+            itemInforTable.addCell(new Cell().add(nf.format(price * quantity) +" đ").setTextAlignment(TextAlignment.RIGHT));
+            total += price * quantity;
+            quantitySum += quantity;
+        }
+
+        itemInforTable.addCell(new Cell().add("Tong So Luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTable.addCell(new Cell().add(quantitySum + "").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTable.addCell(new Cell().add("Tong Tien").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add(nf.format(total) + " đ").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+
+        float colWidthNote[] = {560};
+
+        com.itextpdf.layout.element.Table customerInforNote = new com.itextpdf.layout.element.Table(colWidthNote);
+        customerInforNote.addCell(new Cell().add("Xin cam on quy khach !!!").
+                setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setItalic().setFontColor(Color.BLACK));
+        document.add(table);
+        document.add(new Paragraph("\n"));
+        document.add(customerInfor);
+        document.add(new Paragraph("\n"));
+        document.add(itemInforTable);
+        document.add(new Paragraph("\n"));
+        document.add(customerInforNote);
+        document.close();
+    }
+
+    private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed
+        try {
+            // TODO add your handling code here:
+            outputPDF();
+            MsgBox.alert(this, "Xuất hoá đơn thành công");
+        } catch (IOException ex) {
+            Logger.getLogger(FormDetailInvoice.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadElementException ex) {
+            Logger.getLogger(FormDetailInvoice.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_myButton7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
@@ -162,7 +302,8 @@ public class FormDetailInvoice extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JLabel lblTotalMoney;
     private com.raven.suportSwing.MyButton myButton6;
+    private com.raven.suportSwing.MyButton myButton7;
     private com.raven.suportSwing.ScrollBarCustom scrollBarCustom1;
-    private com.raven.suportSwing.TableColumn tableColumn1;
+    private com.raven.suportSwing.TableColumn tableShow;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,8 +1,10 @@
 package com.raven.model;
 
+import java.util.List;
 import javax.swing.Icon;
 
 public class ModelCard {
+
 
     public String getTitle() {
         return title;
@@ -12,11 +14,11 @@ public class ModelCard {
         this.title = title;
     }
 
-    public double getValues() {
+    public int getValues() {
         return values;
     }
 
-    public void setValues(double values) {
+    public void setValues(int values) {
         this.values = values;
     }
 
@@ -36,7 +38,7 @@ public class ModelCard {
         this.icon = icon;
     }
 
-    public ModelCard(String title, double values, int percentage, Icon icon) {
+    public ModelCard(String title, int values, int percentage, Icon icon) {
         this.title = title;
         this.values = values;
         this.percentage = percentage;
@@ -47,7 +49,7 @@ public class ModelCard {
     }
 
     private String title;
-    private double values;
+    private int values;
     private int percentage;
     private Icon icon;
 }
