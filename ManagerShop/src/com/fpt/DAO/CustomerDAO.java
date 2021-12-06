@@ -19,7 +19,7 @@ import java.util.List;
 public class CustomerDAO extends ShopDAO<Customer, Integer> {
 
     String INSERT_SQL = "INSERT INTO Customer (name, phoneNumber, gender, address) VALUES (?, ?, ?, ?)";
-    String SELECT_ALL_SQL = "SELECT * FROM Customer";
+    String SELECT_ALL_SQL = "SELECT * FROM Customer ORDER BY idCustomer Desc";
     String SELECT_BY_ID_SQL = "SELECT * FROM Customer WHERE idCustomer=?";
     String DELETE_SQL = "DELETE FROM Customer WHERE idCustomer=?";
     String UPDATE_SQL = "UPDATE Customer SET name=?, phoneNumber=?, gender=?, address=? WHERE idCustomer=?";
@@ -75,7 +75,7 @@ public class CustomerDAO extends ShopDAO<Customer, Integer> {
     }
 
     public List<Customer> selectByKeyWord(String keyword) {
-        String sql = "SELECT * from Customer where name LIKE ?";
+        String sql = "SELECT * from Customer where name LIKE ? ORDER BY idCustomer Desc";
         return selectBySql(sql, "%" + keyword + "%");
     }
 

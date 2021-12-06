@@ -32,8 +32,9 @@ public class showChartRevenue extends javax.swing.JFrame {
         for (int j = 0; j < tableShow.getRowCount(); j++) {
 
             chart.addData(new ModelChart((int) tableShow.getValueAt(j, 0) + "",
-                    new double[]{(int) tableShow.getValueAt(j, 1),
-                        //                (int) tableShow.getValueAt(j, 2),
+                    new double[]{
+                        //                        (int) tableShow.getValueAt(j, 1),
+                        (int) tableShow.getValueAt(j, 2),
                         (int) tableShow.getValueAt(j, 3),
                         (int) tableShow.getValueAt(j, 4)
                     }));

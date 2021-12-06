@@ -68,7 +68,7 @@ public class FogotPassword extends javax.swing.JPanel {
             randomCode = rand.nextInt(999999);
             String host = "smtp.gmail.com";
             String user = "codedaoit@gmail.com";
-            String pass = "nguyenvanduc";
+            String pass = "ducnv2509";
             String to = txtEmail.getText();
             String subject = "Reseting Code";
             String message = "Your reset code is " + randomCode;

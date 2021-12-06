@@ -37,7 +37,7 @@ public class ProductsDAO extends ShopDAO<Products, Integer> {
 
     @Override
     public List<Products> selectAll() {
-        String sql = "SELECT * FROM dbo.Products JOIN dbo.List ON List.idList = Products.idList WHERE statusDelete = 1 AND List.status = 1";
+        String sql = "SELECT * FROM dbo.Products JOIN dbo.List ON List.idList = Products.idList WHERE statusDelete = 1 AND List.status = 1 ORDER BY IdProduct Desc";
         return selectBySql(sql);
     }
 

@@ -41,7 +41,7 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
                 + " INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial\n"
                 + "                 INNER JOIN Color C on C.idColor = D.idColor\n"
                 + "                 INNER JOIN Products P on P.idProduct = D.idProduct\n"
-                + "                 INNER JOIN List L  on L.idList = P.idList";
+                + "                 INNER JOIN List L  on L.idList = P.idList ORDER BY idPrDeltails Desc";
         return selectBySql(sql);
     }
 
@@ -73,7 +73,7 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
                 + "                 INNER JOIN Color C on C.idColor = D.idColor\n"
                 + "                 INNER JOIN Products P on P.idProduct = D.idProduct\n"
                 + "                 INNER JOIN List L  on L.idList = P.idList\n"
-                + "                 where D.status = 1 and D.quatity > 0";
+                + "                 where D.status = 1 and D.quatity > 0 ORDER BY idPrDeltails Desc";
         return selectBySql(sql);
     }
 

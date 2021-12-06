@@ -14,11 +14,13 @@ import com.fpt.entity.ProductItem;
 import com.fpt.utils.Auth;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -65,18 +67,39 @@ public class FormReturnProducts extends javax.swing.JPanel {
     }
 
     public boolean checkDayReturn() {
-        LocalDate today = LocalDate.now();
-        LocalDate date = LocalDate.parse(XDate.toString(listPr.get(0).getDateCreateInvoice(), "dd-MM-yyy"), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        int day = Period.between(date, today).getDays();
-        int month = Period.between(date, today).getMonths();
-        int year = Period.between(date, today).getYears();
-
-        if (day > 2 || month > 0 || year > 0) {
-            MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Ngày trả hoá đơn đã quá hạn");
-            System.out.println(day);
-            return false;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date sDate = sdf.parse(listPr.get(0).getDateCreateInvoice());
+            Date eDate = sdf.parse(XDate.toString(new Date(), "yyyy-MM-dd"));
+            long sValue = sDate.getTime();
+            long eValue = eDate.getTime();
+            long tmp = Math.abs(sValue - eValue);
+            long result = tmp / (24 * 60 * 60 * 1000);
+            System.out.println(result);
+            if (result > 2) {
+                MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Ngày trả hoá đơn đã quá hạn");
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return true;
+//        LocalDate today = LocalDate.now();
+        //        LocalDate date = LocalDate.parse(XDate.toDate(listPr.get(0).getDateCreateInvoice(), "yyyy-dd-MM hh:mm:ss") +"",  DateTimeFormatter.ofPattern("yyyy-dd-MM hh:mm:ss"));
+        //        int day = Period.between(date, today).getDays();
+        //        int month = Period.between(date, today).getMonths();
+        //        int year = Period.between(date, today).getYears();
+        ////        int hours = Period.between(date, today).get();
+        //        System.out.println(day);
+        ////        System.out.println(month);
+        ////        System.out.println(year);
+        //
+        //        if (day > 2 || month > 0 || year > 0) {
+        //            MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Ngày trả hoá đơn đã quá hạn");
+        //            System.out.println(day);
+        //            return false;
+        //        }
+        //        return true;
     }
 
     public boolean checkReturn() {
@@ -157,7 +180,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
     public InvoiceRetuns getInvoiceReturn() {
         InvoiceRetuns ir = new InvoiceRetuns();
         Calendar calendar = Calendar.getInstance();
-        ir.setDateCreateInvoiceReturn(calendar.getTime());
+        ir.setDateCreateInvoiceReturn(XDate.toString(calendar.getTime(), "hh:mm:ss aa yyyy-MM-dd"));
         ir.setDescription(txtNote.getText());
         ir.setIdInvoiceSell(Integer.valueOf(txtShearchInvoice.getText()));
         ir.setTotalReturn(Double.valueOf(lblMoneyRetun.getText()));
@@ -550,6 +573,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
                 return;
             }
         } catch (Exception e) {
+            e.printStackTrace();
             MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Vui lòng nhập lại -.-");
         }
     }//GEN-LAST:event_txtShearchInvoiceKeyReleased
