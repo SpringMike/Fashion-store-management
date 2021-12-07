@@ -43,7 +43,7 @@ public class EmpolyeeDao extends ShopDAO<Empolyee, String> {
 
     @Override
     public List<Empolyee> selectAll() {
-        String sql = "SELECT * FROM dbo.Account JOIN dbo.[User] ON [User].idUser = Account.idUser ORDER BY idUser Desc";
+        String sql = "SELECT * FROM dbo.Account JOIN dbo.[User] ON [User].idUser = Account.idUser ORDER BY [User].idUser Desc";
         return selectBySql(sql);
     }
 
@@ -59,7 +59,7 @@ public class EmpolyeeDao extends ShopDAO<Empolyee, String> {
             ResultSet rs = jdbcHelper.query(sql, args);
             while (rs.next()) {
                 Empolyee em = new Empolyee();
-                em.setIdUser(rs.getInt("IdUser"));
+                em.setIdUser(rs.getInt("idUser"));
                 em.setIdAccount(rs.getInt("IdAccount"));
                 em.setName(rs.getString("name"));
                 em.setPhoneNumber(rs.getString("phoneNumber"));

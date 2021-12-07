@@ -666,7 +666,7 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
 
     private void btnAddEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeActionPerformed
 
-        this.insert();
+//        this.insert();
     }//GEN-LAST:event_btnAddEmployeeActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed

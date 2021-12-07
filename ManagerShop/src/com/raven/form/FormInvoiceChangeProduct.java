@@ -167,9 +167,7 @@ public class FormInvoiceChangeProduct extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         txtSearchId = new com.raven.suportSwing.TextField();
         btnSearch = new com.raven.suportSwing.MyButton();
-        btnSearch1 = new com.raven.suportSwing.MyButton();
         btnSearch2 = new com.raven.suportSwing.MyButton();
-        btnSearch3 = new com.raven.suportSwing.MyButton();
         txtDate = new com.raven.suportSwing.TextField();
         btnFillDate = new com.raven.suportSwing.MyButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -207,9 +205,6 @@ public class FormInvoiceChangeProduct extends javax.swing.JPanel {
             }
         });
 
-        btnSearch1.setText("Xoá");
-        btnSearch1.setRadius(20);
-
         btnSearch2.setText("Xuất");
         btnSearch2.setRadius(20);
         btnSearch2.addActionListener(new java.awt.event.ActionListener() {
@@ -217,9 +212,6 @@ public class FormInvoiceChangeProduct extends javax.swing.JPanel {
                 btnSearch2ActionPerformed(evt);
             }
         });
-
-        btnSearch3.setText("Thêm");
-        btnSearch3.setRadius(20);
 
         txtDate.setLabelText("Thời gian");
 
@@ -342,10 +334,6 @@ public class FormInvoiceChangeProduct extends javax.swing.JPanel {
                                 .addGap(39, 39, 39)
                                 .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
                                 .addComponent(btnSearch2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblSearchId, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -367,9 +355,7 @@ public class FormInvoiceChangeProduct extends javax.swing.JPanel {
                             .addComponent(jLabel2)
                             .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtSearchId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSearch2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnSearch2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblSearchId)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -498,9 +484,7 @@ public class FormInvoiceChangeProduct extends javax.swing.JPanel {
     private javax.swing.JButton btnNext;
     private com.raven.suportSwing.MyButton btnReset;
     private com.raven.suportSwing.MyButton btnSearch;
-    private com.raven.suportSwing.MyButton btnSearch1;
     private com.raven.suportSwing.MyButton btnSearch2;
-    private com.raven.suportSwing.MyButton btnSearch3;
     private javax.swing.JComboBox<String> cbbPagination;
     private com.raven.datechooser.DateChooser dateChooser2;
     private javax.swing.JLabel jLabel2;

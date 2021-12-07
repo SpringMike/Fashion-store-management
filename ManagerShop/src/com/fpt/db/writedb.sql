@@ -213,5 +213,20 @@ CREATE TABLE InvoiceChangeProducts
 	FOREIGN KEY(idUser) REFERENCES dbo.[User](idUser)
 )
 GO
+
 SELECT * FROM dbo.InvoiceSell
 
+
+
+	SELECT MONTH(InvoiceSell.dateCreateInvoice) MonthDate , SUM(detailsInvoiceSELL.quatity) quantity,
+	CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) AS INT)
+	 totalSell, 
+	IIF( CAST(SUM(totalReturn) AS INT ) = NULL, 0,  CAST(SUM(totalReturn) AS INT ))
+	  totalReturn, 
+	  CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) AS INT)
+	revenue
+	FROM dbo.detailsInvoiceSELL  
+	JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
+	LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell
+	WHERE YEAR(InvoiceSell.dateCreateInvoice) = 2021
+	GROUP BY MONTH(InvoiceSell.dateCreateInvoice)

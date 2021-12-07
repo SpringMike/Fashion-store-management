@@ -683,11 +683,18 @@ public class FormSell extends javax.swing.JPanel {
     private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton3ActionPerformed
         // TODO add your handling code here:
         insertInvoiceSell();
+        txtTotal.setText("");
+        txtMoneyCustomer.setText("");
+        txtReturn.setText("");
+        lblMoneyCustomer.setText("");
+        lblQuantity.setText("");
+        lblSearch.setText("");
     }// GEN-LAST:event_myButton3ActionPerformed
 
     private void cbbVoucherActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbbVoucherActionPerformed
         // TODO add your handling code here:
         txtTotal.setText(MoneyVoucher() + "");
+
         // txtMoneyVoucher.setText(MoneyVoucher() + "");
     }// GEN-LAST:event_cbbVoucherActionPerformed
 
@@ -704,6 +711,8 @@ public class FormSell extends javax.swing.JPanel {
             cbbVoucher.setVisible(false);
             txtTotal.setText(TotalBuy() + "");
         }
+        txtReturn.setText(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()) + "");
+
     }// GEN-LAST:event_jcheckVoucherActionPerformed
 
     private void txtReturnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtReturnActionPerformed
