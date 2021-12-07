@@ -14,8 +14,10 @@ import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import com.raven.JFrame.FormDetailInvoiceReturn;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,7 +36,8 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
         lblSearchId.setVisible(false);
     }
     DefaultTableModel model;
-
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
     int page = 1;
     int rowCountPerPage = 5;
     int totalPage = 1;
@@ -86,7 +89,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
                 }
             }
             model.addRow(new Object[]{
-                i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, i.getTotalReturn(), i.getDescription()
+                i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, nf.format(i.getTotalReturn()) +" đ", i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
@@ -119,7 +122,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
                 }
             }
             model.addRow(new Object[]{
-                i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, i.getTotalReturn(), i.getDescription()
+                i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone,  nf.format(i.getTotalReturn()) +" đ", i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
@@ -147,7 +150,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
             }
         }
         model.addRow(new Object[]{
-            i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, i.getTotalReturn(), i.getDescription()
+            i.getIdInvoiceRetuns(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone,  nf.format(i.getTotalReturn()) +" đ", i.getDescription()
         });
 
         lblSearchId.setText("");

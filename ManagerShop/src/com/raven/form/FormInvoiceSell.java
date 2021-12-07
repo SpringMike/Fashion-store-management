@@ -19,8 +19,10 @@ import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import com.raven.JFrame.FormDetailInvoiceSell;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,6 +34,9 @@ public class FormInvoiceSell extends javax.swing.JPanel {
     /**
      * Creates new form FormItems
      */
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
+
     public FormInvoiceSell() {
         initComponents();
         setOpaque(false);
@@ -91,23 +96,6 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         lblCount.setText("Page " + page + " for " + totalPage);
         ReturnProductDAO reDao = new ReturnProductDAO();
         List<InvoiceRetuns> listReturn = reDao.selectAll();
-        for (int i = 0; i < listSell.size(); i++) {
-            for (int j = 0; j < listReturn.size(); j++) {
-                if (listSell.get(i).getIdInvoiceSell() == listReturn.get(j).getIdInvoiceSell()) {
-                    status = "Đã trả hàng";
-//                    tableShow.setValueAt("Đã trả hàng", j, 7);
-                }
-            }
-
-        }
-        for (int i = 0; i < listSell.size(); i++) {
-            for (int z = 0; z < listChange.size(); z++) {
-                if (listChange.get(z).getIdInvoiceSell() == listSell.get(i).getIdInvoiceSell()) {
-                    status = "Đã đổi hàng";
-//                    tableShow.setValueAt("Đã đổi hàng", z, 7);
-                }
-            }
-        }
 
         for (InvoiceSell i : listSell) {
             for (int j = 0; j < listC.size(); j++) {
@@ -116,8 +104,24 @@ public class FormInvoiceSell extends javax.swing.JPanel {
                 }
             }
             model.addRow(new Object[]{
-                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription(), status
-            });
+                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), nf.format(i.getPrice()) +" đ", i.getDateCreateInvoice(), i.getDescription(),});
+        }
+
+        for (int i = 0; i < listSell.size(); i++) {
+            for (int j = 0; j < listReturn.size(); j++) {
+                if (listSell.get(i).getIdInvoiceSell() == listReturn.get(j).getIdInvoiceSell()) {
+//                    status = "Đã trả hàng";
+                    tableShow.setValueAt("Đã trả hàng", i, 7);
+                }
+            }
+        }
+        for (int i = 0; i < listSell.size(); i++) {
+            for (int z = 0; z < listChange.size(); z++) {
+                if (listChange.get(z).getIdInvoiceSell() == listSell.get(i).getIdInvoiceSell()) {
+//                    status = "Đã đổi hàng";
+                    tableShow.setValueAt("Đã đổi hàng", i, 7);
+                }
+            }
         }
 
     }
@@ -157,8 +161,8 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         for (int i = 0; i < listSell.size(); i++) {
             for (int j = 0; j < listReturn.size(); j++) {
                 if (listSell.get(i).getIdInvoiceSell() == listReturn.get(j).getIdInvoiceSell()) {
-                    status = "Đã trả hàng";
-//                    tableShow.setValueAt("Đã trả hàng", j, 7);
+//                    status = "Đã trả hàng";
+                    tableShow.setValueAt("Đã trả hàng", i, 7);
                 }
             }
 
@@ -166,8 +170,8 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         for (int i = 0; i < listSell.size(); i++) {
             for (int z = 0; z < listChange.size(); z++) {
                 if (listChange.get(z).getIdInvoiceSell() == listSell.get(i).getIdInvoiceSell()) {
-                    status = "Đã đổi hàng";
-//                    tableShow.setValueAt("Đã đổi hàng", z, 7);
+//                    status = "Đã đổi hàng";
+                    tableShow.setValueAt("Đã đổi hàng", i, 7);
                 }
             }
         }
@@ -178,7 +182,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
                 }
             }
             model.addRow(new Object[]{
-                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription(), status
+                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), nf.format(i.getPrice()) +" đ", i.getDateCreateInvoice(), i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
@@ -235,23 +239,35 @@ public class FormInvoiceSell extends javax.swing.JPanel {
                 phone = listC.get(j).getPhoneNumber();
             }
         }
-        String status = "";
-        for (int j = 0; j < listChange.size(); j++) {
-            if (id == listChange.get(j).getIdInvoiceSell()) {
-                status = "Đã Đổi Hàng";
-            }
-        }
+//        String status = "";
+//        for (int j = 0; j < listChange.size(); j++) {
+//            if (id == listChange.get(j).getIdInvoiceSell()) {
+//                status = "Đã Đổi Hàng";
+//            }
+//        }
+//
+//        for (int j = 0; j < listReturn.size(); j++) {
+//            if (id == listReturn.get(j).getIdInvoiceSell()) {
+//                status = "Đã Trả Hàng";
+//            }
+//        }
+
+        model.addRow(new Object[]{
+            i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), nf.format(i.getPrice()) +" đ", i.getDateCreateInvoice(), i.getDescription()
+        });
+        lblSearchId.setText("");
 
         for (int j = 0; j < listReturn.size(); j++) {
             if (id == listReturn.get(j).getIdInvoiceSell()) {
-                status = "Đã Trả Hàng";
+                tableShow.setValueAt("Đã trả hàng", j, 7);
             }
         }
 
-        model.addRow(new Object[]{
-            i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription(), status
-        });
-        lblSearchId.setText("");
+        for (int z = 0; z < listChange.size(); z++) {
+            if (id == listChange.get(z).getIdInvoiceSell()) {
+                tableShow.setValueAt("Đã đổi hàng", z, 7);
+            }
+        }
     }
 
     /**

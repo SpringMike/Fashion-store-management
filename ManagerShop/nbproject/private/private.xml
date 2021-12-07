@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/minht/Desktop/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormDetailInvoiceSell.java</file>
-            <file>file:/C:/Users/minht/Desktop/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormDetailInvoice.java</file>
-            <file>file:/C:/Users/minht/Desktop/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormDetailInvoiceReturn.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Main.java</file>
-            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormItems.java</file>
-            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/ProductItemDAO.java</file>
-            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/CustomerDAO.java</file>
-            <file>file:/D:/FPT/DuAn1/DuAn1_FPOLY/ManagerShop/src/com/raven/form/ShowChart.java</file>
-=======
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/helper/jdbcHelper.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/MainForm.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/FogotPassword.java</file>
@@ -64,6 +52,7 @@
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormSupplier.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/utils/XImage.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/entity/InvoiceSell.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormInvoiceChangeProduct.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Login_main.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/DetailInvoiceSellDAO.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/MaterialDAO.java</file>
@@ -81,11 +70,8 @@
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/utils/MsgBox.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/EmpolyeeDao.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/chart/LabelColor.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/utils/convertEng.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormVoucher.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/showChartRevenue.java</file>
->>>>>>> origin/Ducnv
->>>>>>> origin/Minhvn
         </group>
     </open-files>
 </project-private>

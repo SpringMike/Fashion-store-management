@@ -213,17 +213,5 @@ CREATE TABLE InvoiceChangeProducts
 	FOREIGN KEY(idUser) REFERENCES dbo.[User](idUser)
 )
 GO
+SELECT * FROM dbo.InvoiceSell
 
-
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-
-=======
->>>>>>> origin/Minhvn
