@@ -18,9 +18,11 @@ import java.sql.ResultSet;
 public class UserDAO extends ShopDAO<User, String> {
 
     private String INSERT_SQL_USER = "INSERT dbo.[User](name, birthday, gender, phoneNumber, address, salary, email, role, status) VALUES(?,?,?,?,?,?,?,?, ?)";
-    private String UPDATE_SQL = "UPDATE dbo.[User] SET name = ?, role = ?, gender = ?, birthday = ?, address = ?, phoneNumber = ?, email = ?, salary = ? WHERE idUser = ?";
+    private String UPDATE_SQL = "UPDATE dbo.[User] SET name = ?, role = ?, gender = ?, birthday = ?, address = ?, phoneNumber = ?, email = ?, salary = ?, status = ? WHERE idUser = ?";
     private String DELETE_SQL = "UPDATE dbo.[User] SET status = 0 WHERE idUser = ?";
     private String SELECT_ALL_SQL = "SELECT * FROM dbo.[User] where status = 1";
+    private String SELECT_ALL_OFF = "SELECT * FROM dbo.[User] where status = 0";
+
     private String SELECT_BY_ID = "";
     private String SELECT_BY_KEY = "SELECT * FROM dbo.[USER] WHERE name LIKE ? ";
 
@@ -33,7 +35,7 @@ public class UserDAO extends ShopDAO<User, String> {
     @Override
     public void update(User e) {
         jdbcHelper.update(UPDATE_SQL, e.getFullname(), e.isRole(), e.isGender(), e.getDateOfBirth(), e.getAdress(), e.getPhoneNumber(),
-                e.getEmail(), e.getSalary(), e.getIdUser());
+                e.getEmail(), e.getSalary(), e.isStatus(), e.getIdUser());
     }
 
     @Override
@@ -48,6 +50,10 @@ public class UserDAO extends ShopDAO<User, String> {
     @Override
     public List<User> selectAll() {
         return this.selectBySql(SELECT_ALL_SQL);
+    }
+
+    public List<User> selectAllOFF() {
+        return this.selectBySql(SELECT_ALL_OFF);
     }
 
     @Override

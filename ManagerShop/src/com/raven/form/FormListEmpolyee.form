@@ -37,7 +37,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="534" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="528" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
@@ -69,7 +69,9 @@
                           <Component id="txtSearch" min="-2" pref="268" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                           <Component id="myButton5" min="-2" pref="64" max="-2" attributes="0"/>
-                          <EmptySpace pref="357" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                          <Component id="cbbStatus" min="-2" pref="231" max="-2" attributes="0"/>
+                          <EmptySpace pref="74" max="32767" attributes="0"/>
                           <Component id="myButton6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="myButton8" min="-2" pref="110" max="-2" attributes="0"/>
@@ -96,8 +98,9 @@
                       <Component id="myButton8" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtSearch" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
                       <Component id="myButton7" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbbStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="20" max="32767" attributes="0"/>
                   <Component id="lblSearch" min="-2" pref="19" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -166,6 +169,20 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton7ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="com.raven.suportSwing.Combobox" name="cbbStatus">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="2">
+                <StringItem index="0" value="&#x110;ang l&#xe0;m vi&#x1ec7;c"/>
+                <StringItem index="1" value="Ngh&#x1ec9; l&#xe0;m"/>
+              </StringArray>
+            </Property>
+            <Property name="labeText" type="java.lang.String" value="T&#xec;nh tr&#x1ea1;ng"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbbStatusActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

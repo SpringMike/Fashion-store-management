@@ -18,10 +18,10 @@ import java.sql.ResultSet;
  */
 public class jdbcHelper {
 
-    static String user = EnvUtil.get("DB_USER");
-    static String pass = EnvUtil.get("DB_PASSWORD");
+    static String user ="sa";
+    static String pass = "123";
     static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    static String url = "jdbc:sqlserver://" + EnvUtil.get("DB_HOST") + ";databaseName=" + EnvUtil.get("DB_NAME");
+    static String url = "jdbc:sqlserver://localhost;databaseName=dbManagerShop";
 
     static {
         try {
@@ -51,6 +51,8 @@ public class jdbcHelper {
         PreparedStatement stmt = jdbcHelper.getStmt(sql, args);
         return stmt.executeQuery();
     }
+
+    
 
     public static Object value(String sql, Object... args) {
         try {

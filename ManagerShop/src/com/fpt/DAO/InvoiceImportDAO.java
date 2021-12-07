@@ -41,7 +41,7 @@ public class InvoiceImportDAO extends ShopDAO<InvoiceImport, Integer> {
     @Override
     public List<InvoiceImport> selectAll() {
         String sql = "select I.*,name,S.nameMaterial from InvoiceImportPr I join [User] U on U.idUser = I.idAdmin \n"
-                + "join Supplier S on S.idSupplier = I.idSupplier";
+                + "join Supplier S on S.idSupplier = I.idSupplier ORDER BY idInvoice Desc";
         return selectBySql(sql);
     }
 
@@ -63,7 +63,7 @@ public class InvoiceImportDAO extends ShopDAO<InvoiceImport, Integer> {
             ResultSet rs = jdbcHelper.query(sql, args);
             while (rs.next()) {
                 InvoiceImport i = new InvoiceImport();
-                i.setDateCreate(rs.getDate("dateCreateInvoice"));
+                i.setDateCreate(rs.getString("dateCreateInvoice"));
                 i.setStatusPay(rs.getBoolean("statusPay"));
                 i.setIdUser(rs.getInt("idAdmin"));
                 i.setIdSupplier(rs.getInt("idSupplier"));
@@ -82,15 +82,15 @@ public class InvoiceImportDAO extends ShopDAO<InvoiceImport, Integer> {
     public int totalPage(String Stringdate) {
         ResultSet rs;
         if (!Stringdate.isEmpty()) {
-            Date date = XDate.toDate(Stringdate, "dd-MM-yyyy");
-            String sql = " select count(*) as soLuong from InvoiceImportPr where dateCreateInvoice = ?";
+            Date date = XDate.toDate(Stringdate, "yyyy-MM-dd");
+            String sql = " select count(*) as soLuong from InvoiceImportPr WHERE  dateCreateInvoice BETWEEN '" + new java.sql.Date(date.getTime()) + " 00:00:00.000'" + "AND '" + new java.sql.Date(date.getTime()) + " 23:59:59.000' ";
             try {
-                rs = jdbcHelper.query(sql,date);
+                rs = jdbcHelper.query(sql);
                 while (rs.next()) {
                     return rs.getInt("soLuong");
                 }
             } catch (Exception ex) {
-               ex.printStackTrace();
+                ex.printStackTrace();
             }
         }
         String sql = "select count(*) as soLuong from InvoiceImportPr";
@@ -107,14 +107,14 @@ public class InvoiceImportDAO extends ShopDAO<InvoiceImport, Integer> {
 
     public List<InvoiceImport> pagingPage(int page, int pageSize, String Stringdate) {
         if (!Stringdate.isEmpty()) {
-            Date date = XDate.toDate(Stringdate, "dd-MM-yyyy");
+            Date date = XDate.toDate(Stringdate, "yyyy-MM-dd");
             String sql = " select I.*,name,S.nameMaterial from InvoiceImportPr I  join [User] U on U.idUser = I.idAdmin \n"
-                    + "join Supplier S on S.idSupplier = I.idSupplier where dateCreateInvoice =?\n"
-                    + "order by I.idInvoice OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
-            return selectBySql(sql, date, (page - 1) * pageSize, pageSize);
+                    + "join Supplier S on S.idSupplier = I.idSupplier WHERE  dateCreateInvoice BETWEEN '" + new java.sql.Date(date.getTime()) + " 00:00:00.000'" + "AND '" + new java.sql.Date(date.getTime()) + " 23:59:59.000'\n"
+                    + "order by I.idInvoice desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+            return selectBySql(sql, (page - 1) * pageSize, pageSize);
         }
         String sql = "select I.*,name,S.nameMaterial from InvoiceImportPr I join [User] U on U.idUser = I.idAdmin \n"
-                + "join Supplier S on S.idSupplier = I.idSupplier order by I.idInvoice OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+                + "join Supplier S on S.idSupplier = I.idSupplier order by I.idInvoice desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
         return selectBySql(sql, (page - 1) * pageSize, pageSize);
     }
 
@@ -133,11 +133,10 @@ public class InvoiceImportDAO extends ShopDAO<InvoiceImport, Integer> {
         return null;
     }
 
-    public List<InvoiceImport> fillDate(java.util.Date date) {
-        String sql = " select I.*,name,S.nameMaterial from InvoiceImportPr I  join [User] U on U.idUser = I.idAdmin \n"
-                + "join Supplier S on S.idSupplier = I.idSupplier where dateCreateInvoice =''\n"
-                + "order by I.idInvoice OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
-        return selectBySql(sql, date);
-    }
-
+//    public List<InvoiceImport> fillDate(java.util.Date date) {
+//        String sql = " select I.*,name,S.nameMaterial from InvoiceImportPr I  join [User] U on U.idUser = I.idAdmin \n"
+//                + "join Supplier S on S.idSupplier = I.idSupplier where dateCreateInvoice =''\n"
+//                + "order by I.idInvoice desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+//        return selectBySql(sql, date);
+//    }
 }

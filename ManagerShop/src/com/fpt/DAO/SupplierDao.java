@@ -35,11 +35,13 @@ public class SupplierDao extends ShopDAO<Supplier, Integer> {
 
     @Override
     public void delete(Integer k) {
+        String sql = "DELETE FROM Supplier WHERE idSupplier = ?";
+        jdbcHelper.update(sql, k);
     }
 
     @Override
     public List<Supplier> selectAll() {
-        String sql = "select * from Supplier";
+        String sql = "select * from Supplier ORDER BY idSupplier Desc";
         return selectBySql(sql);
     }
 

@@ -5,16 +5,24 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.CustomerDAO;
+import com.fpt.DAO.InvoiceChangeDAO;
 import com.fpt.DAO.InvoiceSellDAO;
+import com.fpt.DAO.ReturnProductDAO;
+import com.fpt.entity.Customer;
+import com.fpt.entity.InvoiceChange;
 import com.fpt.entity.InvoiceImport;
+import com.fpt.entity.InvoiceRetuns;
 import com.fpt.entity.InvoiceSell;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import com.raven.JFrame.FormDetailInvoiceSell;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,6 +34,9 @@ public class FormInvoiceSell extends javax.swing.JPanel {
     /**
      * Creates new form FormItems
      */
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
+
     public FormInvoiceSell() {
         initComponents();
         setOpaque(false);
@@ -33,6 +44,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         lblSearchId.setVisible(false);
     }
     InvoiceSellDAO iDao = new InvoiceSellDAO();
+    InvoiceChangeDAO invoiceChangeDAO = new InvoiceChangeDAO();
     DefaultTableModel model;
     int page = 1;
     int rowCountPerPage = 5;
@@ -72,29 +84,105 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
 
-        List<InvoiceSell> list = iDao.pagingPage(page, rowCountPerPage, "");
-        for (InvoiceSell i : list) {
-            model.addRow(new Object[]{
-                i.getIdInvoiceSell(), i.getNameCustomer(), i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
-            });
-        }
+        List<InvoiceSell> listSell = iDao.pagingPage(page, rowCountPerPage, "");
+        CustomerDAO cDao = new CustomerDAO();
+        List<Customer> listC = cDao.selectAll();
+        String phone = "";
+        String status = "";
+
+        InvoiceChangeDAO ChangeDao = new InvoiceChangeDAO();
+        List<InvoiceChange> listChange = ChangeDao.selectAll();
+
         lblCount.setText("Page " + page + " for " + totalPage);
+        ReturnProductDAO reDao = new ReturnProductDAO();
+        List<InvoiceRetuns> listReturn = reDao.selectAll();
+
+        for (InvoiceSell i : listSell) {
+            for (int j = 0; j < listC.size(); j++) {
+                if (i.getIdCustomer() == listC.get(j).getId()) {
+                    phone = listC.get(j).getPhoneNumber();
+                }
+            }
+            model.addRow(new Object[]{
+                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), nf.format(i.getPrice()) +" đ", i.getDateCreateInvoice(), i.getDescription(),});
+        }
+
+        for (int i = 0; i < listSell.size(); i++) {
+            for (int j = 0; j < listReturn.size(); j++) {
+                if (listSell.get(i).getIdInvoiceSell() == listReturn.get(j).getIdInvoiceSell()) {
+//                    status = "Đã trả hàng";
+                    tableShow.setValueAt("Đã trả hàng", i, 7);
+                }
+            }
+        }
+        for (int i = 0; i < listSell.size(); i++) {
+            for (int z = 0; z < listChange.size(); z++) {
+                if (listChange.get(z).getIdInvoiceSell() == listSell.get(i).getIdInvoiceSell()) {
+//                    status = "Đã đổi hàng";
+                    tableShow.setValueAt("Đã đổi hàng", i, 7);
+                }
+            }
+        }
 
     }
 
+//      public boolean checkReturn() {
+//        List<InvoiceRetuns> list = reDao.selectAll();
+//        for (int i = 0; i < list.size(); i++) {
+//            if (list.get(i).getIdInvoiceSell() == Integer.parseInt(txtShearchInvoice.getText())) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
     public void searchDateFillTable() {
         totalData = iDao.totalPage(txtDate.getText());
         rowCountPerPage = Integer.valueOf(cbbPagination.getSelectedItem().toString());
+
         Double totalPageD = Math.ceil(totalData.doubleValue() / rowCountPerPage);
         totalPage = totalPageD.intValue();
+
+        if (totalData == 0) {
+            MsgBox.alert(this, "Ngày bạn chọn không có hóa đơn nào");
+            return;
+        }
         edit();
         model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
-        List<InvoiceSell> list = iDao.pagingPage(page, rowCountPerPage, txtDate.getText());
-        for (InvoiceSell i : list) {
+        List<InvoiceSell> listSell = iDao.pagingPage(page, rowCountPerPage, txtDate.getText());
+        CustomerDAO cDao = new CustomerDAO();
+        List<Customer> listC = cDao.selectAll();
+        String phone = "";
+        String status = "";
+        InvoiceChangeDAO ChangeDao = new InvoiceChangeDAO();
+        List<InvoiceChange> listChange = ChangeDao.selectAll();
+        ReturnProductDAO reDao = new ReturnProductDAO();
+        List<InvoiceRetuns> listReturn = reDao.selectAll();
+        for (int i = 0; i < listSell.size(); i++) {
+            for (int j = 0; j < listReturn.size(); j++) {
+                if (listSell.get(i).getIdInvoiceSell() == listReturn.get(j).getIdInvoiceSell()) {
+//                    status = "Đã trả hàng";
+                    tableShow.setValueAt("Đã trả hàng", i, 7);
+                }
+            }
 
+        }
+        for (int i = 0; i < listSell.size(); i++) {
+            for (int z = 0; z < listChange.size(); z++) {
+                if (listChange.get(z).getIdInvoiceSell() == listSell.get(i).getIdInvoiceSell()) {
+//                    status = "Đã đổi hàng";
+                    tableShow.setValueAt("Đã đổi hàng", i, 7);
+                }
+            }
+        }
+        for (InvoiceSell i : listSell) {
+            for (int j = 0; j < listC.size(); j++) {
+                if (i.getIdCustomer() == listC.get(j).getId()) {
+                    phone = listC.get(j).getPhoneNumber();
+                }
+            }
             model.addRow(new Object[]{
-                i.getIdInvoiceSell(), i.getNameCustomer(), i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
+                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), nf.format(i.getPrice()) +" đ", i.getDateCreateInvoice(), i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
@@ -114,10 +202,72 @@ public class FormInvoiceSell extends javax.swing.JPanel {
             lblSearchId.setText("Không có mặt hàng có bằng " + id);
             return;
         }
+
+        InvoiceChangeDAO ChangeDao = new InvoiceChangeDAO();
+        List<InvoiceChange> listChange = ChangeDao.selectAll();
+        ReturnProductDAO reDao = new ReturnProductDAO();
+        List<InvoiceRetuns> listReturn = reDao.selectAll();
+//
+//        for (int j = 0; j < listReturn.size(); j++) {
+//            if (id == listReturn.get(j).getIdInvoiceSell()) {
+//                tableShow.setValueAt("Đã trả hàng", j, 7);
+//            }
+//        }
+//
+//        for (int z = 0; z < listChange.size(); z++) {
+//            if (id == listChange.get(z).getIdInvoiceSell()) {
+//                tableShow.setValueAt("Đã đổi hàng", z, 7);
+//            }
+//        }
+//        for (int j = 0; j < listReturn.size(); j++) {
+//            if (id == listReturn.get(j).getIdInvoiceSell()) {
+//                if (listReturn.get(j).getIdInvoiceSell() == i.getIdInvoiceSell()) {
+//                    tableShow.setValueAt("Đã trả hàng", j, 7);
+//                }
+//            }
+//        }
+//        for (int z = 0; z < listChange.size(); z++) {
+//            if (listChange.get(z).getIdInvoiceSell() == id) {
+//                tableShow.setValueAt("Đã đổi hàng", z, 7);
+//            }
+//        }
+        CustomerDAO cDao = new CustomerDAO();
+        List<Customer> listC = cDao.selectAll();
+        String phone = "";
+        for (int j = 0; j < listC.size(); j++) {
+            if (i.getIdCustomer() == listC.get(j).getId()) {
+                phone = listC.get(j).getPhoneNumber();
+            }
+        }
+//        String status = "";
+//        for (int j = 0; j < listChange.size(); j++) {
+//            if (id == listChange.get(j).getIdInvoiceSell()) {
+//                status = "Đã Đổi Hàng";
+//            }
+//        }
+//
+//        for (int j = 0; j < listReturn.size(); j++) {
+//            if (id == listReturn.get(j).getIdInvoiceSell()) {
+//                status = "Đã Trả Hàng";
+//            }
+//        }
+
         model.addRow(new Object[]{
-            i.getIdInvoiceSell(), i.getNameCustomer(), i.getNameUser(), i.getPrice(), i.getDateCreateInvoice(), i.getDescription()
+            i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), nf.format(i.getPrice()) +" đ", i.getDateCreateInvoice(), i.getDescription()
         });
         lblSearchId.setText("");
+
+        for (int j = 0; j < listReturn.size(); j++) {
+            if (id == listReturn.get(j).getIdInvoiceSell()) {
+                tableShow.setValueAt("Đã trả hàng", j, 7);
+            }
+        }
+
+        for (int z = 0; z < listChange.size(); z++) {
+            if (id == listChange.get(z).getIdInvoiceSell()) {
+                tableShow.setValueAt("Đã đổi hàng", z, 7);
+            }
+        }
     }
 
     /**
@@ -153,6 +303,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         scrollBarCustom1 = new com.raven.suportSwing.ScrollBarCustom();
         lblSearchId = new javax.swing.JLabel();
 
+        dateChooser1.setDateFormat("yyyy-MM-dd");
         dateChooser1.setTextRefernce(txtDate);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -253,11 +404,11 @@ public class FormInvoiceSell extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã hoá đơn", "Tên Khách hàng", "Nhân Viên", "Tổng Tiền", "Ngày Tạo", "Ghi Chú", "Trạng thái"
+                "Mã hoá đơn", "Tên Khách hàng", "Số điện thoại", "Nhân Viên", "Tổng Tiền", "Ngày Tạo", "Ghi Chú", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -277,6 +428,8 @@ public class FormInvoiceSell extends javax.swing.JPanel {
             tableShow.getColumnModel().getColumn(3).setResizable(false);
             tableShow.getColumnModel().getColumn(4).setResizable(false);
             tableShow.getColumnModel().getColumn(5).setResizable(false);
+            tableShow.getColumnModel().getColumn(6).setResizable(false);
+            tableShow.getColumnModel().getColumn(7).setResizable(false);
         }
 
         btnReset.setText("Reset");
@@ -299,6 +452,11 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         cbbPagination.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbbPaginationItemStateChanged(evt);
+            }
+        });
+        cbbPagination.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbPaginationActionPerformed(evt);
             }
         });
 
@@ -351,9 +509,9 @@ public class FormInvoiceSell extends javax.swing.JPanel {
                         .addComponent(btnNext)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnLast)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1237, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51))
         );
@@ -400,7 +558,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(23, 41, Short.MAX_VALUE))
+                .addGap(23, 59, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -471,7 +629,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         if (evt.getClickCount() == 2) {
             int row = tableShow.getSelectedRow();
             int id = (int) tableShow.getValueAt(row, 0);
-            new FormDetailInvoiceSell(id).setVisible(true);
+            new FormDetailInvoiceSell(id, (DefaultTableModel) tableShow.getModel(), tableShow.getSelectedRow()).setVisible(true);
         }
     }//GEN-LAST:event_tableShowMouseClicked
 
@@ -528,6 +686,10 @@ public class FormInvoiceSell extends javax.swing.JPanel {
     private void txtSearchIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchIdFocusGained
         lblSearchId.setVisible(false);
     }//GEN-LAST:event_txtSearchIdFocusGained
+
+    private void cbbPaginationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbPaginationActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbPaginationActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

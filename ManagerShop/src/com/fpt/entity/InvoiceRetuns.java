@@ -14,7 +14,7 @@ import java.util.Date;
 public class InvoiceRetuns {
 
     private int idInvoiceRetuns, idInvoiceSell, idCustomer, idUser;
-    private Date dateCreateInvoiceReturn;
+    private String dateCreateInvoiceReturn;
     private String description, nameCustomer;
     private double totalReturn;
 
@@ -53,11 +53,11 @@ public class InvoiceRetuns {
         this.idCustomer = idCustomer;
     }
 
-    public Date getDateCreateInvoiceReturn() {
+    public String getDateCreateInvoiceReturn() {
         return dateCreateInvoiceReturn;
     }
 
-    public void setDateCreateInvoiceReturn(Date dateCreateInvoiceReturn) {
+    public void setDateCreateInvoiceReturn(String dateCreateInvoiceReturn) {
         this.dateCreateInvoiceReturn = dateCreateInvoiceReturn;
     }
 

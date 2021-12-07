@@ -41,7 +41,7 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
                 + " INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial\n"
                 + "                 INNER JOIN Color C on C.idColor = D.idColor\n"
                 + "                 INNER JOIN Products P on P.idProduct = D.idProduct\n"
-                + "                 INNER JOIN List L  on L.idList = P.idList";
+                + "                 INNER JOIN List L  on L.idList = P.idList ORDER BY idPrDeltails Desc";
         return selectBySql(sql);
     }
 
@@ -73,7 +73,7 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
                 + "                 INNER JOIN Color C on C.idColor = D.idColor\n"
                 + "                 INNER JOIN Products P on P.idProduct = D.idProduct\n"
                 + "                 INNER JOIN List L  on L.idList = P.idList\n"
-                + "                 where D.status = 1 and D.quatity > 0";
+                + "                 where D.status = 1 and D.quatity > 0 ORDER BY idPrDeltails Desc";
         return selectBySql(sql);
     }
 
@@ -161,6 +161,16 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
         return selectBySql(sql, "%" + keyword + "%");
     }
 
+    public List<ProductItem> selectByPrice(float price,int idOld) {
+        String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
+                + "INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial \n"
+                + "INNER JOIN Color C on C.idColor = D.idColor \n"
+                + "INNER JOIN Products P on P.idProduct = D.idProduct\n"
+                + "INNER JOIN List L  on L.idList = P.idList \n"
+                + "where price <= ? and D.idPrDeltails not in (?) and D.status = 1 and D.quatity > 0 ";
+        return selectBySql(sql, price,idOld);
+    }
+
     public List<ProductItem> selectByPropertieProductItem(int quantity, String keyword) {
         String sql = "select D.*,P.nameProduct,S.valueSize,C.valueColor,M.valueMaterial,nameList,quatity from detailsProduct D\n"
                 + "INNER JOIN Size S on D.idSize = S.idSize INNER JOIN Material M on M.idMaterial = D.idMaterial \n"
@@ -175,7 +185,7 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
                 break;
             case "Below":
                 sb.append("where D.quatity <= ?");
-                break;
+                break;    
             case "StillRemailProductItem":
                 sb.append("where D.quatity > 0");
                 return selectBySql(sb.toString());

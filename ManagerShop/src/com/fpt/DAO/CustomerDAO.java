@@ -7,7 +7,7 @@ package com.fpt.DAO;
 import com.fpt.entity.Customer;
 import com.fpt.entity.Empolyee;
 import com.fpt.helper.jdbcHelper;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
+//import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 public class CustomerDAO extends ShopDAO<Customer, Integer> {
 
     String INSERT_SQL = "INSERT INTO Customer (name, phoneNumber, gender, address) VALUES (?, ?, ?, ?)";
-    String SELECT_ALL_SQL = "SELECT * FROM Customer";
+    String SELECT_ALL_SQL = "SELECT * FROM Customer ORDER BY idCustomer Desc";
     String SELECT_BY_ID_SQL = "SELECT * FROM Customer WHERE idCustomer=?";
     String DELETE_SQL = "DELETE FROM Customer WHERE idCustomer=?";
     String UPDATE_SQL = "UPDATE Customer SET name=?, phoneNumber=?, gender=?, address=? WHERE idCustomer=?";
@@ -75,8 +75,9 @@ public class CustomerDAO extends ShopDAO<Customer, Integer> {
     }
 
     public List<Customer> selectByKeyWord(String keyword) {
-        String sql = "SELECT * from Customer where name LIKE ?";
+        String sql = "SELECT * from Customer where name LIKE ? ORDER BY idCustomer Desc";
         return selectBySql(sql, "%" + keyword + "%");
     }
+    
 
 }

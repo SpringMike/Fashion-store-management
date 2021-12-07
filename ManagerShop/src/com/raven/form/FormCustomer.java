@@ -44,7 +44,7 @@ public class FormCustomer extends javax.swing.JPanel {
         model.setRowCount(0);
         List<Customer> list = cDao.selectAll();
         for (Customer c : list) {
-            Object[] row = {c.getId(), c.getName(), c.getAddress(), c.getPhoneNumber(), c.getGender() ? "Nam" : "Nu"};
+            Object[] row = {c.getId(), c.getName(), c.getAddress(), c.getPhoneNumber(), c.getGender() ? "Nam" : "Nữ"};
             model.addRow(row);
         }
     }
@@ -60,7 +60,7 @@ public class FormCustomer extends javax.swing.JPanel {
         }
         for (Customer c : list) {
             model.addRow(new Object[]{
-                c.getId(), c.getName(), c.getAddress(), c.getPhoneNumber(), c.getGender() ? "Nam" : "Nu"
+                c.getId(), c.getName(), c.getAddress(), c.getPhoneNumber(), c.getGender() ? "Nam" : "Nữ"
             });
         }
         lblTimKiem.setText("");
@@ -109,7 +109,7 @@ public class FormCustomer extends javax.swing.JPanel {
             cDao.insert(c);
             fillTable();
             clearForm();
-            MsgBox.alert(this, "Them moi thanh cong");
+            MsgBox.alert(this, "Thêm thành công");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -123,7 +123,7 @@ public class FormCustomer extends javax.swing.JPanel {
             cDao.update(c);
             fillTable();
             clearForm();
-            MsgBox.alert(this, "Sua doi thanh cong");
+            MsgBox.alert(this, "Update thành công");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -137,7 +137,7 @@ public class FormCustomer extends javax.swing.JPanel {
                 cDao.delete(ma);
                 fillTable();
                 clearForm();
-                MsgBox.alert(this, "Xoa thanh cong");
+                MsgBox.alert(this, "Xoá Thành công");
             } catch (Exception e) {
                 e.printStackTrace();
             }

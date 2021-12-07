@@ -7,6 +7,7 @@ package com.fpt.DAO;
 
 import com.fpt.entity.Voucher;
 import com.fpt.helper.jdbcHelper;
+import com.fpt.utils.XDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
@@ -37,8 +38,13 @@ public class VoucherDAO extends ShopDAO<Voucher, Integer> {
 
     @Override
     public List<Voucher> selectAll() {
-        String sql = "select * from Voucher where quatity > 0";
+        String sql = "select * from Voucher where quatity > 0 order by idVoucher desc";
         return selectBySql(sql);
+    }
+
+    public List<Voucher> selectAllDate() {
+        String sql = "select * from Voucher where quatity > 0 AND ? BETWEEN dateStart AND dateEnd";
+        return selectBySql(sql, XDate.toString(new java.util.Date(), "yyyy-MM-dd"));
     }
 
     @Override

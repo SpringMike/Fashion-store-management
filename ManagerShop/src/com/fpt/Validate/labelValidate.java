@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 public class labelValidate {
 
     public static boolean checkEmpty(JLabel lbl, JTextField txtString, String mess) {
-        if (txtString.getText().isEmpty()) {
+        if (txtString.getText().trim().isEmpty()) {
             MsgBox.labelAlert(lbl, txtString, mess);
             return false;
         }
@@ -32,7 +32,7 @@ public class labelValidate {
     }
     
     public static boolean checkEmptyTextArea(JLabel lbl, JTextArea txtString, String mess) {
-        if (txtString.getText().isEmpty()) {
+        if (txtString.getText().trim().isEmpty()) {
             MsgBox.labelAlertTextArea(lbl, txtString, mess);
             return false;
         }

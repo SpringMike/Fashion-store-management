@@ -6,19 +6,25 @@
 package com.raven.form;
 
 import com.fpt.DAO.DetailInvoiceReturnDAO;
+import com.fpt.DAO.InvoiceChangeDAO;
+import com.fpt.DAO.InvoiceSellDAO;
 import com.fpt.DAO.ProductItemDAO;
 import com.fpt.DAO.ReturnProductDAO;
 import com.fpt.entity.DetailInvoiceReturn;
+import com.fpt.entity.InvoiceChange;
 import com.fpt.entity.InvoiceRetuns;
+import com.fpt.entity.InvoiceSell;
 import com.fpt.entity.ProductItem;
 import com.fpt.utils.Auth;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -65,18 +71,53 @@ public class FormReturnProducts extends javax.swing.JPanel {
     }
 
     public boolean checkDayReturn() {
-        LocalDate today = LocalDate.now();
-        LocalDate date = LocalDate.parse(XDate.toString(listPr.get(0).getDateCreateInvoice(), "dd-MM-yyy"), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        int day = Period.between(date, today).getDays();
-        int month = Period.between(date, today).getMonths();
-        int year = Period.between(date, today).getYears();
-
-        if (day > 2 || month > 0 || year > 0) {
-            MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Ngày trả hoá đơn đã quá hạn");
-            System.out.println(day);
-            return false;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date sDate = sdf.parse(listPr.get(0).getDateCreateInvoice());
+            Date eDate = sdf.parse(XDate.toString(new Date(), "yyyy-MM-dd"));
+            long sValue = sDate.getTime();
+            long eValue = eDate.getTime();
+            long tmp = Math.abs(sValue - eValue);
+            long result = tmp / (24 * 60 * 60 * 1000);
+            System.out.println(result);
+            if (result > 2) {
+                MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Ngày trả hoá đơn đã quá hạn");
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return true;
+//        LocalDate today = LocalDate.now();
+        //        LocalDate date = LocalDate.parse(XDate.toDate(listPr.get(0).getDateCreateInvoice(), "yyyy-dd-MM hh:mm:ss") +"",  DateTimeFormatter.ofPattern("yyyy-dd-MM hh:mm:ss"));
+        //        int day = Period.between(date, today).getDays();
+        //        int month = Period.between(date, today).getMonths();
+        //        int year = Period.between(date, today).getYears();
+        ////        int hours = Period.between(date, today).get();
+        //        System.out.println(day);
+        ////        System.out.println(month);
+        ////        System.out.println(year);
+        //
+        //        if (day > 2 || month > 0 || year > 0) {
+        //            MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Ngày trả hoá đơn đã quá hạn");
+        //            System.out.println(day);
+        //            return false;
+        //        }
+        //        return true;
+    }
+
+    InvoiceSellDAO iDao = new InvoiceSellDAO();
+
+    public boolean checkVoucher() {
+        List<InvoiceSell> list = iDao.selectAll();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getIdInvoiceSell() == Integer.parseInt(txtShearchInvoice.getText())) {
+                if (list.get(i).getIdVoucher() == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public boolean checkReturn() {
@@ -89,6 +130,16 @@ public class FormReturnProducts extends javax.swing.JPanel {
         return true;
     }
 
+    InvoiceChangeDAO cDao = new InvoiceChangeDAO();
+    public boolean checkChange(){
+        List<InvoiceChange> list = cDao.selectAll();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getIdInvoiceSell() == Integer.parseInt(txtShearchInvoice.getText())) {
+                return false;
+            }
+        }
+        return true;
+    }
     List<DetailInvoiceReturn> list = new ArrayList<>();
 
     public void fillTableIn4Invoice() {
@@ -157,7 +208,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
     public InvoiceRetuns getInvoiceReturn() {
         InvoiceRetuns ir = new InvoiceRetuns();
         Calendar calendar = Calendar.getInstance();
-        ir.setDateCreateInvoiceReturn(calendar.getTime());
+        ir.setDateCreateInvoiceReturn(XDate.toString(calendar.getTime(), "hh:mm:ss aa yyyy-MM-dd"));
         ir.setDescription(txtNote.getText());
         ir.setIdInvoiceSell(Integer.valueOf(txtShearchInvoice.getText()));
         ir.setTotalReturn(Double.valueOf(lblMoneyRetun.getText()));
@@ -219,7 +270,6 @@ public class FormReturnProducts extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         lblMoneyRetun = new javax.swing.JLabel();
         btnAddEmployee = new com.raven.suportSwing.MyButton();
-        btnAddEmployee1 = new com.raven.suportSwing.MyButton();
         scrollBarCustom2 = new com.raven.suportSwing.ScrollBarCustom();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -230,6 +280,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
         lblSearch = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setMaximumSize(new java.awt.Dimension(1000, 1000));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -292,28 +343,15 @@ public class FormReturnProducts extends javax.swing.JPanel {
             }
         });
 
-        btnAddEmployee1.setText("Xoá");
-        btnAddEmployee1.setRadius(10);
-        btnAddEmployee1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddEmployee1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(678, 678, 678)
-                        .addComponent(btnAddEmployee1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollBarCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollBarCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -369,14 +407,12 @@ public class FormReturnProducts extends javax.swing.JPanel {
                         .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(11, 11, 11))))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(scrollBarCustom2, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAddEmployee1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(41, 41, 41)
+                .addComponent(scrollBarCustom2, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addGap(23, 23, 23))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -520,7 +556,14 @@ public class FormReturnProducts extends javax.swing.JPanel {
 
     private void btnAddEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeActionPerformed
         insertInvoiceReturn();
-
+        model.setRowCount(0);
+        modelList.setRowCount(0);
+        lblSearch.setText("");
+        lblIDCustomer.setText("");
+        lblIDInvoice.setText("");
+        lblMoneyRetun.setText("");
+        txtNote.setText("");
+        txtShearchInvoice.setText("");
     }//GEN-LAST:event_btnAddEmployeeActionPerformed
 
     private void txtShearchInvoiceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtShearchInvoiceKeyReleased
@@ -545,10 +588,19 @@ public class FormReturnProducts extends javax.swing.JPanel {
                 lblSearch.setText("Hoá đơn đã trả hàng");
                 return;
             }
+            if (checkVoucher() == false) {
+                lblSearch.setText("Hoá đơn áp dụng voucher không thể trả");
+                return;
+            }
+            if(checkChange() == false){
+                lblSearch.setText("Hoá đơn đã đổi không thể trả hàng");
+                return;
+            }
             if (checkDayReturn() == false) {
                 return;
             }
         } catch (Exception e) {
+            e.printStackTrace();
             MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Vui lòng nhập lại -.-");
         }
     }//GEN-LAST:event_txtShearchInvoiceKeyReleased
@@ -562,7 +614,13 @@ public class FormReturnProducts extends javax.swing.JPanel {
             } else if (checkReturn() == false) {
                 MsgBox.alert(this, "Hoá đơn đã trả hàng");
                 return;
-            } else {
+            } else if (checkVoucher() == false) {
+                MsgBox.alert(this, "Hoá đơn áp dụng voucher không thể trả");
+                return;
+            } else if(checkChange() == false){
+                MsgBox.alert(this, "Hoá đơn đã đổi không thể trả hàng");
+                return;
+            }else {
                 fillTableIn4Invoice();
             }
         }
@@ -578,15 +636,9 @@ public class FormReturnProducts extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtShearchInvoiceKeyPressed
 
-    private void btnAddEmployee1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployee1ActionPerformed
-        // TODO add your handling code here:
-        deleteTemp();
-    }//GEN-LAST:event_btnAddEmployee1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnAddEmployee;
-    private com.raven.suportSwing.MyButton btnAddEmployee1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
