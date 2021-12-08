@@ -16,6 +16,8 @@ import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -270,7 +272,7 @@ public class FormProducts extends javax.swing.JPanel {
     }
 
     public void excelProducts() throws IOException {
-        Excel.outputFile((DefaultTableModel) tableShowProducts.getModel());
+        Excel.outExcel((DefaultTableModel) tableShowProducts.getModel());
         MsgBox.alert(this, "Xuất file thành công");
     }
 
@@ -783,15 +785,12 @@ public class FormProducts extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchKeyPressed
 
     private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton4ActionPerformed
-        // TODO add your handling code here:
         try {
-            if(txtSearch.getText().isEmpty()){
-                return;
-            }
             excelProducts();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            Logger.getLogger(FormProducts.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_myButton4ActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
@@ -816,7 +815,7 @@ public class FormProducts extends javax.swing.JPanel {
 //        for (Book book : books) {
 //            System.out.println(book);
 //        }
-        
+
     }//GEN-LAST:event_myButton5ActionPerformed
 
 

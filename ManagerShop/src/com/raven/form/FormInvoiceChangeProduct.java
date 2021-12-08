@@ -121,7 +121,7 @@ public class FormInvoiceChangeProduct extends javax.swing.JPanel {
     }
 
     public void excelReturn() throws IOException {
-        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        Excel.outExcel((DefaultTableModel) tableShow.getModel());
         MsgBox.alert(this, "Xuất file thành công");
     }
 

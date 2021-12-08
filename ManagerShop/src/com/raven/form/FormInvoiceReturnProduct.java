@@ -427,7 +427,7 @@ public class FormInvoiceReturnProduct extends javax.swing.JPanel {
     }//GEN-LAST:event_tableShowMouseClicked
 
     public void excelReturn() throws IOException {
-        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        Excel.outExcel((DefaultTableModel) tableShow.getModel());
         MsgBox.alert(this, "Xuất file thành công");
     }
     private void btnSearch2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch2ActionPerformed

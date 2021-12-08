@@ -16,13 +16,24 @@ import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import com.raven.JFrame.FormDetailInvoice;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Date;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -448,7 +459,7 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSearchIdActionPerformed
 
     public void excelInvoice() throws IOException {
-        Excel.outputFile((DefaultTableModel) tableInvoice.getModel());
+        Excel.outExcel((DefaultTableModel) tableInvoice.getModel());
         MsgBox.alert(this, "Xuất file thành công");
     }
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
@@ -458,6 +469,7 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }//GEN-LAST:event_myButton6ActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed

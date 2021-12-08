@@ -92,7 +92,6 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     public void fillComboboxSize() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbbSize.getModel();
         cbbSize.removeAllItems();
-
         for (Size s : listSize) {
             model.addElement(s);
         }
@@ -145,7 +144,6 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
     Size getFormSize() {
         Size s = new Size();
-        s.setIdSize(cbbSize.getSelectedIndex() + 1);
         s.setValueSize(txtSizeAdd.getText());
         return s;
     }

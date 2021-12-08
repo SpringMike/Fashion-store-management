@@ -217,7 +217,7 @@ public class FormCustomer extends javax.swing.JPanel {
             }
         });
 
-        btnTim.setText("Xuất");
+        btnTim.setText("Tìm");
         btnTim.setRadius(20);
         btnTim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,7 +227,7 @@ public class FormCustomer extends javax.swing.JPanel {
 
         lblTimKiem.setForeground(new java.awt.Color(225, 0, 0));
 
-        btnTim1.setText("Tìm");
+        btnTim1.setText("Xuất");
         btnTim1.setRadius(20);
         btnTim1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,11 +246,11 @@ public class FormCustomer extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtTimkiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(42, 42, 42)
-                .addComponent(btnTim1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(71, 71, 71)
                 .addComponent(btnTim, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(381, 381, 381))
+                .addGap(18, 18, 18)
+                .addComponent(btnTim1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(352, 352, 352))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -562,7 +562,7 @@ public class FormCustomer extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTimkiemKeyReleased
 
     public void excelCustomer() throws IOException {
-        Excel.outputFile((DefaultTableModel) tableCustomer.getModel());
+        Excel.outExcel((DefaultTableModel) tableCustomer.getModel());
         MsgBox.alert(this, "Xuất file thành công");
     }
     private void btnTim1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTim1ActionPerformed

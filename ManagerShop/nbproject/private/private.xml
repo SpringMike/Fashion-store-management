@@ -6,7 +6,6 @@
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/helper/jdbcHelper.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/MainForm.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/FogotPassword.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Loading.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/Form_Home.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/entity/InvoiceRetuns.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormImportItem.java</file>
@@ -47,16 +46,15 @@
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/MyProfileDAO.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormProducts.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormMyProfile.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormChangeProducts.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/VoucherDAO.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormSupplier.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/utils/XImage.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/entity/InvoiceSell.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormInvoiceChangeProduct.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Login_main.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/DetailInvoiceSellDAO.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/MaterialDAO.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/Validate/Validate.java</file>
+            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/SizeDAO.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/main/Main.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/chart/CurveChart.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/UserDAO.java</file>
@@ -67,7 +65,6 @@
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormImportItemJFrame.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/form/FormSalesStatistics.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/DetailInvoiceReturnDAO.java</file>
-            <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/utils/MsgBox.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/fpt/DAO/EmpolyeeDao.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/JFrame/FormDetailInvoiceSell.java</file>
             <file>file:/D:/Fall2021/DuAn1_FPOLY/ManagerShop/src/com/raven/chart/LabelColor.java</file>

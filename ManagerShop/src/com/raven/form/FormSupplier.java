@@ -581,7 +581,7 @@ public class FormSupplier extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchKeyReleased
 
     public void excelSupplier() throws IOException {
-        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        Excel.outExcel((DefaultTableModel) tableShow.getModel());
         MsgBox.alert(this, "Xuất file thành công");
     }
 

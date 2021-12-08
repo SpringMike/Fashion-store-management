@@ -590,7 +590,7 @@ public class FormItems extends javax.swing.JPanel {
 
     }//GEN-LAST:event_myButton3ActionPerformed
     public void excelItems() throws IOException {
-        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        Excel.outExcel((DefaultTableModel) tableShow.getModel());
         MsgBox.alert(this, "Xuất file thành công");
     }
     private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton4ActionPerformed
