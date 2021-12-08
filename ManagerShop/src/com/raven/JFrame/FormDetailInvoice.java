@@ -21,6 +21,8 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.text.BadElementException;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
@@ -51,6 +53,8 @@ public class FormDetailInvoice extends javax.swing.JFrame {
         setResizable(false);
         fillTabel(id);
         lblTotalMoney.setText(String.valueOf(totalMoney));
+        Image icon = Toolkit.getDefaultToolkit().getImage("src\\com\\raven\\icon\\shop (6).png");
+        this.setIconImage(icon);
     }
     DetailInvoiceImportDAO detailDAO = new DetailInvoiceImportDAO();
 
@@ -204,7 +208,7 @@ public class FormDetailInvoice extends javax.swing.JFrame {
         float columnWidth[] = {col, col};
         com.itextpdf.layout.element.Table table = new com.itextpdf.layout.element.Table(columnWidth);
         table.setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE);
-        String file = "D:\\Fall2021\\DuAn1_FPOLY\\ManagerShop\\src\\com\\raven\\icon\\shop (2).png";
+        String file = "src\\com\\raven\\icon\\shop (2).png";
         ImageData date = ImageDataFactory.create(file);
         com.itextpdf.layout.element.Image image = new com.itextpdf.layout.element.Image(date);
 //        doc.add(image);
@@ -253,8 +257,8 @@ public class FormDetailInvoice extends javax.swing.JFrame {
             float price = detailImport.getPrice();
             itemInforTable.addCell(new Cell().add(removeAccent(nameProduct)));
             itemInforTable.addCell(new Cell().add(quantity + ""));
-            itemInforTable.addCell(new Cell().add(nf.format(price) +" đ").setTextAlignment(TextAlignment.RIGHT));
-            itemInforTable.addCell(new Cell().add(nf.format(price * quantity) +" đ").setTextAlignment(TextAlignment.RIGHT));
+            itemInforTable.addCell(new Cell().add(nf.format(price) + " VND").setTextAlignment(TextAlignment.RIGHT));
+            itemInforTable.addCell(new Cell().add(nf.format(price * quantity) + " VND").setTextAlignment(TextAlignment.RIGHT));
             total += price * quantity;
             quantitySum += quantity;
         }
@@ -262,7 +266,7 @@ public class FormDetailInvoice extends javax.swing.JFrame {
         itemInforTable.addCell(new Cell().add("Tong So Luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
         itemInforTable.addCell(new Cell().add(quantitySum + "").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
         itemInforTable.addCell(new Cell().add("Tong Tien").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
-        itemInforTable.addCell(new Cell().add(nf.format(total) + " đ").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add(nf.format(total) + " VND").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
 
         float colWidthNote[] = {560};
 

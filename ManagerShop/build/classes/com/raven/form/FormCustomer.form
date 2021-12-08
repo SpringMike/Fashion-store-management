@@ -70,7 +70,9 @@
                   <Component id="btnTim" min="-2" pref="64" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnTim1" min="-2" pref="64" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="352" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="btnTim2" min="-2" pref="64" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="270" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -88,9 +90,10 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnTim" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnTim1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnTim2" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="txtTimkiem" alignment="1" pref="59" max="32767" attributes="0"/>
+                      <Component id="txtTimkiem" alignment="1" pref="74" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lblTimKiem" min="-2" max="-2" attributes="0"/>
@@ -142,6 +145,15 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTim1ActionPerformed"/>
           </Events>
         </Component>
+        <Component class="com.raven.suportSwing.MyButton" name="btnTim2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Import"/>
+            <Property name="radius" type="int" value="20"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTim2ActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">
@@ -166,7 +178,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="743" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="728" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">

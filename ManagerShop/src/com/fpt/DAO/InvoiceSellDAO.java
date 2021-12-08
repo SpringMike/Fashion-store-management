@@ -22,9 +22,9 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
     @Override
     public void insert(InvoiceSell e) {
         String sql = "INSERT INTO dbo.InvoiceSell\n"
-                + "(idCustomer,idHumanSell,idVoucher,dateCreateInvoice,description,statusPay,statusInvoice, totalMoney)\n"
-                + "VALUES(?, ?, ?, ?,?,?,?,?)";
-        jdbcHelper.update(sql, e.getIdCustomer(), e.getIdHumanSell(), e.getIdVoucher(), e.getDateCreateInvoice(), e.getDescription(), e.isStatusPay(), e.isStatusInvoice(), e.getPrice());
+                + "(idCustomer,idHumanSell,idVoucher,dateCreateInvoice,description,statusPay,statusInvoice, totalMoney, moneyCustom, moneyReturn)\n"
+                + "VALUES(?, ?, ?, ?,?,?,?,?,?,?)";
+        jdbcHelper.update(sql, e.getIdCustomer(), e.getIdHumanSell(), e.getIdVoucher(), e.getDateCreateInvoice(), e.getDescription(), e.isStatusPay(), e.isStatusInvoice(), e.getPrice(), e.getMoneyCustomer(), e.getMoneyReturn());
     }
 
     @Override
@@ -69,9 +69,11 @@ public class InvoiceSellDAO extends ShopDAO<InvoiceSell, Integer> {
                 i.setDescription(rs.getString("description"));
                 i.setStatusPay(rs.getBoolean("statusPay"));
                 i.setStatusInvoice(rs.getBoolean("statusInvoice"));
-                i.setNameCustomer(rs.getString(21));
-                i.setNameUser(rs.getString(11));
+                i.setNameCustomer(rs.getString(23));
+                i.setNameUser(rs.getString(13));
                 i.setPrice(rs.getDouble("totalMoney"));
+                i.setMoneyCustomer(rs.getDouble("moneyCustom"));
+                i.setMoneyReturn(rs.getDouble("moneyReturn"));
                 list.add(i);
             }
         } catch (Exception e) {

@@ -5,19 +5,33 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.CategoryDAO;
 import com.fpt.DAO.CustomerDAO;
 import com.fpt.Validate.Validate;
 import com.fpt.Validate.labelValidate;
+import com.fpt.entity.Category;
 import com.fpt.entity.Customer;
+import com.fpt.entity.Products;
 import com.fpt.entity.User;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import com.raven.dialog.Message;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -174,6 +188,7 @@ public class FormCustomer extends javax.swing.JPanel {
         btnTim = new com.raven.suportSwing.MyButton();
         lblTimKiem = new javax.swing.JLabel();
         btnTim1 = new com.raven.suportSwing.MyButton();
+        btnTim2 = new com.raven.suportSwing.MyButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCustomer = new com.raven.suportSwing.TableColumn();
@@ -235,6 +250,14 @@ public class FormCustomer extends javax.swing.JPanel {
             }
         });
 
+        btnTim2.setText("Import");
+        btnTim2.setRadius(20);
+        btnTim2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTim2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -250,7 +273,9 @@ public class FormCustomer extends javax.swing.JPanel {
                 .addComponent(btnTim, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnTim1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(352, 352, 352))
+                .addGap(18, 18, 18)
+                .addComponent(btnTim2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(270, 270, 270))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,8 +289,9 @@ public class FormCustomer extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnTim1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(txtTimkiem, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
+                            .addComponent(btnTim1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTim2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtTimkiem, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTimKiem))
         );
@@ -311,7 +337,7 @@ public class FormCustomer extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(58, 58, 58)
@@ -574,6 +600,86 @@ public class FormCustomer extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnTim1ActionPerformed
 
+    public boolean checkNameProduct(String acc) {
+        for (int i = 0; i < cDao.selectAll().size(); i++) {
+            if (cDao.selectAll().get(i).getPhoneNumber().equals(acc.trim())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void btnTim2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTim2ActionPerformed
+        // TODO add your handling code here:
+
+        File excelFile;
+        FileInputStream excelFIS = null;
+        BufferedInputStream excelBIS = null;
+        XSSFWorkbook excelJTableImport = null;
+        String path = "D:\\Excel";
+        JFileChooser excelFileChooser = new JFileChooser(path);
+        int excelChooser = excelFileChooser.showOpenDialog(null);
+        if (excelChooser == JFileChooser.APPROVE_OPTION) {
+            try {
+                excelFile = excelFileChooser.getSelectedFile();
+                excelFIS = new FileInputStream(excelFile);
+                excelBIS = new BufferedInputStream(excelFIS);
+                excelJTableImport = new XSSFWorkbook(excelBIS);
+                XSSFSheet excelSFSheet = excelJTableImport.getSheetAt(0);
+                String phone = "";
+
+                int flag = 0;
+                for (int row = 1; row <= excelSFSheet.getLastRowNum(); row++) {
+                    XSSFRow excelRow = excelSFSheet.getRow(row);
+                    XSSFCell nameCustomer = excelRow.getCell(0);
+                    XSSFCell address = excelRow.getCell(1);
+                    XSSFCell phoneNummber = excelRow.getCell(2);
+                    XSSFCell gender = excelRow.getCell(3);
+                    if (checkNameProduct(phoneNummber.toString()) == true) {
+                        phone += phoneNummber + ", ";
+                    } else {
+                        Customer c = new Customer();
+                        c.setName(nameCustomer.toString());
+                        c.setGender(gender.toString().equalsIgnoreCase("Nam") ? true : false);
+                        c.setPhoneNumber(phoneNummber.toString());
+                        c.setAddress(address.toString());
+                        cDao.insert(c);
+                        fillTable();
+                        flag += 1;
+
+                    }
+                }
+                System.out.println(flag);
+
+                if (!phone.isEmpty()) {
+                    MsgBox.alert(this, "Trùng số điện thoại " + phone);
+                }
+                if (flag > 0) {
+                    MsgBox.alert(this, "Import thành công");
+                }
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FormProducts.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(FormProducts.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    if (excelFIS != null) {
+                        excelFIS.close();
+                    }
+                    if (excelBIS != null) {
+                        excelBIS.close();
+                    }
+                    if (excelJTableImport != null) {
+                        excelJTableImport.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }//GEN-LAST:event_btnTim2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnCapNhap;
@@ -581,6 +687,7 @@ public class FormCustomer extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton btnThem;
     private com.raven.suportSwing.MyButton btnTim;
     private com.raven.suportSwing.MyButton btnTim1;
+    private com.raven.suportSwing.MyButton btnTim2;
     private com.raven.suportSwing.MyButton btnXoa;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel2;

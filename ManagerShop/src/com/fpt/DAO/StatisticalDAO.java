@@ -68,11 +68,12 @@ public class StatisticalDAO {
 
     public int getRevenueDate() {
         ResultSet rs;
-        String sql = "SELECT CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) AS INT)\n"
-                + "revenue FROM dbo.detailsInvoiceSELL JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell\n"
-                + "LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell WHERE\n"
-                + "YEAR(InvoiceSell.dateCreateInvoice) = YEAR(GETDATE()) AND \n"
-                + "MONTH(InvoiceSell.dateCreateInvoice) = MONTH(GETDATE()) AND DAY(InvoiceSell.dateCreateInvoice) = DAY(GETDATE())";
+        String sql = "	SELECT IIF(CAST(SUM(totalReturn) AS INT ) is NULL , CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) AS INT),  \n"
+                + "	  (CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) AS INT)))\n"
+                + "                revenue FROM dbo.detailsInvoiceSELL JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell\n"
+                + "                LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell WHERE \n"
+                + "                YEAR(InvoiceSell.dateCreateInvoice) = YEAR(GETDATE()) AND\n"
+                + "                MONTH(InvoiceSell.dateCreateInvoice) = MONTH(GETDATE()) AND DAY(dbo.InvoiceSell.dateCreateInvoice) = DAY(GETDATE())";
         try {
             rs = jdbcHelper.query(sql);
             while (rs.next()) {

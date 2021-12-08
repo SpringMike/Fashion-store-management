@@ -7,6 +7,8 @@ package com.raven.form;
 
 import com.raven.chart.ModelChart;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,6 +26,8 @@ public class ShowChart extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+         Image icon = Toolkit.getDefaultToolkit().getImage("src\\com\\raven\\icon\\shop (6).png");
+        this.setIconImage(icon);
     }
 
     public ShowChart(DefaultTableModel model, String str) {

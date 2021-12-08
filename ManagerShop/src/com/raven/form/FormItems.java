@@ -610,13 +610,21 @@ public class FormItems extends javax.swing.JPanel {
         if (evt.getClickCount() == 2) {
             int index = tableShow.getSelectedRow();
             int idProductItem = (int) tableShow.getValueAt(index, 0);
+            ProductItemDAO pDao = new ProductItemDAO();
+            List<ProductItem> list = pDao.selectAll();
+            float priceShow = 0;
+            for (int i = 0; i < list.size(); i++) {
+                if(list.get(i).getId() == idProductItem){
+                    priceShow = list.get(i).getPrice();
+                }
+            }
             String nameProduct = tableShow.getValueAt(index, 1).toString();
-            Float price = (float) tableShow.getValueAt(index, 2);
+//            Float price = (float) tableShow.getValueAt(index, 2);
             String size = tableShow.getValueAt(index, 3).toString();
             String color = tableShow.getValueAt(index, 4).toString();
             String material = tableShow.getValueAt(index, 5).toString();
 
-            formUpdateItemJframe = new FormUpdateItemJfame(nameProduct, size, color, material, price, idProductItem);
+            formUpdateItemJframe = new FormUpdateItemJfame(nameProduct, size, color, material, priceShow, idProductItem);
             formUpdateItemJframe.addEvenUpdate(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

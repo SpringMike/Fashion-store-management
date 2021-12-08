@@ -5,15 +5,29 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.CategoryDAO;
 import com.fpt.DAO.SupplierDao;
 import com.fpt.Validate.Validate;
 import com.fpt.Validate.labelValidate;
+import com.fpt.entity.Category;
+import com.fpt.entity.Products;
 import com.fpt.entity.Supplier;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -189,6 +203,7 @@ public class FormSupplier extends javax.swing.JPanel {
         myButton2 = new com.raven.suportSwing.MyButton();
         lblSearch = new javax.swing.JLabel();
         myButton4 = new com.raven.suportSwing.MyButton();
+        myButton5 = new com.raven.suportSwing.MyButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableShow = new com.raven.suportSwing.TableColumn();
@@ -240,6 +255,14 @@ public class FormSupplier extends javax.swing.JPanel {
             }
         });
 
+        myButton5.setText("Import");
+        myButton5.setRadius(20);
+        myButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -250,10 +273,12 @@ public class FormSupplier extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 826, Short.MAX_VALUE)
                         .addGap(31, 31, 31)
                         .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(239, 239, 239)
+                        .addGap(93, 93, 93)
+                        .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67)
                         .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(141, 141, 141))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -273,7 +298,8 @@ public class FormSupplier extends javax.swing.JPanel {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -580,6 +606,87 @@ public class FormSupplier extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtSearchKeyReleased
 
+    public boolean checkNameProduct(String acc, String phone) {
+        for (int i = 0; i < sDao.selectAll().size(); i++) {
+            if (sDao.selectAll().get(i).getNameMaterial().equals(acc.trim()) || sDao.selectAll().get(i).getPhoneNumber().equals(phone.trim())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton5ActionPerformed
+        // TODO add your handling code here:
+        File excelFile;
+        FileInputStream excelFIS = null;
+        BufferedInputStream excelBIS = null;
+        XSSFWorkbook excelJTableImport = null;
+        String path = "D:\\Excel";
+        JFileChooser excelFileChooser = new JFileChooser(path);
+        int excelChooser = excelFileChooser.showOpenDialog(null);
+        if (excelChooser == JFileChooser.APPROVE_OPTION) {
+            try {
+                excelFile = excelFileChooser.getSelectedFile();
+                excelFIS = new FileInputStream(excelFile);
+                excelBIS = new BufferedInputStream(excelFIS);
+                excelJTableImport = new XSSFWorkbook(excelBIS);
+                XSSFSheet excelSFSheet = excelJTableImport.getSheetAt(0);
+                String note = "";
+                String phone = "";
+
+                int flag = 0;
+                for (int row = 1; row <= excelSFSheet.getLastRowNum(); row++) {
+                    XSSFRow excelRow = excelSFSheet.getRow(row);
+                    XSSFCell nameSupplier = excelRow.getCell(0);
+                    XSSFCell address = excelRow.getCell(1);
+                    XSSFCell phoneNummber = excelRow.getCell(2);
+                    if (checkNameProduct(nameSupplier.toString(), phone.toString()) == true) {
+                        note += nameSupplier + " ,";
+                        phone += phoneNummber + ", ";
+                    } else {
+                        Supplier s = new Supplier();
+                        s.setNameMaterial(nameSupplier.toString());
+                        s.setAddress(address.toString());
+                        s.setPhoneNumber(phoneNummber.toString());
+                        sDao.insert(s);
+                        fillTable();
+                        flag += 1;
+
+                    }
+                }
+                System.out.println(flag);
+                if (!note.isEmpty()) {
+                    MsgBox.alert(this, "Trùng Nhà cung cấp " + note);
+                }
+                if (!phone.isEmpty()) {
+                    MsgBox.alert(this, "Trùng số điện thoại " + phone);
+                }
+                if (flag > 0) {
+                    MsgBox.alert(this, "Import thành công");
+                }
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FormProducts.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(FormProducts.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    if (excelFIS != null) {
+                        excelFIS.close();
+                    }
+                    if (excelBIS != null) {
+                        excelBIS.close();
+                    }
+                    if (excelJTableImport != null) {
+                        excelJTableImport.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }//GEN-LAST:event_myButton5ActionPerformed
+
     public void excelSupplier() throws IOException {
         Excel.outExcel((DefaultTableModel) tableShow.getModel());
         MsgBox.alert(this, "Xuất file thành công");
@@ -601,6 +708,7 @@ public class FormSupplier extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton myButton2;
     private com.raven.suportSwing.MyButton myButton3;
     private com.raven.suportSwing.MyButton myButton4;
+    private com.raven.suportSwing.MyButton myButton5;
     private com.raven.suportSwing.ScrollBarCustom scrollBarCustom1;
     private com.raven.suportSwing.TableColumn tableShow;
     private com.raven.suportSwing.TextField txtAddress;

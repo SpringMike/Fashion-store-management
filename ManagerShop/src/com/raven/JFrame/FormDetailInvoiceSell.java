@@ -6,8 +6,10 @@
 package com.raven.JFrame;
 
 import com.fpt.DAO.DetailInvoiceSellDAO;
+import com.fpt.DAO.InvoiceSellDAO;
 import com.fpt.entity.DetailInvoiceReturn;
 import com.fpt.entity.DetailInvoiceSell;
+import com.fpt.entity.InvoiceSell;
 import com.fpt.utils.MsgBox;
 import static com.fpt.utils.convertEng.removeAccent;
 import com.itextpdf.io.image.ImageData;
@@ -25,6 +27,7 @@ import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 import com.itextpdf.text.BadElementException;
 import com.lowagie.text.Image;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -46,25 +49,32 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
     DefaultTableModel model;
     int row;
     List<DetailInvoiceSell> list;
+    int id;
+
     public FormDetailInvoiceSell(int id, DefaultTableModel model, int row) {
         this.model = model;
         this.row = row;
+        this.id = id;
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         fillTable(id);
+        java.awt.Image icon = Toolkit.getDefaultToolkit().getImage("src\\com\\raven\\icon\\shop (6).png");
+        this.setIconImage(icon);
     }
+
     DetailInvoiceSellDAO deDao = new DetailInvoiceSellDAO();
     Locale lc = new Locale("nv", "VN");
     NumberFormat nf = NumberFormat.getInstance(lc);
+
     public void fillTable(int id) {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         list = deDao.selectByIdInvoice(id);
         for (DetailInvoiceSell d : list) {
             model.addRow(new Object[]{
-                d.getIdDetailsInvoiceSell(), d.getNameProduct(), d.getNameCustomer(), d.getValueSize(), d.getValueColor(), d.getValueMaterial(), d.getQuantity(), nf.format(d.getPrice())+" đ"
+                d.getIdDetailsInvoiceSell(), d.getNameProduct(), d.getNameCustomer(), d.getValueSize(), d.getValueColor(), d.getValueMaterial(), d.getQuantity(), nf.format(d.getPrice()) + " đ"
             });
         }
     }
@@ -198,7 +208,7 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
         float columnWidth[] = {col, col};
         com.itextpdf.layout.element.Table table = new com.itextpdf.layout.element.Table(columnWidth);
         table.setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE);
-        String file = "D:\\Fall2021\\DuAn1_FPOLY\\ManagerShop\\src\\com\\raven\\icon\\shop (2).png";
+        String file = "src\\com\\raven\\icon\\shop (2).png";
         ImageData date = ImageDataFactory.create(file);
         com.itextpdf.layout.element.Image image = new com.itextpdf.layout.element.Image(date);
 //        doc.add(image);
@@ -245,11 +255,11 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
             String Color = detailSell.getValueColor();
             String Material = detailSell.getValueMaterial();
             int quantity = (int) detailSell.getQuantity();
-            double price = (double)detailSell.getPrice();
+            double price = (double) detailSell.getPrice();
             itemInforTable.addCell(new Cell().add(removeAccent(nameProduct)));
             itemInforTable.addCell(new Cell().add(quantity + ""));
-            itemInforTable.addCell(new Cell().add(nf.format(price) + " đ").setTextAlignment(TextAlignment.RIGHT));
-            itemInforTable.addCell(new Cell().add(price * quantity + " đ").setTextAlignment(TextAlignment.RIGHT));
+            itemInforTable.addCell(new Cell().add(nf.format(price) + " VND").setTextAlignment(TextAlignment.RIGHT));
+            itemInforTable.addCell(new Cell().add(nf.format(price * quantity) + " VND").setTextAlignment(TextAlignment.RIGHT));
             total += price * quantity;
             quantitySum += quantity;
         }
@@ -257,11 +267,16 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
         itemInforTable.addCell(new Cell().add("Tong So Luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
         itemInforTable.addCell(new Cell().add(quantitySum + "").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
         itemInforTable.addCell(new Cell().add("Tong Tien").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
-        itemInforTable.addCell(new Cell().add(nf.format(total) + " đ").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add(nf.format(total) + " VND").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
 
         float colWidthNote[] = {560};
-
+        InvoiceSellDAO iDao = new InvoiceSellDAO();
+        InvoiceSell list = iDao.selectById(id);
         com.itextpdf.layout.element.Table customerInforNote = new com.itextpdf.layout.element.Table(colWidthNote);
+        customerInforNote.addCell(new Cell().add("Tien khach dua: " + nf.format((list.getMoneyCustomer())) + " VND").
+                setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setBold().setFontSize(20).setFontColor(new DeviceRgb(0, 0, 0)));
+        customerInforNote.addCell(new Cell().add("Tien Tra Lai: " + nf.format((list.getMoneyReturn())) + " VND").
+                setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setBold().setFontSize(20).setFontColor(new DeviceRgb(0, 0, 0)));
         customerInforNote.addCell(new Cell().add("Luu y: Quy khach vui long kiem tra hang truoc khi roi khoi shop \n Giu hoa don khi tra hang trong vong 2 ngay").
                 setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setItalic().setFontColor(Color.RED));
         customerInforNote.addCell(new Cell().add("Xin cam on quy khach !!!").

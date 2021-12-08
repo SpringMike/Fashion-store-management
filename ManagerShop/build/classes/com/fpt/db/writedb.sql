@@ -213,6 +213,36 @@ CREATE TABLE InvoiceChangeProducts
 	FOREIGN KEY(idUser) REFERENCES dbo.[User](idUser)
 )
 GO
+------------------db9/12/2021
+ALTER TABLE dbo.InvoiceSell ADD moneyCustom MONEY
+ALTER TABLE dbo.InvoiceSell ADD moneyReturn MONEY
+--------------------------------
+
+INSERT INTO dbo.InvoiceSell
+(
+    idCustomer,
+    idHumanSell,
+    idVoucher,
+    dateCreateInvoice,
+    description,
+    statusPay,
+    statusInvoice,
+    totalMoney
+)
+VALUES
+(   NULL, -- idCustomer - int
+    NULL, -- idHumanSell - int
+    NULL, -- idVoucher - int
+    NULL, -- dateCreateInvoice - datetime
+    NULL, -- description - nvarchar(255)
+    NULL, -- statusPay - bit
+    NULL, -- statusInvoice - bit
+    NULL  -- totalMoney - money
+    )
+	SELECT * FROM dbo.InvoiceSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer JOIN u
+
+
+
 
 SELECT * FROM dbo.InvoiceSell
 
@@ -230,3 +260,21 @@ SELECT * FROM dbo.InvoiceSell
 	LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell
 	WHERE YEAR(InvoiceSell.dateCreateInvoice) = 2021
 	GROUP BY MONTH(InvoiceSell.dateCreateInvoice)
+
+	UPDATE dbo.Products SET statusDelete = 1 WHERE nameProduct LIKE N'Thắt lưng ABC'
+	INSERT INTO dbo.List
+	(nameList,status)VALUES
+	(N'', DEFAULT )
+
+		  
+
+	SELECT TOP 1 * FROM dbo.List  ORDER BY idList DESC
+    SELECT * FROM dbo.[User]
+	SELECT * FROM dbo.InvoiceChangeProducts
+	SELECT IIF(CAST(SUM(totalReturn) AS INT ) is NULL , CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) AS INT),  
+	  (CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) AS INT)))
+                revenue FROM dbo.detailsInvoiceSELL JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
+                LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell WHERE 
+                YEAR(InvoiceSell.dateCreateInvoice) = YEAR(GETDATE()) AND
+                MONTH(InvoiceSell.dateCreateInvoice) = MONTH(GETDATE()) AND DAY(dbo.InvoiceSell.dateCreateInvoice) = DAY(GETDATE())
+	SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer ORDER BY idInvoiceSell Desc

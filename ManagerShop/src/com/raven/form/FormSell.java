@@ -157,6 +157,8 @@ public class FormSell extends javax.swing.JPanel {
         in.setIdHumanSell(Auth.user.getIdUser());
         in.setDescription(txtDes.getText());
         in.setPrice(Double.parseDouble(txtTotal.getText()));
+        in.setMoneyCustomer(Double.parseDouble(txtMoneyCustomer.getText()));
+        in.setMoneyReturn(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()));
         Customer s = (Customer) cbbCustomer.getSelectedItem();
         in.setIdCustomer(s.getId());
         if (!jcheckVoucher.isSelected()) {
@@ -178,7 +180,7 @@ public class FormSell extends javax.swing.JPanel {
                 return;
             } else if (!Validate.checkNumber(lblMoneyCustomer, txtMoneyCustomer, "Tiền không hợp lệ")) {
                 return;
-            } else if (Double.parseDouble(txtReturn.getText()) < 0) {
+            } else if (Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()) < 0) {
                 MsgBox.alert(this, "Nhậm lại số tiền khách đưa ????");
                 return;
             } else {
@@ -711,20 +713,22 @@ public class FormSell extends javax.swing.JPanel {
             cbbVoucher.setVisible(false);
             txtTotal.setText(TotalBuy() + "");
         }
-        txtReturn.setText(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()) + "");
-
+        txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText())) + " đ");
     }// GEN-LAST:event_jcheckVoucherActionPerformed
 
     private void txtReturnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtReturnActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_txtReturnActionPerformed
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
 
     private void txtMoneyCustomerKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtMoneyCustomerKeyReleased
         // TODO add your handling code here:
         if (txtMoneyCustomer.getText().isEmpty()) {
             txtReturn.setText("");
         } else {
-            txtReturn.setText(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()) + "");
+
+            txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText())) + " đ");
         }
     }// GEN-LAST:event_txtMoneyCustomerKeyReleased
 

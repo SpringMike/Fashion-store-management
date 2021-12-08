@@ -90,6 +90,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     List<Color> listColor = cDao.selectAll();
 
     public void fillComboboxSize() {
+        List<Size> listSize = sDao.selectAll();
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbbSize.getModel();
         cbbSize.removeAllItems();
         for (Size s : listSize) {
@@ -98,9 +99,10 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     }
 
     public void fillComboboxColor() {
+
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbbColor.getModel();
         cbbColor.removeAllItems();
-
+        List<Color> listColor = cDao.selectAll();
         for (Color c : listColor) {
             model.addElement(c);
         }
@@ -109,6 +111,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     public void fillComboboxMaterial() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbbMaterial.getModel();
         cbbMaterial.removeAllItems();
+        List<Material> listMaterial = mDao.selectAll();
 
         for (Material c : listMaterial) {
             model.addElement(c);

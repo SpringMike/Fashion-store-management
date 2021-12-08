@@ -6,8 +6,10 @@ package com.raven.form;
 
 import com.fpt.DAO.CustomerDAO;
 import com.fpt.DAO.InvoiceChangeDAO;
+import com.fpt.DAO.UserDAO;
 import com.fpt.entity.Customer;
 import com.fpt.entity.InvoiceChange;
+import com.fpt.entity.User;
 import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import com.raven.JFrame.FormDetailChangeProduct;
@@ -74,15 +76,23 @@ public class FormInvoiceChangeProduct extends javax.swing.JPanel {
         List<InvoiceChange> list = invoiceChangeProductDAO.pagingPage(page, rowCountPerPage, "");
         CustomerDAO cDao = new CustomerDAO();
         List<Customer> listC = cDao.selectAll();
+        UserDAO uDao = new UserDAO();
+        List<User> listUser = uDao.selectAll();
         String phone = "";
+        String user = "";
         for (InvoiceChange i : list) {
             for (int j = 0; j < listC.size(); j++) {
                 if (i.getIdCustomer() == listC.get(j).getId()) {
                     phone = listC.get(j).getPhoneNumber();
                 }
             }
+            for (int j = 0; j < listUser.size(); j++) {
+                if (i.getIdUser() == listUser.get(j).getIdUser()) {
+                    user = listUser.get(j).getFullname();
+                }
+            }
             model.addRow(new Object[]{
-                i.getId(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, i.getDescription()
+                i.getId(), i.getIdInvoiceSell(), user, i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
@@ -106,15 +116,23 @@ public class FormInvoiceChangeProduct extends javax.swing.JPanel {
         List<InvoiceChange> list = invoiceChangeProductDAO.pagingPage(page, rowCountPerPage, txtDate.getText());
         CustomerDAO cDao = new CustomerDAO();
         List<Customer> listC = cDao.selectAll();
+        UserDAO uDao = new UserDAO();
+        List<User> listUser = uDao.selectAll();
         String phone = "";
+        String user = "";
         for (InvoiceChange i : list) {
             for (int j = 0; j < listC.size(); j++) {
                 if (i.getIdCustomer() == listC.get(j).getId()) {
                     phone = listC.get(j).getPhoneNumber();
                 }
             }
+            for (int j = 0; j < listUser.size(); j++) {
+                if (i.getIdUser() == listUser.get(j).getIdUser()) {
+                    user = listUser.get(j).getFullname();
+                }
+            }
             model.addRow(new Object[]{
-                i.getId(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, i.getDescription()
+                i.getId(), i.getIdInvoiceSell(), user, i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
@@ -140,14 +158,22 @@ public class FormInvoiceChangeProduct extends javax.swing.JPanel {
         }
         CustomerDAO cDao = new CustomerDAO();
         List<Customer> listC = cDao.selectAll();
+        UserDAO uDao = new UserDAO();
+        List<User> listUser = uDao.selectAll();
         String phone = "";
+        String user = "";
         for (int j = 0; j < listC.size(); j++) {
             if (i.getIdCustomer() == listC.get(j).getId()) {
                 phone = listC.get(j).getPhoneNumber();
             }
         }
+        for (int j = 0; j < listUser.size(); j++) {
+            if (i.getIdUser() == listUser.get(j).getIdUser()) {
+                user = listUser.get(j).getFullname();
+            }
+        }
         model.addRow(new Object[]{
-            i.getId(), i.getIdInvoiceSell(), i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, i.getDescription()
+            i.getId(), i.getIdInvoiceSell(), user, i.getDateCreateInvoiceReturn(), i.getNameCustomer(), phone, i.getDescription()
         });
 
         lblSearchId.setText("");
@@ -228,11 +254,11 @@ public class FormInvoiceChangeProduct extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã Trả hàng", "Mã thanh toán", "Thời gian", "Khách hàng", "SDT", "Ghi Chú"
+                "Mã Trả hàng", "Mã thanh toán", "Thu Ngân", "Thời gian", "Khách hàng", "SDT", "Ghi Chú"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -421,7 +447,7 @@ public class FormInvoiceChangeProduct extends javax.swing.JPanel {
         if (evt.getClickCount() == 2) {
             int row = tableShow.getSelectedRow();
             int id = (int) tableShow.getValueAt(row, 0);
-            new FormDetailChangeProduct(id).setVisible(true);
+            new FormDetailChangeProduct(id, (DefaultTableModel)tableShow.getModel(), tableShow.getSelectedRow()).setVisible(true);
         }
     }//GEN-LAST:event_tableShowMouseClicked
 

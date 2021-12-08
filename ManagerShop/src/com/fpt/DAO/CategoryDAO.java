@@ -17,12 +17,16 @@ import java.util.List;
  */
 public class CategoryDAO extends ShopDAO<Category, Integer> {
 
-    String INSERT_SQL = "INSERT INTO dbo.List(nameList, status) VALUES (?, ?)";
+    String INSERT_SQL = "INSERT INTO dbo.List(nameList, status) VALUES (?, DEFAULT)";
 
     @Override
     public void insert(Category e) {
-        jdbcHelper.update(INSERT_SQL, e.getName(), e.isStatus());
+        jdbcHelper.update(INSERT_SQL, e.getName());
+    }
 
+    public List<Category> insertImport() {
+        String sql = "SELECT TOP 1 * FROM dbo.List  ORDER BY idList desc";
+        return selectBySql(sql);
     }
 
     public void insert(String categoryName) {

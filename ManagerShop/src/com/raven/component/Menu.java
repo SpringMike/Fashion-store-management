@@ -68,7 +68,7 @@ public class Menu extends javax.swing.JPanel {
 
         } else {
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/1.png")), "Trang chủ"));
-            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/4.png")), "Giao dịch", "Bán Hàng", "Trả Hàng", "Hoá Đơn Bán hàng", "Hoá đơn trả hàng"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/4.png")), "Giao dịch", "Bán Hàng", "Trả Hàng", "Đổi hàng", "Hoá Đơn Bán hàng", "Hoá đơn trả hàng", "Hoá đơn đổi hàng"));
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/3.png")), "Thống kê", "Thông kê doanh thu", "Thống kê doanh số"));
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/10.png")), "Khách hàng"));
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/com/raven/icon/user.png")), "Cá Nhân", "Thông tin cá nhân", "Đổi mật khẩu"));

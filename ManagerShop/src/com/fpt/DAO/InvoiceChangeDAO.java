@@ -66,6 +66,7 @@ public class InvoiceChangeDAO extends ShopDAO<InvoiceChange, Integer> {
                 p.setNameCustomer(rs.getString("name"));
                 p.setIdDetailNew(rs.getInt("idDetailsNew"));
                 p.setIdDetailOld(rs.getInt("idDetailsOld"));
+                p.setIdUser(rs.getInt("idUser"));
                 list.add(p);
             }
         } catch (Exception e) {
