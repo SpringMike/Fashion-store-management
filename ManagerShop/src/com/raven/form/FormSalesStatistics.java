@@ -245,7 +245,7 @@ public class FormSalesStatistics extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public void excel() throws IOException {
-        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        Excel.outExcel((DefaultTableModel) tableShow.getModel());
         MsgBox.alert(this, "Xuất file thành công");
     }
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed

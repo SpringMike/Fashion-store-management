@@ -15,6 +15,8 @@ import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import com.raven.form.FormListEmpolyee;
 import com.raven.form.MainForm;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.Period;
@@ -39,6 +41,8 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         btnUpdate.setEnabled(false);
+        Image icon = Toolkit.getDefaultToolkit().getImage("src\\com\\raven\\icon\\shop (6).png");
+        this.setIconImage(icon);
 //        txtPassWord.setVisible(false);
 //        txtUsername.setVisible(false);
 //        lblPass.setVisible(false);
@@ -666,7 +670,7 @@ public class FormImportEmpolyeeJFrame extends javax.swing.JFrame {
 
     private void btnAddEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeActionPerformed
 
-        this.insert();
+//        this.insert();
     }//GEN-LAST:event_btnAddEmployeeActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed

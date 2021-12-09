@@ -8,6 +8,8 @@ package com.raven.form;
 import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
 import com.raven.chartColumn.ModelChart;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 /**
  *
@@ -22,6 +24,8 @@ public class showChartRevenue extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+        Image icon = Toolkit.getDefaultToolkit().getImage("src\\com\\raven\\icon\\shop (6).png");
+        this.setIconImage(icon);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         getContentPane().setBackground(new Color(250, 250, 250));
 //        chart.addLegend("Số sản phẩm bán", new Color(245, 189, 135));

@@ -18,12 +18,24 @@ import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
 import com.raven.JFrame.FormDetailInvoiceSell;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -104,7 +116,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
                 }
             }
             model.addRow(new Object[]{
-                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), nf.format(i.getPrice()) +" đ", i.getDateCreateInvoice(), i.getDescription(),});
+                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), nf.format(i.getPrice()) + " đ", i.getDateCreateInvoice(), i.getDescription(),});
         }
 
         for (int i = 0; i < listSell.size(); i++) {
@@ -182,7 +194,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
                 }
             }
             model.addRow(new Object[]{
-                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), nf.format(i.getPrice()) +" đ", i.getDateCreateInvoice(), i.getDescription()
+                i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), nf.format(i.getPrice()) + " đ", i.getDateCreateInvoice(), i.getDescription()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
@@ -253,7 +265,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
 //        }
 
         model.addRow(new Object[]{
-            i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), nf.format(i.getPrice()) +" đ", i.getDateCreateInvoice(), i.getDescription()
+            i.getIdInvoiceSell(), i.getNameCustomer(), phone, i.getNameUser(), nf.format(i.getPrice()) + " đ", i.getDateCreateInvoice(), i.getDescription()
         });
         lblSearchId.setText("");
 
@@ -286,8 +298,6 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         txtSearchId = new com.raven.suportSwing.TextField();
         myButton5 = new com.raven.suportSwing.MyButton();
         myButton6 = new com.raven.suportSwing.MyButton();
-        myButton7 = new com.raven.suportSwing.MyButton();
-        myButton8 = new com.raven.suportSwing.MyButton();
         jPanel3 = new javax.swing.JPanel();
         txtDate = new com.raven.suportSwing.TextField();
         btnFillDate = new com.raven.suportSwing.MyButton();
@@ -336,22 +346,6 @@ public class FormInvoiceSell extends javax.swing.JPanel {
             }
         });
 
-        myButton7.setText("Xoá");
-        myButton7.setRadius(20);
-        myButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton7ActionPerformed(evt);
-            }
-        });
-
-        myButton8.setText("Thêm");
-        myButton8.setRadius(20);
-        myButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton8ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -363,13 +357,9 @@ public class FormInvoiceSell extends javax.swing.JPanel {
                 .addComponent(txtSearchId, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57)
                 .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 725, Short.MAX_VALUE)
-                .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 463, Short.MAX_VALUE)
                 .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(436, 436, 436))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,11 +368,11 @@ public class FormInvoiceSell extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtSearchId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(myButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(myButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -430,6 +420,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
             tableShow.getColumnModel().getColumn(5).setResizable(false);
             tableShow.getColumnModel().getColumn(6).setResizable(false);
             tableShow.getColumnModel().getColumn(7).setResizable(false);
+            tableShow.getColumnModel().getColumn(7).setHeaderValue("Trạng thái");
         }
 
         btnReset.setText("Reset");
@@ -598,7 +589,7 @@ public class FormInvoiceSell extends javax.swing.JPanel {
     }//GEN-LAST:event_myButton5ActionPerformed
 
     public void excelSell() throws IOException {
-        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        Excel.outExcel((DefaultTableModel) tableShow.getModel());
         MsgBox.alert(this, "Xuất file thành công");
     }
     private void myButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton6ActionPerformed
@@ -608,15 +599,53 @@ public class FormInvoiceSell extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+//        FileOutputStream excelFOU = null;
+//        BufferedOutputStream excelBOU = null;
+//        XSSFWorkbook excelJTableExporter = null;
+////        DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
+//        JFileChooser excelFileChooser = new JFileChooser("D:\\Excel");
+//        excelFileChooser.setDialogTitle("Save As");
+//        FileNameExtensionFilter fnef = new FileNameExtensionFilter("Excel Files", "xls", "xlsx", "xlsm");
+//        excelFileChooser.setFileFilter(fnef);
+//        int excelChooser = excelFileChooser.showSaveDialog(null);
+//        if (excelChooser == JFileChooser.APPROVE_OPTION) {
+//            try {
+//                excelJTableExporter = new XSSFWorkbook();
+//                XSSFSheet excelSheet = excelJTableExporter.createSheet("JTABLE sheet");
+//                for (int i = 0; i < model.getRowCount(); i++) {
+//                    XSSFRow excelRow = excelSheet.createRow(i);
+//                    for (int j = 0; j < model.getColumnCount(); j++) {
+//                        XSSFCell exceCell = excelRow.createCell(j);
+//                        exceCell.setCellValue(model.getValueAt(i, j).toString());
+//                    }
+//                }
+//                excelFOU = new FileOutputStream(excelFileChooser.getSelectedFile() + ".xlsx");
+//                excelBOU = new BufferedOutputStream(excelFOU);
+//                excelJTableExporter.write(excelBOU);
+//                MsgBox.alert(this, "OK");
+//            } catch (FileNotFoundException ex) {
+//                Logger.getLogger(FormInvoiceSell.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (IOException ex) {
+//                Logger.getLogger(FormInvoiceSell.class.getName()).log(Level.SEVERE, null, ex);
+//            } finally {
+//                try {
+//                    if (excelBOU != null) {
+//                        excelBOU.close();
+//                    }
+//                    if (excelFOU != null) {
+//                        excelFOU.close();
+//                    }
+//
+//                    if (excelJTableExporter != null) {
+//                        excelJTableExporter.close();
+//                    }
+//                } catch (IOException ex) {
+//                    Logger.getLogger(FormInvoiceSell.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        }
+
     }//GEN-LAST:event_myButton6ActionPerformed
-
-    private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_myButton7ActionPerformed
-
-    private void myButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_myButton8ActionPerformed
 
     private void btnFillDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFillDateActionPerformed
         // TODO add your handling code here:
@@ -710,8 +739,6 @@ public class FormInvoiceSell extends javax.swing.JPanel {
     private javax.swing.JLabel lblSearchId;
     private com.raven.suportSwing.MyButton myButton5;
     private com.raven.suportSwing.MyButton myButton6;
-    private com.raven.suportSwing.MyButton myButton7;
-    private com.raven.suportSwing.MyButton myButton8;
     private com.raven.suportSwing.ScrollBarCustom scrollBarCustom1;
     private com.raven.suportSwing.TableColumn tableShow;
     private com.raven.suportSwing.TextField txtDate;

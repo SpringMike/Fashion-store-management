@@ -76,7 +76,7 @@
                               <Component id="lblCount" alignment="0" min="-2" pref="79" max="-2" attributes="0"/>
                               <Component id="txtDate" alignment="0" min="-2" pref="255" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="31" max="32767" attributes="0"/>
                           <Component id="jScrollPane1" min="-2" pref="1325" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="scrollBarCustom1" min="-2" max="-2" attributes="0"/>
@@ -90,11 +90,7 @@
                                   <Component id="txtSearchId" min="-2" pref="377" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                                   <Component id="btnSearch" min="-2" pref="84" max="-2" attributes="0"/>
-                                  <EmptySpace pref="590" max="32767" attributes="0"/>
-                                  <Component id="btnSearch3" min="-2" pref="72" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnSearch1" min="-2" pref="65" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Component id="btnSearch2" min="-2" pref="63" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
                               </Group>
@@ -123,8 +119,6 @@
                               <Component id="btnSearch" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtSearchId" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnSearch2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnSearch1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnSearch3" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="lblSearchId" min="-2" max="-2" attributes="0"/>
@@ -183,12 +177,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchActionPerformed"/>
           </Events>
         </Component>
-        <Component class="com.raven.suportSwing.MyButton" name="btnSearch1">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Xo&#xe1;"/>
-            <Property name="radius" type="int" value="20"/>
-          </Properties>
-        </Component>
         <Component class="com.raven.suportSwing.MyButton" name="btnSearch2">
           <Properties>
             <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t"/>
@@ -197,12 +185,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearch2ActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="com.raven.suportSwing.MyButton" name="btnSearch3">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
-            <Property name="radius" type="int" value="20"/>
-          </Properties>
         </Component>
         <Component class="com.raven.suportSwing.TextField" name="txtDate">
           <Properties>

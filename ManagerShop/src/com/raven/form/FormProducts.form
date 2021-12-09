@@ -69,7 +69,9 @@
                   <Component id="myButton2" min="-2" pref="64" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   <Component id="myButton4" min="-2" pref="64" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="394" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="myButton5" min="-2" pref="64" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="320" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -82,6 +84,7 @@
                       <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                           <Component id="myButton2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="myButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="myButton5" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -137,6 +140,15 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton4ActionPerformed"/>
           </Events>
         </Component>
+        <Component class="com.raven.suportSwing.MyButton" name="myButton5">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Import"/>
+            <Property name="radius" type="int" value="20"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton5ActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">
@@ -165,7 +177,7 @@
               </Group>
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                  <Component id="scrollBarCustom1" max="32767" attributes="0"/>
+                  <Component id="scrollBarCustom1" pref="0" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>

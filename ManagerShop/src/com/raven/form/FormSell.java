@@ -157,6 +157,8 @@ public class FormSell extends javax.swing.JPanel {
         in.setIdHumanSell(Auth.user.getIdUser());
         in.setDescription(txtDes.getText());
         in.setPrice(Double.parseDouble(txtTotal.getText()));
+        in.setMoneyCustomer(Double.parseDouble(txtMoneyCustomer.getText()));
+        in.setMoneyReturn(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()));
         Customer s = (Customer) cbbCustomer.getSelectedItem();
         in.setIdCustomer(s.getId());
         if (!jcheckVoucher.isSelected()) {
@@ -178,7 +180,7 @@ public class FormSell extends javax.swing.JPanel {
                 return;
             } else if (!Validate.checkNumber(lblMoneyCustomer, txtMoneyCustomer, "Tiền không hợp lệ")) {
                 return;
-            } else if (Double.parseDouble(txtReturn.getText()) < 0) {
+            } else if (Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()) < 0) {
                 MsgBox.alert(this, "Nhậm lại số tiền khách đưa ????");
                 return;
             } else {
@@ -287,7 +289,6 @@ public class FormSell extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         myButton2 = new com.raven.suportSwing.MyButton();
         myButton3 = new com.raven.suportSwing.MyButton();
-        myButton4 = new com.raven.suportSwing.MyButton();
         txtMoneyCustomer = new com.raven.suportSwing.TextField();
         txtReturn = new com.raven.suportSwing.TextField();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -424,14 +425,6 @@ public class FormSell extends javax.swing.JPanel {
             }
         });
 
-        myButton4.setText("Tìm");
-        myButton4.setRadius(20);
-        myButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton4ActionPerformed(evt);
-            }
-        });
-
         txtMoneyCustomer.setLabelText("Tiền khách đưa");
         txtMoneyCustomer.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -527,10 +520,7 @@ public class FormSell extends javax.swing.JPanel {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(cbbCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cbbCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(jcheckVoucher)
@@ -544,9 +534,7 @@ public class FormSell extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbbCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbbCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -683,11 +671,18 @@ public class FormSell extends javax.swing.JPanel {
     private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton3ActionPerformed
         // TODO add your handling code here:
         insertInvoiceSell();
+        txtTotal.setText("");
+        txtMoneyCustomer.setText("");
+        txtReturn.setText("");
+        lblMoneyCustomer.setText("");
+        lblQuantity.setText("");
+        lblSearch.setText("");
     }// GEN-LAST:event_myButton3ActionPerformed
 
     private void cbbVoucherActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbbVoucherActionPerformed
         // TODO add your handling code here:
         txtTotal.setText(MoneyVoucher() + "");
+
         // txtMoneyVoucher.setText(MoneyVoucher() + "");
     }// GEN-LAST:event_cbbVoucherActionPerformed
 
@@ -704,18 +699,22 @@ public class FormSell extends javax.swing.JPanel {
             cbbVoucher.setVisible(false);
             txtTotal.setText(TotalBuy() + "");
         }
+        txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText())) + " đ");
     }// GEN-LAST:event_jcheckVoucherActionPerformed
 
     private void txtReturnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtReturnActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_txtReturnActionPerformed
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
 
     private void txtMoneyCustomerKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtMoneyCustomerKeyReleased
         // TODO add your handling code here:
         if (txtMoneyCustomer.getText().isEmpty()) {
             txtReturn.setText("");
         } else {
-            txtReturn.setText(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()) + "");
+
+            txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText())) + " đ");
         }
     }// GEN-LAST:event_txtMoneyCustomerKeyReleased
 
@@ -761,7 +760,6 @@ public class FormSell extends javax.swing.JPanel {
     private com.raven.suportSwing.MyButton myButton1;
     private com.raven.suportSwing.MyButton myButton2;
     private com.raven.suportSwing.MyButton myButton3;
-    private com.raven.suportSwing.MyButton myButton4;
     private com.raven.suportSwing.MyButton myButton5;
     private com.raven.suportSwing.ScrollBarCustom scrollBarCustom1;
     private com.raven.suportSwing.ScrollBarCustom scrollBarCustom2;

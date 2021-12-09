@@ -382,7 +382,7 @@ public class FormListEmpolyee extends javax.swing.JPanel {
     }//GEN-LAST:event_tableShowMouseClicked
 
     public void excelEmpolyee() throws IOException {
-        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        Excel.outExcel((DefaultTableModel) tableShow.getModel());
         MsgBox.alert(this, "Xuất file thành công");
     }
     private void myButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton7ActionPerformed

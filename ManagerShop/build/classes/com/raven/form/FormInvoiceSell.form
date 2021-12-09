@@ -102,13 +102,9 @@
                       <Component id="txtSearchId" min="-2" pref="304" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                       <Component id="myButton5" min="-2" pref="64" max="-2" attributes="0"/>
-                      <EmptySpace pref="725" max="32767" attributes="0"/>
-                      <Component id="myButton8" min="-2" pref="64" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="myButton7" min="-2" pref="64" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace pref="463" max="32767" attributes="0"/>
                       <Component id="myButton6" min="-2" pref="64" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="436" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -120,11 +116,12 @@
                           <Component id="jLabel1" alignment="3" max="32767" attributes="0"/>
                           <Component id="txtSearchId" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="myButton5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="myButton6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="myButton7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="myButton8" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="myButton6" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -162,24 +159,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton6ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="com.raven.suportSwing.MyButton" name="myButton7">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Xo&#xe1;"/>
-                <Property name="radius" type="int" value="20"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton7ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="com.raven.suportSwing.MyButton" name="myButton8">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
-                <Property name="radius" type="int" value="20"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton8ActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -337,7 +316,7 @@
                           <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
-                          <Title/>
+                          <Title value="Tr&#x1ea1;ng th&#xe1;i"/>
                           <Editor/>
                           <Renderer/>
                         </Column>

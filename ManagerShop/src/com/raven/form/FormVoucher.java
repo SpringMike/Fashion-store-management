@@ -563,7 +563,7 @@ public class FormVoucher extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchKeyPressed
 
     public void excelVoucher() throws IOException {
-        Excel.outputFile((DefaultTableModel) tableShow.getModel());
+        Excel.outExcel((DefaultTableModel) tableShow.getModel());
         MsgBox.alert(this, "Xuất file thành công");
     }
     private void btnSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch1ActionPerformed

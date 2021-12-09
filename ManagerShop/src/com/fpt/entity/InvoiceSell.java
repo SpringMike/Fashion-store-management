@@ -17,9 +17,26 @@ public class InvoiceSell {
     private String description, nameUser, nameCustomer;
     private String dateCreateInvoice;
     private boolean statusPay, statusInvoice;
-    private double price;
+    private double price, moneyCustomer, moneyReturn;
     private Integer idVoucher;
 
+    public double getMoneyCustomer() {
+        return moneyCustomer;
+    }
+
+    public void setMoneyCustomer(double moneyCustomer) {
+        this.moneyCustomer = moneyCustomer;
+    }
+
+    public double getMoneyReturn() {
+        return moneyReturn;
+    }
+
+    public void setMoneyReturn(double moneyReturn) {
+        this.moneyReturn = moneyReturn;
+    }
+
+    
     public double getPrice() {
         return price;
     }

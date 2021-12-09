@@ -6,10 +6,35 @@ package com.raven.JFrame;
 
 import com.fpt.DAO.InvoiceChangeDAO;
 import com.fpt.DAO.ProductItemDAO;
+import com.fpt.entity.DetailInvoiceImport;
 import com.fpt.entity.DetailInvoiceReturn;
 import com.fpt.entity.InvoiceChange;
 import com.fpt.entity.ProductItem;
+import com.fpt.utils.MsgBox;
+import com.fpt.utils.XDate;
+import static com.fpt.utils.convertEng.removeAccent;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.color.Color;
+import com.itextpdf.kernel.color.DeviceRgb;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.border.Border;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.text.BadElementException;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,37 +46,45 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
     /**
      * Creates new form FormDetailChangeProduct
      */
+    DefaultTableModel model;
+    int row;
+
     public FormDetailChangeProduct() {
         initComponents();
     }
     InvoiceChangeDAO invoiceChangeDAO = new InvoiceChangeDAO();
     ProductItemDAO productItemDAO = new ProductItemDAO();
 
-    int row;
-
-    public FormDetailChangeProduct(int id) {
+    public FormDetailChangeProduct(int id, DefaultTableModel model, int row) {
+        this.model = model;
+        this.row = row;
         initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
         fillTable(id);
+        Image icon = Toolkit.getDefaultToolkit().getImage("src\\com\\raven\\icon\\shop (6).png");
+        this.setIconImage(icon);
     }
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
+    ProductItem pNew;
+    ProductItem pOld;
 
     public void fillTable(int id) {
         InvoiceChange invoiceChange = invoiceChangeDAO.selectById(id);
         int idNew = invoiceChange.getIdDetailNew();
         int idOld = invoiceChange.getIdDetailOld();
-
+        pNew = productItemDAO.selectById(idNew);
+        pOld = productItemDAO.selectById(idOld);
         DefaultTableModel modelOld = (DefaultTableModel) tableShowOld.getModel();
         DefaultTableModel modelNew = (DefaultTableModel) tableShowNew.getModel();
 
-        ProductItem pOld = productItemDAO.selectById(idOld);
         modelOld.addRow(new Object[]{
-            pOld.getId(), pOld.getProductName(), pOld.getSize(), pOld.getColor(), pOld.getMaterial(), 1, pOld.getPrice()
+            pOld.getId(), pOld.getProductName(), pOld.getSize(), pOld.getColor(), pOld.getMaterial(), 1, nf.format(pOld.getPrice()) + " đ"
         });
-        ProductItem pNew = productItemDAO.selectById(idNew);
         modelNew.addRow(new Object[]{
-            pNew.getId(), pNew.getProductName(), pNew.getSize(), pNew.getColor(), pNew.getMaterial(), 1, pNew.getPrice()
+            pNew.getId(), pNew.getProductName(), pNew.getSize(), pNew.getColor(), pNew.getMaterial(), 1, nf.format(pNew.getPrice()) + " đ"
         });
     }
 
@@ -72,8 +105,10 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tableShowOld = new com.raven.suportSwing.TableColumn();
+        myButton1 = new com.raven.suportSwing.MyButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -99,8 +134,10 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Hóa đơn chi tiết");
 
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel1.setText("Sản phẩm trả");
 
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel3.setText("Sản phẩm đổi");
 
         tableShowOld.setBackground(new java.awt.Color(255, 255, 255));
@@ -122,6 +159,14 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(tableShowOld);
 
+        myButton1.setText("Xuất hoá đơn");
+        myButton1.setRadius(20);
+        myButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -129,12 +174,20 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,10 +198,12 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -156,54 +211,186 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void outputPDF() throws IOException, BadElementException {
+
+        Locale lc = new Locale("nv", "VN");
+        NumberFormat nf = NumberFormat.getInstance(lc);
+        String pathnn = XDate.toString(new Date(), " hh-mm-ss aa dd-MM-yyyy");
+        pathnn = pathnn.replaceAll(" ", "_");
+        System.out.println(pathnn);
+        String path = "D:\\InvoiceChangeProducts"+pathnn+".pdf";
+        PdfWriter pdfWriter = new PdfWriter(path);
+        PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+        com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
+        pdfDocument.setDefaultPageSize(PageSize.A4);
+        Document doc = new Document(pdfDocument);
+        float col = 280f;
+        float columnWidth[] = {col, col};
+        com.itextpdf.layout.element.Table table = new com.itextpdf.layout.element.Table(columnWidth);
+        table.setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE);
+        String file = "src\\com\\raven\\icon\\shop (2).png";
+        ImageData date = ImageDataFactory.create(file);
+        com.itextpdf.layout.element.Image image = new com.itextpdf.layout.element.Image(date);
+//        doc.add(image);
+        table.addCell(new Cell().add(image).setBorder(Border.NO_BORDER));
+        table.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+        table.addCell(new Cell().add("IT SHOP").setFontSize(30f).setBorder(Border.NO_BORDER));
+
+        table.addCell(new Cell().add("68 Nguyen Trai \n SĐT: 0332429178 - 03324287654")
+                .setTextAlignment(TextAlignment.RIGHT).setMarginTop(30f).setMarginBottom(30f).setBorder(Border.NO_BORDER).setMarginRight(10f)
+        );
+
+        float colWidth[] = {80, 250, 80, 150};
+
+        com.itextpdf.layout.element.Table customerInfor = new com.itextpdf.layout.element.Table(colWidth);
+        customerInfor.addCell(new Cell(0, 4).add("Hoa don doi hang").setBold().setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER));
+
+        customerInfor.addCell(new Cell(0, 4).add("Thong tin").setBold().setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add("Khach hang: ").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add(removeAccent(model.getValueAt(row, 4).toString())).setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add("Ma Hoa Don: ").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add(model.getValueAt(row, 0) + "").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add("SDT: ").setBorder(Border.NO_BORDER)); //
+        customerInfor.addCell(new Cell().add(removeAccent(model.getValueAt(row, 5).toString())).setBorder(Border.NO_BORDER)); //
+
+        customerInfor.addCell(new Cell().add("Thu Ngan: ").setBorder(Border.NO_BORDER)); //
+        customerInfor.addCell(new Cell().add(removeAccent(model.getValueAt(row, 2).toString())).setBorder(Border.NO_BORDER)); //
+        customerInfor.addCell(new Cell().add("Date: ").setBorder(Border.NO_BORDER));
+        customerInfor.addCell(new Cell().add(model.getValueAt(row, 3) + "").setBorder(Border.NO_BORDER));
+
+        float iteamInforColWidth[] = {93, 93, 93, 93, 93, 93};
+        com.itextpdf.layout.element.Table itemInforTable = new com.itextpdf.layout.element.Table(iteamInforColWidth);
+        itemInforTable.addCell(new Cell().add("San Pham Doi").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add("Size").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add("Mau").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add("Chat Lieu").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add("So luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add("Gia").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE).setTextAlignment(TextAlignment.RIGHT));
+
+        List<InvoiceChange> list = invoiceChangeDAO.selectAll();
+        int total = 0;
+        int quantitySum = 0;
+
+        int id = (int) tableShowOld.getValueAt(0, 0);
+        String nameProduct = (String) tableShowOld.getValueAt(0, 1);
+        String Size = (String) tableShowOld.getValueAt(0, 2);
+        String Color = (String) tableShowOld.getValueAt(0, 3);
+        String Material = (String) tableShowOld.getValueAt(0, 4);
+
+        int quantity = (int) tableShowOld.getValueAt(0, 5);
+        float price = pOld.getPrice();
+        itemInforTable.addCell(new Cell().add(removeAccent(nameProduct)));
+        itemInforTable.addCell(new Cell().add(removeAccent(Size)));
+        itemInforTable.addCell(new Cell().add(removeAccent(Color)));
+        itemInforTable.addCell(new Cell().add(removeAccent(Material)));
+        itemInforTable.addCell(new Cell().add(quantity + ""));
+        itemInforTable.addCell(new Cell().add(nf.format(price) + " VND").setTextAlignment(TextAlignment.RIGHT));
+//---------------------------------------------------------------------------------------------------------------------------------
+//        float iteamInforColWidth[] = {93, 93, 93, 93, 93, 93};
+        com.itextpdf.layout.element.Table itemInforTableNew = new com.itextpdf.layout.element.Table(iteamInforColWidth);
+        itemInforTableNew.addCell(new Cell().add("San Pham Tra").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(new DeviceRgb(255, 255, 255)));
+        itemInforTableNew.addCell(new Cell().add("Size").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(new DeviceRgb(255, 255, 255)));
+        itemInforTableNew.addCell(new Cell().add("Mau").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(new DeviceRgb(255, 255, 255)));
+        itemInforTableNew.addCell(new Cell().add("Chat Lieu").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(new DeviceRgb(255, 255, 255)));
+        itemInforTableNew.addCell(new Cell().add("So luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(new DeviceRgb(255, 255, 255)));
+        itemInforTableNew.addCell(new Cell().add("Gia").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(new DeviceRgb(255, 255, 255)).setTextAlignment(TextAlignment.RIGHT));
+
+        int idNew = (int) tableShowNew.getValueAt(0, 0);
+        String nameProductNew = (String) tableShowNew.getValueAt(0, 1);
+        String SizeNew = (String) tableShowNew.getValueAt(0, 2);
+        String ColorNew = (String) tableShowNew.getValueAt(0, 3);
+        String MaterialNew = (String) tableShowNew.getValueAt(0, 4);
+
+        int quantityNew = (int) tableShowNew.getValueAt(0, 5);
+        float priceNew = pNew.getPrice();
+        itemInforTableNew.addCell(new Cell().add(removeAccent(nameProductNew)));
+        itemInforTableNew.addCell(new Cell().add(removeAccent(SizeNew)));
+        itemInforTableNew.addCell(new Cell().add(removeAccent(ColorNew)));
+        itemInforTableNew.addCell(new Cell().add(removeAccent(MaterialNew)));
+        itemInforTableNew.addCell(new Cell().add(quantityNew + ""));
+        itemInforTableNew.addCell(new Cell().add(nf.format(priceNew) + " VND").setTextAlignment(TextAlignment.RIGHT));
+
+//        itemInforTable.addCell(new Cell().add("Tong So Luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+//        itemInforTable.addCell(new Cell().add(quantitySum + "").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+//        itemInforTable.addCell(new Cell().add("Tong Tien").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+//        itemInforTable.addCell(new Cell().add(nf.format(total) + " đ").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+        float colWidthNote[] = {560};
+
+        com.itextpdf.layout.element.Table customerInforNote = new com.itextpdf.layout.element.Table(colWidthNote);
+        customerInforNote.addCell(new Cell().add("Tien Tra Lai: " + nf.format((price - priceNew)) + " VND").
+                setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setBold().setFontSize(20).setFontColor(new DeviceRgb(0, 0, 0)));
+        customerInforNote.addCell(new Cell().add("Xin cam on quy khach !!!").
+                setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setItalic().setFontColor(new DeviceRgb(0, 0, 0)));
+        document.add(table);
+        document.add(new Paragraph("\n"));
+        document.add(customerInfor);
+        document.add(new Paragraph("\n"));
+        document.add(itemInforTable);
+        document.add(new Paragraph("\n"));
+        document.add(itemInforTableNew);
+        document.add(new Paragraph("\n"));
+        document.add(customerInforNote);
+        document.close();
+    }
+
+    private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            outputPDF();
+            MsgBox.alert(this, "Xuất hoá đơn thành công");
+        } catch (IOException ex) {
+            Logger.getLogger(FormDetailInvoice.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadElementException ex) {
+            Logger.getLogger(FormDetailInvoice.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_myButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormDetailChangeProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormDetailChangeProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormDetailChangeProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormDetailChangeProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FormDetailChangeProduct().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(FormDetailChangeProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(FormDetailChangeProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(FormDetailChangeProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(FormDetailChangeProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new FormDetailChangeProduct().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -212,6 +399,7 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private com.raven.suportSwing.MyButton myButton1;
     private com.raven.suportSwing.TableColumn tableShowNew;
     private com.raven.suportSwing.TableColumn tableShowOld;
     // End of variables declaration//GEN-END:variables

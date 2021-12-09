@@ -321,3 +321,6 @@ VALUES
     '0332429178',  -- phoneNumber - varchar(15)
     N'Hải Dương' -- address - nvarchar(255)
     )
+
+	SELECT * FROM dbo.[User]
+	SELECT * FROM dbo.Account

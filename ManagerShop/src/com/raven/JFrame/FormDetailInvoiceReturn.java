@@ -8,6 +8,7 @@ package com.raven.JFrame;
 import com.fpt.DAO.DetailInvoiceReturnDAO;
 import com.fpt.entity.DetailInvoiceReturn;
 import com.fpt.utils.MsgBox;
+import com.fpt.utils.XDate;
 import static com.fpt.utils.convertEng.removeAccent;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -25,10 +26,13 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfTable;
 import com.lowagie.text.pdf.PdfWriter;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -48,6 +52,7 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
     DefaultTableModel model;
     int row;
     List<DetailInvoiceReturn> list;
+
     public FormDetailInvoiceReturn(int id, DefaultTableModel model, int row) {
         this.model = model;
         this.row = row;
@@ -56,11 +61,14 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
         fillTable(id);
+        Image icon = Toolkit.getDefaultToolkit().getImage("src\\com\\raven\\icon\\shop (6).png");
+        this.setIconImage(icon);
     }
 
     DetailInvoiceReturnDAO dDao = new DetailInvoiceReturnDAO();
     Locale lc = new Locale("nv", "VN");
     NumberFormat nf = NumberFormat.getInstance(lc);
+
     public void fillTable(int id) {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
@@ -73,8 +81,10 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
     }
 
     public void outputPDF() throws IOException, BadElementException {
-
-        String path = "D:\\InvoiceReturn.pdf";
+        String pathnn = XDate.toString(new Date(), " hh-mm-ss aa dd-MM-yyyy");
+        pathnn = pathnn.replaceAll(" ", "_");
+        System.out.println(pathnn);
+        String path = "D:\\InvoiceReturn" + pathnn + ".pdf";
         com.itextpdf.kernel.pdf.PdfWriter pdfWriter = new com.itextpdf.kernel.pdf.PdfWriter(path);
         PdfDocument pdfDocument = new PdfDocument(pdfWriter);
         com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
@@ -84,7 +94,7 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
         float columnWidth[] = {col, col};
         com.itextpdf.layout.element.Table table = new com.itextpdf.layout.element.Table(columnWidth);
         table.setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE);
-        String file = "D:\\Fall2021\\DuAn1_FPOLY\\ManagerShop\\src\\com\\raven\\icon\\shop (2).png";
+        String file = "src\\com\\raven\\icon\\shop (2).png";
         ImageData date = ImageDataFactory.create(file);
         com.itextpdf.layout.element.Image image = new com.itextpdf.layout.element.Image(date);
 //        doc.add(image);
@@ -124,7 +134,7 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
         int total = 0;
         int quantitySum = 0;
         for (DetailInvoiceReturn detailReturn : list) {
-            String id = detailReturn.getIdDetailInvoiceReturn()+"";
+            String id = detailReturn.getIdDetailInvoiceReturn() + "";
             String nameProduct = detailReturn.getNameProduct();
             String nameCustomer = detailReturn.getNameCustomer();
             String Size = detailReturn.getValueSize();
@@ -134,8 +144,8 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
             double price = (double) detailReturn.getPrice();
             itemInforTable.addCell(new Cell().add(removeAccent(nameProduct)));
             itemInforTable.addCell(new Cell().add(quantity + ""));
-            itemInforTable.addCell(new Cell().add(nf.format(price)+" đ").setTextAlignment(TextAlignment.RIGHT));
-            itemInforTable.addCell(new Cell().add(price * quantity + " đ").setTextAlignment(TextAlignment.RIGHT));
+            itemInforTable.addCell(new Cell().add(nf.format(price) + " VND").setTextAlignment(TextAlignment.RIGHT));
+            itemInforTable.addCell(new Cell().add(price * quantity + " VND").setTextAlignment(TextAlignment.RIGHT));
             total += price * quantity;
             quantitySum += quantity;
         }
@@ -143,7 +153,7 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
         itemInforTable.addCell(new Cell().add("Tong So Luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
         itemInforTable.addCell(new Cell().add(quantitySum + "").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
         itemInforTable.addCell(new Cell().add("Tong Tien").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
-        itemInforTable.addCell(new Cell().add(nf.format(total) + " đ").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add(nf.format(total) + " VND").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
 
         float colWidthNote[] = {560};
 
@@ -199,7 +209,7 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
