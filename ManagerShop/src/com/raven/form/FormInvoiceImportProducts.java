@@ -139,7 +139,7 @@ public class FormInvoiceImportProducts extends javax.swing.JPanel {
                 }
             }
             model.addRow(new Object[]{
-                i.getId(), i.getNameUser(), i.getNameSupplier(), phone, i.getDateCreate(), total, i.getDesc()
+                i.getId(), i.getNameUser(), i.getNameSupplier(), phone, i.getDateCreate(), nf.format(total) +" đ", i.getDesc()
             });
         }
         lblCount.setText("Page " + page + " for " + totalPage);
