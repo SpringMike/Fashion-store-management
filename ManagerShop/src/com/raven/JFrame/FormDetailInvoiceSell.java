@@ -11,6 +11,7 @@ import com.fpt.entity.DetailInvoiceReturn;
 import com.fpt.entity.DetailInvoiceSell;
 import com.fpt.entity.InvoiceSell;
 import com.fpt.utils.MsgBox;
+import com.fpt.utils.XDate;
 import static com.fpt.utils.convertEng.removeAccent;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -31,6 +32,7 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -198,7 +200,10 @@ public class FormDetailInvoiceSell extends javax.swing.JFrame {
 
     public void outputPDF() throws IOException, BadElementException {
 
-        String path = "D:\\Invoice.pdf";
+        String pathnn = XDate.toString(new Date(), " hh-mm-ss aa dd-MM-yyyy");
+        pathnn = pathnn.replaceAll(" ", "_");
+        System.out.println(pathnn);
+        String path = "D:\\InvoiceSell"+pathnn+".pdf";
         PdfWriter pdfWriter = new PdfWriter(path);
         PdfDocument pdfDocument = new PdfDocument(pdfWriter);
         com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
