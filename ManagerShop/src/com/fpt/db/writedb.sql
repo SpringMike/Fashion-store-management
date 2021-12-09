@@ -218,6 +218,46 @@ ALTER TABLE dbo.InvoiceSell ADD moneyCustom MONEY
 ALTER TABLE dbo.InvoiceSell ADD moneyReturn MONEY
 --------------------------------
 
+--db9/12/2021
+
+CREATE TABLE DetailsProductItemChange
+(
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	idInvoiceChangeProducts INT,
+	idDetailsPr INT,
+	quantity INT,
+	price MONEY,
+	FOREIGN KEY(idInvoiceChangeProducts) REFERENCES dbo.InvoiceChangeProducts(idInvoiceChangeProducts),
+	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct (idPrDeltails)
+)
+GO
+
+CREATE TABLE DetailsProductItemChangeNew
+(
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	idDetailsPr INT,
+	quantity INT,
+	price MONEY
+	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct(idPrDeltails)
+)
+GO
+
+CREATE TABLE DetailsInvoiceChangeProducts
+(
+	idDetails INT IDENTITY(1,1) PRIMARY KEY,
+	idChangeOld int,
+	idChangeNew int,
+	description nvarchar(255),
+	FOREIGN KEY(idChangeOld) REFERENCES dbo.DetailsProductItemChange(id),
+	FOREIGN KEY(idChangeNew) REFERENCES dbo.DetailsProductItemChangeNew (id)
+)
+GO
+
+
+
+
+
+
 INSERT INTO dbo.InvoiceSell
 (
     idCustomer,
