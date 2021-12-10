@@ -5,10 +5,12 @@
  */
 package com.raven.form;
 
+import com.fpt.DAO.DetailInvoiceSellDAO;
 import com.fpt.DAO.InvoiceChangeDAO;
 import com.fpt.DAO.InvoiceSellDAO;
 import com.fpt.DAO.ProductItemDAO;
 import com.fpt.DAO.ReturnProductDAO;
+import com.fpt.entity.DetailInvoiceSell;
 import com.fpt.entity.InvoiceChange;
 import com.fpt.entity.InvoiceRetuns;
 import com.fpt.entity.InvoiceSell;
@@ -16,8 +18,12 @@ import com.fpt.entity.ProductItem;
 import com.fpt.utils.Auth;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
+import com.raven.JFrame.FormChangeProductJframe;
 import com.raven.JFrame.FormDetailChangeProduct;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +40,9 @@ public class FormChangeProducts extends javax.swing.JPanel {
      */
     DefaultTableModel model = null;
     DefaultTableModel modelList = null;
+    DetailInvoiceSellDAO deDao = new DetailInvoiceSellDAO();
+    FormChangeProductJframe formChangeProductJframe = new FormChangeProductJframe();
+    List<ProductItem> list2 = new ArrayList<>();
 
     public FormChangeProducts() {
         initComponents();
@@ -46,8 +55,27 @@ public class FormChangeProducts extends javax.swing.JPanel {
     InvoiceChangeDAO invoiceChangeDAO = new InvoiceChangeDAO();
     List<ProductItem> listPr;
 
+    public void fillTableListProduct(List<ProductItem> list) {
+        modelList = (DefaultTableModel) tableListProduct.getModel();
+        for (int i = 0; i <= list.size(); i++) {
+            ProductItem p = list.get(i);
+            if (i + 1 < list.size()) {
+                return;
+            }
+            if (p.getId() == list.get(i + 1).getId()) {
+                p.setQuantity(p.getQuantity() + list.get(i + 1).getQuantity());
+            }
+            modelList.addRow(new Object[]{
+                p.getId(), p.getProductName(), p.getSize(), p.getColor(), p.getMaterial(), p.getPrice(), p.getQuantity()
+            });
+        }
+    }
+
     public boolean ShearchKeyFillTable(int id) {
         model = (DefaultTableModel) tableIn4Invoice.getModel();
+        modelList = (DefaultTableModel) tableListProduct.getModel();
+        modelList.setRowCount(0);
+        list2.clear();
         model.setRowCount(0);
 
         listPr = reDao.selectByIdInvoiceReturn(id);
@@ -66,19 +94,12 @@ public class FormChangeProducts extends javax.swing.JPanel {
 //        if(list.get(0).getDateCreateInvoice())
     }
 
-    public void fillTableByPrice() {
+    public List<ProductItem> fillTableByPrice() {
         int row = tableIn4Invoice.getSelectedRow();
         float price = (float) tableIn4Invoice.getValueAt(row, 7);
         int id = (int) tableIn4Invoice.getValueAt(row, 1);
-        lblIdOld.setText(String.valueOf(id));
-        modelList = (DefaultTableModel) tableListProduct.getModel();
-        modelList.setRowCount(0);
-        List<ProductItem> list = productItemDAO.selectByPrice(price, id);
-        for (ProductItem p : list) {
-            modelList.addRow(new Object[]{
-                p.getId(), p.getProductName(), p.getSize(), p.getColor(), p.getMaterial(), p.getPrice()
-            });
-        }
+//        lblIdOld.setText(String.valueOf(id));
+        return productItemDAO.selectByPrice(price, id);
     }
 
     public InvoiceChange getInvoiceChange() {
@@ -88,14 +109,14 @@ public class FormChangeProducts extends javax.swing.JPanel {
         ir.setDescription(txtNote.getText());
         ir.setIdInvoiceSell(Integer.valueOf(txtShearchInvoice.getText()));
         ir.setIdUser(Auth.user.getIdUser());
-        if (lblIdOld.getText().trim().equals("") && lblIdOld.getText().trim().equals("")) {
-            MsgBox.alert(this, "Không thể đổi hàng");
-            return null;
-        }
-        int idOld = Integer.parseInt(lblIdOld.getText());
-        int idNew = Integer.parseInt(lblIdNew.getText());
-        ir.setIdDetailNew(idNew);
-        ir.setIdDetailOld(idOld);
+//        if (lblIdOld.getText().trim().equals("") && lblIdOld.getText().trim().equals("")) {
+//            MsgBox.alert(this, "Không thể đổi hàng");
+//            return null;
+//        }
+//        int idOld = Integer.parseInt(lblIdOld.getText());
+//        int idNew = Integer.parseInt(lblIdNew.getText());
+//        ir.setIdDetailNew(idNew);
+//        ir.setIdDetailOld(idOld);
         List<ProductItem> items = reDao.selectByIdInvoiceReturn(Integer.valueOf(txtShearchInvoice.getText()));
         for (ProductItem p : items) {
             ir.setIdCustomer(p.getIdCustomer());
@@ -108,8 +129,8 @@ public class FormChangeProducts extends javax.swing.JPanel {
     public void insertInvoiceChange() {
         InvoiceChange ir = getInvoiceChange();
         invoiceChangeDAO.insert(ir);
-        productItemDAO.importProductItem(1, Integer.parseInt(lblIdOld.getText()));
-        productItemDAO.sellProductItem(1, Integer.parseInt(lblIdNew.getText()));
+//        productItemDAO.importProductItem(1, Integer.parseInt(lblIdOld.getText()));
+//        productItemDAO.sellProductItem(1, Integer.parseInt(lblIdNew.getText()));
         MsgBox.alert(this, "Thêm thành công!!!");
     }
 
@@ -120,6 +141,7 @@ public class FormChangeProducts extends javax.swing.JPanel {
                 return false;
             }
         }
+        list2.clear();
         return true;
     }
 
@@ -132,7 +154,6 @@ public class FormChangeProducts extends javax.swing.JPanel {
             long eValue = eDate.getTime();
             long tmp = Math.abs(sValue - eValue);
             long result = tmp / (24 * 60 * 60 * 1000);
-            System.out.println(result);
             if (result > 2) {
                 MsgBox.labelAlert(lblSearch, txtShearchInvoice, "Ngày đổi sản phẩm đã quá hạn");
                 return false;
@@ -171,9 +192,7 @@ public class FormChangeProducts extends javax.swing.JPanel {
         tableListProduct = new com.raven.suportSwing.TableColumn();
         scrollBarCustom2 = new com.raven.suportSwing.ScrollBarCustom();
         lblIdOld = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        lblIdNew = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         lblSearch = new javax.swing.JLabel();
@@ -261,6 +280,7 @@ public class FormChangeProducts extends javax.swing.JPanel {
             }
         });
 
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Sản phẩm đổi"));
         jScrollPane2.setVerticalScrollBar(scrollBarCustom2);
 
         tableListProduct.setModel(new javax.swing.table.DefaultTableModel(
@@ -268,11 +288,11 @@ public class FormChangeProducts extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã sản phẩm", "Tên sản phẩm", "Size", "Màu ", "Chất liệu", "Đơn giá"
+                "Mã sản phẩm", "Tên sản phẩm", "Size", "Màu ", "Chất liệu", "Đơn giá", "Số lượng"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -289,12 +309,6 @@ public class FormChangeProducts extends javax.swing.JPanel {
         lblIdOld.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         lblIdOld.setForeground(new java.awt.Color(255, 51, 51));
 
-        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        jLabel10.setText("Sản phẩm đổi");
-
-        lblIdNew.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        lblIdNew.setForeground(new java.awt.Color(255, 51, 51));
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -304,33 +318,33 @@ public class FormChangeProducts extends javax.swing.JPanel {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrollBarCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblIdOld, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblIdNew, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(34, 34, 34)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(lblIDCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(lblIDInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblIdOld, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(34, 34, 34)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addComponent(lblIDCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(lblIDInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(20, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,19 +368,13 @@ public class FormChangeProducts extends javax.swing.JPanel {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel7)
-                                    .addComponent(lblIdOld, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel10)
-                                    .addComponent(lblIdNew, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18))
-                            .addComponent(btnAddEmployee, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(lblIdOld, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55))
                     .addComponent(scrollBarCustom2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE))
                 .addContainerGap())
@@ -436,7 +444,7 @@ public class FormChangeProducts extends javax.swing.JPanel {
     private void tableListProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableListProductMouseClicked
         int row = tableListProduct.getSelectedRow();
         int id = (int) tableListProduct.getValueAt(row, 0);
-        lblIdNew.setText(String.valueOf(id));
+
     }//GEN-LAST:event_tableListProductMouseClicked
 
     private void btnAddEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeActionPerformed
@@ -447,13 +455,14 @@ public class FormChangeProducts extends javax.swing.JPanel {
         lblIDCustomer.setText("");
         lblIDInvoice.setText("");
         txtNote.setText("");
-        lblIdNew.setText("");
-        lblIdOld.setText("");
         txtShearchInvoice.setText("");
     }//GEN-LAST:event_btnAddEmployeeActionPerformed
 
     private void tableIn4InvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableIn4InvoiceMouseClicked
         // TODO add your handling code here:
+        if (evt.getClickCount() > 1) {
+            return;
+        }
         if (checkDayChange() == false) {
             MsgBox.alert(this, "Hoá đơn đã quá hạn đổi");
             return;
@@ -467,7 +476,33 @@ public class FormChangeProducts extends javax.swing.JPanel {
             MsgBox.alert(this, "Hoá đơn có voucher không thể đổi");
             return;
         } else {
-            fillTableByPrice();
+            int quantity = Integer.valueOf(MsgBox.prompt(this, "Nhập số lượng cần hoàn trả"));
+            int row = tableIn4Invoice.getSelectedRow();
+            int quantityOnTable = (int) tableIn4Invoice.getValueAt(row, 3);
+            float price = (float) tableIn4Invoice.getValueAt(row, 7);
+            if (quantity > quantityOnTable || quantity < 0) {
+                MsgBox.warring(this, "Bạn đã nhập sai số lượng");
+                return;
+            }
+            List<ProductItem> list = fillTableByPrice();
+            for (int i = 0; i < tableListProduct.getRowCount(); i++) {
+                int id = (int) tableListProduct.getValueAt(row, 0);
+                ProductItem pr = productItemDAO.selectById(id);
+                int quantityList2 = (int) tableListProduct.getValueAt(row, 6);
+                pr.setQuantity(quantityList2);
+                list2.add(pr);
+            }
+            formChangeProductJframe = new FormChangeProductJframe(list, (float) quantity * price, list2);
+            formChangeProductJframe.setVisible(true);
+            formChangeProductJframe.addEvenFillTable(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    List<ProductItem> list = formChangeProductJframe.addToFormChangeProduct();
+                    fillTableListProduct(list);
+                    int i = ((int) tableIn4Invoice.getValueAt(row, 3)) - quantity;
+                    tableIn4Invoice.setValueAt(i, row, 3);
+                }
+            });
         }
     }//GEN-LAST:event_tableIn4InvoiceMouseClicked
 
@@ -536,7 +571,6 @@ public class FormChangeProducts extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnAddEmployee;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -551,7 +585,6 @@ public class FormChangeProducts extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblIDCustomer;
     private javax.swing.JLabel lblIDInvoice;
-    private javax.swing.JLabel lblIdNew;
     private javax.swing.JLabel lblIdOld;
     private javax.swing.JLabel lblSearch;
     private com.raven.suportSwing.ScrollBarCustom scrollBarCustom2;

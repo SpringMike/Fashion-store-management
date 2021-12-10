@@ -546,6 +546,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
         btnAddProductItem.setText("Hoàn Thành");
         btnAddProductItem.setRadius(20);
+        btnAddProductItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddProductItemActionPerformed(evt);
+            }
+        });
 
         myButton7.setText("Huỷ");
         myButton7.setRadius(20);
