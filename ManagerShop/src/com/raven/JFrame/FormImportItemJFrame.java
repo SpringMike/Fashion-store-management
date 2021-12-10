@@ -451,7 +451,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     }
 
     public void choseImage() {
-        JFileChooser fileChooser = new JFileChooser();
+        JFileChooser fileChooser = new JFileChooser("D:\\Fall2021\\ABDemoImg");
         fileChooser.setDialogTitle("Please select more images");
         fileChooser.setMultiSelectionEnabled(true);
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {

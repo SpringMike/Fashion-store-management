@@ -18,6 +18,7 @@ import com.fpt.entity.ProductItem;
 import com.fpt.utils.Auth;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -131,7 +133,8 @@ public class FormReturnProducts extends javax.swing.JPanel {
     }
 
     InvoiceChangeDAO cDao = new InvoiceChangeDAO();
-    public boolean checkChange(){
+
+    public boolean checkChange() {
         List<InvoiceChange> list = cDao.selectAll();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getIdInvoiceSell() == Integer.parseInt(txtShearchInvoice.getText())) {
@@ -141,6 +144,8 @@ public class FormReturnProducts extends javax.swing.JPanel {
         return true;
     }
     List<DetailInvoiceReturn> list = new ArrayList<>();
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
 
     public void fillTableIn4Invoice() {
         try {
@@ -165,7 +170,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
 
                 int i = ((int) tableIn4Invoice.getValueAt(row, 3)) - quatity;
                 tableIn4Invoice.setValueAt(i, row, 3);
-                lblMoneyRetun.setText(TotalBuy() + "");
+                lblMoneyRetun.setText(nf.format(TotalBuy()) + " đ");
 
                 DetailInvoiceReturn dir = new DetailInvoiceReturn();
                 dir.setPrice(price);
@@ -211,7 +216,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
         ir.setDateCreateInvoiceReturn(XDate.toString(calendar.getTime(), "hh:mm:ss aa yyyy-MM-dd"));
         ir.setDescription(txtNote.getText());
         ir.setIdInvoiceSell(Integer.valueOf(txtShearchInvoice.getText()));
-        ir.setTotalReturn(Double.valueOf(lblMoneyRetun.getText()));
+        ir.setTotalReturn(TotalBuy());
         ir.setIdUser(Auth.user.getIdUser());
         List<ProductItem> items = reDao.selectByIdInvoiceReturn(Integer.valueOf(txtShearchInvoice.getText()));
         for (ProductItem p : items) {
@@ -230,7 +235,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
 
         if (tableListProduct.getSelectedRowCount() == 1) {
             for (int i = 0; i < tableIn4Invoice.getRowCount(); i++) {
-                if (tableIn4Invoice.getValueAt(i, 1) == tableListProduct.getValueAt(rowTemp, 0)) {
+                if (tableIn4Invoice.getValueAt(i, 1).equals(tableListProduct.getValueAt(rowTemp, 0))) {
                     int ii = (int) tableIn4Invoice.getValueAt(i, 3) + (int) tableListProduct.getValueAt(rowTemp, 2);
                     tableIn4Invoice.setValueAt(ii, i, 3);
                 }
@@ -271,6 +276,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
         lblMoneyRetun = new javax.swing.JLabel();
         btnAddEmployee = new com.raven.suportSwing.MyButton();
         scrollBarCustom2 = new com.raven.suportSwing.ScrollBarCustom();
+        btnAddEmployee1 = new com.raven.suportSwing.MyButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableIn4Invoice = new com.raven.suportSwing.TableColumn();
@@ -334,6 +340,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
 
         lblMoneyRetun.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblMoneyRetun.setForeground(new java.awt.Color(255, 0, 0));
+        lblMoneyRetun.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         btnAddEmployee.setText("Trả hàng");
         btnAddEmployee.setRadius(10);
@@ -343,14 +350,27 @@ public class FormReturnProducts extends javax.swing.JPanel {
             }
         });
 
+        btnAddEmployee1.setText("Xoá");
+        btnAddEmployee1.setRadius(10);
+        btnAddEmployee1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddEmployee1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnAddEmployee1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)))
                 .addComponent(scrollBarCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -360,8 +380,6 @@ public class FormReturnProducts extends javax.swing.JPanel {
                         .addComponent(lblIDCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(96, 96, 96))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblMoneyRetun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -378,7 +396,8 @@ public class FormReturnProducts extends javax.swing.JPanel {
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
-                                .addComponent(lblIDInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(lblIDInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(lblMoneyRetun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -398,21 +417,20 @@ public class FormReturnProducts extends javax.swing.JPanel {
                         .addGap(80, 80, 80)
                         .addComponent(jLabel7))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblMoneyRetun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblMoneyRetun, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
-                .addComponent(scrollBarCustom2, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addComponent(scrollBarCustom2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(23, 23, 23))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAddEmployee1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 11, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -535,7 +553,8 @@ public class FormReturnProducts extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -550,7 +569,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -592,7 +611,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
                 lblSearch.setText("Hoá đơn áp dụng voucher không thể trả");
                 return;
             }
-            if(checkChange() == false){
+            if (checkChange() == false) {
                 lblSearch.setText("Hoá đơn đã đổi không thể trả hàng");
                 return;
             }
@@ -617,10 +636,10 @@ public class FormReturnProducts extends javax.swing.JPanel {
             } else if (checkVoucher() == false) {
                 MsgBox.alert(this, "Hoá đơn áp dụng voucher không thể trả");
                 return;
-            } else if(checkChange() == false){
+            } else if (checkChange() == false) {
                 MsgBox.alert(this, "Hoá đơn đã đổi không thể trả hàng");
                 return;
-            }else {
+            } else {
                 fillTableIn4Invoice();
             }
         }
@@ -636,9 +655,15 @@ public class FormReturnProducts extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtShearchInvoiceKeyPressed
 
+    private void btnAddEmployee1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployee1ActionPerformed
+        // TODO add your handling code here:
+        deleteTemp();
+    }//GEN-LAST:event_btnAddEmployee1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.suportSwing.MyButton btnAddEmployee;
+    private com.raven.suportSwing.MyButton btnAddEmployee1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

@@ -28,9 +28,9 @@ public class showChartRevenue extends javax.swing.JFrame {
         this.setIconImage(icon);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         getContentPane().setBackground(new Color(250, 250, 250));
-//        chart.addLegend("Số sản phẩm bán", new Color(245, 189, 135));
         chart.addLegend("Tổng giá bán", new Color(135, 189, 245));
         chart.addLegend("Tổng giá chi", new Color(189, 135, 245));
+        chart.addLegend("Tổng giá Nhập", new Color(245, 189, 135));
         chart.addLegend("Doanh thu", new Color(139, 229, 222));
 
         for (int j = 0; j < tableShow.getRowCount(); j++) {
@@ -40,7 +40,8 @@ public class showChartRevenue extends javax.swing.JFrame {
                         //                        (int) tableShow.getValueAt(j, 1),
                         (int) tableShow.getValueAt(j, 2),
                         (int) tableShow.getValueAt(j, 3),
-                        (int) tableShow.getValueAt(j, 4)
+                        (int) tableShow.getValueAt(j, 4), (int) tableShow.getValueAt(j, 5)
+
                     }));
         }
         chart.start();

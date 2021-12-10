@@ -16,7 +16,6 @@ import com.fpt.entity.ProductItem;
 import com.fpt.utils.Auth;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
-import com.raven.JFrame.FormDetailChangeProduct;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;

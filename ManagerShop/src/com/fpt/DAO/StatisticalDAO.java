@@ -148,8 +148,17 @@ public class StatisticalDAO {
         return list;
     }
 
-//     public List<Object[]> selectByMonths(int month){
-//         String sql = "SELECT * FROM dbo.InvoiceSell WHERE MONTH(dateCreateInvoice) = ?";
-//         return 
-//     }
+    public int getSelectImport(int month, int year) throws Exception {
+        String sql = "SELECT IIF(SUM(quatity *priceImport) IS NULL, 0, SUM(quatity *priceImport)) moneyImport FROM dbo.InvoiceImportPr JOIN dbo.detailsInvoiceImportPr ON detailsInvoiceImportPr.idInvoice = InvoiceImportPr.idInvoice\n"
+                + "WHERE MONTH(dateCreateInvoice) = ? and YEAR(dateCreateInvoice) = ?\n"
+                + "GROUP BY MONTH(dateCreateInvoice)";
+        int moneyImport = 0;
+        ResultSet rs = jdbcHelper.query(sql, month, year);
+        while (rs.next()) {
+            moneyImport = rs.getInt(1);
+        }
+        rs.getStatement().getConnection().close();
+        return moneyImport;
+    }
+
 }

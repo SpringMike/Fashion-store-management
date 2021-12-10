@@ -180,7 +180,7 @@ public class FormSell extends javax.swing.JPanel {
                 return;
             } else if (!Validate.checkNumber(lblMoneyCustomer, txtMoneyCustomer, "Tiền không hợp lệ")) {
                 return;
-            } else if (Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()) < 0) {
+            } else if (Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy()) < 0) {
                 MsgBox.alert(this, "Nhậm lại số tiền khách đưa ????");
                 return;
             } else {
@@ -243,12 +243,13 @@ public class FormSell extends javax.swing.JPanel {
         int row = tableShow.getSelectedRow();
         int row2 = tableSellTemp.getSelectedRow();
 
-        // List<DetailInvoiceSell> list = new ArrayList<>();
+//         List<DetailInvoiceSell> list = new ArrayList<>();
         if (tableSellTemp.getSelectedRowCount() == 1) {
             for (int i = 0; i < tableShow.getRowCount(); i++) {
-                if (tableShow.getValueAt(i, 0) == tableSellTemp.getValueAt(row2, 0)) {
+                if (tableShow.getValueAt(i, 0).equals(tableSellTemp.getValueAt(row2, 0))) {
                     int ii = (int) tableShow.getValueAt(i, 7) + (int) tableSellTemp.getValueAt(row2, 7);
                     tableShow.setValueAt(ii, i, 7);
+                    System.out.println("okooooo" + ii);
                 }
             }
             for (int j = 0; j < list.size(); j++) {
@@ -491,18 +492,15 @@ public class FormSell extends javax.swing.JPanel {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 808, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollBarCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(768, 768, 768)
-                        .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 808, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollBarCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -657,15 +655,13 @@ public class FormSell extends javax.swing.JPanel {
 
     private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton2ActionPerformed
         // TODO add your handling code here:
-
         delete();
-
     }// GEN-LAST:event_myButton2ActionPerformed
 
     private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton1ActionPerformed
         // TODO add your handling code here:
         fillTableTemp();
-        txtTotal.setText(TotalBuy() + "");
+        txtTotal.setText(nf.format(TotalBuy()) + " đ");
     }// GEN-LAST:event_myButton1ActionPerformed
 
     private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton3ActionPerformed
@@ -681,7 +677,7 @@ public class FormSell extends javax.swing.JPanel {
 
     private void cbbVoucherActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbbVoucherActionPerformed
         // TODO add your handling code here:
-        txtTotal.setText(MoneyVoucher() + "");
+        txtTotal.setText(nf.format(MoneyVoucher()) + " đ");
 
         // txtMoneyVoucher.setText(MoneyVoucher() + "");
     }// GEN-LAST:event_cbbVoucherActionPerformed
@@ -694,12 +690,22 @@ public class FormSell extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (jcheckVoucher.isSelected()) {
             cbbVoucher.setVisible(true);
-            cbbVoucher.setSelectedIndex(0);
+            if (cbbVoucher.getSelectedItem() == null) {
+                return;
+            } else {
+                cbbVoucher.setSelectedIndex(0);
+                if (txtMoneyCustomer.getText().isEmpty()) {
+                    return;
+                } else {
+                    txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(MoneyVoucher())) + " đ");
+                }
+            }
         } else {
             cbbVoucher.setVisible(false);
-            txtTotal.setText(TotalBuy() + "");
+            txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy())) + " đ");
+            txtTotal.setText(nf.format(TotalBuy()) + " đ");
         }
-        txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText())) + " đ");
+//        txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy())) + " đ");
     }// GEN-LAST:event_jcheckVoucherActionPerformed
 
     private void txtReturnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtReturnActionPerformed
@@ -712,9 +718,13 @@ public class FormSell extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (txtMoneyCustomer.getText().isEmpty()) {
             txtReturn.setText("");
+            return;
         } else {
-
-            txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText())) + " đ");
+            if (jcheckVoucher.isSelected()) {
+                txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(MoneyVoucher())) + " đ");
+            } else {
+                txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy())) + " đ");
+            }
         }
     }// GEN-LAST:event_txtMoneyCustomerKeyReleased
 
