@@ -21,7 +21,7 @@ public class DetailsChangeProductDAO extends ShopDAO<DetailsChangeProducts, Inte
     public void insert(DetailsChangeProducts e) {
         String sql = "INSERT INTO dbo.DetailsChangeProducts\n"
                 + "(idDetailsInvoiceChange,idDetailsPr,quantity)\n"
-                + "VALUES((SELECT TOP 1  idInvoiceSell FROM dbo.InvoiceSell ORDER BY idInvoiceSell DESC), ?, ?)";
+                + "VALUES((SELECT TOP 1  id FROM dbo.DetailsInvoiceChange ORDER BY id DESC), ?, ?)";
         jdbcHelper.update(sql, e.getIdProductItem(), e.getQuantity());
     }
 
@@ -59,6 +59,7 @@ public class DetailsChangeProductDAO extends ShopDAO<DetailsChangeProducts, Inte
                 de.setValueMaterial(rs.getString("valueMaterial"));
                 de.setValueSize(rs.getString("valueSize"));
                 de.setNameProduct(rs.getString("nameProduct"));
+                de.setIdProductItem(rs.getInt("idDetailsPr"));
                 de.setId(rs.getInt("id"));
                 list.add(de);
             }
@@ -66,6 +67,17 @@ public class DetailsChangeProductDAO extends ShopDAO<DetailsChangeProducts, Inte
             e.printStackTrace();
         }
         return list;
+    }
+
+    public List<DetailsChangeProducts> selectByIdDetailsInvoiceChange(Integer k) {
+        String sql = "select * from DetailsChangeProducts De\n"
+                + "INNER JOIN detailsProduct D on De.idDetailsPr = D.idPrDeltails\n"
+                + "INNER JOIN Size S on D.idSize = S.idSize\n"
+                + "INNER JOIN Material M on M.idMaterial = D.idMaterial\n"
+                + "INNER JOIN Color C on C.idColor = D.idColor\n"
+                + "INNER JOIN Products P on P.idProduct = D.idProduct\n"
+                + "where De.idDetailsInvoiceChange = ?";
+        return selectBySql(sql, k);
     }
 
 }

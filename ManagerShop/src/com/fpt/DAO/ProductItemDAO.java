@@ -143,6 +143,13 @@ public class ProductItemDAO extends ShopDAO<ProductItem, Integer> {
                 + "WHERE idPrDeltails = ?;";
         jdbcHelper.update(sql, quantity, id);
     }
+    
+      public void updateQuantity(Integer quantity, Integer id) {
+        String sql = "UPDATE detailsProduct\n"
+                + "SET quatity = ? \n"
+                + "WHERE idPrDeltails = ?;";
+        jdbcHelper.update(sql, quantity, id);
+    }
 
     public void returnProductItem(Integer quantity, Integer id) {
         String sql = "UPDATE detailsProduct\n"

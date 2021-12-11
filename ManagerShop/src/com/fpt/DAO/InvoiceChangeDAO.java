@@ -20,8 +20,8 @@ public class InvoiceChangeDAO extends ShopDAO<InvoiceChange, Integer> {
 
     @Override
     public void insert(InvoiceChange e) {
-        String sql = "INSERT Into dbo.InvoiceChangeProducts(idInvoiceSell,idCustomer, description, idUser, dateCreateInvoice,idDetailsNew,idDetailsOld) VALUES(?,?,?,?,?,?,?)";
-        jdbcHelper.update(sql, e.getIdInvoiceSell(), e.getIdCustomer(), e.getDescription(), e.getIdUser(), e.getDateCreateInvoiceReturn(), e.getIdDetailNew(), e.getIdDetailOld());
+        String sql = "INSERT Into dbo.InvoiceChangeProducts(idInvoiceSell,idCustomer, description, idUser, dateCreateInvoice) VALUES(?,?,?,?,?)";
+        jdbcHelper.update(sql, e.getIdInvoiceSell(), e.getIdCustomer(), e.getDescription(), e.getIdUser(), e.getDateCreateInvoiceReturn());
     }
 
     @Override
@@ -64,8 +64,6 @@ public class InvoiceChangeDAO extends ShopDAO<InvoiceChange, Integer> {
                 p.setIdCustomer(rs.getInt("idCustomer"));
                 p.setDescription(rs.getString("description"));
                 p.setNameCustomer(rs.getString("name"));
-                p.setIdDetailNew(rs.getInt("idDetailsNew"));
-                p.setIdDetailOld(rs.getInt("idDetailsOld"));
                 p.setIdUser(rs.getInt("idUser"));
                 list.add(p);
             }

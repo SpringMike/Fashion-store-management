@@ -6,11 +6,15 @@
 package com.raven.form;
 
 import com.fpt.DAO.DetailInvoiceSellDAO;
+import com.fpt.DAO.DetailsChangeProductDAO;
+import com.fpt.DAO.DetailsInvoiceChangeDAO;
 import com.fpt.DAO.InvoiceChangeDAO;
 import com.fpt.DAO.InvoiceSellDAO;
 import com.fpt.DAO.ProductItemDAO;
 import com.fpt.DAO.ReturnProductDAO;
 import com.fpt.entity.DetailInvoiceSell;
+import com.fpt.entity.DetailsChangeProducts;
+import com.fpt.entity.DetailsInvoiceChange;
 import com.fpt.entity.InvoiceChange;
 import com.fpt.entity.InvoiceRetuns;
 import com.fpt.entity.InvoiceSell;
@@ -57,17 +61,75 @@ public class FormChangeProducts extends javax.swing.JPanel {
 
     public void fillTableListProduct(List<ProductItem> list) {
         modelList = (DefaultTableModel) tableListProduct.getModel();
-        for (int i = 0; i <= list.size(); i++) {
+//
+//        for (ProductItem p : list) {
+//            modelList.addRow(new Object[]{
+//                p.getId(), p.getProductName(), p.getSize(), p.getColor(), p.getMaterial(), p.getPrice(), p.getQuantity()
+//            });
+//        }
+        int totalRow = tableListProduct.getRowCount();
+
+        for (int i = 0; i < list.size(); i++) {
             ProductItem p = list.get(i);
-            if (i + 1 < list.size()) {
-                return;
+            if (tableListProduct.getRowCount() <= 0) {
+                for (ProductItem p2 : list) {
+                    modelList.addRow(new Object[]{
+                        p2.getId(), p2.getProductName(), p2.getSize(), p2.getColor(), p2.getMaterial(), p2.getPrice(), p2.getQuantity()
+                    });
+                }
+            } else {
+                for (int j = 0; j < totalRow; j++) {
+                    if (p.getId() == (int) tableListProduct.getValueAt(j, 0)) {
+                        p.setQuantity(p.getQuantity() + (int) tableListProduct.getValueAt(j, 6));
+                        tableListProduct.setValueAt(p.getQuantity(), j, 6);
+                    } else {
+                        modelList.addRow(new Object[]{
+                            p.getId(), p.getProductName(), p.getSize(), p.getColor(), p.getMaterial(), p.getPrice(), p.getQuantity()
+                        });
+                    }
+                }
             }
-            if (p.getId() == list.get(i + 1).getId()) {
-                p.setQuantity(p.getQuantity() + list.get(i + 1).getQuantity());
+        }
+        for (int i = 0; i < tableListProduct.getRowCount(); i++) {
+            for (int j = i + 1; j < tableListProduct.getRowCount(); j++) {
+                if ((int) tableListProduct.getValueAt(i, 0) == (int) tableListProduct.getValueAt(j, 0)) {
+                    modelList.removeRow(j);
+                    j--;
+                }
             }
-            modelList.addRow(new Object[]{
-                p.getId(), p.getProductName(), p.getSize(), p.getColor(), p.getMaterial(), p.getPrice(), p.getQuantity()
-            });
+        }
+    }
+
+    List<DetailsInvoiceChange> listDetailsInvoiceChange = new ArrayList<>();
+    List<DetailsChangeProducts> listDetailsChangeProducts = new ArrayList<>();
+    DetailsInvoiceChangeDAO detailsInvoiceChangeDAO = new DetailsInvoiceChangeDAO();
+    DetailsChangeProductDAO detailsChangeProductDAO = new DetailsChangeProductDAO();
+
+    public void getDetailInvoiceChange() {
+        for (int i = 0; i < tableIn4Invoice.getRowCount(); i++) {
+            if (!(listPr.get(i).getQuantity() == (int) tableIn4Invoice.getValueAt(i, 3))) {
+                DetailsInvoiceChange de = new DetailsInvoiceChange();
+                int idPr = (int) tableIn4Invoice.getValueAt(i, 1);
+                int quanity = (int) tableIn4Invoice.getValueAt(i, 4);
+                de.setIdProductItem(idPr);
+                de.setQuantity(quanity);
+                listDetailsInvoiceChange.add(de);
+                ProductItem p = productItemDAO.selectById(idPr);
+                productItemDAO.updateQuantity(p.getQuantity() + quanity, idPr);
+            }
+        }
+    }
+
+    public void getDetailChangeProduct() {
+        for (int i = 0; i < tableListProduct.getRowCount(); i++) {
+            DetailsChangeProducts de = new DetailsChangeProducts();
+            int idPr = (int) tableListProduct.getValueAt(i, 0);
+            int quanity = (int) tableListProduct.getValueAt(i, 6);
+            de.setIdProductItem(idPr);
+            de.setQuantity(quanity);
+            listDetailsChangeProducts.add(de);
+            ProductItem p = productItemDAO.selectById(idPr);
+            productItemDAO.updateQuantity(p.getQuantity() - quanity, idPr);
         }
     }
 
@@ -81,7 +143,7 @@ public class FormChangeProducts extends javax.swing.JPanel {
         listPr = reDao.selectByIdInvoiceReturn(id);
         for (ProductItem d : listPr) {
             model.addRow(new Object[]{
-                d.getIdInvoiceSell(), d.getId(), d.getProductName(), d.getQuantity(), d.getSize(), d.getColor(), d.getMaterial(), d.getPrice()
+                d.getIdInvoiceSell(), d.getId(), d.getProductName(), d.getQuantity(), 0, d.getSize(), d.getColor(), d.getMaterial(), d.getPrice()
             });
             lblIDCustomer.setText(d.getNameCustomer());
             lblIDInvoice.setText(d.getIdInvoiceSell() + "");
@@ -96,9 +158,9 @@ public class FormChangeProducts extends javax.swing.JPanel {
 
     public List<ProductItem> fillTableByPrice() {
         int row = tableIn4Invoice.getSelectedRow();
-        float price = (float) tableIn4Invoice.getValueAt(row, 7);
+        float price = (float) tableIn4Invoice.getValueAt(row, 8);
         int id = (int) tableIn4Invoice.getValueAt(row, 1);
-//        lblIdOld.setText(String.valueOf(id));
+
         return productItemDAO.selectByPrice(price, id);
     }
 
@@ -109,14 +171,6 @@ public class FormChangeProducts extends javax.swing.JPanel {
         ir.setDescription(txtNote.getText());
         ir.setIdInvoiceSell(Integer.valueOf(txtShearchInvoice.getText()));
         ir.setIdUser(Auth.user.getIdUser());
-//        if (lblIdOld.getText().trim().equals("") && lblIdOld.getText().trim().equals("")) {
-//            MsgBox.alert(this, "Không thể đổi hàng");
-//            return null;
-//        }
-//        int idOld = Integer.parseInt(lblIdOld.getText());
-//        int idNew = Integer.parseInt(lblIdNew.getText());
-//        ir.setIdDetailNew(idNew);
-//        ir.setIdDetailOld(idOld);
         List<ProductItem> items = reDao.selectByIdInvoiceReturn(Integer.valueOf(txtShearchInvoice.getText()));
         for (ProductItem p : items) {
             ir.setIdCustomer(p.getIdCustomer());
@@ -129,8 +183,16 @@ public class FormChangeProducts extends javax.swing.JPanel {
     public void insertInvoiceChange() {
         InvoiceChange ir = getInvoiceChange();
         invoiceChangeDAO.insert(ir);
-//        productItemDAO.importProductItem(1, Integer.parseInt(lblIdOld.getText()));
-//        productItemDAO.sellProductItem(1, Integer.parseInt(lblIdNew.getText()));
+        getDetailInvoiceChange();
+        getDetailChangeProduct();
+        for (int i = 0; i < listDetailsInvoiceChange.size(); i++) {
+            detailsInvoiceChangeDAO.insert(listDetailsInvoiceChange.get(i));
+        }
+        List<DetailsInvoiceChange> listDe = detailsInvoiceChangeDAO.selectAll();
+//        for(int i = 0; i <)
+        for (int i = 0; i < listDetailsChangeProducts.size(); i++) {
+            detailsChangeProductDAO.insert(listDetailsChangeProducts.get(i));
+        }
         MsgBox.alert(this, "Thêm thành công!!!");
     }
 
@@ -213,11 +275,11 @@ public class FormChangeProducts extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã Thanh toán", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Size", "Màu sắc", "Chất liệu", "Đơn giá"
+                "Mã Thanh toán", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Số lượng đổi", "Size", "Màu sắc", "Chất liệu", "Đơn giá"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -369,9 +431,9 @@ public class FormChangeProducts extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(14, 14, 14)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(lblIdOld, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblIdOld, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(55, 55, 55))
@@ -479,28 +541,31 @@ public class FormChangeProducts extends javax.swing.JPanel {
             int quantity = Integer.valueOf(MsgBox.prompt(this, "Nhập số lượng cần hoàn trả"));
             int row = tableIn4Invoice.getSelectedRow();
             int quantityOnTable = (int) tableIn4Invoice.getValueAt(row, 3);
-            float price = (float) tableIn4Invoice.getValueAt(row, 7);
+            float price = (float) tableIn4Invoice.getValueAt(row, 8);
             if (quantity > quantityOnTable || quantity < 0) {
                 MsgBox.warring(this, "Bạn đã nhập sai số lượng");
                 return;
             }
             List<ProductItem> list = fillTableByPrice();
             for (int i = 0; i < tableListProduct.getRowCount(); i++) {
-                int id = (int) tableListProduct.getValueAt(row, 0);
+                int id = (int) tableListProduct.getValueAt(i, 0);
                 ProductItem pr = productItemDAO.selectById(id);
-                int quantityList2 = (int) tableListProduct.getValueAt(row, 6);
+                int quantityList2 = (int) tableListProduct.getValueAt(i, 6);
                 pr.setQuantity(quantityList2);
                 list2.add(pr);
             }
+
             formChangeProductJframe = new FormChangeProductJframe(list, (float) quantity * price, list2);
             formChangeProductJframe.setVisible(true);
             formChangeProductJframe.addEvenFillTable(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     List<ProductItem> list = formChangeProductJframe.addToFormChangeProduct();
+                    int iquantity = ((int) tableIn4Invoice.getValueAt(row, 3)) - quantity;
+                    tableIn4Invoice.setValueAt(iquantity, row, 3);
+                    tableIn4Invoice.setValueAt((int) tableIn4Invoice.getValueAt(row, 4) + quantity, row, 4);
                     fillTableListProduct(list);
-                    int i = ((int) tableIn4Invoice.getValueAt(row, 3)) - quantity;
-                    tableIn4Invoice.setValueAt(i, row, 3);
+
                 }
             });
         }

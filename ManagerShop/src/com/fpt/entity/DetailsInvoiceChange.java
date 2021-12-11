@@ -99,4 +99,12 @@ public class DetailsInvoiceChange {
         this.valueMaterial = valueMaterial;
     }
 
+    public int getIdInvoiceChange() {
+        return idInvoiceChange;
+    }
+
+    public void setIdInvoiceChange(int idInvoiceChange) {
+        this.idInvoiceChange = idInvoiceChange;
+    }
+
 }

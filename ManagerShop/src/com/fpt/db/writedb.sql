@@ -220,42 +220,39 @@ ALTER TABLE dbo.InvoiceSell ADD moneyReturn MONEY
 
 --db9/12/2021
 
-CREATE TABLE DetailsProductItemChange
+CREATE TABLE DetailsInvoiceChange
 (
 	id INT IDENTITY(1,1) PRIMARY KEY,
 	idInvoiceChangeProducts INT,
 	idDetailsPr INT,
 	quantity INT,
-	price MONEY,
 	FOREIGN KEY(idInvoiceChangeProducts) REFERENCES dbo.InvoiceChangeProducts(idInvoiceChangeProducts),
 	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct (idPrDeltails)
 )
 GO
-
-CREATE TABLE DetailsProductItemChangeNew
+CREATE TABLE DetailsChangeProducts
 (
 	id INT IDENTITY(1,1) PRIMARY KEY,
 	idDetailsPr INT,
+	idDetailsInvoiceChange INT,
 	quantity INT,
-	price MONEY
-	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct(idPrDeltails)
-)
-GO
-
-CREATE TABLE DetailsInvoiceChangeProducts
-(
-	idDetails INT IDENTITY(1,1) PRIMARY KEY,
-	idChangeOld int,
-	idChangeNew int,
-	description nvarchar(255),
-	FOREIGN KEY(idChangeOld) REFERENCES dbo.DetailsProductItemChange(id),
-	FOREIGN KEY(idChangeNew) REFERENCES dbo.DetailsProductItemChangeNew (id)
+	FOREIGN KEY(idDetailsInvoiceChange) REFERENCES dbo.DetailsInvoiceChange(id),
+	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct (idPrDeltails)
 )
 GO
 
 
 
 
+SELECT InvoiceSell.idInvoiceSell, idPrDetails, nameProduct, detailsInvoiceSELL.quatity, valueSize, valueColor, valueMaterial, detailsInvoiceSELL.price, name, Customer.idCustomer, dateCreateInvoice  FROM dbo.detailsInvoiceSELL
+      JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
+JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer
+JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails
+JOIN dbo.Products ON Products.idProduct = detailsProduct.idProduct JOIN dbo.Size ON Size.idSize = detailsProduct.idSize
+JOIN dbo.Color ON Color.idColor = detailsProduct.idColor JOIN dbo.Material ON Material.idMaterial = detailsProduct.idMaterial
+ WHERE detailsInvoiceSELL.idInvoiceSell = 20 AND detailsInvoiceSELL.quatity > 0
+
+ select * from detailsProduct
 
 
 INSERT INTO dbo.InvoiceSell
