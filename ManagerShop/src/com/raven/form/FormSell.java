@@ -156,7 +156,7 @@ public class FormSell extends javax.swing.JPanel {
         in.setStatusPay(false);
         in.setIdHumanSell(Auth.user.getIdUser());
         in.setDescription(txtDes.getText());
-        in.setPrice(Double.parseDouble(txtTotal.getText()));
+        in.setPrice(TotalBuy());
         in.setMoneyCustomer(Double.parseDouble(txtMoneyCustomer.getText()));
         in.setMoneyReturn(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()));
         Customer s = (Customer) cbbCustomer.getSelectedItem();
