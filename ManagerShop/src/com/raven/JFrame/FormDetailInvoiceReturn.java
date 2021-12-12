@@ -170,6 +170,7 @@ public class FormDetailInvoiceReturn extends javax.swing.JFrame {
         document.add(new Paragraph("\n"));
         document.add(customerInforNote);
         document.close();
+        System.out.println("ok");
     }
 
     /**
