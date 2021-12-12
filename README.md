@@ -21,15 +21,16 @@ mysql 9.4.x && java 11.x
 
 ### Installing
 
-Tải Source code về cài đặt
+Tải về cài đặt
 
 ```
-git clone https://github.com/SpringMike/DuAn1_FPOLY.git
+Phần mềm này yêu cầu máy có cài đặt [jdk 1.8] (https://www.oracle.com/java/technologies/downloads/) đổ lên
+nếu máy bạn đã có thì tải phần mềm [tại đây] (https://github.com/SpringMike/Fashion-store-management/releases/download/V1.5_OpenBeta/ITShopSetup.zip)
 ```
 
 ## Documents
 
-* [Tài liệu SRS](https://docs.google.com/document/d/16ZH8ivhvqRD32FTY34rCLF8o_PV-O8rS/edit?usp=sharing&ouid=111103252781516276994&rtpof=true&sd=true) - Báo cáo dự án
+* [Tài liệu SRS](https://drive.google.com/file/d/1i68MCoZ86uGJx954RZahKq5vIos62Cpu/view?usp=sharing) - Báo cáo dự án
 
 ## Project Scope
 
