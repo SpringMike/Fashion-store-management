@@ -9,6 +9,8 @@ import com.raven.chart.ModelChart;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,6 +44,20 @@ public class ShowChart extends javax.swing.JFrame {
 
     }
 
+    public String deleteLastKey(String str) {
+        if (str.charAt(str.length() - 1) == 'đ') {
+            str = str.replace(str.substring(str.length() - 1), "");
+            return str;
+        } else {
+            return str;
+        }
+    }
+
+    public String fomartFloat(String txt) {
+        String pattern = deleteLastKey(txt);
+        return pattern = pattern.replaceAll(",", "");
+    }
+
     private void init(DefaultTableModel tableShow) {
         chart.addLegend("Sản phẩm", new Color(12, 84, 175), new Color(0, 108, 247));
         for (int j = 0; j < tableShow.getRowCount(); j++) {
@@ -62,9 +78,10 @@ public class ShowChart extends javax.swing.JFrame {
         for (int j = 0; j < tableShow.getRowCount(); j++) {
             chart.addData(new ModelChart((int) tableShow.getValueAt(j, 0) + "", new double[]{
                 //                (int) tableShow.getValueAt(j, 1),
-                (int) tableShow.getValueAt(j, 2),
-                (int) tableShow.getValueAt(j, 3),
-                (int) tableShow.getValueAt(j, 4), (int) tableShow.getValueAt(j, 5)
+                Float.parseFloat(fomartFloat((String) tableShow.getValueAt(j, 2))),
+                Float.parseFloat(fomartFloat((String) tableShow.getValueAt(j, 3))),
+                Float.parseFloat(fomartFloat((String) tableShow.getValueAt(j, 4))),
+                Float.parseFloat(fomartFloat((String) tableShow.getValueAt(j, 5)))
 
             }));
         }

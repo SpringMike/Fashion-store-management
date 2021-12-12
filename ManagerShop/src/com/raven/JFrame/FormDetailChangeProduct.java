@@ -4,10 +4,14 @@
  */
 package com.raven.JFrame;
 
+import com.fpt.DAO.DetailsChangeProductDAO;
+import com.fpt.DAO.DetailsInvoiceChangeDAO;
 import com.fpt.DAO.InvoiceChangeDAO;
 import com.fpt.DAO.ProductItemDAO;
 import com.fpt.entity.DetailInvoiceImport;
 import com.fpt.entity.DetailInvoiceReturn;
+import com.fpt.entity.DetailsChangeProducts;
+import com.fpt.entity.DetailsInvoiceChange;
 import com.fpt.entity.InvoiceChange;
 import com.fpt.entity.ProductItem;
 import com.fpt.utils.MsgBox;
@@ -54,6 +58,8 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
     }
     InvoiceChangeDAO invoiceChangeDAO = new InvoiceChangeDAO();
     ProductItemDAO productItemDAO = new ProductItemDAO();
+    DetailsChangeProductDAO detailsChangeProductDAO = new DetailsChangeProductDAO();
+    DetailsInvoiceChangeDAO detailsInvoiceChangeDAO = new DetailsInvoiceChangeDAO();
 
     public FormDetailChangeProduct(int id, DefaultTableModel model, int row) {
         this.model = model;
@@ -62,30 +68,38 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
-        fillTable(id);
+        fillTableOld(id);
         Image icon = Toolkit.getDefaultToolkit().getImage("src\\com\\raven\\icon\\shop (6).png");
         this.setIconImage(icon);
+        fillTableNew((int) tableShowOld.getValueAt(tableShowOld.getRowCount() - 1, 0));
+
     }
     Locale lc = new Locale("nv", "VN");
     NumberFormat nf = NumberFormat.getInstance(lc);
-    ProductItem pNew;
-    ProductItem pOld;
+    List<DetailsChangeProducts> listPNew;
+    List<DetailsInvoiceChange> listPOld;
 
-    public void fillTable(int id) {
-        InvoiceChange invoiceChange = invoiceChangeDAO.selectById(id);
-        int idNew = invoiceChange.getIdDetailNew();
-        int idOld = invoiceChange.getIdDetailOld();
-        pNew = productItemDAO.selectById(idNew);
-        pOld = productItemDAO.selectById(idOld);
+    public void fillTableOld(int id) {
+        listPOld = detailsInvoiceChangeDAO.selectByIdInvoiceChange(id);
         DefaultTableModel modelOld = (DefaultTableModel) tableShowOld.getModel();
-        DefaultTableModel modelNew = (DefaultTableModel) tableShowNew.getModel();
+        modelOld.setRowCount(0);
+        for (DetailsInvoiceChange pOld : listPOld) {
+            modelOld.addRow(new Object[]{
+                pOld.getId(), pOld.getIdProductItem(), pOld.getNameProduct(), pOld.getValueSize(), pOld.getValueColor(), pOld.getValueMaterial(), pOld.getQuantity(), nf.format(pOld.getPrice()) + " đ"
+            });
+        }
 
-        modelOld.addRow(new Object[]{
-            pOld.getId(), pOld.getProductName(), pOld.getSize(), pOld.getColor(), pOld.getMaterial(), 1, nf.format(pOld.getPrice()) + " đ"
-        });
-        modelNew.addRow(new Object[]{
-            pNew.getId(), pNew.getProductName(), pNew.getSize(), pNew.getColor(), pNew.getMaterial(), 1, nf.format(pNew.getPrice()) + " đ"
-        });
+    }
+
+    public void fillTableNew(int id) {
+        listPNew = detailsChangeProductDAO.selectByIdDetailsInvoiceChange(id);
+        DefaultTableModel modelNew = (DefaultTableModel) tableShowNew.getModel();
+        modelNew.setRowCount(0);
+        for (DetailsChangeProducts pNew : listPNew) {
+            modelNew.addRow(new Object[]{
+                pNew.getId(), pNew.getIdProductItem(), pNew.getNameProduct(), pNew.getValueSize(), pNew.getValueColor(), pNew.getValueMaterial(), pNew.getQuantity(), nf.format(pNew.getPrice()) + " đ"
+            });
+        }
     }
 
     /**
@@ -118,11 +132,11 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Tên SP", "Size", "Color", "Chất liệu", "Số lượng", "Giá tiền"
+                "ID", "ID SP", "Tên SP", "Size", "Color", "Chất liệu", "Số lượng", "Giá tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, true, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -146,15 +160,20 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Tên SP", "Size", "Color", "Chất liệu", "Số lượng", "Giá tiền"
+                "ID", "ID SP", "Tên SP", "Size", "Color", "Chất liệu", "Số lượng", "Giá tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tableShowOld.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableShowOldMouseClicked(evt);
             }
         });
         jScrollPane6.setViewportView(tableShowOld);
@@ -175,19 +194,18 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67))))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane5))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,39 +214,56 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void outputPDF() throws IOException, BadElementException {
+    public String deleteLastKey(String str) {
+        if (str.charAt(str.length() - 1) == 'đ') {
+            str = str.replace(str.substring(str.length() - 1), "");
+            return str;
+        } else {
+            return str;
+        }
+    }
 
+    public String fomartFloat(String txt) {
+        String pattern = deleteLastKey(txt);
+        return pattern = pattern.replaceAll(",", "");
+    }
+
+    public void outputPDF() throws IOException, BadElementException {
+        int quantityTTNew = 0, quantityTTOld = 0;
+        float priceTNew = 0, priceTOld = 0;
         Locale lc = new Locale("nv", "VN");
         NumberFormat nf = NumberFormat.getInstance(lc);
         String pathnn = XDate.toString(new Date(), " hh-mm-ss aa dd-MM-yyyy");
         pathnn = pathnn.replaceAll(" ", "_");
         System.out.println(pathnn);
-        String path = "D:\\InvoiceChangeProducts"+pathnn+".pdf";
+        String path = "D:\\InvoiceChangeProducts" + pathnn + ".pdf";
         PdfWriter pdfWriter = new PdfWriter(path);
         PdfDocument pdfDocument = new PdfDocument(pdfWriter);
         com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
@@ -278,23 +313,35 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
         itemInforTable.addCell(new Cell().add("Gia").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE).setTextAlignment(TextAlignment.RIGHT));
 
         List<InvoiceChange> list = invoiceChangeDAO.selectAll();
-        int total = 0;
+        float total = 0;
         int quantitySum = 0;
 
-        int id = (int) tableShowOld.getValueAt(0, 0);
-        String nameProduct = (String) tableShowOld.getValueAt(0, 1);
-        String Size = (String) tableShowOld.getValueAt(0, 2);
-        String Color = (String) tableShowOld.getValueAt(0, 3);
-        String Material = (String) tableShowOld.getValueAt(0, 4);
+        for (int i = 0; i < tableShowOld.getRowCount(); i++) {
+            int id = (int) tableShowOld.getValueAt(i, 1);
+            String nameProduct = (String) tableShowOld.getValueAt(i, 2);
+            String Size = (String) tableShowOld.getValueAt(i, 3);
+            String Color = (String) tableShowOld.getValueAt(i, 4);
+            String Material = (String) tableShowOld.getValueAt(i, 5);
 
-        int quantity = (int) tableShowOld.getValueAt(0, 5);
-        float price = pOld.getPrice();
-        itemInforTable.addCell(new Cell().add(removeAccent(nameProduct)));
-        itemInforTable.addCell(new Cell().add(removeAccent(Size)));
-        itemInforTable.addCell(new Cell().add(removeAccent(Color)));
-        itemInforTable.addCell(new Cell().add(removeAccent(Material)));
-        itemInforTable.addCell(new Cell().add(quantity + ""));
-        itemInforTable.addCell(new Cell().add(nf.format(price) + " VND").setTextAlignment(TextAlignment.RIGHT));
+            int quantity = (int) tableShowOld.getValueAt(i, 6);
+            float price = Float.parseFloat(fomartFloat((String) tableShowOld.getValueAt(i, 7)));
+            itemInforTable.addCell(new Cell().add(removeAccent(nameProduct)));
+            itemInforTable.addCell(new Cell().add(removeAccent(Size)));
+            itemInforTable.addCell(new Cell().add(removeAccent(Color)));
+            itemInforTable.addCell(new Cell().add(removeAccent(Material)));
+            itemInforTable.addCell(new Cell().add(quantity + ""));
+            itemInforTable.addCell(new Cell().add(nf.format(price) + " VND"));
+            quantityTTOld += quantity;
+            priceTOld += price * quantity;
+        }
+
+        itemInforTable.addCell(new Cell().add("").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTable.addCell(new Cell().add("").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTable.addCell(new Cell().add("Tong So Luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTable.addCell(new Cell().add(quantityTTOld + "").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTable.addCell(new Cell().add("Tong Tien").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+        itemInforTable.addCell(new Cell().add(nf.format(priceTOld) + " VND").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+//        itemInforTable.addCell(new Cell().add(nf.format(price) + " VND").setTextAlignment(TextAlignment.RIGHT));
 //---------------------------------------------------------------------------------------------------------------------------------
 //        float iteamInforColWidth[] = {93, 93, 93, 93, 93, 93};
         com.itextpdf.layout.element.Table itemInforTableNew = new com.itextpdf.layout.element.Table(iteamInforColWidth);
@@ -304,30 +351,39 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
         itemInforTableNew.addCell(new Cell().add("Chat Lieu").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(new DeviceRgb(255, 255, 255)));
         itemInforTableNew.addCell(new Cell().add("So luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(new DeviceRgb(255, 255, 255)));
         itemInforTableNew.addCell(new Cell().add("Gia").setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(new DeviceRgb(255, 255, 255)).setTextAlignment(TextAlignment.RIGHT));
+        float totalNew = 0;
 
-        int idNew = (int) tableShowNew.getValueAt(0, 0);
-        String nameProductNew = (String) tableShowNew.getValueAt(0, 1);
-        String SizeNew = (String) tableShowNew.getValueAt(0, 2);
-        String ColorNew = (String) tableShowNew.getValueAt(0, 3);
-        String MaterialNew = (String) tableShowNew.getValueAt(0, 4);
+        for (int i = 0; i < tableShowNew.getRowCount(); i++) {
+            int id = (int) tableShowNew.getValueAt(i, 1);
+            String nameProductNew = (String) tableShowNew.getValueAt(i, 2);
+            String SizeNew = (String) tableShowNew.getValueAt(i, 3);
+            String ColorNew = (String) tableShowNew.getValueAt(i, 4);
+            String MaterialNew = (String) tableShowNew.getValueAt(i, 5);
 
-        int quantityNew = (int) tableShowNew.getValueAt(0, 5);
-        float priceNew = pNew.getPrice();
-        itemInforTableNew.addCell(new Cell().add(removeAccent(nameProductNew)));
-        itemInforTableNew.addCell(new Cell().add(removeAccent(SizeNew)));
-        itemInforTableNew.addCell(new Cell().add(removeAccent(ColorNew)));
-        itemInforTableNew.addCell(new Cell().add(removeAccent(MaterialNew)));
-        itemInforTableNew.addCell(new Cell().add(quantityNew + ""));
-        itemInforTableNew.addCell(new Cell().add(nf.format(priceNew) + " VND").setTextAlignment(TextAlignment.RIGHT));
+            int quantityNew = (int) tableShowNew.getValueAt(i, 6);
+            float priceNew = Float.parseFloat(fomartFloat((String) tableShowNew.getValueAt(i, 7)));
+//            totalNew += priceNew * quantityNew;
+            itemInforTableNew.addCell(new Cell().add(removeAccent(nameProductNew)));
+            itemInforTableNew.addCell(new Cell().add(removeAccent(SizeNew)));
+            itemInforTableNew.addCell(new Cell().add(removeAccent(ColorNew)));
+            itemInforTableNew.addCell(new Cell().add(removeAccent(MaterialNew)));
+            itemInforTableNew.addCell(new Cell().add(quantityNew + ""));
+            itemInforTableNew.addCell(new Cell().add(nf.format(priceNew) + " VND"));
+            priceTNew += priceNew * quantityNew;
+            quantityTTNew += quantityNew;
+        }
 
-//        itemInforTable.addCell(new Cell().add("Tong So Luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
-//        itemInforTable.addCell(new Cell().add(quantitySum + "").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
-//        itemInforTable.addCell(new Cell().add("Tong Tien").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
-//        itemInforTable.addCell(new Cell().add(nf.format(total) + " đ").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+//        itemInforTableNew.addCell(new Cell().add(nf.format(priceTNew) + " VND").setTextAlignment(TextAlignment.RIGHT));
+        itemInforTableNew.addCell(new Cell().add("").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTableNew.addCell(new Cell().add("").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTableNew.addCell(new Cell().add("Tong So Luong").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTableNew.addCell(new Cell().add(quantityTTNew + "").setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER));
+        itemInforTableNew.addCell(new Cell().add("Tong Tien").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
+        itemInforTableNew.addCell(new Cell().add(nf.format(priceTNew) + " VND").setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(new DeviceRgb(63, 169, 219)).setBorder(Border.NO_BORDER).setFontColor(Color.WHITE));
         float colWidthNote[] = {560};
 
         com.itextpdf.layout.element.Table customerInforNote = new com.itextpdf.layout.element.Table(colWidthNote);
-        customerInforNote.addCell(new Cell().add("Tien Tra Lai: " + nf.format((price - priceNew)) + " VND").
+        customerInforNote.addCell(new Cell().add("Tien Tra Lai: " + nf.format((priceTOld - priceTNew)) + " VND").
                 setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setBold().setFontSize(20).setFontColor(new DeviceRgb(0, 0, 0)));
         customerInforNote.addCell(new Cell().add("Xin cam on quy khach !!!").
                 setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setItalic().setFontColor(new DeviceRgb(0, 0, 0)));
@@ -356,6 +412,10 @@ public class FormDetailChangeProduct extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_myButton1ActionPerformed
+
+    private void tableShowOldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowOldMouseClicked
+        fillTableNew((int) tableShowOld.getValueAt(tableShowOld.getSelectedRow(), 0));
+    }//GEN-LAST:event_tableShowOldMouseClicked
 
     /**
      * @param args the command line arguments

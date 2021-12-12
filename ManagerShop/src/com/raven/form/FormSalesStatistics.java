@@ -13,7 +13,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
@@ -38,9 +40,13 @@ public class FormSalesStatistics extends javax.swing.JPanel {
         setOpaque(false);
         fillComboboxYears();
         radiStreet.setSelected(true);
+        
     }
     StatisticalDAO sDao = new StatisticalDAO();
 
+        
+    
+    
     public void fillComboboxYears() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbbYear.getModel();
         model.removeAllElements();

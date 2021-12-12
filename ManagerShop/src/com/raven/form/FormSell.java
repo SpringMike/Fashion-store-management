@@ -60,13 +60,27 @@ public class FormSell extends javax.swing.JPanel {
 
 //     Locale lc = new Locale("nv", "VN");
 //     NumberFormat formatter = NumberFormat.getIntegerInstance(lc);
+    public String deleteLastKey(String str) {
+        if (str.charAt(str.length() - 1) == 'đ') {
+            str = str.replace(str.substring(str.length() - 1), "");
+            return str;
+        } else {
+            return str;
+        }
+    }
+
+    public String fomartFloat(String txt) {
+        String pattern = deleteLastKey(txt);
+        return pattern = pattern.replaceAll(",", "");
+    }
+
     public void fillTableProductItem() {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         List<ProductItem> list = prDAO.selectAllSell();
         for (ProductItem p : list) {
             model.addRow(new Object[]{p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
-                p.getMaterial(), p.getPrice(), p.getQuantity()});
+                p.getMaterial(), nf.format(p.getPrice()) + " đ", p.getQuantity()});
         }
     }
 
@@ -109,11 +123,11 @@ public class FormSell extends javax.swing.JPanel {
                 String size = (String) tableShow.getValueAt(row, 3);
                 String color = (String) tableShow.getValueAt(row, 4);
                 String material = (String) tableShow.getValueAt(row, 5);
-                float price = (float) tableShow.getValueAt(row, 6);
+                float price = Float.parseFloat(fomartFloat((String) tableShow.getValueAt(tableShow.getSelectedRow(), 6)));
                 int quantity = Integer.parseInt(txtQuantity.getText());
 
                 DefaultTableModel model = (DefaultTableModel) tableSellTemp.getModel();
-                model.addRow(new Object[]{id, name, categoryName, size, color, material, price, quantity});
+                model.addRow(new Object[]{id, name, categoryName, size, color, material, nf.format(price) + " đ", quantity});
 
                 // fillTableProductItem();
                 DetailInvoiceSell de = new DetailInvoiceSell();
@@ -137,7 +151,7 @@ public class FormSell extends javax.swing.JPanel {
         float price = 0;
         int index = tableSellTemp.getRowCount();
         for (int i = 0; i < index; i++) {
-            price += (float) tableSellTemp.getValueAt(i, 6) * (int) tableSellTemp.getValueAt(i, 7);
+            price += Float.parseFloat(fomartFloat((String) tableSellTemp.getValueAt(i, 6))) * (int) tableSellTemp.getValueAt(i, 7);
         }
         return price;
     }
@@ -158,7 +172,7 @@ public class FormSell extends javax.swing.JPanel {
         in.setDescription(txtDes.getText());
         in.setPrice(TotalBuy());
         in.setMoneyCustomer(Double.parseDouble(txtMoneyCustomer.getText()));
-        in.setMoneyReturn(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()));
+        in.setMoneyReturn(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(MoneyVoucher()));
         Customer s = (Customer) cbbCustomer.getSelectedItem();
         in.setIdCustomer(s.getId());
         if (!jcheckVoucher.isSelected()) {
@@ -193,7 +207,7 @@ public class FormSell extends javax.swing.JPanel {
                     deDao.insert(de);
                     prDAO.sellProductItem(de.getQuantity(), de.getIdPrDetails());
                 }
-                in.setPrice(Double.parseDouble(txtTotal.getText()));
+                in.setPrice(TotalBuy());
                 MsgBox.alert(this, "Bán " + list.size() + " vào hóa đơn thành công thành công");
                 // Voucher v = (Voucher) cbbVoucher.getSelectedItem();
                 // vDao.updateVoucher(v.getIdVoucher());
@@ -219,7 +233,7 @@ public class FormSell extends javax.swing.JPanel {
         }
         for (ProductItem p : list) {
             model.addRow(new Object[]{p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
-                p.getMaterial(), p.getPrice(), p.getQuantity()});
+                p.getMaterial(),nf.format( p.getPrice()) + " đ", p.getQuantity()});
         }
         lblSearch.setText("");
     }
@@ -234,7 +248,7 @@ public class FormSell extends javax.swing.JPanel {
             return;
         }
         model.addRow(new Object[]{p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
-            p.getMaterial(), p.getPrice(), p.getQuantity()});
+            p.getMaterial(), nf.format( p.getPrice()) + " đ", p.getQuantity()});
         lblSearch.setText("");
     }
 
@@ -656,12 +670,53 @@ public class FormSell extends javax.swing.JPanel {
     private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton2ActionPerformed
         // TODO add your handling code here:
         delete();
+        if (jcheckVoucher.isSelected()) {
+            txtTotal.setText(nf.format(MoneyVoucher()) + " đ");
+            if (cbbVoucher.getSelectedItem() == null) {
+                return;
+            } else {
+                if (txtMoneyCustomer.getText().isEmpty()) {
+                    return;
+                } else {
+
+                    txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(MoneyVoucher())) + " đ");
+                }
+            }
+        } else {
+            if (txtMoneyCustomer.getText().isEmpty()) {
+                return;
+            } else {
+
+                txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy())) + " đ");
+            }
+            txtTotal.setText(nf.format(TotalBuy()) + " đ");
+        }
     }// GEN-LAST:event_myButton2ActionPerformed
 
     private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton1ActionPerformed
         // TODO add your handling code here:
         fillTableTemp();
-        txtTotal.setText(nf.format(TotalBuy()) + " đ");
+        if (jcheckVoucher.isSelected()) {
+            txtTotal.setText(nf.format(MoneyVoucher()) + " đ");
+            if (cbbVoucher.getSelectedItem() == null) {
+                return;
+            } else {
+                if (txtMoneyCustomer.getText().isEmpty()) {
+                    return;
+                } else {
+
+                    txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(MoneyVoucher())) + " đ");
+                }
+            }
+        } else {
+            txtTotal.setText(nf.format(TotalBuy()) + " đ");
+            if (txtMoneyCustomer.getText().isEmpty()) {
+                return;
+            } else {
+
+                txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy())) + " đ");
+            }
+        }
     }// GEN-LAST:event_myButton1ActionPerformed
 
     private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton3ActionPerformed

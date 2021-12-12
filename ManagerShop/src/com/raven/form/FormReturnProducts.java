@@ -147,8 +147,11 @@ public class FormReturnProducts extends javax.swing.JPanel {
     Locale lc = new Locale("nv", "VN");
     NumberFormat nf = NumberFormat.getInstance(lc);
 
+    float priceTotal;
+
     public void fillTableIn4Invoice() {
         try {
+            boolean flag = false;
             int quatity = Integer.valueOf(MsgBox.prompt(this, "Nhập số lượng cần hoàn trả"));
             int row = tableIn4Invoice.getSelectedRow();
             int idinvoiceSell = (int) tableIn4Invoice.getValueAt(row, 0);
@@ -167,11 +170,10 @@ public class FormReturnProducts extends javax.swing.JPanel {
                 modelList.addRow(new Object[]{
                     idProduct, name, quatity, size, color, material, price
                 });
-
                 int i = ((int) tableIn4Invoice.getValueAt(row, 3)) - quatity;
                 tableIn4Invoice.setValueAt(i, row, 3);
                 lblMoneyRetun.setText(nf.format(TotalBuy()) + " đ");
-
+                priceTotal = TotalBuy();
                 DetailInvoiceReturn dir = new DetailInvoiceReturn();
                 dir.setPrice(price);
                 dir.setIdPrDetails(idProduct);
@@ -240,7 +242,8 @@ public class FormReturnProducts extends javax.swing.JPanel {
                     tableIn4Invoice.setValueAt(ii, i, 3);
                 }
             }
-
+            priceTotal = priceTotal - (float) tableListProduct.getValueAt(tableListProduct.getSelectedRow(), 6) * (int) tableListProduct.getValueAt(tableListProduct.getSelectedRow(), 2);
+            lblMoneyRetun.setText(nf.format(priceTotal) + " đ");
             for (int j = 0; j < list.size(); j++) {
                 if (list.get(j).getIdPrDetails() == (int) tableListProduct.getValueAt(rowTemp, 0)) {
                     model.removeRow(tableListProduct.getSelectedRow());
@@ -249,6 +252,7 @@ public class FormReturnProducts extends javax.swing.JPanel {
                 }
             }
         }
+
     }
 
     /**
@@ -658,6 +662,8 @@ public class FormReturnProducts extends javax.swing.JPanel {
     private void btnAddEmployee1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployee1ActionPerformed
         // TODO add your handling code here:
         deleteTemp();
+        //        lblMoneyRetun.setText(nf.format(priceTotal) + " đ");
+
     }//GEN-LAST:event_btnAddEmployee1ActionPerformed
 
 

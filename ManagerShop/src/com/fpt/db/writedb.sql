@@ -220,40 +220,67 @@ ALTER TABLE dbo.InvoiceSell ADD moneyReturn MONEY
 
 --db9/12/2021
 
-CREATE TABLE DetailsProductItemChange
+CREATE TABLE DetailsInvoiceChange
 (
 	id INT IDENTITY(1,1) PRIMARY KEY,
 	idInvoiceChangeProducts INT,
 	idDetailsPr INT,
 	quantity INT,
-	price MONEY,
 	FOREIGN KEY(idInvoiceChangeProducts) REFERENCES dbo.InvoiceChangeProducts(idInvoiceChangeProducts),
 	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct (idPrDeltails)
 )
 GO
-
-CREATE TABLE DetailsProductItemChangeNew
+CREATE TABLE DetailsChangeProducts
 (
 	id INT IDENTITY(1,1) PRIMARY KEY,
 	idDetailsPr INT,
+	idDetailsInvoiceChange INT,
 	quantity INT,
-	price MONEY
-	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct(idPrDeltails)
+	FOREIGN KEY(idDetailsInvoiceChange) REFERENCES dbo.DetailsInvoiceChange(id),
+	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct (idPrDeltails)
 )
 GO
 
-CREATE TABLE DetailsInvoiceChangeProducts
+------------------------------
+CREATE TABLE DetailsInvoiceChange
 (
-	idDetails INT IDENTITY(1,1) PRIMARY KEY,
-	idChangeOld int,
-	idChangeNew int,
-	description nvarchar(255),
-	FOREIGN KEY(idChangeOld) REFERENCES dbo.DetailsProductItemChange(id),
-	FOREIGN KEY(idChangeNew) REFERENCES dbo.DetailsProductItemChangeNew (id)
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	idInvoiceChangeProducts INT,
+	idDetailsPr INT,
+	quantity INT,
+	FOREIGN KEY(idInvoiceChangeProducts) REFERENCES dbo.InvoiceChangeProducts(idInvoiceChangeProducts),
+	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct (idPrDeltails)
 )
 GO
+CREATE TABLE DetailsChangeProducts
+(
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	idDetailsPr INT,
+	idDetailsInvoiceChange INT,
+	quantity INT,
+	FOREIGN KEY(idDetailsInvoiceChange) REFERENCES dbo.DetailsInvoiceChange(id),
+	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct (idPrDeltails)
+)
+GO
+ALTER TABLE InvoiceChangeProducts
+DROP COLUMN idDetailsNew;
+ALTER TABLE dbo.InvoiceChangeProducts DROP CONSTRAINT FK__InvoiceCh__idDet__671F4F74
 
-INSERT INTO dbo.[User]
+ALTER TABLE InvoiceChangeProducts
+DROP COLUMN idDetailsOld;
+
+SELECT * FROM dbo.InvoiceChangeProducts
+
+
+
+
+--------------------------------------------
+
+ select * from detailsProduct
+
+
+INSERT INTO dbo.InvoiceSell
+>>>>>>> origin/Minhvn
 (
     name,
     birthday,

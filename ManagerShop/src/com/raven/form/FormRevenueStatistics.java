@@ -10,7 +10,9 @@ import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import java.awt.Color;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -36,8 +38,31 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
         setOpaque(false);
         fillYear();
         radiStreet.setSelected(true);
+        for (int i = 0; i < tableShow.getRowCount(); i++) {
+            tableShow.setValueAt(nf.format(tableShow.getValueAt(i, 2)) + " đ", i, 2);
+            tableShow.setValueAt(nf.format(tableShow.getValueAt(i, 3)) + " đ", i, 3);
+            tableShow.setValueAt(nf.format(tableShow.getValueAt(i, 4)) + " đ", i, 4);
+            tableShow.setValueAt(nf.format(tableShow.getValueAt(i, 5)) + " đ", i, 5);
+        }
     }
     StatisticalDAO sDao = new StatisticalDAO();
+
+    public String deleteLastKey(String str) {
+        if (str.charAt(str.length() - 1) == 'đ') {
+            str = str.replace(str.substring(str.length() - 1), "");
+            return str;
+        } else {
+            return str;
+        }
+    }
+
+    public String fomartFloat(String txt) {
+        String pattern = deleteLastKey(txt);
+        return pattern = pattern.replaceAll(",", "");
+    }
+
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
 
     public void fillYear() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbbYear.getModel();

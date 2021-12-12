@@ -38,14 +38,29 @@ public class showChartRevenue extends javax.swing.JFrame {
             chart.addData(new ModelChart((int) tableShow.getValueAt(j, 0) + "",
                     new double[]{
                         //                        (int) tableShow.getValueAt(j, 1),
-                        (int) tableShow.getValueAt(j, 2),
-                        (int) tableShow.getValueAt(j, 3),
-                        (int) tableShow.getValueAt(j, 4), (int) tableShow.getValueAt(j, 5)
+                        Float.parseFloat(fomartFloat((String) tableShow.getValueAt(j, 2))),
+                        Float.parseFloat(fomartFloat((String) tableShow.getValueAt(j, 3))),
+                        Float.parseFloat(fomartFloat((String) tableShow.getValueAt(j, 4))),
+                        Float.parseFloat(fomartFloat((String) tableShow.getValueAt(j, 5)))
 
                     }));
         }
         chart.start();
 
+    }
+
+    public String deleteLastKey(String str) {
+        if (str.charAt(str.length() - 1) == 'đ') {
+            str = str.replace(str.substring(str.length() - 1), "");
+            return str;
+        } else {
+            return str;
+        }
+    }
+
+    public String fomartFloat(String txt) {
+        String pattern = deleteLastKey(txt);
+        return pattern = pattern.replaceAll(",", "");
     }
 
     public showChartRevenue() {
