@@ -66,52 +66,54 @@
                           <Component id="btnSearch1" min="-2" pref="72" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                          <Component id="jLabel1" min="-2" pref="148" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="jScrollPane1" min="-2" pref="627" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="scrollBarCustom1" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="txtDateEnd" alignment="1" min="-2" pref="272" max="-2" attributes="0"/>
-                                          <Component id="txtDateStart" alignment="1" min="-2" pref="272" max="-2" attributes="0"/>
-                                          <Component id="txtQuatity" alignment="1" min="-2" pref="272" max="-2" attributes="0"/>
-                                          <Component id="txtValue" alignment="1" min="-2" pref="272" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="btnUpdate" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="btnNew" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel1" min="-2" pref="148" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="jScrollPane1" min="-2" pref="627" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="scrollBarCustom1" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="txtDateEnd" alignment="1" min="-2" pref="272" max="-2" attributes="0"/>
+                                              <Component id="txtDateStart" alignment="1" min="-2" pref="272" max="-2" attributes="0"/>
+                                              <Component id="txtQuatity" alignment="1" min="-2" pref="272" max="-2" attributes="0"/>
+                                              <Component id="txtValue" alignment="1" min="-2" pref="272" max="-2" attributes="0"/>
                                           </Group>
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lblCodeVoucher" max="32767" attributes="0"/>
-                                                  <Component id="lblValue" alignment="0" min="-2" pref="272" max="-2" attributes="0"/>
-                                                  <Component id="lblQuatity" alignment="0" min="-2" pref="272" max="-2" attributes="0"/>
-                                                  <Component id="lblDateStart" alignment="0" min="-2" pref="272" max="-2" attributes="0"/>
-                                                  <Component id="lblDateEnd" alignment="0" min="-2" pref="272" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Component id="btnUpdate" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="btnNew" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" attributes="0">
+                                                  <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="lblCodeVoucher" max="32767" attributes="0"/>
+                                                      <Component id="lblValue" alignment="0" min="-2" pref="272" max="-2" attributes="0"/>
+                                                      <Component id="lblQuatity" alignment="0" min="-2" pref="272" max="-2" attributes="0"/>
+                                                      <Component id="lblDateStart" alignment="0" min="-2" pref="272" max="-2" attributes="0"/>
+                                                      <Component id="lblDateEnd" alignment="0" min="-2" pref="272" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
                                           </Group>
                                       </Group>
-                                      <EmptySpace min="0" pref="159" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
+                          <EmptySpace min="0" pref="151" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="0" max="32767" attributes="0"/>
+                  <EmptySpace pref="8" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -164,7 +166,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="32" max="32767" attributes="0"/>
+                  <EmptySpace pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
