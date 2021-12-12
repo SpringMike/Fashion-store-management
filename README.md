@@ -38,8 +38,11 @@ Phạm vi của dự án
   - Nhập hàng.
   - Bán hàng.
   - Trả hàng.
+  - Đổi hàng.
   - Hóa đơn bán hàng.
   - Hóa đơn nhập hàng.
+  - Hóa đơn trả hàng.
+  - Hóa đơn đổi hàng
 - Thống kê:
   - Thống kê doanh thu.
   - Thống kê doanh số.
