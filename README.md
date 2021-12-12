@@ -11,15 +11,8 @@ Nhóm đồ án lớp Ứng dụng phần mềm, sinh viên trường FPT POLYTE
 * [Nguyễn Minh Tứ](https://www.facebook.com/minhfourr) - MSSV:PH14137
 * [Trịnh Quang Trường](https://www.facebook.com/Neyu.00) - MSSV:PH15951
 
-### Prerequisites
 
-Yêu cầu trước khi cài đặt phần mềm
-
-```
-mysql 9.4.x && java 11.x
-```
-
-### Installing
+## Installing
 
 Tải về cài đặt
 
