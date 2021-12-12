@@ -23,10 +23,8 @@ mysql 9.4.x && java 11.x
 
 Tải về cài đặt
 
-```
-Phần mềm này yêu cầu máy có cài đặt [jdk 1.8] (https://www.oracle.com/java/technologies/downloads/) đổ lên
-nếu máy bạn đã có thì tải phần mềm [tại đây] (https://github.com/SpringMike/Fashion-store-management/releases/download/V1.5_OpenBeta/ITShopSetup.zip)
-```
+Phần mềm này yêu cầu máy có cài đặt [jdk 1.8](https://www.oracle.com/java/technologies/downloads/) đổ lên
+nếu máy bạn đã có thì tải phần mềm [tại đây](https://github.com/SpringMike/Fashion-store-management/releases/download/V1.5_OpenBeta/ITShopSetup.zip)
 
 ## Documents
 
