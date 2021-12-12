@@ -50,7 +50,7 @@ Phạm vi của dự án
 - Cá Nhân: Quản lý thông tin cá nhân
 
 
-
+![img](https://github.com/SpringMike/Fashion-store-management/blob/master/Anh.png)
 
   
 
