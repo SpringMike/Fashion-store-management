@@ -451,7 +451,7 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
     }
 
     public void choseImage() {
-        JFileChooser fileChooser = new JFileChooser();
+        JFileChooser fileChooser = new JFileChooser("D:\\Fall2021\\ABDemoImg");
         fileChooser.setDialogTitle("Please select more images");
         fileChooser.setMultiSelectionEnabled(true);
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -546,6 +546,11 @@ public class FormImportItemJFrame extends javax.swing.JFrame {
 
         btnAddProductItem.setText("Hoàn Thành");
         btnAddProductItem.setRadius(20);
+        btnAddProductItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddProductItemActionPerformed(evt);
+            }
+        });
 
         myButton7.setText("Huỷ");
         myButton7.setRadius(20);

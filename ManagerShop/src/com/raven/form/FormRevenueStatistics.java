@@ -10,7 +10,11 @@ import com.fpt.utils.Excel;
 import com.fpt.utils.MsgBox;
 import java.awt.Color;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
@@ -34,8 +38,31 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
         setOpaque(false);
         fillYear();
         radiStreet.setSelected(true);
+        for (int i = 0; i < tableShow.getRowCount(); i++) {
+            tableShow.setValueAt(nf.format(tableShow.getValueAt(i, 2)) + " đ", i, 2);
+            tableShow.setValueAt(nf.format(tableShow.getValueAt(i, 3)) + " đ", i, 3);
+            tableShow.setValueAt(nf.format(tableShow.getValueAt(i, 4)) + " đ", i, 4);
+            tableShow.setValueAt(nf.format(tableShow.getValueAt(i, 5)) + " đ", i, 5);
+        }
     }
     StatisticalDAO sDao = new StatisticalDAO();
+
+    public String deleteLastKey(String str) {
+        if (str.charAt(str.length() - 1) == 'đ') {
+            str = str.replace(str.substring(str.length() - 1), "");
+            return str;
+        } else {
+            return str;
+        }
+    }
+
+    public String fomartFloat(String txt) {
+        String pattern = deleteLastKey(txt);
+        return pattern = pattern.replaceAll(",", "");
+    }
+
+    Locale lc = new Locale("nv", "VN");
+    NumberFormat nf = NumberFormat.getInstance(lc);
 
     public void fillYear() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbbYear.getModel();
@@ -46,13 +73,20 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
         }
     }
 
-    public void fillTable() {
+    public void fillTable() throws Exception {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         int year = (int) cbbYear.getSelectedItem();
         List<Object[]> list = sDao.getSalesStatisticalRevenue(year);
         for (Object[] o : list) {
             model.addRow(o);
+        }
+        for (int i = 0; i < tableShow.getRowCount(); i++) {
+            int moneyImport = sDao.getSelectImport((int) tableShow.getValueAt(i, 0), (int) cbbYear.getSelectedItem());
+            int moneyReturn = (int) tableShow.getValueAt(i, 3);
+            tableShow.setValueAt(moneyReturn, i, 3);
+            tableShow.setValueAt(moneyImport, i, 4);
+            tableShow.setValueAt((int) tableShow.getValueAt(i, 2) - (moneyImport + moneyReturn), i, 5);
         }
     }
 
@@ -96,11 +130,11 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Tháng ", "Sản phẩm bán", "Tổng giá bán", "Tổng Giá Chi", "Doanh Thu"
+                "Tháng ", "Sản phẩm bán", "Tổng giá bán", "Tổng Giá Chi", "Tổng nhập hàng", "Lợi nhuận"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -192,8 +226,12 @@ public class FormRevenueStatistics extends javax.swing.JPanel {
         MsgBox.alert(this, "Xuất file thành công");
     }
     private void cbbYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbYearActionPerformed
-        // TODO add your handling code here:
-        fillTable();
+        try {
+            // TODO add your handling code here:
+            fillTable();
+        } catch (Exception ex) {
+            Logger.getLogger(FormRevenueStatistics.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_cbbYearActionPerformed
 
     private void myButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton5ActionPerformed

@@ -171,7 +171,7 @@ EXEC dbo.sp_revenue @year = 2021 -- int
 	JOIN dbo.detailsProduct ON detailsProduct.idPrDeltails = detailsInvoiceSELL.idPrDetails
 	JOIN dbo.detailsInvoiceImportPr ON detailsInvoiceImportPr.idPrDeltails = detailsProduct.idPrDeltails
 	JOIN dbo.InvoiceImportPr ON InvoiceImportPr.idInvoice = detailsInvoiceImportPr.idInvoice
-	WHERE YEAR(InvoiceSell.dateCreateInvoice) = @year
+	WHERE YEAR(InvoiceSell.dateCreateInvoice) = 2021
 	GROUP BY MONTH(InvoiceSell.dateCreateInvoice)
 -------------------------------
 --2/12/2021
@@ -218,63 +218,100 @@ ALTER TABLE dbo.InvoiceSell ADD moneyCustom MONEY
 ALTER TABLE dbo.InvoiceSell ADD moneyReturn MONEY
 --------------------------------
 
-INSERT INTO dbo.InvoiceSell
+--db9/12/2021
+
+CREATE TABLE DetailsInvoiceChange
 (
-    idCustomer,
-    idHumanSell,
-    idVoucher,
-    dateCreateInvoice,
-    description,
-    statusPay,
-    statusInvoice,
-    totalMoney
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	idInvoiceChangeProducts INT,
+	idDetailsPr INT,
+	quantity INT,
+	FOREIGN KEY(idInvoiceChangeProducts) REFERENCES dbo.InvoiceChangeProducts(idInvoiceChangeProducts),
+	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct (idPrDeltails)
+)
+GO
+CREATE TABLE DetailsChangeProducts
+(
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	idDetailsPr INT,
+	idDetailsInvoiceChange INT,
+	quantity INT,
+	FOREIGN KEY(idDetailsInvoiceChange) REFERENCES dbo.DetailsInvoiceChange(id),
+	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct (idPrDeltails)
+)
+GO
+
+------------------------------
+CREATE TABLE DetailsInvoiceChange
+(
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	idInvoiceChangeProducts INT,
+	idDetailsPr INT,
+	quantity INT,
+	FOREIGN KEY(idInvoiceChangeProducts) REFERENCES dbo.InvoiceChangeProducts(idInvoiceChangeProducts),
+	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct (idPrDeltails)
+)
+GO
+CREATE TABLE DetailsChangeProducts
+(
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	idDetailsPr INT,
+	idDetailsInvoiceChange INT,
+	quantity INT,
+	FOREIGN KEY(idDetailsInvoiceChange) REFERENCES dbo.DetailsInvoiceChange(id),
+	FOREIGN KEY(idDetailsPr) REFERENCES dbo.detailsProduct (idPrDeltails)
+)
+GO
+ALTER TABLE InvoiceChangeProducts
+DROP COLUMN idDetailsNew;
+ALTER TABLE dbo.InvoiceChangeProducts DROP CONSTRAINT FK__InvoiceCh__idDet__671F4F74
+
+ALTER TABLE InvoiceChangeProducts
+DROP COLUMN idDetailsOld;
+
+SELECT * FROM dbo.InvoiceChangeProducts
+
+
+
+
+--------------------------------------------
+
+ select * from detailsProduct
+
+
+INSERT INTO dbo.InvoiceSell
+>>>>>>> origin/Minhvn
+(
+    name,
+    birthday,
+    gender,
+    phoneNumber,
+    address,
+    salary,
+    role,
+    status,
+    email
 )
 VALUES
-(   NULL, -- idCustomer - int
-    NULL, -- idHumanSell - int
-    NULL, -- idVoucher - int
-    NULL, -- dateCreateInvoice - datetime
-    NULL, -- description - nvarchar(255)
-    NULL, -- statusPay - bit
-    NULL, -- statusInvoice - bit
-    NULL  -- totalMoney - money
+(   N'Nguyễn Văn Đức',  -- name - nvarchar(255)
+    '2002-09-25', -- birthday - date
+    1, -- gender - bit
+    '0332429178', -- phoneNumber - varchar(15)
+    'Hà Nội', -- address - nvarchar(255)
+    3000000, -- salary - money
+    1, -- role - bit
+    1, -- status - bit
+    'ducit2509@gmail.com'  -- email - varchar(255)
     )
-	SELECT * FROM dbo.InvoiceSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer JOIN u
-
-
-
-
-SELECT * FROM dbo.InvoiceSell
-
-
-
-	SELECT MONTH(InvoiceSell.dateCreateInvoice) MonthDate , SUM(detailsInvoiceSELL.quatity) quantity,
-	CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) AS INT)
-	 totalSell, 
-	IIF( CAST(SUM(totalReturn) AS INT ) = NULL, 0,  CAST(SUM(totalReturn) AS INT ))
-	  totalReturn, 
-	  CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) AS INT)
-	revenue
-	FROM dbo.detailsInvoiceSELL  
-	JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
-	LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell
-	WHERE YEAR(InvoiceSell.dateCreateInvoice) = 2021
-	GROUP BY MONTH(InvoiceSell.dateCreateInvoice)
-
-	UPDATE dbo.Products SET statusDelete = 1 WHERE nameProduct LIKE N'Thắt lưng ABC'
-	INSERT INTO dbo.List
-	(nameList,status)VALUES
-	(N'', DEFAULT )
-
-		  
-
-	SELECT TOP 1 * FROM dbo.List  ORDER BY idList DESC
-    SELECT * FROM dbo.[User]
-	SELECT * FROM dbo.InvoiceChangeProducts
-	SELECT IIF(CAST(SUM(totalReturn) AS INT ) is NULL , CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) AS INT),  
-	  (CAST(SUM(detailsInvoiceSELL.price * detailsInvoiceSELL.quatity) - SUM(totalReturn) AS INT)))
-                revenue FROM dbo.detailsInvoiceSELL JOIN dbo.InvoiceSell ON InvoiceSell.idInvoiceSell = detailsInvoiceSELL.idInvoiceSell
-                LEFT JOIN dbo.InvoiceReturn ON InvoiceReturn.idInvoiceSell = InvoiceSell.idInvoiceSell WHERE 
-                YEAR(InvoiceSell.dateCreateInvoice) = YEAR(GETDATE()) AND
-                MONTH(InvoiceSell.dateCreateInvoice) = MONTH(GETDATE()) AND DAY(dbo.InvoiceSell.dateCreateInvoice) = DAY(GETDATE())
-	SELECT * FROM dbo.InvoiceSell JOIN dbo.[User] ON [User].idUser = InvoiceSell.idHumanSell JOIN dbo.Customer ON Customer.idCustomer = InvoiceSell.idCustomer ORDER BY idInvoiceSell Desc
+	SELECT * FROM dbo.[User]
+	INSERT INTO dbo.Account
+	(
+	    idUser,
+	    username,
+	    password
+	)
+	VALUES
+	(   29,   -- idUser - int
+	    N'admin', -- username - nvarchar(255)
+	    N'123'  -- password - nvarchar(255)
+	    )

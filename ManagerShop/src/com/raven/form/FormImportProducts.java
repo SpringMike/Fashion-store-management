@@ -17,6 +17,8 @@ import com.fpt.entity.Supplier;
 import static com.fpt.utils.Auth.user;
 import com.fpt.utils.MsgBox;
 import com.fpt.utils.XDate;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,7 +36,6 @@ public class FormImportProducts extends javax.swing.JPanel {
     /**
      * Creates new form FormProducts
      */
-    
     public FormImportProducts() {
         initComponents();
         fillComboboxSupplier();
@@ -156,6 +157,20 @@ public class FormImportProducts extends javax.swing.JPanel {
         }
     }
 
+    public String deleteLastKey(String str) {
+        if (str.charAt(str.length() - 1) == 'đ') {
+            str = str.replace(str.substring(str.length() - 1), "");
+            return str;
+        } else {
+            return str;
+        }
+    }
+
+    public String fomartFloat(String txt) {
+        String pattern = deleteLastKey(txt);
+        return pattern = pattern.replaceAll(",", "");
+    }
+
     //hàm đổ dữ liệu từ bảng mặt hàng xuống bảng tạm
     public void fillTabelTemp() {
         if (!Validate.checkNumber(lblPrice, txtPrice, "Giá tiền phải hợp lệ")) {
@@ -194,7 +209,6 @@ public class FormImportProducts extends javax.swing.JPanel {
                 txtPrice.setText("");
                 txtQuantity.setText("");
             }
-
         }
     }
 
@@ -230,7 +244,6 @@ public class FormImportProducts extends javax.swing.JPanel {
         myButton1 = new com.raven.suportSwing.MyButton();
         txtSearch = new com.raven.suportSwing.TextField();
         jLabel2 = new javax.swing.JLabel();
-        myButton4 = new com.raven.suportSwing.MyButton();
         lblSearch = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -321,6 +334,11 @@ public class FormImportProducts extends javax.swing.JPanel {
                 txtPriceFocusGained(evt);
             }
         });
+        txtPrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPriceKeyReleased(evt);
+            }
+        });
 
         btnAddTemp.setText("Lưu tạm");
         btnAddTemp.setRadius(10);
@@ -358,6 +376,7 @@ public class FormImportProducts extends javax.swing.JPanel {
         lblQuantity.setForeground(new java.awt.Color(225, 0, 0));
         lblQuantity.setText("jLabel3");
 
+        lblPrice.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         lblPrice.setForeground(new java.awt.Color(225, 0, 0));
         lblPrice.setText("jLabel4");
 
@@ -381,14 +400,13 @@ public class FormImportProducts extends javax.swing.JPanel {
                             .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(48, 48, 48)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAddTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnDeleteTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                            .addComponent(lblPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDeleteTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 866, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(4, 4, 4)
@@ -452,14 +470,6 @@ public class FormImportProducts extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel2.setText("Nhập Hàng");
 
-        myButton4.setText("Import");
-        myButton4.setRadius(10);
-        myButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton4ActionPerformed(evt);
-            }
-        });
-
         lblSearch.setFont(new java.awt.Font("Times New Roman", 3, 12)); // NOI18N
         lblSearch.setForeground(new java.awt.Color(255, 51, 51));
 
@@ -470,9 +480,7 @@ public class FormImportProducts extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 768, Short.MAX_VALUE)
-                .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(71, 71, 71))
+                .addGap(71, 921, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(136, 136, 136)
                 .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -489,9 +497,7 @@ public class FormImportProducts extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(myButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -527,7 +533,7 @@ public class FormImportProducts extends javax.swing.JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -556,10 +562,6 @@ public class FormImportProducts extends javax.swing.JPanel {
         lblPrice.setVisible(false);
     }//GEN-LAST:event_txtPriceFocusGained
 
-    private void myButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_myButton4ActionPerformed
-
     private void btnDeleteTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteTempActionPerformed
         deleteRowInTableTemp();
     }//GEN-LAST:event_btnDeleteTempActionPerformed
@@ -576,6 +578,22 @@ public class FormImportProducts extends javax.swing.JPanel {
             fillTableKey();
         }
     }//GEN-LAST:event_myButton1ActionPerformed
+
+    private void txtPriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceKeyReleased
+        // TODO add your handling code here:
+        if (txtPrice.getText().trim().isEmpty()) {
+            lblPrice.setText("");
+            return;
+        }
+        if (Float.parseFloat(txtPrice.getText()) > Float.parseFloat(fomartFloat(tableProductItem.getValueAt(tableProductItem.getSelectedRow(), 7).toString()))) {
+            lblPrice.setVisible(true);
+            lblPrice.setText("Giá nhập nhỏ hơn giá bán");
+            System.out.println(Float.parseFloat(fomartFloat(tableProductItem.getValueAt(tableProductItem.getSelectedRow(), 7).toString())));
+        } else {
+
+            lblPrice.setText("");
+        }
+    }//GEN-LAST:event_txtPriceKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -595,7 +613,6 @@ public class FormImportProducts extends javax.swing.JPanel {
     private javax.swing.JLabel lblQuantity;
     private javax.swing.JLabel lblSearch;
     private com.raven.suportSwing.MyButton myButton1;
-    private com.raven.suportSwing.MyButton myButton4;
     private com.raven.suportSwing.ScrollBar scrollBar2;
     private com.raven.suportSwing.ScrollBarCustom scrollBarCustom1;
     private com.raven.suportSwing.TableColumn tableProductItem;

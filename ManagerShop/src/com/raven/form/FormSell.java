@@ -60,13 +60,27 @@ public class FormSell extends javax.swing.JPanel {
 
 //     Locale lc = new Locale("nv", "VN");
 //     NumberFormat formatter = NumberFormat.getIntegerInstance(lc);
+    public String deleteLastKey(String str) {
+        if (str.charAt(str.length() - 1) == 'đ') {
+            str = str.replace(str.substring(str.length() - 1), "");
+            return str;
+        } else {
+            return str;
+        }
+    }
+
+    public String fomartFloat(String txt) {
+        String pattern = deleteLastKey(txt);
+        return pattern = pattern.replaceAll(",", "");
+    }
+
     public void fillTableProductItem() {
         DefaultTableModel model = (DefaultTableModel) tableShow.getModel();
         model.setRowCount(0);
         List<ProductItem> list = prDAO.selectAllSell();
         for (ProductItem p : list) {
             model.addRow(new Object[]{p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
-                p.getMaterial(), p.getPrice(), p.getQuantity()});
+                p.getMaterial(), nf.format(p.getPrice()) + " đ", p.getQuantity()});
         }
     }
 
@@ -109,11 +123,11 @@ public class FormSell extends javax.swing.JPanel {
                 String size = (String) tableShow.getValueAt(row, 3);
                 String color = (String) tableShow.getValueAt(row, 4);
                 String material = (String) tableShow.getValueAt(row, 5);
-                float price = (float) tableShow.getValueAt(row, 6);
+                float price = Float.parseFloat(fomartFloat((String) tableShow.getValueAt(tableShow.getSelectedRow(), 6)));
                 int quantity = Integer.parseInt(txtQuantity.getText());
 
                 DefaultTableModel model = (DefaultTableModel) tableSellTemp.getModel();
-                model.addRow(new Object[]{id, name, categoryName, size, color, material, price, quantity});
+                model.addRow(new Object[]{id, name, categoryName, size, color, material, nf.format(price) + " đ", quantity});
 
                 // fillTableProductItem();
                 DetailInvoiceSell de = new DetailInvoiceSell();
@@ -137,7 +151,7 @@ public class FormSell extends javax.swing.JPanel {
         float price = 0;
         int index = tableSellTemp.getRowCount();
         for (int i = 0; i < index; i++) {
-            price += (float) tableSellTemp.getValueAt(i, 6) * (int) tableSellTemp.getValueAt(i, 7);
+            price += Float.parseFloat(fomartFloat((String) tableSellTemp.getValueAt(i, 6))) * (int) tableSellTemp.getValueAt(i, 7);
         }
         return price;
     }
@@ -156,9 +170,9 @@ public class FormSell extends javax.swing.JPanel {
         in.setStatusPay(false);
         in.setIdHumanSell(Auth.user.getIdUser());
         in.setDescription(txtDes.getText());
-        in.setPrice(Double.parseDouble(txtTotal.getText()));
+        in.setPrice(TotalBuy());
         in.setMoneyCustomer(Double.parseDouble(txtMoneyCustomer.getText()));
-        in.setMoneyReturn(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()));
+        in.setMoneyReturn(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(MoneyVoucher()));
         Customer s = (Customer) cbbCustomer.getSelectedItem();
         in.setIdCustomer(s.getId());
         if (!jcheckVoucher.isSelected()) {
@@ -180,7 +194,7 @@ public class FormSell extends javax.swing.JPanel {
                 return;
             } else if (!Validate.checkNumber(lblMoneyCustomer, txtMoneyCustomer, "Tiền không hợp lệ")) {
                 return;
-            } else if (Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText()) < 0) {
+            } else if (Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy()) < 0) {
                 MsgBox.alert(this, "Nhậm lại số tiền khách đưa ????");
                 return;
             } else {
@@ -193,7 +207,7 @@ public class FormSell extends javax.swing.JPanel {
                     deDao.insert(de);
                     prDAO.sellProductItem(de.getQuantity(), de.getIdPrDetails());
                 }
-                in.setPrice(Double.parseDouble(txtTotal.getText()));
+                in.setPrice(TotalBuy());
                 MsgBox.alert(this, "Bán " + list.size() + " vào hóa đơn thành công thành công");
                 // Voucher v = (Voucher) cbbVoucher.getSelectedItem();
                 // vDao.updateVoucher(v.getIdVoucher());
@@ -219,7 +233,7 @@ public class FormSell extends javax.swing.JPanel {
         }
         for (ProductItem p : list) {
             model.addRow(new Object[]{p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
-                p.getMaterial(), p.getPrice(), p.getQuantity()});
+                p.getMaterial(),nf.format( p.getPrice()) + " đ", p.getQuantity()});
         }
         lblSearch.setText("");
     }
@@ -234,7 +248,7 @@ public class FormSell extends javax.swing.JPanel {
             return;
         }
         model.addRow(new Object[]{p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
-            p.getMaterial(), p.getPrice(), p.getQuantity()});
+            p.getMaterial(), nf.format( p.getPrice()) + " đ", p.getQuantity()});
         lblSearch.setText("");
     }
 
@@ -243,12 +257,13 @@ public class FormSell extends javax.swing.JPanel {
         int row = tableShow.getSelectedRow();
         int row2 = tableSellTemp.getSelectedRow();
 
-        // List<DetailInvoiceSell> list = new ArrayList<>();
+//         List<DetailInvoiceSell> list = new ArrayList<>();
         if (tableSellTemp.getSelectedRowCount() == 1) {
             for (int i = 0; i < tableShow.getRowCount(); i++) {
-                if (tableShow.getValueAt(i, 0) == tableSellTemp.getValueAt(row2, 0)) {
+                if (tableShow.getValueAt(i, 0).equals(tableSellTemp.getValueAt(row2, 0))) {
                     int ii = (int) tableShow.getValueAt(i, 7) + (int) tableSellTemp.getValueAt(row2, 7);
                     tableShow.setValueAt(ii, i, 7);
+                    System.out.println("okooooo" + ii);
                 }
             }
             for (int j = 0; j < list.size(); j++) {
@@ -491,18 +506,15 @@ public class FormSell extends javax.swing.JPanel {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 808, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollBarCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(768, 768, 768)
-                        .addComponent(myButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 808, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollBarCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -657,15 +669,54 @@ public class FormSell extends javax.swing.JPanel {
 
     private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton2ActionPerformed
         // TODO add your handling code here:
-
         delete();
+        if (jcheckVoucher.isSelected()) {
+            txtTotal.setText(nf.format(MoneyVoucher()) + " đ");
+            if (cbbVoucher.getSelectedItem() == null) {
+                return;
+            } else {
+                if (txtMoneyCustomer.getText().isEmpty()) {
+                    return;
+                } else {
 
+                    txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(MoneyVoucher())) + " đ");
+                }
+            }
+        } else {
+            if (txtMoneyCustomer.getText().isEmpty()) {
+                return;
+            } else {
+
+                txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy())) + " đ");
+            }
+            txtTotal.setText(nf.format(TotalBuy()) + " đ");
+        }
     }// GEN-LAST:event_myButton2ActionPerformed
 
     private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton1ActionPerformed
         // TODO add your handling code here:
         fillTableTemp();
-        txtTotal.setText(TotalBuy() + "");
+        if (jcheckVoucher.isSelected()) {
+            txtTotal.setText(nf.format(MoneyVoucher()) + " đ");
+            if (cbbVoucher.getSelectedItem() == null) {
+                return;
+            } else {
+                if (txtMoneyCustomer.getText().isEmpty()) {
+                    return;
+                } else {
+
+                    txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(MoneyVoucher())) + " đ");
+                }
+            }
+        } else {
+            txtTotal.setText(nf.format(TotalBuy()) + " đ");
+            if (txtMoneyCustomer.getText().isEmpty()) {
+                return;
+            } else {
+
+                txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy())) + " đ");
+            }
+        }
     }// GEN-LAST:event_myButton1ActionPerformed
 
     private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton3ActionPerformed
@@ -681,7 +732,7 @@ public class FormSell extends javax.swing.JPanel {
 
     private void cbbVoucherActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbbVoucherActionPerformed
         // TODO add your handling code here:
-        txtTotal.setText(MoneyVoucher() + "");
+        txtTotal.setText(nf.format(MoneyVoucher()) + " đ");
 
         // txtMoneyVoucher.setText(MoneyVoucher() + "");
     }// GEN-LAST:event_cbbVoucherActionPerformed
@@ -694,12 +745,22 @@ public class FormSell extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (jcheckVoucher.isSelected()) {
             cbbVoucher.setVisible(true);
-            cbbVoucher.setSelectedIndex(0);
+            if (cbbVoucher.getSelectedItem() == null) {
+                return;
+            } else {
+                cbbVoucher.setSelectedIndex(0);
+                if (txtMoneyCustomer.getText().isEmpty()) {
+                    return;
+                } else {
+                    txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(MoneyVoucher())) + " đ");
+                }
+            }
         } else {
             cbbVoucher.setVisible(false);
-            txtTotal.setText(TotalBuy() + "");
+            txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy())) + " đ");
+            txtTotal.setText(nf.format(TotalBuy()) + " đ");
         }
-        txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText())) + " đ");
+//        txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy())) + " đ");
     }// GEN-LAST:event_jcheckVoucherActionPerformed
 
     private void txtReturnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtReturnActionPerformed
@@ -712,9 +773,13 @@ public class FormSell extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (txtMoneyCustomer.getText().isEmpty()) {
             txtReturn.setText("");
+            return;
         } else {
-
-            txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(txtTotal.getText())) + " đ");
+            if (jcheckVoucher.isSelected()) {
+                txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(MoneyVoucher())) + " đ");
+            } else {
+                txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy())) + " đ");
+            }
         }
     }// GEN-LAST:event_txtMoneyCustomerKeyReleased
 

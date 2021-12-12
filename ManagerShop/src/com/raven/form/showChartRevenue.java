@@ -28,9 +28,9 @@ public class showChartRevenue extends javax.swing.JFrame {
         this.setIconImage(icon);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         getContentPane().setBackground(new Color(250, 250, 250));
-//        chart.addLegend("Số sản phẩm bán", new Color(245, 189, 135));
         chart.addLegend("Tổng giá bán", new Color(135, 189, 245));
         chart.addLegend("Tổng giá chi", new Color(189, 135, 245));
+        chart.addLegend("Tổng giá Nhập", new Color(245, 189, 135));
         chart.addLegend("Doanh thu", new Color(139, 229, 222));
 
         for (int j = 0; j < tableShow.getRowCount(); j++) {
@@ -38,13 +38,29 @@ public class showChartRevenue extends javax.swing.JFrame {
             chart.addData(new ModelChart((int) tableShow.getValueAt(j, 0) + "",
                     new double[]{
                         //                        (int) tableShow.getValueAt(j, 1),
-                        (int) tableShow.getValueAt(j, 2),
-                        (int) tableShow.getValueAt(j, 3),
-                        (int) tableShow.getValueAt(j, 4)
+                        Float.parseFloat(fomartFloat((String) tableShow.getValueAt(j, 2))),
+                        Float.parseFloat(fomartFloat((String) tableShow.getValueAt(j, 3))),
+                        Float.parseFloat(fomartFloat((String) tableShow.getValueAt(j, 4))),
+                        Float.parseFloat(fomartFloat((String) tableShow.getValueAt(j, 5)))
+
                     }));
         }
         chart.start();
 
+    }
+
+    public String deleteLastKey(String str) {
+        if (str.charAt(str.length() - 1) == 'đ') {
+            str = str.replace(str.substring(str.length() - 1), "");
+            return str;
+        } else {
+            return str;
+        }
+    }
+
+    public String fomartFloat(String txt) {
+        String pattern = deleteLastKey(txt);
+        return pattern = pattern.replaceAll(",", "");
     }
 
     public showChartRevenue() {

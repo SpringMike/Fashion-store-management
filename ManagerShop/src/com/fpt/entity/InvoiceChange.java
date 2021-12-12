@@ -10,17 +10,15 @@ package com.fpt.entity;
  */
 public class InvoiceChange {
 
-    private int id, idInvoiceSell, idCustomer, idUser, idDetailNew, idDetailOld;
+    private int id, idInvoiceSell, idCustomer, idUser;
     private String dateCreateInvoiceReturn;
     private String description, nameCustomer;
 
-    public InvoiceChange(int id, int idInvoiceSell, int idCustomer, int idUser, int idDetailNew, int idDetailOld, String dateCreateInvoiceReturn, String description, String nameCustomer) {
+    public InvoiceChange(int id, int idInvoiceSell, int idCustomer, int idUser, String dateCreateInvoiceReturn, String description, String nameCustomer) {
         this.id = id;
         this.idInvoiceSell = idInvoiceSell;
         this.idCustomer = idCustomer;
         this.idUser = idUser;
-        this.idDetailNew = idDetailNew;
-        this.idDetailOld = idDetailOld;
         this.dateCreateInvoiceReturn = dateCreateInvoiceReturn;
         this.description = description;
         this.nameCustomer = nameCustomer;
@@ -61,21 +59,6 @@ public class InvoiceChange {
         this.idUser = idUser;
     }
 
-    public int getIdDetailNew() {
-        return idDetailNew;
-    }
-
-    public void setIdDetailNew(int idDetailNew) {
-        this.idDetailNew = idDetailNew;
-    }
-
-    public int getIdDetailOld() {
-        return idDetailOld;
-    }
-
-    public void setIdDetailOld(int idDetailOld) {
-        this.idDetailOld = idDetailOld;
-    }
 
     public String getDateCreateInvoiceReturn() {
         return dateCreateInvoiceReturn;
