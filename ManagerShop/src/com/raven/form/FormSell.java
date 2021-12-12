@@ -219,6 +219,12 @@ public class FormSell extends javax.swing.JPanel {
                 model.setRowCount(0);
                 list.clear();
                 fillTableProductItem();
+                txtTotal.setText("");
+                txtMoneyCustomer.setText("");
+                txtReturn.setText("");
+                lblMoneyCustomer.setText("");
+                lblQuantity.setText("");
+                lblSearch.setText("");
             }
         }
     }
@@ -233,7 +239,7 @@ public class FormSell extends javax.swing.JPanel {
         }
         for (ProductItem p : list) {
             model.addRow(new Object[]{p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
-                p.getMaterial(),nf.format( p.getPrice()) + " đ", p.getQuantity()});
+                p.getMaterial(), nf.format(p.getPrice()) + " đ", p.getQuantity()});
         }
         lblSearch.setText("");
     }
@@ -248,7 +254,7 @@ public class FormSell extends javax.swing.JPanel {
             return;
         }
         model.addRow(new Object[]{p.getId(), p.getProductName(), p.getCategoryName(), p.getSize(), p.getColor(),
-            p.getMaterial(), nf.format( p.getPrice()) + " đ", p.getQuantity()});
+            p.getMaterial(), nf.format(p.getPrice()) + " đ", p.getQuantity()});
         lblSearch.setText("");
     }
 
@@ -672,24 +678,25 @@ public class FormSell extends javax.swing.JPanel {
         delete();
         if (jcheckVoucher.isSelected()) {
             txtTotal.setText(nf.format(MoneyVoucher()) + " đ");
+            System.out.println("dmasdasdoq" + nf.format(MoneyVoucher()) + " đ");
             if (cbbVoucher.getSelectedItem() == null) {
                 return;
             } else {
                 if (txtMoneyCustomer.getText().isEmpty()) {
-                    return;
+//                    return;
                 } else {
-
                     txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(MoneyVoucher())) + " đ");
                 }
             }
         } else {
             if (txtMoneyCustomer.getText().isEmpty()) {
-                return;
+//                return;
             } else {
 
                 txtReturn.setText(nf.format(Float.valueOf(txtMoneyCustomer.getText()) - Float.valueOf(TotalBuy())) + " đ");
             }
             txtTotal.setText(nf.format(TotalBuy()) + " đ");
+            System.out.println("aaa" + nf.format(MoneyVoucher()) + " đ");
         }
     }// GEN-LAST:event_myButton2ActionPerformed
 
@@ -722,12 +729,7 @@ public class FormSell extends javax.swing.JPanel {
     private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myButton3ActionPerformed
         // TODO add your handling code here:
         insertInvoiceSell();
-        txtTotal.setText("");
-        txtMoneyCustomer.setText("");
-        txtReturn.setText("");
-        lblMoneyCustomer.setText("");
-        lblQuantity.setText("");
-        lblSearch.setText("");
+
     }// GEN-LAST:event_myButton3ActionPerformed
 
     private void cbbVoucherActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbbVoucherActionPerformed
