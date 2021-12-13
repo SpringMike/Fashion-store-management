@@ -3,6 +3,8 @@
 
 Nhóm đồ án lớp Ứng dụng phần mềm, sinh viên trường FPT POLYTECHNIC Hà Nội.
 
+Xem video demo dự án [tại đây](https://www.youtube.com/watch?v=UBs-kgdWTKE).
+
 ## Member introduction
 
 * [Đặng Đình Vũ](https://www.facebook.com/DangDinhVu221) - MSSV:PH14036
@@ -23,9 +25,6 @@ nếu máy bạn đã có thì tải phần mềm [tại đây](https://github.c
 
 * [Tài liệu SRS](https://drive.google.com/file/d/1i68MCoZ86uGJx954RZahKq5vIos62Cpu/view?usp=sharing) - Báo cáo dự án
 
-## Demo
-
-Xem video demo dự án [tại đây](https://www.youtube.com/watch?v=UBs-kgdWTKE).
 
 ## Project Scope
 
