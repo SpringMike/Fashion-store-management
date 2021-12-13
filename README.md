@@ -3,8 +3,6 @@
 
 Nhóm đồ án lớp Ứng dụng phần mềm, sinh viên trường FPT POLYTECHNIC Hà Nội.
 
-Xem video demo dự án [tại đây](https://www.youtube.com/watch?v=UBs-kgdWTKE).
-
 ## Member introduction
 
 * [Đặng Đình Vũ](https://www.facebook.com/DangDinhVu221) - MSSV:PH14036
@@ -13,6 +11,9 @@ Xem video demo dự án [tại đây](https://www.youtube.com/watch?v=UBs-kgdWTK
 * [Nguyễn Minh Tứ](https://www.facebook.com/minhfourr) - MSSV:PH14137
 * [Trịnh Quang Trường](https://www.facebook.com/Neyu.00) - MSSV:PH15951
 
+## Demo
+
+Xem video demo dự án [tại đây](https://www.youtube.com/watch?v=UBs-kgdWTKE).
 
 ## Installing
 
